@@ -1,118 +1,276 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Track record – Mathis Ghio</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .year-section {margin-bottom:20px}
-    .year-header {cursor:pointer;background:#0b74de;color:white;padding:10px 16px;border-radius:8px;margin-bottom:4px;user-select:none;transition: background 0.3s}
-    .year-header:hover {background:#095bb5}
-    .results {max-height:0;overflow:hidden;padding-left:20px;transition:max-height 0.5s ease-out}
-    .results.open {max-height:1000px;transition:max-height 0.8s ease-in}
-    .results ul {margin:0; padding-left:20px}
-    .stats-overview {display:flex;gap:20px;margin-bottom:30px;flex-wrap:wrap}
-    .stat-card {background:rgba(11,116,222,0.2);padding:16px;border-radius:12px;flex:1 1 200px;text-align:center}
-    .stat-card h2 {margin:0;font-size:24px}
-    .stat-card p {margin:4px 0 0;font-size:14px}
-  </style>
-  <script>
-    function toggleYear(id){
-      const elem = document.getElementById(id);
-      elem.classList.toggle('open');
-    }
-  </script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Track Record – Mathis Ghio</title>
+<link rel="stylesheet" href="styles.css" />
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+  background:#0a0a0a;
+  color:#fff;
+  margin:0;
+  font-family:'Inter', sans-serif;
+}
+
+.page {
+  max-width:1100px;
+  margin:40px auto;
+  padding:60px 6vw;
+  background:#111;
+  border-radius:18px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.5);
+}
+
+/* ===== HEADER ===== */
+h1 {
+  text-align:center;
+  font-size:42px;
+  color:#0b74de;
+  margin-bottom:40px;
+  letter-spacing:1.5px;
+}
+
+/* ===== TOP STATS ===== */
+.stats-block {
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+  margin-bottom:60px;
+}
+
+.stat-card {
+  background:#111;
+  padding:22px 28px;
+  border-radius:16px;
+  width:240px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.07);
+  transition:0.3s;
+}
+.stat-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+.stat-card h2 {
+  font-size:40px;
+  margin:0;
+  color:#0b74de;
+}
+.stat-card p {
+  margin-top:6px;
+  font-size:15px;
+  color:#ccc;
+  letter-spacing:0.5px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position:relative;
+  margin:40px 0;
+  padding-left:30px;
+  border-left:2px solid #0b74de;
+}
+.timeline::before {
+  content:'';
+  position:absolute;
+  top:0;
+  left:-1px;
+  width:2px;
+  height:100%;
+  background:#0b74de;
+}
+
+.year-block {
+  position:relative;
+  margin-bottom:50px;
+}
+
+.year-header {
+  font-size:26px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:white;
+  transition:color 0.3s;
+}
+.year-header:hover {
+  color:#0a9cff;
+}
+
+.year-header::before {
+  content:'';
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#0b74de;
+  flex-shrink:0;
+  box-shadow:0 0 8px rgba(11,116,222,0.5);
+}
+
+/* ===== RESULTS DROPDOWN ===== */
+.results {
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.5s ease, padding 0.3s ease;
+  margin-left:30px;
+}
+.results.open {
+  max-height:800px;
+  padding-top:10px;
+}
+.results ul {
+  list-style:none;
+  padding-left:0;
+}
+.results li {
+  padding:10px 12px;
+  font-size:15px;
+  color:#ccc;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-radius:8px;
+  transition:all 0.25s;
+}
+.results li:hover {
+  background:rgba(11,116,222,0.1);
+  transform:translateX(4px);
+}
+
+/* ===== MEDAL ICONS ===== */
+.results li::before {
+  content:'🏆';
+  flex-shrink:0;
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.fade-left { opacity:0; transform:translateX(-30px); transition:all 0.8s ease-out; }
+.fade-right { opacity:0; transform:translateX(30px); transition:all 0.8s ease-out; }
+.visible.fade-left, .visible.fade-right { opacity:1; transform:translateX(0); }
+
+/* ===== MOBILE ===== */
+@media(max-width:700px){
+  .stats-block { flex-direction:column; align-items:center; }
+  h1 { font-size:32px; }
+  .timeline { border-left:none; padding-left:0; }
+  .year-header::before { display:none; }
+  .results { margin-left:0; }
+}
+</style>
+
+<script>
+function toggleYear(id){
+  document.getElementById(id).classList.toggle("open");
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.stat-card, .year-block').forEach(el => observer.observe(el));
+});
+</script>
+
 </head>
 <body>
-  <header class="nav">
-    <a class="logo" href="index.html">MG</a>
-    <nav>
-      <a href="about.html">About</a>
-      <a href="track_record.html" class="active">Track record</a>
-      <a href="partners.html">Partners</a>
-      <a href="media.html">Media</a>
-      <a href="<powerbooks.html">Powerbooks</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <section class="page">
-    <h1>Achievements</h1>
-    <div class="stats-overview">
-      <div class="stat-card">
-        <h2>5x</h2>
-        <p>World Champion</p>
-      </div>
-      <div class="stat-card">
-        <h2>4x</h2>
-        <p>European Champion</p>
-      </div>
-      <div class="stat-card">
-        <h2>41.40 kts</h2>
-        <p>Wingfoil Speed Record (77 km/h)</p>
-      </div>
+<header class="nav">
+  <a class="logo" href="index.html">MG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="track_record.html" class="active">Track record</a>
+    <a href="partners.html">Partners</a>
+    <a href="media.html">Media</a>
+    <a href="powerbooks.html">Powerbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="page">
+<h1>Achievements</h1>
+
+<!-- TOP STATS -->
+<div class="stats-block">
+  <div class="stat-card"><h2>5×</h2><p>World Champion</p></div>
+  <div class="stat-card"><h2>4×</h2><p>European Champion</p></div>
+  <div class="stat-card"><h2>41.40 kts</h2><p>Wingfoil Speed Record</p></div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+
+  <div class="year-block fade-left">
+    <div class="year-header" onclick="toggleYear('y2022')">2022</div>
+    <div class="results" id="y2022">
+      <ul>
+        <li>Wingfoil Racing World champion</li>
+        <li>GWA Race European champion</li>
+        <li>Wingfoil Racing Vice European champion</li>
+        <li>1st at GWA World Cup</li>
+        <li>1st at Wingfoil Racing Class World Cup</li>
+      </ul>
     </div>
+  </div>
 
-<div class="year-section">
-      <div class="year-header" onclick="toggleYear('results-2022')">2022</div>
-      <div class="results" id="results-2022">
-        <ul>
-          <li>Wingfoil Racing World champion</li>
-          <li>GWA Race European champion</li>
-          <li>Wingfoil Racing Vice European champion</li>
-          <li>1st at GWA World Cup</li>
-          <li>1st at Wingfoil Racing Class World Cup</li>
-        </ul>
-      </div>
+  <div class="year-block fade-right">
+    <div class="year-header" onclick="toggleYear('y2023')">2023</div>
+    <div class="results" id="y2023">
+      <ul>
+        <li>Double Wingfoil Racing World champion</li>
+        <li>Formula Wing European champion</li>
+        <li>3× 1st at Wingfoil Racing World Cups</li>
+        <li>1× 2nd at World Cup</li>
+        <li>1× 1st at GWA World Cup</li>
+        <li>2nd at Defi Wing</li>
+        <li>1st at Defi Wing Superstar</li>
+      </ul>
     </div>
-    
-    <div class="year-section">
-      <div class="year-header" onclick="toggleYear('results-2023')">2023</div>
-      <div class="results" id="results-2023">
-        <ul>
-          <li>Double Wingfoil Racing World champion</li>
-          <li>Formula Wing European champion</li>
-          <li>3x 1st at Wingfoil Racing Class World Cups</li>
-          <li>1x 2nd at Wingfoil Racing Class World Cup</li>
-          <li>1x 1st at GWA World Cup</li>
-          <li>2nd at Defi Wing</li>
-          <li>1st at Defi Wing Superstar</li>
-        </ul>
-      </div>
+  </div>
+
+  <div class="year-block fade-left">
+    <div class="year-header" onclick="toggleYear('y2024')">2024</div>
+    <div class="results" id="y2024">
+      <ul>
+        <li>Triple Wingfoil Racing World champion</li>
+        <li>Double Formula Wing European champion</li>
+        <li>3× 1st at World Cups</li>
+        <li>1× 2nd at World Cup</li>
+        <li>1× 3rd at World Cup</li>
+        <li>1st at Defi Wing</li>
+      </ul>
     </div>
+  </div>
 
-    <div class="year-section">
-      <div class="year-header" onclick="toggleYear('results-2024')">2024</div>
-      <div class="results" id="results-2024">
-        <ul>
-          <li>Triple Wingfoil Racing World champion</li>
-          <li>Double Formula Wing European champion</li>
-          <li>3x 1st at Wingfoil Racing Class World Cups</li>
-          <li>1x 2nd at Wingfoil Racing Class World Cup</li>
-          <li>1x 3rd at Wingfoil Racing Class World Cup</li>
-          <li>1st at Defi Wing</li>
-        </ul>
-      </div>
+  <div class="year-block fade-right">
+    <div class="year-header" onclick="toggleYear('y2025')">2025</div>
+    <div class="results" id="y2025">
+      <ul>
+        <li>Quadruple Wingfoil Racing World champion</li>
+        <li>Formula Wing World Champion</li>
+        <li>Triple Formula Wing European champion</li>
+        <li>2× 1st at World Cups</li>
+        <li>1× 2nd at World Cup</li>
+        <li>1× 3rd at World Cup</li>
+        <li>1st at Defi Wing</li>
+      </ul>
     </div>
+  </div>
 
-    <div class="year-section">
-      <div class="year-header" onclick="toggleYear('results-2025')">2025</div>
-      <div class="results" id="results-2025">
-        <ul>
-          <li>Quadruple Wingfoil Racing World champion</li>
-          <li>Formula Wing World Champion</li>
-          <li>Triple Formula Wing European champion</li>
-          <li>2x 1st at Wingfoil Racing Class World Cups</li>
-          <li>1x 2nd at Wingfoil Racing Class World Cup</li>
-          <li>1x 3rd at Wingfoil Racing Class World Cup</li>
-          <li>1st at Defi Wing</li>
-        </ul>
-      </div>
-    </div>
+</div>
+</section>
 
-  </section>
-
-  <footer>© Wingfoil Racing / Robert Hadjuk </footer>
+<footer>© Wingfoil Racing / Robert Hadjuk</footer>
 </body>
 </html>
