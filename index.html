@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,28 +7,47 @@
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
 <header class="nav">
-<a class="logo" href="index.html">MG</a>
-<nav>
-<a href="about.html">About</a>
-<a href="palmares.html">Track record</a>
-<a href="partners.html">Partners</a>
-<a href="media.html">Media</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <a class="logo" href="index.html">MG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="track_record.html">Track Record</a>
+    <a href="partners.html">Partners</a>
+    <a href="media.html">Media</a>
+    <a href="powerbooks.html">Pressbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </header>
 
-
 <section class="hero">
-<div>
-<h1>Mathis Ghio</h1>
-<p>Rider français de Wingfoil – multiple champion du monde. Homespot : Marseille.</p>
-<a class="btn" href="contact.html">Contact / Booking</a>
-</div>
-<img class="hero-img" src="images/hero.jpg" alt="Mathis Ghio" />
+  <div class="hero-text fade-left">
+    <h1>Mathis Ghio</h1>
+    <p>French Wingfoil rider – multiple World Champion. Home spot: Marseille.</p>
+    <a class="btn" href="contact.html">Contact / Booking</a>
+  </div>
+  <div class="hero-image fade-right">
+    <img class="hero-img" src="images/hero.jpg" alt="Mathis Ghio">
+  </div>
 </section>
 
+<footer>© Wingfoil Racing / Robert Hadjuk </footer>
 
-<footer>© Mathis Ghio – Tous droits réservés</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('h1, h2, p, .hero-text, .hero-image, .about-container, .stats-overview, .pdf-section').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
 </body>
 </html>
