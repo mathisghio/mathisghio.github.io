@@ -121,7 +121,7 @@ h1 {
   margin-left:30px;
 }
 .results.open {
-  max-height:800px;
+  max-height:1000px;
   padding-top:10px;
 }
 .results ul {
@@ -144,11 +144,21 @@ h1 {
   transform:translateX(4px);
 }
 
-/* ===== MEDAL ICONS ===== */
-.results li::before {
-  content:'🏆';
-  flex-shrink:0;
-}
+/* ===== ICON TYPES ===== */
+li.world {color:#ffd700;}
+li.world::before { content:"🌍"; }
+li.worldcup {color:#ff9900;}
+li.worldcup::before { content:"🏆"; }
+li.first {color:#00ffcc;}
+li.first::before { content:"🥇"; }
+li.second {color:#c0c0c0;}
+li.second::before { content:"🥈"; }
+li.third {color:#cd7f32;}
+li.third::before { content:"🥉"; }
+li.speed {color:#00ffff;}
+li.speed::before { content:"⚡"; }
+li.europe {color:#ff66ff;}
+li.europe::before { content:"🏁"; }
 
 /* ===== SCROLL ANIMATIONS ===== */
 .fade-left { opacity:0; transform:translateX(-30px); transition:all 0.8s ease-out; }
@@ -182,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.stat-card, .year-block').forEach(el => observer.observe(el));
 });
 </script>
-
 </head>
 <body>
 
@@ -215,11 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="year-header" onclick="toggleYear('y2022')">2022</div>
     <div class="results" id="y2022">
       <ul>
-        <li>Wingfoil Racing World champion</li>
-        <li>GWA Race European champion</li>
-        <li>Wingfoil Racing Vice European champion</li>
-        <li>1st at GWA World Cup</li>
-        <li>1st at Wingfoil Racing Class World Cup</li>
+        <li class="world">Wingfoil Racing World champion</li>
+        <li class="europe">GWA Race European champion</li>
+        <li class="europe">Wingfoil Racing Vice European champion</li>
+        <li class="first">1st at GWA World Cup</li>
+        <li class="first">1st at Wingfoil Racing Class World Cup</li>
       </ul>
     </div>
   </div>
@@ -228,13 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="year-header" onclick="toggleYear('y2023')">2023</div>
     <div class="results" id="y2023">
       <ul>
-        <li>Double Wingfoil Racing World champion</li>
-        <li>Formula Wing European champion</li>
-        <li>3× 1st at Wingfoil Racing World Cups</li>
-        <li>1× 2nd at World Cup</li>
-        <li>1× 1st at GWA World Cup</li>
-        <li>2nd at Defi Wing</li>
-        <li>1st at Defi Wing Superstar</li>
+        <li class="world">Double Wingfoil Racing World champion</li>
+        <li class="europe">Formula Wing European champion</li>
+        <li class="first">3× 1st at Wingfoil Racing World Cups</li>
+        <li class="second">1× 2nd at World Cup</li>
+        <li class="first">1× 1st at GWA World Cup</li>
+        <li class="second">2nd at Defi Wing</li>
+        <li class="first">1st at Defi Wing Superstar</li>
       </ul>
     </div>
   </div>
@@ -243,12 +252,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="year-header" onclick="toggleYear('y2024')">2024</div>
     <div class="results" id="y2024">
       <ul>
-        <li>Triple Wingfoil Racing World champion</li>
-        <li>Double Formula Wing European champion</li>
-        <li>3× 1st at World Cups</li>
-        <li>1× 2nd at World Cup</li>
-        <li>1× 3rd at World Cup</li>
-        <li>1st at Defi Wing</li>
+        <li class="world">Triple Wingfoil Racing World champion</li>
+        <li class="europe">Double Formula Wing European champion</li>
+        <li class="first">3× 1st at World Cups</li>
+        <li class="second">1× 2nd at World Cup</li>
+        <li class="third">1× 3rd at World Cup</li>
+        <li class="first">1st at Defi Wing</li>
       </ul>
     </div>
   </div>
@@ -257,13 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="year-header" onclick="toggleYear('y2025')">2025</div>
     <div class="results" id="y2025">
       <ul>
-        <li>Quadruple Wingfoil Racing World champion</li>
-        <li>Formula Wing World Champion</li>
-        <li>Triple Formula Wing European champion</li>
-        <li>2× 1st at World Cups</li>
-        <li>1× 2nd at World Cup</li>
-        <li>1× 3rd at World Cup</li>
-        <li>1st at Defi Wing</li>
+        <li class="world">Quadruple Wingfoil Racing World champion</li>
+        <li class="worldcup">Formula Wing World Champion</li>
+        <li class="europe">Triple Formula Wing European champion</li>
+        <li class="first">2× 1st at World Cups</li>
+        <li class="second">1× 2nd at World Cup</li>
+        <li class="third">1× 3rd at World Cup</li>
+        <li class="first">1st at Defi Wing</li>
       </ul>
     </div>
   </div>
