@@ -448,16 +448,16 @@ function animateNumber({ from=0, to=1, duration=1.2, decimals=0, onUpdate=null, 
 window.addEventListener('load', () => {
   // champions: integers (no decimals)
   animateNumber({
-    from: 0, to: champWorldTarget, duration: 1.6, decimals: 0,
+    from: 0, to: champWorldTarget, duration: 2.5, decimals: 0,
     onUpdate: (v) => champWorldEl.textContent = parseInt(v,10)
   });
   animateNumber({
-    from: 0, to: champEuroTarget, duration: 1.6, decimals: 0, delay: 0.05,
+    from: 0, to: champEuroTarget, duration: 2.5, decimals: 0, delay: 0.05,
     onUpdate: (v) => champEuroEl.textContent = parseInt(v,10)
   });
   // speed: two decimals
   animateNumber({
-    from: 0, to: speedTarget, duration: 1.9, decimals: speedDecimals,
+    from: 0, to: speedTarget, duration: 3, decimals: speedDecimals,
     onUpdate: (v) => speedValEl.textContent = Number(v).toFixed(speedDecimals)
   });
 });
