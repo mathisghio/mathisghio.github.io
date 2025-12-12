@@ -1,23 +1,376 @@
+<!doctype html>
+<html lang="en"> <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Partners – Mathis Ghio</title>
+<link rel="stylesheet" href="styles.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+/* NOUVEAU: Variables de couleur harmonisées avec Track Record */
+:root{
+  --bg:#050507;
+  --blue-1:#0ea5ff;
+  --blue-2:#3b82f6;
+  --glass-bg: rgba(20,36,80,0.28);
+}
+
+/* =========================================================
+   🔥 FOND ANIMÉ SOMBRE (Votre code original)
+========================================================= */
+body {
+  background:var(--bg); /* MODIF: Utilise la variable dark-blue/black */
+  margin:0;
+  overflow-x:hidden;
+  /* NOUVEAU: Styles d'harmonisation */
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:#fff; -webkit-font-smoothing:antialiased;
+}
+
+/* Votre fond de grille/lignes est CONSERVÉ, mais la couleur de fond est mise à jour */
+body::before {
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:200%;
+  height:200%;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(0, 122, 255, 0.07) 0px,
+      rgba(0, 122, 255, 0.07) 2px,
+      transparent 2px,
+      transparent 80px
+    );
+  animation: moveLines 18s linear infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+
+@keyframes moveLines {
+  from { transform:translateX(0) translateY(0); }
+  to   { transform:translateX(-300px) translateY(-300px); }
+}
+
+/* =========================================================
+    🔥 HARMONISATION AVEC TRACK RECORD (Fonds Vidéo + Flow)
+========================================================= */
+.bg-video{
+  position:fixed; inset:0; z-index:-3; overflow:hidden;
+}
+.bg-video video{ width:100%; height:100%; object-fit:cover; opacity:0.12; filter:grayscale(.2) saturate(1.2) contrast(.95) }
+.energy-flow{
+  position:fixed; inset:-10% -20% -10% -20%; z-index:-4; pointer-events:none;
+  background: radial-gradient(ellipse at 20% 30%, rgba(14,165,255,0.10), transparent 12%),
+              radial-gradient(ellipse at 80% 65%, rgba(59,130,246,0.08), transparent 12%);
+  filter: blur(72px);
+  animation: floatFlow 20s linear infinite;
+  opacity:.9;
+}
+@keyframes floatFlow{ 0%{transform:translate(0,0)}50%{transform:translate(-9%,-5%)}100%{transform:translate(0,0)} }
+
+
+/* =========================================================
+   ⭐ NAVIGATION (Harmonisation "Glass-HUD" de Track Record)
+========================================================= */
+header.nav{
+  position:fixed; left:0; right:0; top:0;
+  height:68px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px; z-index:60;
+  background: linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25));
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px); /* EFFET VERRE */
+}
+.nav .logo{ font-weight:800; font-size:20px; letter-spacing:1px; color:var(--blue-2); text-decoration:none }
+nav{ display:flex; gap:14px; align-items:center; flex-wrap:wrap }
+nav a{ color:#dbeafe; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:10px; transition:all .18s }
+nav a.active, nav a:hover{ background: rgba(59,130,246,0.08); transform:translateY(-2px); box-shadow:0 6px 18px rgba(59,130,246,0.06) }
+
+
+/* =========================================================
+   PAGE CONTENT (Harmonisation)
+========================================================= */
+.page {
+  padding:60px 6vw;
+  max-width:1100px;
+  /* MODIF: Ajustement de la marge haute pour la navigation fixe */
+  margin:120px auto 40px auto; 
+  /* MODIF: Changement de l'apparence de la page pour le style "Glass-HUD" */
+  background:linear-gradient(135deg, rgba(9,30,80,0.6), rgba(20,40,70,0.35));
+  border:1px solid rgba(59,130,246,0.28);
+  box-shadow: 0 6px 30px rgba(11,116,222,0.12), inset 0 0 20px rgba(255,255,255,0.02);
+  border-radius:16px;
+}
+
+/* TITRES */
+h1, h2 {
+  color:var(--blue-1); /* MODIF: Utilise la couleur bleue de l'identité visuelle */
+  letter-spacing:1px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px);
+  /* MODIF: Ajout de 'transition-delay' pour la séquence d'animation */
+  transition: all 0.8s ease-out; 
+}
+h1.visible, h2.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* CATEGORY BLOCKS */
+.partner-category {
+  margin-bottom:60px;
+}
+
+/* GRID SYSTEM */
+.partner-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+  gap:40px;
+  align-items:center;
+  justify-items:center;
+  opacity:0;
+  transform:translateY(30px);
+  transition: all 0.8s ease-out;
+}
+.partner-grid.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* NOUVEAU: Style pour les liens cliquables englobant les logos */
+.partner-grid a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* --- BASE DEFAULT SIZE (ORIGINAL PRESERVED) --- */
+.partner-grid img {
+  width:180px;
+  height:120px;
+  object-fit:contain;
+  /* MODIF: Ajout de 'filter' pour l'effet de survol */
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  filter:brightness(1.1);
+}
+
+/* --- MAIN SPONSORS BIGGER (ORIGINAL PRESERVED) --- */
+.partner-category:nth-of-type(1) .partner-grid img {
+  width:240px;
+  height:150px;
+}
+
+/* --- SPECIFIC ADJUSTMENTS (REAL SIZE) (ORIGINAL PRESERVED) --- */
+img[alt="Ozone"] {
+  width:260px !important;
+  height:160px !important;
+}
+img[alt="Overstims"] {
+  width:210px !important;
+  height:135px !important;
+}
+img[alt="Ligue Sud"] {
+  width:220px !important;
+  height:145px !important;
+}
+img[alt="Departement 13"] {
+  width:220px !important;
+  height:145px !important;
+}
+img[alt="Metropole Aix-Marseille"] {
+  width:235px !important;
+  height:150px !important;
+}
+
+/* --- HOVER EFFECT (MODIFIÉ pour le feedback) --- */
+.partner-grid img:hover {
+  transform: scale(1.05);
+  /* MODIF: Box-shadow bleu lumineux */
+  box-shadow: 0 0 20px rgba(59,130,246,0.5); 
+  filter: brightness(1.35); /* NOUVEAU: Fait briller le logo */
+}
+
+/* =========================================================
+   🔵 BANDEAU SPONSORS DÉFILANT (Ajusté)
+========================================================= */
+.sponsor-marquee {
+  width:100%;
+  overflow:hidden;
+  margin:60px 0;
+}
+
+.sponsor-track {
+  display:flex;
+  gap:60px;
+  animation: scrollSponsors 25s linear infinite; /* MODIF: Rendu plus lent (25s) */
+  animation-play-state: running;
+}
+.sponsor-marquee:hover .sponsor-track {
+  animation-play-state: paused; /* NOUVEAU: Pause au survol */
+}
+
+.sponsor-track img {
+  height:70px;
+  object-fit:contain;
+  filter:brightness(0.9);
+}
+
+@keyframes scrollSponsors {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+
+/* =========================================================
+   📱 RESPONSIVE (Ajusté)
+========================================================= */
+
+/* TABLETTE */
+@media (max-width:900px) {
+  .page {
+    margin-top:100px; /* Ajustement pour la nav fixée */
+  }
+  .partner-grid {
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:30px;
+  }
+  /* ... (autres styles responsives conservés) ... */
+}
+
+/* MOBILE */
+@media (max-width:600px) {
+  header.nav{ padding:0 12px }
+  nav{ gap:8px }
+  .page {
+    padding:40px 5vw;
+    margin-top:80px; /* Ajustement pour la nav fixée */
+  }
+  /* ... (autres styles responsives conservés) ... */
+}
+/* ... (autres styles responsives conservés) ... */
+  
+/* ========================================================= */
+footer {
+  text-align:center;
+  padding:30px 6vw;
+  margin-top:40px;
+  color:#9fbff7;
+  opacity:.6;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-video" aria-hidden="true">
+  <video autoplay muted loop playsinline>
+    <source src="media/bg.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="energy-flow" aria-hidden="true"></div>
+
+
+<header class="nav">
+  <a class="logo" href="index.html">MG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="track_record.html">Track Record</a>
+    <a href="partners.html" class="active">Partners</a>
+    <a href="media.html">Media</a>
+    <a href="powerbooks.html">Powerbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
 <section class="page">
 
-<h1>Partenaires officiels : Le soutien qui propulse ma carrière</h1>
+<h1>Official Partners: The Support That Propels My Career</h1>
 
 <div class="partner-category">
   <h2>Main Sponsors</h2>
   <div class="partner-grid">
-    <a href="sponsor-url-ozone" target="_blank" rel="noopener noreferrer" aria-label="Visiter le site Ozone">
+    <a href="sponsor-url-ozone" target="_blank" rel="noopener noreferrer" aria-label="Visit Ozone website">
       <img src="images/sponsor-ozone.svg" alt="Ozone">
     </a>
-    <a href="sponsor-url-levitaz" target="_blank" rel="noopener noreferrer" aria-label="Visiter le site Levitaz">
+    <a href="sponsor-url-levitaz" target="_blank" rel="noopener noreferrer" aria-label="Visit Levitaz website">
       <img src="images/sponsor-levitaz.png" alt="Levitaz">
     </a>
-    <a href="sponsor-url-wip" target="_blank" rel="noopener noreferrer" aria-label="Visiter le site Forward WIP">
+    <a href="sponsor-url-wip" target="_blank" rel="noopener noreferrer" aria-label="Visit Forward WIP website">
       <img src="images/WIP.png" alt="Forward WIP">
     </a>
   </div>
-  <p style="text-align:center; color:#ddd; opacity:0.8; margin-top:20px;">
-    Mes partenaires principaux sont essentiels. Ils fournissent les équipements de pointe (ailes, foils) et la protection nécessaire pour exceller dans les compétitions de Wingfoil au plus haut niveau mondial.
+  <p style="text-align:center; color:#ddd; opacity:0.8; margin-top:20px; max-width: 800px; margin-left: auto; margin-right: auto;">
+    My main partners are essential. They provide cutting-edge equipment (wings, foils) and the necessary protection to excel in Wingfoil competitions at the highest global level.
   </p>
 </div>
 
+<div class="partner-category">
+  <h2>Institutional & Technical Partners</h2>   <div class="partner-grid">
+    <a href="sponsor-url-overstims" target="_blank" rel="noopener noreferrer" aria-label="Visit Overstims website"><img src="images/sponsor-overstims.png" alt="Overstims"></a>
+    <a href="sponsor-url-ffvoile" target="_blank" rel="noopener noreferrer" aria-label="Visit FFVoile website"><img src="images/sponsor-FFVoile.png" alt="FFVoile"></a>
+    <a href="sponsor-url-insa" target="_blank" rel="noopener noreferrer" aria-label="Visit INSA Lyon website"><img src="images/sponsor-INSA.png" alt="INSA Lyon"></a>
+    <a href="sponsor-url-dep13" target="_blank" rel="noopener noreferrer" aria-label="Visit Departement 13 website"><img src="images/sponsor-departement13.png" alt="Departement 13"></a>
+    <a href="sponsor-url-metropole" target="_blank" rel="noopener noreferrer" aria-label="Visit Metropole Aix-Marseille website"><img src="images/LAMETROPOLE.png" alt="Metropole Aix-Marseille"></a>
+    <a href="sponsor-url-liguesud" target="_blank" rel="noopener noreferrer" aria-label="Visit Ligue Sud website"><img src="images/sponsor-ligue-sud.png" alt="Ligue Sud"></a>
+  </div>
+  <p style="text-align:center; color:#ddd; opacity:0.8; margin-top:20px; max-width: 800px; margin-left: auto; margin-right: auto;">
+    Institutional, technical, and logistical partners who support my training, my development, and my presence on the international circuit.
+  </p>
+</div>
+
+<div class="sponsor-marquee">
+  <div class="sponsor-track">
+    <img src="images/sponsor-ozone.svg">
+    <img src="images/sponsor-levitaz.png">
+    <img src="images/WIP.png">
+    <img src="images/sponsor-overstims.png">
+    <img src="images/sponsor-FFVoile.png">
+    <img src="images/sponsor-INSA.png">
+    <img src="images/sponsor-departement13.png">
+    <img src="images/LAMETROPOLE.png">
+    <img src="images/sponsor-ligue-sud.png">
+
+        <img src="images/sponsor-ozone.svg">
+    <img src="images/sponsor-levitaz.png">
+    <img src="images/WIP.png">
+    <img src="images/sponsor-overstims.png">
+    <img src="images/sponsor-FFVoile.png">
+    <img src="images/sponsor-INSA.png">
+    <img src="images/sponsor-departement13.png">
+    <img src="images/LAMETROPOLE.png">
+    <img src="images/sponsor-ligue-sud.png">
+  </div>
+</div>
+
 </section>
+
+<footer>© Wingfoil Racing / Robert Hadjuk </footer>
+
+<script>
+/* --- ANIMATION WHEN SCROLLING --- */
+document.addEventListener('DOMContentLoaded', () => {
+  
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        
+        // NOUVEAU: Délai pour la grille de partenaires
+        if(entry.target.classList.contains('partner-grid')) {
+            entry.target.style.transitionDelay = '0.2s';
+        }
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('h1, h2, .partner-grid').forEach(el => observer.observe(el));
+});
+</script>
+
+</body>
+</html>
