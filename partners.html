@@ -86,38 +86,50 @@ h1.visible, h2.visible {
   transform:translateY(0);
 }
 
-/* DEFAULT LOGO SIZE */
+/* --- BASE DEFAULT SIZE --- */
 .partner-grid img {
-  width:170px;
-  height:115px;
-  object-fit:contain;
-  transition: transform 0.3s, box-shadow 0.3s;
+  width: 180px;
+  height: 120px;
+  object-fit: contain;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* -------------------------------------------
-   MAIN SPONSORS (bigger)
-------------------------------------------- */
+/* --- MAIN SPONSORS BIGGER --- */
 .partner-category:nth-of-type(1) .partner-grid img {
-  width:240px;
-  height:150px;
+  width: 240px;
+  height: 150px;
 }
 
-/* ==========================================
-   INDIVIDUAL SIZE BOOST (your request)
-========================================== */
-img[alt="Ozone"]                  { width:270px !important; }
-img[alt="Overstims"]              { width:210px !important; }
-img[alt="Ligue Sud"]              { width:210px !important; }
-img[alt="Departement 13"]         { width:210px !important; }
-img[alt="Metropole Aix-Marseille"]{ width:220px !important; }
+/* --- SPECIFIC REAL SIZE BOOST (no hover trick) --- */
+img[alt="Ozone"] {
+  width: 260px !important;
+  height: 160px !important;
+}
 
-/* -------------------------------------------
-   HOVER EFFECT
-------------------------------------------- */
+img[alt="Overstims"] {
+  width: 210px !important;
+  height: 135px !important;
+}
+
+img[alt="Ligue Sud"] {
+  width: 210px !important;
+  height: 135px !important;
+}
+
+img[alt="Departement 13"] {
+  width: 210px !important;
+  height: 135px !important;
+}
+
+img[alt="Metropole Aix-Marseille"] {
+  width: 230px !important;
+  height: 145px !important;
+}
+
+/* --- HOVER (light scale only) --- */
 .partner-grid img:hover {
-  transform:scale(1.09);
-  box-shadow:0 10px 30px rgba(0,0,0,0.7);
-}
+  transform: scale(1.05); /* réduit pour ne plus donner effet “case qui grossit” */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 
 /* =========================================================
    🔵 BANDEAU SPONSORS DÉFILANT
