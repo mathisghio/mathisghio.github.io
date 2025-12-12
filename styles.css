@@ -235,3 +235,61 @@ footer {
   .stats-overview { flex-direction: column; }
   .gallery img { width: 45%; }
 }
+/* --- GLOBAL NAV BAR STYLE (identique Track Record) --- */
+
+.nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 6vw;
+  background:#000;
+  border-bottom:1px solid #222;
+}
+
+.nav .logo img {
+  height:55px;
+  width:auto;
+  border-radius:8px;
+  object-fit:contain;
+  transition:0.3s;
+}
+
+.nav .logo img:hover {
+  transform:scale(1.05);
+}
+
+.nav nav {
+  display:flex;
+  gap:32px;
+}
+
+.nav nav a {
+  color:#ddd;
+  text-decoration:none;
+  font-size:15px;
+  letter-spacing:0.5px;
+  transition:0.25s;
+}
+
+.nav nav a:hover {
+  color:#0b74de;
+}
+
+.nav nav a.active {
+  color:#0b74de;
+  font-weight:600;
+}
+
+/* MOBILE */
+@media (max-width:600px) {
+  .nav {
+    flex-direction:column;
+    gap:14px;
+  }
+  .nav nav {
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+}
+
