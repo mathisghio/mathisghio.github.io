@@ -1,647 +1,358 @@
 <!doctype html>
-
 <html lang="fr">
-
 <head>
-
 <meta charset="utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
 <title>Partners – Mathis Ghio</title>
-
 <link rel="stylesheet" href="styles.css" />
 
-
-
 <style>
-
 /* =========================================================
-
    🔥 FOND ANIMÉ SOMBRE
-
 ========================================================= */
-
 body {
-
   background:#000;
-
   margin:0;
-
   overflow-x:hidden;
-
 }
-
-
 
 body::before {
-
   content:"";
-
   position:fixed;
-
   top:0; left:0;
-
   width:200%;
-
   height:200%;
-
   background:
-
     repeating-linear-gradient(
-
       115deg,
-
       rgba(0, 122, 255, 0.07) 0px,
-
       rgba(0, 122, 255, 0.07) 2px,
-
       transparent 2px,
-
       transparent 80px
-
     );
-
   animation: moveLines 18s linear infinite;
-
   pointer-events:none;
-
   z-index:-1;
-
 }
-
-
 
 @keyframes moveLines {
-
   from { transform:translateX(0) translateY(0); }
-
   to   { transform:translateX(-300px) translateY(-300px); }
-
 }
-
-
 
 /* =========================================================
-
-   PAGE CONTENT
-
-========================================================= */
-
-.page {
-
-  padding:60px 6vw;
-
-  max-width:1100px;
-
-  margin:40px auto;
-
+   MENU (copie du style et des couleurs du track_record)
+   ========================================================= */
+header.nav {
   background:#111;
-
-  border-radius:16px;
-
-  box-shadow:0 8px 30px rgba(0,0,0,0.5);
-
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 6vw;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 10px rgba(0,0,0,0.5);
+}
+header.nav .logo {
+  font-weight:800;
+  font-size:22px;
+  color:#0b74de;
+  text-decoration:none;
+}
+header.nav nav a {
+  margin-left:20px;
+  text-decoration:none;
+  color:#ddd;
+  font-weight:500;
+  transition:color 0.3s;
+}
+header.nav nav a.active,
+header.nav nav a:hover {
+  color:#0b74de;
+  font-weight:700;
 }
 
-
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
+.page {
+  padding:60px 6vw;
+  max-width:1100px;
+  margin:40px auto;
+  background:#111;
+  border-radius:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
 
 /* TITRES */
-
 h1, h2 {
-
   color:#0b74de;
-
   letter-spacing:1px;
-
   text-align:center;
-
   opacity:0;
-
   transform:translateY(30px);
-
   transition: all 0.8s ease-out;
-
 }
-
 h1.visible, h2.visible {
-
   opacity:1;
-
   transform:translateY(0);
-
 }
-
-
 
 /* CATEGORY BLOCKS */
-
 .partner-category {
-
   margin-bottom:60px;
-
 }
-
-
 
 /* GRID SYSTEM */
-
 .partner-grid {
-
   display:grid;
-
   grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
-
   gap:40px;
-
   align-items:center;
-
   justify-items:center;
-
   opacity:0;
-
   transform:translateY(30px);
-
   transition: all 0.8s ease-out;
-
 }
-
 .partner-grid.visible {
-
   opacity:1;
-
   transform:translateY(0);
-
 }
-
-
 
 /* --- BASE DEFAULT SIZE --- */
-
 .partner-grid img {
-
   width:180px;
-
   height:120px;
-
   object-fit:contain;
-
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-
 }
-
-
 
 /* --- MAIN SPONSORS BIGGER --- */
-
 .partner-category:nth-of-type(1) .partner-grid img {
-
   width:240px;
-
   height:150px;
-
 }
-
-
 
 /* --- SPECIFIC ADJUSTMENTS (REAL SIZE) --- */
-
 img[alt="Ozone"] {
-
   width:260px !important;
-
   height:160px !important;
-
 }
-
 img[alt="Overstims"] {
-
   width:210px !important;
-
   height:135px !important;
-
 }
-
 img[alt="Ligue Sud"] {
-
   width:220px !important;
-
   height:145px !important;
-
 }
-
 img[alt="Departement 13"] {
-
   width:220px !important;
-
   height:145px !important;
-
 }
-
 img[alt="Metropole Aix-Marseille"] {
-
   width:235px !important;
-
   height:150px !important;
-
 }
-
-
 
 /* --- HOVER EFFECT (light scale) --- */
-
 .partner-grid img:hover {
-
   transform: scale(1.05);
-
   box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-
 }
-
-
 
 /* =========================================================
-
    🔵 BANDEAU SPONSORS DÉFILANT
-
 ========================================================= */
-
 .sponsor-marquee {
-
   width:100%;
-
   overflow:hidden;
-
   margin:60px 0;
-
 }
-
-
 
 .sponsor-track {
-
   display:flex;
-
   gap:60px;
-
   animation: scrollSponsors 20s linear infinite;
-
 }
-
-
 
 .sponsor-track img {
-
   height:70px;
-
   object-fit:contain;
-
   filter:brightness(0.9);
-
 }
-
-
 
 @keyframes scrollSponsors {
-
   from { transform:translateX(0); }
-
   to   { transform:translateX(-50%); }
-
 }
-
-
 
 /* =========================================================
-
    📱 RESPONSIVE (Option A)
-
 ========================================================= */
 
-
-
 /* TABLETTE */
-
 @media (max-width:900px) {
-
   .partner-grid {
-
     grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
-
     gap:30px;
-
   }
-
-
 
   .partner-grid img {
-
     width:150px;
-
     height:95px;
-
   }
-
-
 
   /* main sponsors */
-
   .partner-category:nth-of-type(1) .partner-grid img {
-
     width:200px !important;
-
     height:130px !important;
-
   }
-
 }
-
-
 
 /* MOBILE */
-
 @media (max-width:600px) {
-
   .page {
-
     padding:40px 5vw;
-
   }
-
-
 
   .partner-grid {
-
     grid-template-columns:repeat(2, 1fr);
-
     gap:25px;
-
   }
-
-
 
   .partner-grid img {
-
     width:130px !important;
-
     height:85px !important;
-
   }
-
-
 
   /* main sponsors mobile */
-
   .partner-category:nth-of-type(1) .partner-grid img {
-
     width:170px !important;
-
     height:110px !important;
-
   }
-
-
 
   .sponsor-track img {
-
     height:50px;
-
   }
-
 }
-
-
 
 /* VERY SMALL PHONES */
-
 @media (max-width:400px) {
-
   .partner-grid {
-
     grid-template-columns:1fr;
-
   }
-
-
 
   .partner-grid img {
-
     width:150px !important;
-
     height:100px !important;
-
   }
-
 }
-
   
-
 /* ========================================================= */
-
 footer {
-
   text-align:center;
-
   padding:30px 0;
-
   margin-top:40px;
-
   color:#aaa;
-
   font-size:14px;
-
 }
-
 </style>
 
 </head>
 
-
-
 <body>
 
-
-
 <header class="nav">
-
   <a class="logo" href="index.html">MG</a>
-
   <nav>
-
     <a href="about.html">About</a>
-
     <a href="track_record.html">Track Record</a>
-
     <a href="partners.html" class="active">Partners</a>
-
     <a href="media.html">Media</a>
-
     <a href="powerbooks.html">Powerbooks</a>
-
     <a href="contact.html">Contact</a>
-
   </nav>
-
 </header>
-
-
 
 <section class="page">
 
-
-
 <h1>My Partners</h1>
 
-
-
 <!-- ========================
-
      MAIN SPONSORS
-
 ========================= -->
-
 <div class="partner-category">
-
   <h2>Main Sponsors</h2>
-
   <div class="partner-grid">
-
     <img src="images/sponsor-ozone.svg" alt="Ozone">
-
     <img src="images/sponsor-levitaz.png" alt="Levitaz">
-
     <img src="images/WIP.png" alt="Forward WIP">
-
   </div>
-
 </div>
-
-
 
 <!-- ========================
-
      OTHER PARTNERS
-
 ========================= -->
-
 <div class="partner-category">
-
   <h2>Other Partners</h2>
-
   <div class="partner-grid">
-
     <img src="images/sponsor-overstims.png" alt="Overstims">
-
     <img src="images/sponsor-FFVoile.png" alt="FFVoile">
-
     <img src="images/sponsor-INSA.png" alt="INSA Lyon">
-
     <img src="images/sponsor-departement13.png" alt="Departement 13">
-
     <img src="images/LAMETROPOLE.png" alt="Metropole Aix-Marseille">
-
     <img src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
-
   </div>
-
 </div>
-
-
 
 <!-- ============================
-
      ⭐ BANDEAU SPONSORS (défilant)
-
 ============================ -->
-
 <div class="sponsor-marquee">
-
   <div class="sponsor-track">
-
     <img src="images/sponsor-ozone.svg">
-
     <img src="images/sponsor-levitaz.png">
-
     <img src="images/WIP.png">
-
     <img src="images/sponsor-overstims.png">
-
     <img src="images/sponsor-FFVoile.png">
-
     <img src="images/sponsor-INSA.png">
-
     <img src="images/sponsor-departement13.png">
-
     <img src="images/LAMETROPOLE.png">
-
     <img src="images/sponsor-ligue-sud.png">
-
-
 
     <!-- loop -->
-
     <img src="images/sponsor-ozone.svg">
-
     <img src="images/sponsor-levitaz.png">
-
     <img src="images/WIP.png">
-
     <img src="images/sponsor-overstims.png">
-
     <img src="images/sponsor-FFVoile.png">
-
     <img src="images/sponsor-INSA.png">
-
     <img src="images/sponsor-departement13.png">
-
     <img src="images/LAMETROPOLE.png">
-
     <img src="images/sponsor-ligue-sud.png">
-
   </div>
-
 </div>
-
-
 
 </section>
 
-
-
 <footer>© Wingfoil Racing / Robert Hadjuk </footer>
 
-
-
 <script>
-
 /* --- ANIMATION WHEN SCROLLING --- */
-
 document.addEventListener('DOMContentLoaded', () => {
-
   const observer = new IntersectionObserver(entries => {
-
     entries.forEach(entry => {
-
       if(entry.isIntersecting){
-
         entry.target.classList.add('visible');
-
       }
-
     });
-
   }, { threshold: 0.2 });
 
-
-
   document.querySelectorAll('h1, h2, .partner-grid').forEach(el => observer.observe(el));
-
 });
-
 </script>
 
-
-
 </body>
-
 </html>
