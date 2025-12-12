@@ -1,240 +1,406 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Timeline Ultra Premium</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Track Record – Mathis Ghio (Ultra Premium)</title>
 
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
-    body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        background: #050507;
-        color: white;
-        overflow-x: hidden;
-    }
+  :root{
+    --bg:#050507;
+    --blue-1:#0ea5ff;
+    --blue-2:#3b82f6;
+    --glass-bg: rgba(20,36,80,0.28);
+  }
 
-    /* ===========================
-       ENERGY FLOW ANIMATION (BG)
-       =========================== */
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg); color:#fff; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
 
-    .energy-flow {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle at 30% 50%, rgba(0,140,255,0.25), transparent 60%),
-                    radial-gradient(circle at 70% 60%, rgba(0,90,255,0.20), transparent 70%),
-                    linear-gradient(120deg, rgba(0,180,255,0.25), transparent);
-        filter: blur(80px);
-        animation: moveFlow 18s infinite linear;
-        z-index: -1;
-        opacity: 0.7;
-    }
+  /* ---------- top nav ---------- */
+  header.nav{
+    position:fixed; left:0; right:0; top:0;
+    height:68px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 28px; z-index:60;
+    background: linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(6px);
+  }
+  .nav .logo{ font-weight:800; font-size:20px; letter-spacing:1px; color:var(--blue-2); text-decoration:none }
+  nav.links{ display:flex; gap:18px; align-items:center }
+  nav.links a{ color:#dbeafe; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:10px; transition:all .18s }
+  nav.links a.active, nav.links a:hover{ background: rgba(59,130,246,0.08); transform:translateY(-2px); box-shadow:0 6px 18px rgba(59,130,246,0.06) }
 
-    @keyframes moveFlow {
-        0% { transform: translate(0,0) scale(1); }
-        50% { transform: translate(-20%, -10%) scale(1.2); }
-        100% { transform: translate(0,0) scale(1); }
-    }
+  /* ---------- hero / container ---------- */
+  .hero{
+    padding:120px 6vw 40px 6vw; max-width:1200px; margin:0 auto; position:relative; z-index:20;
+  }
 
-    /* ================
-       TIMELINE
-       ================ */
+  h1{
+    font-size:40px; color:var(--blue-1); margin:0 0 20px; letter-spacing:1px;
+  }
+  p.lead{ color:#d1e9ff; margin:0 0 28px }
 
-    .timeline-container {
-        position: relative;
-        padding-left: 160px;
-        margin-top: 120px;
-    }
+  /* ---------- background video + energy flow + overlay ---------- */
+  .bg-video{
+    position:fixed; inset:0; z-index:-3; overflow:hidden;
+  }
+  .bg-video video{ width:100%; height:100%; object-fit:cover; opacity:0.12; filter:grayscale(.2) saturate(1.2) contrast(.95) }
+  /* fallback energy flow */
+  .energy-flow{
+    position:fixed; inset:-10% -20% -10% -20%; z-index:-4; pointer-events:none;
+    background: radial-gradient(ellipse at 20% 30%, rgba(14,165,255,0.10), transparent 12%),
+                radial-gradient(ellipse at 80% 65%, rgba(59,130,246,0.08), transparent 12%);
+    filter: blur(72px);
+    animation: floatFlow 20s linear infinite;
+    opacity:.9;
+  }
+  @keyframes floatFlow{ 0%{transform:translate(0,0)}50%{transform:translate(-9%,-5%)}100%{transform:translate(0,0)} }
 
-    .timeline-line {
-        position: absolute;
-        left: 80px;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: linear-gradient(#3b82f6, #60a5fa);
-        border-radius: 2px;
-        box-shadow: 0 0 20px #3b82f6;
-    }
+  /* ---------- top stats (glass LED panels) ---------- */
+  .stats-block{ display:flex; gap:28px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; }
+  .stat-card{
+    width:320px; height:170px; border-radius:20px; padding:18px; text-align:center;
+    background: linear-gradient(135deg, rgba(9,30,80,0.6), rgba(20,40,70,0.35));
+    border:1px solid rgba(59,130,246,0.28);
+    box-shadow: 0 6px 30px rgba(11,116,222,0.12), inset 0 0 30px rgba(255,255,255,0.02);
+    color:#e8f6ff; display:flex; flex-direction:column; justify-content:center; align-items:center;
+    position:relative; overflow:hidden; cursor:default;
+    transition:transform .28s ease, box-shadow .28s ease;
+  }
+  .stat-card:hover{ transform:translateY(-8px); box-shadow:0 20px 60px rgba(11,116,222,0.18) }
+  .stat-card h2{ font-size:44px; margin:0; color:#fff; text-shadow:0 2px 12px rgba(14,165,255,0.08) }
+  .stat-card p{ margin:8px 0 0; font-size:15px; color:#dcefff; letter-spacing:0.6px }
 
-    .year-marker {
-        display: flex;
-        align-items: center;
-        margin: 60px 0;
-        position: relative;
-        opacity: 0;
-    }
+  /* moving glass reflection */
+  .stat-card::after{
+    content:""; position:absolute; left:-30%; top:-50%; width:160%; height:220%;
+    background: linear-gradient(70deg, transparent 30%, rgba(255,255,255,0.12) 48%, rgba(255,255,255,0.02) 55%, transparent 70%);
+    transform:rotate(18deg); animation: shimmer 9s linear infinite;
+  }
+  @keyframes shimmer{ 0%{transform:translateX(-100%) rotate(18deg)} 100%{transform:translateX(100%) rotate(18deg)} }
 
-    .year-marker::before {
-        content: "";
-        width: 16px;
-        height: 16px;
-        background: #3b82f6;
-        box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
-        border-radius: 50%;
-        position: absolute;
-        left: -100px;
-    }
+  /* small HUD circles + interactions */
+  .hud-circle{ position:absolute; width:14px; height:14px; border-radius:50%; background:rgba(14,165,255,0.12); border:1px solid rgba(14,165,255,0.18); box-shadow:0 0 10px rgba(14,165,255,0.06) }
 
-    .year-label {
-        font-size: 32px;
-        font-weight: 700;
-    }
+  /* ---------- timeline (with left-shifted blue line + wake effect) ---------- */
+  .timeline-wrap{ position:relative; margin-top:40px; padding-left:180px; max-width:1100px; margin-left:auto; margin-right:auto; }
+  .timeline-line{ position:absolute; left:80px; top:0; bottom:0; width:6px; border-radius:6px;
+    background: linear-gradient(180deg, rgba(14,165,255,0.95), rgba(59,130,246,0.95));
+    box-shadow:0 0 32px rgba(14,165,255,0.45);
+    z-index:2;
+  }
+  /* wake (animated SVG-like trail) */
+  .timeline-wake{ position:absolute; left:80px; width:260px; height:100%; transform-origin:left center; z-index:1; pointer-events:none; opacity:0.25; mix-blend-mode:screen; }
 
-    /* ======================
-       CARDS (GLASS LED STYLE)
-       ====================== */
+  .year-block{ position:relative; margin:52px 0; padding-left:26px; z-index:10; display:flex; gap:16px; align-items:flex-start; }
+  .year-dot{ position:absolute; left:-104px; top:0; width:18px; height:18px; border-radius:50%;
+    background:var(--blue-2); box-shadow:0 0 18px rgba(59,130,246,0.9), 0 0 6px rgba(14,165,255,0.6);
+  }
+  .year-header{ font-size:22px; font-weight:700; cursor:pointer; user-select:none; display:flex; align-items:center; gap:10px; color:#eef7ff }
+  .year-header .mini{ font-size:13px; color:#bfe7ff; font-weight:600; opacity:0.9 }
+  .results{ max-height:0; overflow:hidden; transition:max-height .45s ease, padding .2s; margin-top:10px; }
+  .results.open{ max-height:420px; padding-top:8px; }
+  .results ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px }
+  .results li{ background: rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; color:#d7eaff; font-weight:600; border-left:3px solid rgba(255,255,255,0.02) }
 
-    .cards {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin-top: 100px;
-        padding: 20px;
-    }
+  /* hover micro-interactions */
+  .year-block:hover .year-dot{ transform:scale(1.12); box-shadow:0 0 30px rgba(59,130,246,0.95) }
+  .year-header:hover{ color:var(--blue-1); transform:translateX(6px) }
 
-    .card {
-        width: 330px;
-        height: 170px;
-        background: rgba(30, 58, 138, 0.25);
-        border: 1px solid rgba(59, 130, 246, 0.45);
-        border-radius: 22px;
-        backdrop-filter: blur(12px);
-        box-shadow: inset 0 0 20px rgba(59,130,246,0.4), 0 0 20px rgba(59,130,246,0.2);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: 600;
-        color: #cce6ff;
-        transform: translateY(40px);
-        opacity: 0;
-        position: relative;
-        overflow: hidden;
-    }
+  /* ---------- speed boost visuals (inside speed card) ---------- */
+  .speed-boost-line{ position:absolute; height:3px; width:110px; left:-10px; top:50%; transform:translateY(-50%); background:linear-gradient(90deg, transparent, rgba(255,255,255,0.9)); filter:blur(3px); opacity:0; border-radius:2px; }
+  .speed-boost-line.s2{ top:30% }
+  .speed-boost-line.s3{ top:70% }
 
-    /* Glass reflection moving */
-    .card::after {
-        content: "";
-        position: absolute;
-        top: -100%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15), transparent 70%);
-        transform: rotate(25deg);
-        animation: shine 7s infinite ease-in-out;
-    }
-
-    @keyframes shine {
-        0% { transform: translateX(-200%) rotate(25deg); }
-        60% { transform: translateX(200%) rotate(25deg); }
-        100% { transform: translateX(200%) rotate(25deg); }
-    }
-
-    /* SPEED BOOST EFFECT */
-
-    .boost-lines {
-        position: absolute;
-        top: 50%;
-        left: -80px;
-        height: 3px;
-        width: 80px;
-        background: linear-gradient(to right, transparent, white);
-        filter: blur(2px);
-        opacity: 0;
-        transform: translateY(-50%);
-    }
+  /* ---------- responsive ---------- */
+  @media(max-width:900px){
+    .stats-block{ gap:18px }
+    .stat-card{ width:260px; height:150px }
+    .timeline-wrap{ padding-left:120px }
+    .timeline-line{ left:60px }
+    .year-dot{ left:-84px }
+  }
+  @media(max-width:640px){
+    header.nav{ padding:0 12px }
+    .stats-block{ flex-direction:column; align-items:center }
+    .timeline-wrap{ padding-left:70px; margin-top:40px }
+    .timeline-line{ left:36px }
+    .year-dot{ left:-54px }
+  }
 </style>
 </head>
 <body>
 
-<div class="energy-flow"></div>
-
-<!-- TIMELINE -->
-<div class="timeline-container">
-    <div class="timeline-line"></div>
-
-    <div class="year-marker"><div class="year-label">2022</div></div>
-    <div class="year-marker"><div class="year-label">2023</div></div>
-    <div class="year-marker"><div class="year-label">2024</div></div>
-    <div class="year-marker"><div class="year-label">2025</div></div>
+<!-- background video: replace src with your video or remove element if not used -->
+<div class="bg-video" aria-hidden="true">
+  <video autoplay muted loop playsinline>
+    <!-- Replace media/bg.mp4 with your actual path. If missing the gradient energy-flow still appears. -->
+    <source src="media/bg.mp4" type="video/mp4">
+    <!-- fallback: nothing -->
+  </video>
 </div>
 
-<!-- CARDS -->
-<div class="cards">
-    <div class="card">5× World Champion</div>
+<div class="energy-flow" aria-hidden="true"></div>
 
-    <div class="card">4× Formula Foil European Champion</div>
+<!-- Top navigation -->
+<header class="nav">
+  <a class="logo" href="index.html">MG</a>
+  <nav class="links" aria-label="Main navigation">
+    <a href="about.html">About</a>
+    <a href="track_record.html" class="active">Track record</a>
+    <a href="partners.html">Partners</a>
+    <a href="media.html">Media</a>
+    <a href="powerbooks.html">Powerbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-    <div class="card" id="speedCard">
-        <div class="boost-lines" id="boost1"></div>
-        <div class="boost-lines" id="boost2" style="top: 30%;"></div>
-        <div class="boost-lines" id="boost3" style="top: 70%;"></div>
-        Speed Record Holder<br>40 knots (77 km/h)
+<!-- Main content -->
+<main class="hero" role="main">
+  <h1>Achievements</h1>
+  <p class="lead">Track record, championships and speed records — performance and precision.</p>
+
+  <!-- Stats / Glass LED Panels -->
+  <div class="stats-block" role="list">
+    <div class="stat-card" role="listitem" id="card1" aria-label="5 times world champion">
+      <h2>5×</h2>
+      <p>World Champion</p>
+      <div class="hud-circle" style="left:18px; top:16px;"></div>
     </div>
-</div>
+
+    <div class="stat-card" role="listitem" id="card2" aria-label="Formula Wing European Champion">
+      <h2>4×</h2>
+      <p>Formula Wing European Champion</p>
+      <div class="hud-circle" style="right:18px; bottom:16px;"></div>
+    </div>
+
+    <div class="stat-card" role="listitem" id="speedCard" aria-label="Speed record">
+      <h2 id="speedNumber">40.00</h2>
+      <p>Speed Record Holder<br><span style="opacity:.85; font-weight:700">40 knots (77 km/h)</span></p>
+
+      <!-- speed boost visual lines (animated on hover) -->
+      <div class="speed-boost-line s1"></div>
+      <div class="speed-boost-line s2"></div>
+      <div class="speed-boost-line s3"></div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <section class="timeline-wrap" aria-label="Timeline">
+    <!-- blue line -->
+    <div class="timeline-line" aria-hidden="true"></div>
+
+    <!-- SVG wake effect (subtle) -->
+    <svg class="timeline-wake" viewBox="0 0 300 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="g1" x1="0" x2="1">
+          <stop offset="0" stop-color="#60a5fa" stop-opacity="0.85"/>
+          <stop offset="1" stop-color="#0ea5ff" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+      <path id="wakePath" d="M10 0 C80 60 120 120 150 200 C190 320 120 420 100 520 C80 640 120 760 140 880" fill="none" stroke="url(#g1)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.35"/>
+    </svg>
+
+    <!-- Year blocks -->
+    <div class="year-block" data-year="2022">
+      <div class="year-dot" aria-hidden="true"></div>
+      <div>
+        <div class="year-header" tabindex="0" role="button" aria-expanded="false" aria-controls="y2022">2022 <span class="mini">— major wins</span></div>
+        <div class="results" id="y2022" aria-hidden="true">
+          <ul>
+            <li class="world">Wingfoil Racing World Champion</li>
+            <li class="europe">GWA Race European champion</li>
+            <li class="first">1st at GWA World Cup</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-block" data-year="2023">
+      <div class="year-dot" aria-hidden="true"></div>
+      <div>
+        <div class="year-header" tabindex="0" role="button" aria-expanded="false" aria-controls="y2023">2023 <span class="mini">— breakthrough</span></div>
+        <div class="results" id="y2023" aria-hidden="true">
+          <ul>
+            <li class="world">Double Wingfoil Racing World Champion</li>
+            <li class="europe">Formula Wing European champion</li>
+            <li class="first">3× 1st at Wingfoil Racing World Cups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-block" data-year="2024">
+      <div class="year-dot" aria-hidden="true"></div>
+      <div>
+        <div class="year-header" tabindex="0" role="button" aria-expanded="false" aria-controls="y2024">2024 <span class="mini">— dominance</span></div>
+        <div class="results" id="y2024" aria-hidden="true">
+          <ul>
+            <li class="world">Triple Wingfoil Racing World Champion</li>
+            <li class="europe">Double Formula Wing European champion</li>
+            <li class="first">3× 1st at World Cups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="year-block" data-year="2025">
+      <div class="year-dot" aria-hidden="true"></div>
+      <div>
+        <div class="year-header" tabindex="0" role="button" aria-expanded="false" aria-controls="y2025">2025 <span class="mini">— latest</span></div>
+        <div class="results" id="y2025" aria-hidden="true">
+          <ul>
+            <li class="world">Quadruple Wingfoil Racing World Champion</li>
+            <li class="worldcup">Formula Wing World Champion</li>
+            <li class="europe">Triple Formula Wing European champion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- Small footer -->
+<footer style="text-align:center; padding:36px 6vw; color:#9fbff7; opacity:.6; font-size:13px">© Wingfoil Racing / Robert Hadjuk</footer>
 
 <script>
-/* =====================
-   GSAP SCROLL ANIMATIONS
-   ===================== */
+/* ----------------------------
+   Toggle year results (accessible)
+   ---------------------------- */
+document.querySelectorAll('.year-header').forEach(header=>{
+  header.addEventListener('click', ()=> toggleYear(header));
+  header.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggleYear(header); }});
+});
+function toggleYear(header){
+  const targetId = header.getAttribute('aria-controls');
+  const el = document.getElementById(targetId);
+  const expanded = header.getAttribute('aria-expanded') === 'true';
+  header.setAttribute('aria-expanded', String(!expanded));
+  if(!expanded){
+    el.classList.add('open'); el.setAttribute('aria-hidden','false');
+    // animate results reveal a bit with GSAP for premium feel
+    gsap.fromTo(el, {y:10, opacity:0}, {y:0, opacity:1, duration:.45, ease:'power2.out'});
+  } else {
+    el.classList.remove('open'); el.setAttribute('aria-hidden','true');
+  }
+}
 
+/* ----------------------------
+   GSAP scroll animations & micro interactions
+   ---------------------------- */
 gsap.registerPlugin(ScrollTrigger);
 
-// Timeline years
-gsap.utils.toArray('.year-marker').forEach((el, i) => {
-    gsap.to(el, {
-        opacity: 1,
-        x: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-        }
-    });
+// year blocks appear with slight left translation and pulse on reveal
+gsap.utils.toArray('.year-block').forEach((el, i) => {
+  gsap.fromTo(el, {opacity:0, x:-28}, {
+    opacity:1, x:0, duration:0.8, delay:i*0.06, ease:'power3.out',
+    scrollTrigger:{ trigger: el, start:'top 92%' }
+  });
 });
 
-// Cards appear with slide-up
-gsap.utils.toArray('.card').forEach((card, i) => {
-    gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        delay: i * 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: card,
-            start: "top 80%",
-        }
-    });
+// animate wake path stroke-dashoffset for subtle flow along timeline
+const wakePath = document.querySelector('#wakePath');
+if(wakePath){
+  const length = wakePath.getTotalLength();
+  wakePath.style.strokeDasharray = length;
+  wakePath.style.strokeDashoffset = length;
+  gsap.to(wakePath, {
+    strokeDashoffset: 0, duration: 2.5, ease:'power2.out',
+    scrollTrigger:{ trigger: '.timeline-wrap', start: 'top 90%', once:true }
+  });
+  // subtle breathing
+  gsap.to(wakePath, { strokeOpacity: 0.45, duration: 2, yoyo:true, repeat:-1, ease:'sine.inOut' });
+}
+
+/* Cards entrance (glass panels) */
+gsap.utils.toArray('.stat-card').forEach((card, i)=>{
+  gsap.fromTo(card, {y:36, opacity:0}, {
+    y:0, opacity:1, duration:0.9, delay:0.12 + i*0.12, ease:'power3.out',
+    scrollTrigger:{ trigger: card, start:'top 85%' }
+  });
+  // tiny hover micro-interaction for better tactility
+  card.addEventListener('mouseenter', ()=> gsap.to(card,{scale:1.02, boxShadow:'0 30px 80px rgba(11,116,222,0.2)', duration:0.22}) );
+  card.addEventListener('mouseleave', ()=> gsap.to(card,{scale:1, boxShadow:'0 6px 30px rgba(11,116,222,0.12)', duration:0.22}) );
 });
 
-// SPEED BOOST animation on the record card
-ScrollTrigger.create({
-    trigger: "#speedCard",
-    start: "top 80%",
-    onEnter: () => {
-        gsap.to(".boost-lines", {
-            opacity: 1,
-            x: 150,
-            duration: 0.4,
-            stagger: 0.1,
-            ease: "power4.out",
-            onComplete: () => {
-                gsap.to(".boost-lines", { opacity: 0, duration: 0.3 });
-            }
-        });
+/* ----------------------------
+   SPEED counter on hover
+   ---------------------------- */
+const speedCard = document.getElementById('speedCard');
+const speedNumberEl = document.getElementById('speedNumber');
+
+// target value (knots) — change here if needed
+const targetSpeed = 40.00;
+
+let speedTween = null;
+function animateSpeedTo(value, duration=0.9){
+  if(speedTween) speedTween.kill();
+  const obj = { val: parseFloat(speedNumberEl.textContent) || 0 };
+  speedTween = gsap.to(obj, {
+    val: value,
+    duration: duration,
+    ease: "power2.out",
+    onUpdate: () => {
+      speedNumberEl.textContent = obj.val.toFixed(2);
     }
+  });
+}
+
+function animateSpeedReset(duration=0.6){
+  if(speedTween) speedTween.kill();
+  const obj = { val: parseFloat(speedNumberEl.textContent) || targetSpeed };
+  speedTween = gsap.to(obj, {
+    val: targetSpeed,
+    duration: duration,
+    ease: "power2.inOut",
+    onUpdate: () => {
+      speedNumberEl.textContent = obj.val.toFixed(2);
+    }
+  });
+}
+
+// On mouse enter: ramp from 0 to target; on leave: settle to target number (or to 0 if you prefer)
+speedCard.addEventListener('mouseenter', ()=>{
+  // jump quickly from a low value to target, with a little flare
+  animateSpeedTo(targetSpeed, 0.9);
+  // boost visual lines
+  gsap.killTweensOf('.speed-boost-line');
+  gsap.fromTo('.speed-boost-line', {x:-40, opacity:0}, {x:220, opacity:1, duration:0.45, stagger:0.08, ease:'power4.out', onComplete: ()=> {
+    gsap.to('.speed-boost-line',{opacity:0, duration:0.35});
+  }});
+});
+
+// On leave: keep the number visible at target but slightly pulse
+speedCard.addEventListener('mouseleave', ()=>{
+  // animate a tiny settle pulse to emphasize finish
+  gsap.fromTo(speedCard, {scale:1.02}, {scale:1, duration:0.22, ease:'power3.out'});
+  // keep the displayed number at target value
+  animateSpeedReset(0.6);
+});
+
+/* For keyboard accessibility: animate on focus */
+speedCard.setAttribute('tabindex', '0');
+speedCard.addEventListener('focus', ()=> { animateSpeedTo(targetSpeed, 0.95); } );
+speedCard.addEventListener('blur', ()=> { animateSpeedReset(0.6); } );
+
+/* ----------------------------
+   small UX polish: active nav shadow on scroll
+   ---------------------------- */
+const header = document.querySelector('header.nav');
+window.addEventListener('scroll', ()=> {
+  const sc = window.scrollY;
+  if(sc>12) header.style.boxShadow = '0 10px 30px rgba(2,6,23,0.6)';
+  else header.style.boxShadow = 'none';
 });
 </script>
 
