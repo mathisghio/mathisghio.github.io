@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Track Record – Mathis Ghio</title>
+
 <link rel="stylesheet" href="styles.css" />
 
 <style>
@@ -43,27 +44,31 @@ h1 {
 }
 
 .stat-card {
-  background:#111;
+  background:linear-gradient(145deg,#08307c,#0b57c7);
   padding:22px 28px;
-  border-radius:16px;
-  width:240px;
+  border-radius:18px;
+  width:260px;
   text-align:center;
-  border:1px solid rgba(255,255,255,0.07);
+  color:white;
+  box-shadow:0 0 22px rgba(11,116,222,0.28);
   transition:0.3s;
 }
+
 .stat-card:hover {
   transform:translateY(-6px);
-  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  box-shadow:0 10px 32px rgba(11,116,222,0.48);
 }
+
 .stat-card h2 {
-  font-size:40px;
+  font-size:36px;
   margin:0;
-  color:#0b74de;
+  font-weight:700;
 }
+
 .stat-card p {
   margin-top:6px;
   font-size:15px;
-  color:#ccc;
+  color:#e6e6e6;
   letter-spacing:0.5px;
 }
 
@@ -71,22 +76,23 @@ h1 {
 .timeline {
   position:relative;
   margin:40px 0;
-  padding-left:30px;
-  border-left:2px solid #0b74de;
+  padding-left:60px;  /* décalage à gauche pour le trait bleu */
 }
+
 .timeline::before {
   content:'';
   position:absolute;
   top:0;
-  left:-1px;
-  width:2px;
+  left:15px;   /* TRAIT BLEU DECALE À GAUCHE */
+  width:3px;
   height:100%;
   background:#0b74de;
+  box-shadow:0 0 12px rgba(11,116,222,0.8);
 }
 
 .year-block {
   position:relative;
-  margin-bottom:50px;
+  margin-bottom:60px;
 }
 
 .year-header {
@@ -97,20 +103,22 @@ h1 {
   align-items:center;
   gap:12px;
   color:white;
-  transition:color 0.3s;
+  transition:0.3s;
 }
+
 .year-header:hover {
   color:#0a9cff;
+  transform:translateX(6px);
 }
 
 .year-header::before {
   content:'';
-  width:18px;
-  height:18px;
+  width:20px;
+  height:20px;
   border-radius:50%;
   background:#0b74de;
+  box-shadow:0 0 10px rgba(11,116,222,0.9);
   flex-shrink:0;
-  box-shadow:0 0 8px rgba(11,116,222,0.5);
 }
 
 /* ===== RESULTS DROPDOWN ===== */
@@ -118,16 +126,19 @@ h1 {
   max-height:0;
   overflow:hidden;
   transition:max-height 0.5s ease, padding 0.3s ease;
-  margin-left:30px;
+  margin-left:20px;
 }
+
 .results.open {
   max-height:1000px;
   padding-top:10px;
 }
+
 .results ul {
   list-style:none;
   padding-left:0;
 }
+
 .results li {
   padding:10px 12px;
   font-size:15px;
@@ -139,39 +150,40 @@ h1 {
   border-radius:8px;
   transition:all 0.25s;
 }
+
 .results li:hover {
-  background:rgba(11,116,222,0.1);
-  transform:translateX(4px);
+  background:rgba(11,116,222,0.15);
+  transform:translateX(6px);
 }
 
 /* ===== ICON TYPES ===== */
 li.world {color:#ffd700;}
 li.world::before { content:"🌍"; }
+
 li.worldcup {color:#ff9900;}
 li.worldcup::before { content:"🏆"; }
+
 li.first {color:#00ffcc;}
 li.first::before { content:"🥇"; }
+
 li.second {color:#c0c0c0;}
 li.second::before { content:"🥈"; }
+
 li.third {color:#cd7f32;}
 li.third::before { content:"🥉"; }
+
 li.speed {color:#00ffff;}
 li.speed::before { content:"⚡"; }
+
 li.europe {color:#ff66ff;}
 li.europe::before { content:"🏁"; }
-
-/* ===== SCROLL ANIMATIONS ===== */
-.fade-left { opacity:0; transform:translateX(-30px); transition:all 0.8s ease-out; }
-.fade-right { opacity:0; transform:translateX(30px); transition:all 0.8s ease-out; }
-.visible.fade-left, .visible.fade-right { opacity:1; transform:translateX(0); }
 
 /* ===== MOBILE ===== */
 @media(max-width:700px){
   .stats-block { flex-direction:column; align-items:center; }
   h1 { font-size:32px; }
-  .timeline { border-left:none; padding-left:0; }
-  .year-header::before { display:none; }
-  .results { margin-left:0; }
+  .timeline { padding-left:30px; }
+  .timeline::before { left:5px; }
 }
 </style>
 
@@ -179,20 +191,9 @@ li.europe::before { content:"🏁"; }
 function toggleYear(id){
   document.getElementById(id).classList.toggle("open");
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.2 });
-
-  document.querySelectorAll('.stat-card, .year-block').forEach(el => observer.observe(el));
-});
 </script>
 </head>
+
 <body>
 
 <header class="nav">
@@ -207,20 +208,33 @@ document.addEventListener('DOMContentLoaded', () => {
   </nav>
 </header>
 
+
 <section class="page">
+
 <h1>Achievements</h1>
 
 <!-- TOP STATS -->
 <div class="stats-block">
-  <div class="stat-card"><h2>5×</h2><p>World Champion</p></div>
-  <div class="stat-card"><h2>4×</h2><p>European Champion</p></div>
-  <div class="stat-card"><h2>41.40 kts</h2><p>Wingfoil Speed Record</p></div>
+  <div class="stat-card">
+    <h2>5×</h2>
+    <p>World Champion</p>
+  </div>
+
+  <div class="stat-card">
+    <h2>4×</h2>
+    <p>Formula Wing European Champion</p>
+  </div>
+
+  <div class="stat-card">
+    <h2>41.40 kts</h2>
+    <p>Wingfoil Speed Record Holder (77 km/h)</p>
+  </div>
 </div>
 
 <!-- TIMELINE -->
 <div class="timeline">
 
-  <div class="year-block fade-left">
+  <div class="year-block">
     <div class="year-header" onclick="toggleYear('y2022')">2022</div>
     <div class="results" id="y2022">
       <ul>
@@ -233,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <div class="year-block fade-right">
+  <div class="year-block">
     <div class="year-header" onclick="toggleYear('y2023')">2023</div>
     <div class="results" id="y2023">
       <ul>
@@ -248,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <div class="year-block fade-left">
+  <div class="year-block">
     <div class="year-header" onclick="toggleYear('y2024')">2024</div>
     <div class="results" id="y2024">
       <ul>
@@ -262,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <div class="year-block fade-right">
+  <div class="year-block">
     <div class="year-header" onclick="toggleYear('y2025')">2025</div>
     <div class="results" id="y2025">
       <ul>
@@ -278,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
 </div>
+
 </section>
 
 <footer>© Wingfoil Racing / Robert Hadjuk</footer>
