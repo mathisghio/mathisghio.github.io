@@ -157,9 +157,9 @@ let hoverEuro = null;
 card1.addEventListener('mouseenter', () => {
   if (hoverWorld) hoverWorld.kill();
   hoverWorld = animateNumber({
-    from: 0,
-    to: champWorldTarget,
-    duration: 1.0,
+    from: 0, // recommence à 0
+    to: champWorldTarget, // cible exacte
+    duration: 0.9, // rapide
     decimals: 0,
     onUpdate: (v) => champWorldEl.textContent = parseInt(v, 10)
   });
@@ -182,7 +182,7 @@ card2.addEventListener('mouseenter', () => {
   hoverEuro = animateNumber({
     from: 0,
     to: champEuroTarget,
-    duration: 1.0,
+    duration: 0.9,
     decimals: 0,
     onUpdate: (v) => champEuroEl.textContent = parseInt(v, 10)
   });
@@ -504,6 +504,8 @@ speedCard.addEventListener('mouseenter', () => {
   });
   // 2) visual boost lines + card pulse
   playBoostLines();
+  gsap.fromTo(card1, {scale:1}, {scale:1.04, duration:0.2, yoyo:true, repeat:1});
+  gsap.fromTo(card2, {scale:1}, {scale:1.04, duration:0.2, yoyo:true, repeat:1});
   gsap.fromTo(speedCard, {scale:1.01}, {scale:1.03, duration:0.18, yoyo:true, repeat:1, ease:'power2.out'});
 });
 
