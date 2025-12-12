@@ -18,6 +18,9 @@ a:hover {
   color: #4aa0ff;
 }
 
+/* =========================
+   Header / Navigation
+   ========================= */
 header.nav {
   background: #111;
   display: flex;
@@ -140,37 +143,59 @@ h1.visible, h2.visible, p.visible {
    Hero / Buttons / Links
    ========================= */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 40px;
-  padding: 60px 6vw;
-}
-
-.hero h1 { font-size: 52px; margin: 0; color: #0b74de; }
-
-.hero-img {
+  position: relative;
   width: 100%;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s;
+  height: 80vh;
+  background-image: url('images/hero-panorama.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-attachment: fixed; /* effet parallax léger */
 }
 
-.hero-img:hover { transform: scale(1.02); }
+.hero-overlay {
+  text-align: center;
+  color: #fff;
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.hero h1 {
+  font-size: 60px;
+  margin: 0 0 10px 0;
+}
+
+.hero p {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
 
 .btn {
-  background: #0b74de;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  display: inline-block;
-  transition: background 0.3s, transform 0.3s;
+  background:#0b74de; 
+  color:white; 
+  padding:12px 24px; 
+  border-radius:12px; 
+  font-weight:600; 
+  text-decoration:none;
+  transition: all 0.3s;
 }
 
 .btn:hover {
-  background: #4aa0ff;
+  background:#4aa0ff;
   transform: translateY(-2px);
 }
+
+/* =========================
+   FAQ / About Me interactive
+   ========================= */
+.faq-item { background:#111; border-radius:12px; margin-bottom:15px; overflow:hidden; }
+.faq-question { width:100%; text-align:left; padding:16px; font-size:18px; background:#222; color:#fff; border:none; cursor:pointer; outline:none; transition: background 0.3s; }
+.faq-question:hover { background:#0b74de; }
+.faq-answer { padding:16px; display:none; background:#111; }
+.faq-item.active .faq-answer { display:block; }
 
 /* =========================
    Gallery / Sponsors
@@ -185,11 +210,11 @@ h1.visible, h2.visible, p.visible {
    Footer
    ========================= */
 footer {
-  text-align: center;
-  margin-top: 40px;
-  padding: 30px;
-  color: #aaa;
-  font-size: 14px;
+  text-align:center;
+  margin-top:40px;
+  padding:30px;
+  color:#aaa;
+  font-size:14px;
 }
 
 /* =========================
@@ -198,3 +223,15 @@ footer {
 .fade-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s ease-out; }
 .fade-right { opacity: 0; transform: translateX(50px); transition: all 0.8s ease-out; }
 .visible.fade-left, .visible.fade-right { opacity: 1; transform: translateX(0); }
+
+/* =========================
+   Responsive
+   ========================= */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 40px; }
+  .hero p { font-size: 18px; }
+  .hero { height: 60vh; }
+  .about-container { flex-direction: column; }
+  .stats-overview { flex-direction: column; }
+  .gallery img { width: 45%; }
+}
