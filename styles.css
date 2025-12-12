@@ -21,3 +21,57 @@ body{margin:0;font-family:Inter,Arial;background:#0e1114;color:#e8edf2}
 
 /* Footer */
 footer{text-align:center;margin-top:40px;padding:30px;color:#7b8795;font-size:14px}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    margin: 0;
+    color: #fff;
+  }
+
+  a { color: #0b74de; text-decoration: none; transition: color 0.3s; }
+  a:hover { color: #4aa0ff; }
+
+  .page {
+    padding: 60px 6vw;
+    max-width: 900px;
+    margin: auto;
+    background: #111;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  h1, h2, p { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+
+  h1.visible, h2.visible, p.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .about-container, .stats-overview, .pdf-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+  }
+
+  .about-container.visible, .stats-overview.visible, .pdf-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('h1, h2, p, .about-container, .stats-overview, .pdf-section').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
