@@ -5,16 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Partners – Mathis Ghio</title>
 <link rel="stylesheet" href="styles.css" />
+
 <style>
+/* --- PAGE STYLE --- */
 .page {
   padding:60px 6vw;
-  max-width:1000px;
+  max-width:1100px;
   margin:40px auto;
   background:#111;
   border-radius:16px;
   box-shadow:0 8px 30px rgba(0,0,0,0.5);
 }
 
+/* --- TITLES --- */
 h1, h2 {
   color:#0b74de;
   letter-spacing:1px;
@@ -28,14 +31,16 @@ h1.visible, h2.visible {
   transform:translateY(0);
 }
 
+/* --- CATEGORY BLOCKS --- */
 .partner-category {
-  margin-bottom:50px;
+  margin-bottom:60px;
 }
 
+/* --- GRID SYSTEM --- */
 .partner-grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+  gap:40px;
   align-items:center;
   justify-items:center;
   opacity:0;
@@ -47,23 +52,41 @@ h1.visible, h2.visible {
   transform:translateY(0);
 }
 
+/* --- DEFAULT LOGO SIZE --- */
 .partner-grid img {
-  width:160px;
-  height:110px;
+  width:170px;
+  height:115px;
   object-fit:contain;
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
+/* --- MAIN SPONSORS BIGGER --- */
+.partner-category:nth-of-type(1) .partner-grid img {
+  width:220px;
+  height:140px;
+}
+
+/* --- SPECIFIC ADJUSTMENTS FOR SMALLER LOGOS --- */
+img[alt="Ozone"] {
+  width:240px !important;
+}
+img[alt="Overstims"] {
+  width:190px !important;
+}
+img[alt="Ligue Sud"] {
+  width:190px !important;
+}
+img[alt="Departement 13"] {
+  width:190px !important;
+}
+
+/* --- HOVER EFFECT --- */
 .partner-grid img:hover {
   transform:scale(1.1);
   box-shadow:0 8px 30px rgba(0,0,0,0.6);
 }
 
-/* Taille spéciale pour les 3 main sponsors */
-.partner-category:nth-of-type(1) .partner-grid img {
-  width:200px;
-  height:130px;
-}
-
+/* --- FOOTER --- */
 footer {
   text-align:center;
   padding:30px 0;
@@ -73,6 +96,7 @@ footer {
 }
 </style>
 </head>
+
 <body>
 
 <header class="nav">
@@ -90,6 +114,7 @@ footer {
 <section class="page">
 <h1>My Partners</h1>
 
+<!-- MAIN SPONSORS -->
 <div class="partner-category">
   <h2>Main Sponsors</h2>
   <div class="partner-grid">
@@ -99,7 +124,7 @@ footer {
   </div>
 </div>
 
-
+<!-- OTHER PARTNERS -->
 <div class="partner-category">
   <h2>Other Partners</h2>
   <div class="partner-grid">
@@ -117,6 +142,7 @@ footer {
 <footer>© Wingfoil Racing / Robert Hadjuk </footer>
 
 <script>
+/* --- ANIMATION WHEN SCROLLING --- */
 document.addEventListener('DOMContentLoaded', () => {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
