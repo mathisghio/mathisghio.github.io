@@ -5,38 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Partners – Mathis Ghio</title>
 <link rel="stylesheet" href="styles.css" />
+<style>
+.page {
+  padding:60px 6vw;
+  max-width:1000px;
+  margin:40px auto;
+  background:#111;
+  border-radius:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+
+h1 {
+  margin-bottom:40px;
+  color:#0b74de;
+  letter-spacing:1px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px);
+  transition: all 0.8s ease-out;
+}
+h1.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+.sponsor-logos {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:30px;
+  align-items:center;
+  justify-items:center;
+  opacity:0;
+  transform:translateY(30px);
+  transition: all 0.8s ease-out;
+}
+.sponsor-logos.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+.sponsor-logos img {
+  width:150px;
+  height:100px;
+  object-fit:contain;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.sponsor-logos img:hover {
+  transform:scale(1.1);
+  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+}
+
+footer {
+  text-align:center;
+  padding:30px 0;
+  margin-top:40px;
+  color:#aaa;
+  font-size:14px;
+}
+</style>
 </head>
 <body>
-<header class="nav">
-<a class="logo" href="index.html">MG</a>
-<nav>
-<a href="about.html">About</a>
-<a href="track_record.html">Track record</a>
-<a href="partners.html" class="active">Partners</a>
-<a href="media.html">Media</a>
-<a href="powerbooks.html">Powerbooks</a>
-<a href="contact.html">Contact</a>
-</nav>
-</header>
 
+<header class="nav">
+  <a class="logo" href="index.html">MG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="track_record.html">Track record</a>
+    <a href="partners.html" class="active">Partners</a>
+    <a href="media.html">Media</a>
+    <a href="powerbooks.html">Powerbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
 <section class="page">
 <h1>My partners :</h1>
 <div class="sponsor-logos">
-<img src="images/sponsor-ozone.svg" />
-<img src="images/sponsor-Forward-WIP.gif" />
-<img src="images/sponsor-levitaz.png" />
-<img src="images/sponsor-overstims.png" />
-<img src="images/sponsor-FFVoile.png" />
-<img src="images/sponsor-ligue-sud.png" />
-<img src="images/sponsor-INSA.png" />
-<img src="images/sponsor-departement13.png" />
-<img src="images/sponsor-metropole-aix-marseille.png" />
-
+  <img src="images/sponsor-ozone.svg" alt="Ozone">
+  <img src="images/sponsor-Forward-WIP.gif" alt="Forward WIP">
+  <img src="images/sponsor-levitaz.png" alt="Levitaz">
+  <img src="images/sponsor-overstims.png" alt="Overstims">
+  <img src="images/sponsor-FFVoile.png" alt="FFVoile">
+  <img src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
+  <img src="images/sponsor-INSA.png" alt="INSA Lyon">
+  <img src="images/sponsor-departement13.png" alt="Departement 13">
+  <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix-Marseille">
 </div>
 </section>
 
-
 <footer>© Wingfoil Racing / Robert Hadjuk </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(document.querySelector('h1'));
+  observer.observe(document.querySelector('.sponsor-logos'));
+});
+</script>
 </body>
 </html>
