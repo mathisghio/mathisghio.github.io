@@ -6,19 +6,13 @@
 <title>Mathis Ghio – Wingfoil</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
-  <section class="hero">
-  <div class="hero-overlay">
-    <h1>Mathis Ghio</h1>
-    <p>French Wingfoil Rider – 5x World Champion</p>
-    <a class="btn" href="contact.html">Contact / Booking</a>
-  </div>
-</section>
-
 <body>
 
+<!-- Header / Navigation -->
 <header class="nav">
   <a class="logo" href="index.html">MG</a>
   <nav>
+    <a href="index.html" class="active">Home</a>
     <a href="about.html">About</a>
     <a href="track_record.html">Track Record</a>
     <a href="partners.html">Partners</a>
@@ -28,33 +22,82 @@
   </nav>
 </header>
 
+<!-- Hero Section -->
 <section class="hero">
-  <div class="hero-text fade-left">
+  <div class="hero-overlay">
     <h1>Mathis Ghio</h1>
-    <p>French Wingfoil rider – multiple World Champion. Home spot: Marseille.</p>
+    <p>French Wingfoil Rider – 5x World Champion</p>
     <a class="btn" href="contact.html">Contact / Booking</a>
-  </div>
-  <div class="hero-image fade-right">
-    <img class="hero-img" src="images/hero.jpg" alt="Mathis Ghio">
   </div>
 </section>
 
+<!-- About Me FAQ -->
+<section class="page about-me">
+  <h2>About Me</h2>
+
+  <div class="about-container">
+    <div class="about-text">
+      <p>I am Mathis Ghio, a professional wingfoil and sailing athlete from France. Passionate about watersports since childhood.</p>
+
+      <div class="stats-overview">
+        <div class="stat-card">
+          <h2>5x</h2>
+          <p>World Champion</p>
+        </div>
+        <div class="stat-card">
+          <h2>4x</h2>
+          <p>European Champion</p>
+        </div>
+        <div class="stat-card">
+          <h2>41.40 kts</h2>
+          <p>Wingfoil Speed Record (77 km/h)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-photo">
+      <img src="images/mathis-ghio.jpg" alt="Mathis Ghio">
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq" style="margin-top:40px;">
+    <div class="faq-item">
+      <button class="faq-question">How old are you?</button>
+      <div class="faq-answer">
+        <p>I am 23 years old and a professional wingfoil athlete from France.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Training routine?</button>
+      <div class="faq-answer">
+        <p>I train 4 times per week on the water and 3 times per week indoors/outdoors for physical conditioning.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Brands / R&D Teams?</button>
+      <div class="faq-answer">
+        <p>I collaborate with Ozone, Levitaz Hydrofoils, and Forward Wip in their R&D teams.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
 <footer>© Wingfoil Racing / Robert Hadjuk </footer>
 
+<!-- FAQ JS -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.2 });
+const faqs = document.querySelectorAll('.faq-item');
 
-    document.querySelectorAll('h1, h2, p, .hero-text, .hero-image, .about-container, .stats-overview, .pdf-section').forEach(el => {
-      observer.observe(el);
-    });
+faqs.forEach(item => {
+  const question = item.querySelector('.faq-question');
+  question.addEventListener('click', () => {
+    item.classList.toggle('active');
   });
+});
 </script>
 
 </body>
