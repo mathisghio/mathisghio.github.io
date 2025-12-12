@@ -144,6 +144,62 @@
   .speed-boost-line.s2{ top:30% }
   .speed-boost-line.s3{ top:70% }
 
+/* -----------------------------------
+   HOVER for World & European counters
+   ----------------------------------- */
+const card1 = document.getElementById('card1'); // world 5x
+const card2 = document.getElementById('card2'); // euro 4x
+
+let hoverWorld = null;
+let hoverEuro = null;
+
+// WORLD
+card1.addEventListener('mouseenter', () => {
+  if (hoverWorld) hoverWorld.kill();
+  hoverWorld = animateNumber({
+    from: 0,
+    to: champWorldTarget,
+    duration: 1.0,
+    decimals: 0,
+    onUpdate: (v) => champWorldEl.textContent = parseInt(v, 10)
+  });
+});
+
+card1.addEventListener('mouseleave', () => {
+  if (hoverWorld) hoverWorld.kill();
+  animateNumber({
+    from: parseInt(champWorldEl.textContent) || champWorldTarget,
+    to: champWorldTarget,
+    duration: 0.6,
+    decimals: 0,
+    onUpdate: (v) => champWorldEl.textContent = parseInt(v, 10)
+  });
+});
+
+// EUROPE
+card2.addEventListener('mouseenter', () => {
+  if (hoverEuro) hoverEuro.kill();
+  hoverEuro = animateNumber({
+    from: 0,
+    to: champEuroTarget,
+    duration: 1.0,
+    decimals: 0,
+    onUpdate: (v) => champEuroEl.textContent = parseInt(v, 10)
+  });
+});
+
+card2.addEventListener('mouseleave', () => {
+  if (hoverEuro) hoverEuro.kill();
+  animateNumber({
+    from: parseInt(champEuroEl.textContent) || champEuroTarget,
+    to: champEuroTarget,
+    duration: 0.6,
+    decimals: 0,
+    onUpdate: (v) => champEuroEl.textContent = parseInt(v, 10)
+  });
+});
+
+  
   /* ---------- responsive (mobile friendly) ---------- */
   @media(max-width:1000px){
     .hero{ padding-top:110px }
@@ -180,6 +236,7 @@
 </head>
 <body>
 
+  
 <!-- background video: replace src with your video or remove element if not used -->
 <div class="bg-video" aria-hidden="true">
   <video autoplay muted loop playsinline>
@@ -189,6 +246,8 @@
 
 <div class="energy-flow" aria-hidden="true"></div>
 
+
+  
 <!-- Top navigation -->
 <header class="nav">
   <a class="logo" href="index.html">MG</a>
@@ -210,13 +269,13 @@
   <!-- Stats / Glass LED Panels -->
   <div class="stats-block" role="list" aria-label="Top statistics">
     <div class="stat-card" role="listitem" id="card1" aria-label="World champion count" data-target="5">
-      <h2 id="champWorld">0</h2>
+      <h2 id="champWorld"><span id="champWorldVal">0</span><small style="margin-left:6px; font-size:14px; opacity:.85">x</small></h2>
       <p>Race World Champion</p>
       <div class="hud-circle" style="left:12px; top:12px;"></div>
     </div>
 
     <div class="stat-card" role="listitem" id="card2" aria-label="European champion count" data-target="4">
-      <h2 id="champEuro">0</h2>
+      <h2 id="champEuro"><span id="champEuroVal">0</span><small style="margin-left:6px; font-size:14px; opacity:.85">x</small></h2>
       <p>Race European Champion</p>
       <div class="hud-circle" style="right:12px; bottom:12px;"></div>
     </div>
