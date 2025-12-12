@@ -16,8 +16,17 @@ header.nav nav a { margin-left:20px; font-weight:500; }
 header.nav nav a.active, header.nav nav a:hover { color:#0b74de; font-weight:700; }
 
 .page { padding:60px 6vw; max-width:900px; margin:40px auto; background:#111; border-radius:16px; box-shadow:0 8px 30px rgba(0,0,0,0.5); }
-h1 { margin-bottom:30px; color:#0b74de; letter-spacing:1px; }
-p { line-height:1.8; font-size:16px; margin-bottom:16px; }
+
+h1, h2, p {
+  opacity:0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+h1.visible, h2.visible, p.visible {
+  opacity:1;
+  transform: translateY(0);
+}
 
 .about-container { display:flex; flex-wrap:wrap; gap:30px; align-items:flex-start; }
 .about-text { flex:1 1 400px; display:flex; flex-direction:column; gap:16px; }
@@ -32,6 +41,11 @@ p { line-height:1.8; font-size:16px; margin-bottom:16px; }
 .stat-card p { margin:6px 0 0; font-size:14px; letter-spacing:0.5px; }
 
 footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-size:14px; }
+
+@media (max-width:768px){
+  .about-container{flex-direction:column;}
+  .stats-overview{flex-direction:column;}
+}
 </style>
 </head>
 <body>
@@ -39,6 +53,7 @@ footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-si
 <header class="nav">
   <a class="logo" href="index.html">MG</a>
   <nav>
+    <a href="index.html">Home</a>
     <a href="about.html" class="active">About</a>
     <a href="track_record.html">Track Record</a>
     <a href="partners.html">Partners</a>
@@ -50,6 +65,7 @@ footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-si
 
 <section class="page">
 <h1>About</h1>
+
 <div class="about-container">
   <div class="about-text">
     <p>Professional wingfoil and sailing athlete. Passionate about watersports since childhood.</p>
@@ -68,8 +84,24 @@ footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-si
     <img src="images/mathis-ghio.jpg" alt="Mathis Ghio">
   </div>
 </div>
+
 </section>
 
-<footer>© Wingfoil Racing / Robert Hadjuk </footer>
+<footer>© Wingfoil Racing / Robert Hadjuk</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('h1, h2, p').forEach(el => observer.observe(el));
+});
+</script>
+
 </body>
 </html>
