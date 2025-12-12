@@ -68,54 +68,50 @@ h1 {
 }
 
 /* ===== TIMELINE ===== */
-/* ===== TIMELINE ===== */
 .timeline {
-  position: relative;
-  margin: 40px 0;
-  padding-left: 20px;
+  position:relative;
+  margin:40px 0;
+  padding-left:30px;
+  border-left:2px solid #0b74de;
 }
-
 .timeline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10px;
-  width: 2px;
-  height: 100%;
-  background: #0b74de;
+  content:'';
+  position:absolute;
+  top:0;
+  left:-1px;
+  width:2px;
+  height:100%;
+  background:#0b74de;
 }
 
 .year-block {
-  position: relative;
-  margin-bottom: 50px;
+  position:relative;
+  margin-bottom:50px;
 }
 
 .year-header {
-  font-size: 26px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  color: white;
-  transition: color 0.3s;
+  font-size:26px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:white;
+  transition:color 0.3s;
 }
-
 .year-header:hover {
-  color: #0a9cff;
+  color:#0a9cff;
 }
 
 .year-header::before {
-  content: '';
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #0b74de;
-  flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(11, 116, 222, 0.5);
-  margin-left: -20px; /* aligne sur la ligne verticale */
+  content:'';
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#0b74de;
+  flex-shrink:0;
+  box-shadow:0 0 8px rgba(11,116,222,0.5);
 }
-
 
 /* ===== RESULTS DROPDOWN ===== */
 .results {
