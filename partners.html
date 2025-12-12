@@ -7,7 +7,41 @@
 <link rel="stylesheet" href="styles.css" />
 
 <style>
-/* --- PAGE STYLE --- */
+/* =========================================================
+   🔥 FOND ANIMÉ SOMBRE (minimal, pro)
+========================================================= */
+body {
+  background:#000;
+  margin:0;
+  overflow-x:hidden;
+}
+
+body::before {
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:200%;
+  height:200%;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(0, 122, 255, 0.07) 0px,
+      rgba(0, 122, 255, 0.07) 2px,
+      transparent 2px,
+      transparent 80px
+    );
+  animation: moveLines 18s linear infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+@keyframes moveLines {
+  from { transform:translateX(0) translateY(0); }
+  to   { transform:translateX(-300px) translateY(-300px); }
+}
+
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
 .page {
   padding:60px 6vw;
   max-width:1100px;
@@ -17,7 +51,7 @@
   box-shadow:0 8px 30px rgba(0,0,0,0.5);
 }
 
-/* --- TITLES --- */
+/* TITLES */
 h1, h2 {
   color:#0b74de;
   letter-spacing:1px;
@@ -31,12 +65,12 @@ h1.visible, h2.visible {
   transform:translateY(0);
 }
 
-/* --- CATEGORY BLOCKS --- */
+/* CATEGORY BLOCKS */
 .partner-category {
   margin-bottom:60px;
 }
 
-/* --- GRID SYSTEM --- */
+/* GRID SYSTEM */
 .partner-grid {
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
@@ -52,7 +86,7 @@ h1.visible, h2.visible {
   transform:translateY(0);
 }
 
-/* --- DEFAULT LOGO SIZE --- */
+/* DEFAULT LOGO SIZE */
 .partner-grid img {
   width:170px;
   height:115px;
@@ -60,36 +94,58 @@ h1.visible, h2.visible {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* --- MAIN SPONSORS BIGGER --- */
+/* -------------------------------------------
+   MAIN SPONSORS (bigger)
+------------------------------------------- */
 .partner-category:nth-of-type(1) .partner-grid img {
-  width:220px;
-  height:140px;
+  width:240px;
+  height:150px;
 }
 
-/* --- SPECIFIC ADJUSTMENTS FOR SMALLER LOGOS --- */
-img[alt="Ozone"] {
-  width:240px !important;
-}
-img[alt="Overstims"] {
-  width:195px !important;
-}
-img[alt="Ligue Sud"] {
-  width:350px !important;
-}
-img[alt="Departement 13"] {
-  width:500px !important;
-}
-img[alt="Metropole Aix-Marseille"] {
-  width:300px !important;
-}
+/* ==========================================
+   INDIVIDUAL SIZE BOOST (your request)
+========================================== */
+img[alt="Ozone"]                  { width:270px !important; }
+img[alt="Overstims"]              { width:210px !important; }
+img[alt="Ligue Sud"]              { width:210px !important; }
+img[alt="Departement 13"]         { width:210px !important; }
+img[alt="Metropole Aix-Marseille"]{ width:220px !important; }
 
-/* --- HOVER EFFECT --- */
+/* -------------------------------------------
+   HOVER EFFECT
+------------------------------------------- */
 .partner-grid img:hover {
-  transform:scale(1.1);
-  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  transform:scale(1.09);
+  box-shadow:0 10px 30px rgba(0,0,0,0.7);
 }
 
-/* --- FOOTER --- */
+/* =========================================================
+   🔵 BANDEAU SPONSORS DÉFILANT
+========================================================= */
+.sponsor-marquee {
+  width:100%;
+  overflow:hidden;
+  margin:60px 0;
+}
+
+.sponsor-track {
+  display:flex;
+  gap:60px;
+  animation: scrollSponsors 20s linear infinite;
+}
+
+.sponsor-track img {
+  height:70px;
+  object-fit:contain;
+  filter:brightness(0.9);
+}
+
+@keyframes scrollSponsors {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+
+/* ========================================================= */
 footer {
   text-align:center;
   padding:30px 0;
@@ -115,9 +171,12 @@ footer {
 </header>
 
 <section class="page">
+
 <h1>My Partners</h1>
 
-<!-- MAIN SPONSORS -->
+<!-- ========================
+     MAIN SPONSORS
+========================= -->
 <div class="partner-category">
   <h2>Main Sponsors</h2>
   <div class="partner-grid">
@@ -127,7 +186,9 @@ footer {
   </div>
 </div>
 
-<!-- OTHER PARTNERS -->
+<!-- ========================
+     OTHER PARTNERS
+========================= -->
 <div class="partner-category">
   <h2>Other Partners</h2>
   <div class="partner-grid">
@@ -137,6 +198,34 @@ footer {
     <img src="images/sponsor-departement13.png" alt="Departement 13">
     <img src="images/LAMETROPOLE.png" alt="Metropole Aix-Marseille">
     <img src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
+  </div>
+</div>
+
+<!-- ============================
+     ⭐ BANDEAU SPONSORS (défilant)
+============================ -->
+<div class="sponsor-marquee">
+  <div class="sponsor-track">
+    <img src="images/sponsor-ozone.svg">
+    <img src="images/sponsor-levitaz.png">
+    <img src="images/WIP.png">
+    <img src="images/sponsor-overstims.png">
+    <img src="images/sponsor-FFVoile.png">
+    <img src="images/sponsor-INSA.png">
+    <img src="images/sponsor-departement13.png">
+    <img src="images/LAMETROPOLE.png">
+    <img src="images/sponsor-ligue-sud.png">
+
+    <!-- duplicate for infinite loop -->
+    <img src="images/sponsor-ozone.svg">
+    <img src="images/sponsor-levitaz.png">
+    <img src="images/WIP.png">
+    <img src="images/sponsor-overstims.png">
+    <img src="images/sponsor-FFVoile.png">
+    <img src="images/sponsor-INSA.png">
+    <img src="images/sponsor-departement13.png">
+    <img src="images/LAMETROPOLE.png">
+    <img src="images/sponsor-ligue-sud.png">
   </div>
 </div>
 
