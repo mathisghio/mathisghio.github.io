@@ -192,8 +192,8 @@ nav a.active::after{
   .speed-boost-line{
     position:absolute; height:3px; width:110px; left:-10px; top:50%; transform:translateY(-50%); background:linear-gradient(90deg, transparent, rgba(255,255,255,0.9)); filter:blur(3px); opacity:0; border-radius:2px;
   }
-  .speed-boost-line.s2{ top:30% }
-  .speed-boost-line.s3{ top:70% }
+  .speed-boost-line.s2{ top:20% }
+  .speed-boost-line.s3{ top:50% }
 
   /* ---------- responsive (mobile friendly) ---------- */
   @media(max-width:1000px){
@@ -579,7 +579,7 @@ speedCard.addEventListener('blur', ()=> {
   animateNumber({
     from: parseFloat(speedValEl.textContent) || speedTarget,
     to: speedTarget,
-    duration: 0.6,
+    duration: 1,
     decimals: speedDecimals,
     onUpdate: (v) => speedValEl.textContent = Number(v).toFixed(speedDecimals)
   });
