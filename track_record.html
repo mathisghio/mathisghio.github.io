@@ -1,300 +1,242 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Track Record – Mathis Ghio</title>
+<meta charset="UTF-8">
+<title>Timeline Ultra Premium</title>
 
-<link rel="stylesheet" href="styles.css" />
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
-/* ===== GLOBAL ===== */
-body {
-  background:#0a0a0a;
-  color:#fff;
-  margin:0;
-  font-family:'Inter', sans-serif;
-}
+    body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background: #050507;
+        color: white;
+        overflow-x: hidden;
+    }
 
-.page {
-  max-width:1100px;
-  margin:40px auto;
-  padding:60px 6vw;
-  background:#111;
-  border-radius:18px;
-  box-shadow:0 10px 35px rgba(0,0,0,0.5);
-}
+    /* ===========================
+       ENERGY FLOW ANIMATION (BG)
+       =========================== */
 
-/* ===== HEADER ===== */
-h1 {
-  text-align:center;
-  font-size:42px;
-  color:#0b74de;
-  margin-bottom:40px;
-  letter-spacing:1.5px;
-}
+    .energy-flow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 50%, rgba(0,140,255,0.25), transparent 60%),
+                    radial-gradient(circle at 70% 60%, rgba(0,90,255,0.20), transparent 70%),
+                    linear-gradient(120deg, rgba(0,180,255,0.25), transparent);
+        filter: blur(80px);
+        animation: moveFlow 18s infinite linear;
+        z-index: -1;
+        opacity: 0.7;
+    }
 
-/* ===== TOP STATS ===== */
-.stats-block {
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  flex-wrap:wrap;
-  margin-bottom:60px;
-}
+    @keyframes moveFlow {
+        0% { transform: translate(0,0) scale(1); }
+        50% { transform: translate(-20%, -10%) scale(1.2); }
+        100% { transform: translate(0,0) scale(1); }
+    }
 
-.stat-card {
-  background:linear-gradient(145deg,#08307c,#0b57c7);
-  padding:22px 28px;
-  border-radius:18px;
-  width:260px;
-  text-align:center;
-  color:white;
-  box-shadow:0 0 22px rgba(11,116,222,0.28);
-  transition:0.3s;
-}
+    /* ================
+       TIMELINE
+       ================ */
 
-.stat-card:hover {
-  transform:translateY(-6px);
-  box-shadow:0 10px 32px rgba(11,116,222,0.48);
-}
+    .timeline-container {
+        position: relative;
+        padding-left: 160px;
+        margin-top: 120px;
+    }
 
-.stat-card h2 {
-  font-size:36px;
-  margin:0;
-  font-weight:700;
-}
+    .timeline-line {
+        position: absolute;
+        left: 80px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(#3b82f6, #60a5fa);
+        border-radius: 2px;
+        box-shadow: 0 0 20px #3b82f6;
+    }
 
-.stat-card p {
-  margin-top:6px;
-  font-size:15px;
-  color:#e6e6e6;
-  letter-spacing:0.5px;
-}
+    .year-marker {
+        display: flex;
+        align-items: center;
+        margin: 60px 0;
+        position: relative;
+        opacity: 0;
+    }
 
-/* ===== TIMELINE ===== */
-.timeline {
-  position:relative;
-  margin:40px 0;
-  padding-left:60px;  /* décalage à gauche pour le trait bleu */
-}
+    .year-marker::before {
+        content: "";
+        width: 16px;
+        height: 16px;
+        background: #3b82f6;
+        box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
+        border-radius: 50%;
+        position: absolute;
+        left: -100px;
+    }
 
-.timeline::before {
-  content:'';
-  position:absolute;
-  top:0;
-  left:15px;   /* TRAIT BLEU DECALE À GAUCHE */
-  width:3px;
-  height:100%;
-  background:#0b74de;
-  box-shadow:0 0 12px rgba(11,116,222,0.8);
-}
+    .year-label {
+        font-size: 32px;
+        font-weight: 700;
+    }
 
-.year-block {
-  position:relative;
-  margin-bottom:60px;
-}
+    /* ======================
+       CARDS (GLASS LED STYLE)
+       ====================== */
 
-.year-header {
-  font-size:26px;
-  font-weight:600;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  color:white;
-  transition:0.3s;
-}
+    .cards {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 100px;
+        padding: 20px;
+    }
 
-.year-header:hover {
-  color:#0a9cff;
-  transform:translateX(6px);
-}
+    .card {
+        width: 330px;
+        height: 170px;
+        background: rgba(30, 58, 138, 0.25);
+        border: 1px solid rgba(59, 130, 246, 0.45);
+        border-radius: 22px;
+        backdrop-filter: blur(12px);
+        box-shadow: inset 0 0 20px rgba(59,130,246,0.4), 0 0 20px rgba(59,130,246,0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        color: #cce6ff;
+        transform: translateY(40px);
+        opacity: 0;
+        position: relative;
+        overflow: hidden;
+    }
 
-.year-header::before {
-  content:'';
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:#0b74de;
-  box-shadow:0 0 10px rgba(11,116,222,0.9);
-  flex-shrink:0;
-}
+    /* Glass reflection moving */
+    .card::after {
+        content: "";
+        position: absolute;
+        top: -100%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15), transparent 70%);
+        transform: rotate(25deg);
+        animation: shine 7s infinite ease-in-out;
+    }
 
-/* ===== RESULTS DROPDOWN ===== */
-.results {
-  max-height:0;
-  overflow:hidden;
-  transition:max-height 0.5s ease, padding 0.3s ease;
-  margin-left:20px;
-}
+    @keyframes shine {
+        0% { transform: translateX(-200%) rotate(25deg); }
+        60% { transform: translateX(200%) rotate(25deg); }
+        100% { transform: translateX(200%) rotate(25deg); }
+    }
 
-.results.open {
-  max-height:1000px;
-  padding-top:10px;
-}
+    /* SPEED BOOST EFFECT */
 
-.results ul {
-  list-style:none;
-  padding-left:0;
-}
-
-.results li {
-  padding:10px 12px;
-  font-size:15px;
-  color:#ccc;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-radius:8px;
-  transition:all 0.25s;
-}
-
-.results li:hover {
-  background:rgba(11,116,222,0.15);
-  transform:translateX(6px);
-}
-
-/* ===== ICON TYPES ===== */
-li.world {color:#ffd700;}
-li.world::before { content:"🌍"; }
-
-li.worldcup {color:#ff9900;}
-li.worldcup::before { content:"🏆"; }
-
-li.first {color:#00ffcc;}
-li.first::before { content:"🥇"; }
-
-li.second {color:#c0c0c0;}
-li.second::before { content:"🥈"; }
-
-li.third {color:#cd7f32;}
-li.third::before { content:"🥉"; }
-
-li.speed {color:#00ffff;}
-li.speed::before { content:"⚡"; }
-
-li.europe {color:#ff66ff;}
-li.europe::before { content:"🏁"; }
-
-/* ===== MOBILE ===== */
-@media(max-width:700px){
-  .stats-block { flex-direction:column; align-items:center; }
-  h1 { font-size:32px; }
-  .timeline { padding-left:30px; }
-  .timeline::before { left:5px; }
-}
+    .boost-lines {
+        position: absolute;
+        top: 50%;
+        left: -80px;
+        height: 3px;
+        width: 80px;
+        background: linear-gradient(to right, transparent, white);
+        filter: blur(2px);
+        opacity: 0;
+        transform: translateY(-50%);
+    }
 </style>
-
-<script>
-function toggleYear(id){
-  document.getElementById(id).classList.toggle("open");
-}
-</script>
 </head>
-
 <body>
 
-<header class="nav">
-  <a class="logo" href="index.html">MG</a>
-  <nav>
-    <a href="about.html">About</a>
-    <a href="track_record.html" class="active">Track record</a>
-    <a href="partners.html">Partners</a>
-    <a href="media.html">Media</a>
-    <a href="powerbooks.html">Powerbooks</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
-
-
-<section class="page">
-
-<h1>Achievements</h1>
-
-<!-- TOP STATS -->
-<div class="stats-block">
-  <div class="stat-card">
-    <h2>5×</h2>
-    <p>World Champion</p>
-  </div>
-
-  <div class="stat-card">
-    <h2>4×</h2>
-    <p>Formula Wing European Champion</p>
-  </div>
-
-  <div class="stat-card">
-    <h2>41.40 kts</h2>
-    <p>Wingfoil Speed Record Holder (77 km/h)</p>
-  </div>
-</div>
+<div class="energy-flow"></div>
 
 <!-- TIMELINE -->
-<div class="timeline">
+<div class="timeline-container">
+    <div class="timeline-line"></div>
 
-  <div class="year-block">
-    <div class="year-header" onclick="toggleYear('y2022')">2022</div>
-    <div class="results" id="y2022">
-      <ul>
-        <li class="world">Wingfoil Racing World champion</li>
-        <li class="europe">GWA Race European champion</li>
-        <li class="europe">Wingfoil Racing Vice European champion</li>
-        <li class="first">1st at GWA World Cup</li>
-        <li class="first">1st at Wingfoil Racing Class World Cup</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="year-block">
-    <div class="year-header" onclick="toggleYear('y2023')">2023</div>
-    <div class="results" id="y2023">
-      <ul>
-        <li class="world">Double Wingfoil Racing World champion</li>
-        <li class="europe">Formula Wing European champion</li>
-        <li class="first">3× 1st at Wingfoil Racing World Cups</li>
-        <li class="second">1× 2nd at World Cup</li>
-        <li class="first">1× 1st at GWA World Cup</li>
-        <li class="second">2nd at Defi Wing</li>
-        <li class="first">1st at Defi Wing Superstar</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="year-block">
-    <div class="year-header" onclick="toggleYear('y2024')">2024</div>
-    <div class="results" id="y2024">
-      <ul>
-        <li class="world">Triple Wingfoil Racing World champion</li>
-        <li class="europe">Double Formula Wing European champion</li>
-        <li class="first">3× 1st at World Cups</li>
-        <li class="second">1× 2nd at World Cup</li>
-        <li class="third">1× 3rd at World Cup</li>
-        <li class="first">1st at Defi Wing</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="year-block">
-    <div class="year-header" onclick="toggleYear('y2025')">2025</div>
-    <div class="results" id="y2025">
-      <ul>
-        <li class="world">Quadruple Wingfoil Racing World champion</li>
-        <li class="worldcup">Formula Wing World Champion</li>
-        <li class="europe">Triple Formula Wing European champion</li>
-        <li class="first">2× 1st at World Cups</li>
-        <li class="second">1× 2nd at World Cup</li>
-        <li class="third">1× 3rd at World Cup</li>
-        <li class="first">1st at Defi Wing</li>
-      </ul>
-    </div>
-  </div>
-
+    <div class="year-marker"><div class="year-label">2022</div></div>
+    <div class="year-marker"><div class="year-label">2023</div></div>
+    <div class="year-marker"><div class="year-label">2024</div></div>
+    <div class="year-marker"><div class="year-label">2025</div></div>
 </div>
 
-</section>
+<!-- CARDS -->
+<div class="cards">
+    <div class="card">5× World Champion</div>
 
-<footer>© Wingfoil Racing / Robert Hadjuk</footer>
+    <div class="card">4× Formula Foil European Champion</div>
+
+    <div class="card" id="speedCard">
+        <div class="boost-lines" id="boost1"></div>
+        <div class="boost-lines" id="boost2" style="top: 30%;"></div>
+        <div class="boost-lines" id="boost3" style="top: 70%;"></div>
+        Speed Record Holder<br>40 knots (77 km/h)
+    </div>
+</div>
+
+<script>
+/* =====================
+   GSAP SCROLL ANIMATIONS
+   ===================== */
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Timeline years
+gsap.utils.toArray('.year-marker').forEach((el, i) => {
+    gsap.to(el, {
+        opacity: 1,
+        x: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+        }
+    });
+});
+
+// Cards appear with slide-up
+gsap.utils.toArray('.card').forEach((card, i) => {
+    gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        delay: i * 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+        }
+    });
+});
+
+// SPEED BOOST animation on the record card
+ScrollTrigger.create({
+    trigger: "#speedCard",
+    start: "top 80%",
+    onEnter: () => {
+        gsap.to(".boost-lines", {
+            opacity: 1,
+            x: 150,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: "power4.out",
+            onComplete: () => {
+                gsap.to(".boost-lines", { opacity: 0, duration: 0.3 });
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
