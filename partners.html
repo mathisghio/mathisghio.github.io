@@ -34,7 +34,7 @@ h1.visible, h2.visible {
 
 .partner-grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
   gap:30px;
   align-items:center;
   justify-items:center;
@@ -48,14 +48,20 @@ h1.visible, h2.visible {
 }
 
 .partner-grid img {
-  width:150px;
-  height:100px;
+  width:160px;
+  height:110px;
   object-fit:contain;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .partner-grid img:hover {
   transform:scale(1.1);
   box-shadow:0 8px 30px rgba(0,0,0,0.6);
+}
+
+/* Taille spéciale pour les 3 main sponsors */
+.partner-category:nth-of-type(1) .partner-grid img {
+  width:200px;
+  height:130px;
 }
 
 footer {
@@ -92,7 +98,6 @@ footer {
     <img src="images/sponsor-Forward-WIP.gif" alt="Forward WIP">
   </div>
 </div>
-
 
 
 <div class="partner-category">
