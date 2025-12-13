@@ -124,8 +124,10 @@ header.nav nav a.active::after{
 .nav-logo img {
   height:64px;   /* ← taille idéale desktop */
   width:auto;
+   max-width:240px;    /* ← AUGMENTE la longueur ici */
+  object-fit:contain;
   border-radius:8px;
-  box-shadow:0 0 14px rgba(0,122,255,0.45);
+  box-shadow:0 0 16px rgba(0,122,255,0.45);
 }
    
 @media (max-width:768px) {
