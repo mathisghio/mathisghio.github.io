@@ -122,11 +122,25 @@ header.nav nav a.active::after{
 }
 
 .nav-logo img {
-  height:42px;
+  height:64px;   /* ← taille idéale desktop */
   width:auto;
-  border-radius:6px;
-  box-shadow:0 0 10px rgba(0,122,255,0.4);
+  border-radius:8px;
+  box-shadow:0 0 14px rgba(0,122,255,0.45);
 }
+   
+@media (max-width:768px) {
+  .nav-logo img {
+    height:52px;
+  }
+}
+header.nav {
+  height:76px;
+}
+
+.nav-logo img {
+  height:70px;
+}
+
 
 /* Text part (optional) */
 .nav-logo span {
@@ -152,6 +166,15 @@ header.nav nav a.active::after{
 }
 .page{
   margin-top:120px;
+}
+
+   .page {
+  animation: pageFade 0.9s ease forwards;
+}
+
+@keyframes pageFade {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:none; }
 }
 
 /* Fade animation (same as Track Record) */
