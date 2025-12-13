@@ -165,6 +165,19 @@ h1, h2, p {
 /* =========================================================
    ABOUT LAYOUT
 ========================================================= */
+.about-header{
+  margin-bottom:40px;
+}
+
+.about-subtitle{
+  max-width:520px;
+  font-size:17px;
+  line-height:1.6;
+  color:#9ccaff;
+  opacity:0.9;
+}
+
+   
 .about-container {
   display:flex;
   flex-wrap:wrap;
@@ -172,6 +185,32 @@ h1, h2, p {
   margin-top:20px;
 }
 
+.about-text{
+  flex:1.1;
+}
+
+.about-text p{
+   line-height:1.9;
+   font-size:16.5px;
+   margin-bottom:18px;
+   color:#dbeafe;
+}
+
+   .signature-quote{
+  margin:32px 0 10px;
+  padding-left:20px;
+  border-left:3px solid #0ea5ff;
+  font-size:18px;
+  font-style:italic;
+  color:#d9ecff;
+  opacity:0.9;
+}
+
+
+.about-photo{
+  flex:0.9;
+}
+   
 /* Photo */
 .about-photo img {
   width:100%;
@@ -197,7 +236,7 @@ h1, h2, p {
   flex:1 1 150px;
   padding:20px;
   border-radius:16px;
-  background:#0b0f16;
+  background: linear-gradient(135deg, rgba(9,30,80,0.6), rgba(20,40,70,0.35));
   border:1px solid rgba(0,122,255,0.25);
   box-shadow:0 0 25px rgba(0,122,255,0.15);
   text-align:center;
@@ -205,7 +244,38 @@ h1, h2, p {
   overflow:hidden;
   transition:0.35s ease;
 }
+   .stat-card::before{
+  content:"";
+  position:absolute;
+  left:-30%;
+  top:-50%;
+  width:160%;
+  height:220%;
+  background: linear-gradient(
+    70deg,
+    transparent 30%,
+    rgba(255,255,255,0.10 note) 48%,
+    rgba(255,255,255,0.02) 55%,
+    transparent 70%
+  );
+  transform:rotate(18deg);
+  animation: shimmer 9s linear infinite;
+}
 
+
+.stat-card::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:radial-gradient(circle at top, rgba(14,165,255,0.12), transparent 60%);
+  opacity:0;
+  transition:opacity .35s ease;
+}
+
+.stat-card:hover::after{
+  opacity:1;
+}
+   
 .stat-card:hover {
   transform:translateY(-6px);
   box-shadow:0 0 40px rgba(0,122,255,0.5);
@@ -266,7 +336,14 @@ footer {
 
 <section class="page">
 
-<h1>About</h1>
+<div class="about-header">
+  <h1>About</h1>
+  <p class="about-subtitle">
+    Wingfoil athlete — performance, innovation and high-level competition
+  </p>
+</div>
+
+   
 
 <div class="about-container">
 
@@ -276,6 +353,10 @@ footer {
     <p>R&D collaboration with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions.</p>
     <p>Focused on performance, innovation, and sharing wingfoil expertise globally.</p>
 
+<blockquote class="signature-quote">
+  “Performance is built in silence. Results speak on the water.”
+</blockquote>
+     
     <div class="stats-overview">
       <div class="stat-card"><h2>5x</h2><p>World Champion</p></div>
       <div class="stat-card"><h2>4x</h2><p>European Champion</p></div>
@@ -283,7 +364,7 @@ footer {
     </div>
   </div>
 
-  <div class="about-photo">
+  <div class="about-photo parallax-photo">
     <img src="images/mathis-ghio.jpg" alt="Mathis Ghio">
   </div>
 
@@ -303,6 +384,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('h1, p, .stat-card').forEach(el => obs.observe(el));
 });
+
+   const photo = document.querySelector('.parallax-photo img');
+
+window.addEventListener('mousemove', (e) => {
+  const x = (window.innerWidth / 2 - e.clientX) / 40;
+  const y = (window.innerHeight / 2 - e.clientY) / 40;
+  photo.style.transform = `translate(${x}px, ${y}px) scale(1.03)`;
+});
+
 </script>
 
 </body>
