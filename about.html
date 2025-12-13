@@ -213,16 +213,15 @@ h1, h2, p {
   transform:rotate(-1.5deg);
 }
 
-
-
-   .signature-quote{
-  margin:32px 0 10px;
-  padding-left:20px;
-  border-left:3px solid #0ea5ff;
+   .editorial-highlight{
   font-size:18px;
-  font-style:italic;
-  color:#d9ecff;
-  opacity:0.9;
+  line-height:1.6;
+  margin:28px 0 32px;
+  color:#e6f0ff;
+  font-weight:500;
+  letter-spacing:0.3px;
+  max-width:520px;
+  opacity:0.95;
 }
 
 
@@ -242,6 +241,21 @@ h1, h2, p {
   transform:scale(1.03);
   box-shadow:0 0 40px rgba(0,122,255,0.5);
 }
+.fade-step{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity .9s ease, transform .9s ease;
+}
+
+.fade-step.visible{
+  opacity:1;
+  transform:none;
+}
+
+.delay-1{ transition-delay:.15s; }
+.delay-2{ transition-delay:.3s; }
+.delay-3{ transition-delay:.45s; }
+.delay-4{ transition-delay:.6s; }
 
 /* Stats HUD style (kept but recolored to match Track Record) */
 .stats-overview {
@@ -367,19 +381,30 @@ footer {
 <div class="about-container">
 
   <div class="about-text">
-    <p>Professional wingfoil and sailing athlete. Passionate about watersports since childhood.</p>
-    <p>High-level athlete on France’s elite lists (2017–2026), competing internationally since age 7 at AVCR.</p>
-    <p>R&D collaboration with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions.</p>
-    <p class="handwritten-signature">
+    <p class="fade-step">
+  Professional wingfoil and sailing athlete. Passionate about watersports since childhood.
+</p>
+
+<p class="fade-step delay-1">
+  High-level athlete on France’s elite lists (2017–2026), competing internationally since age 7 at AVCR.
+</p>
+
+<p class="fade-step delay-2">
+  R&D collaboration with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions.
+</p>
+
+<p class="editorial-highlight fade-step delay-3">
   Focused on performance, innovation, and sharing wingfoil expertise globally.
 </p>
+
+
 
 
 <blockquote class="signature-quote">
   “Performance is built in silence. Results speak on the water.”
 </blockquote>
      
-    <div class="stats-overview">
+    <div class="stats-overview-step delay-4"">
       <div class="stat-card"><h2>5x</h2><p>World Champion</p></div>
       <div class="stat-card"><h2>4x</h2><p>European Champion</p></div>
       <div class="stat-card"><h2>41.40 kts</h2><p>Speed Record (77 km/h)</p></div>
@@ -404,8 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold:0.2 });
 
-  document.querySelectorAll('h1, p, .stat-card').forEach(el => obs.observe(el));
-});
+  document.querySelectorAll('.fade-step, .stat-card').forEach(el => obs.observe(el));
 
    const photo = document.querySelector('.parallax-photo img');
 
