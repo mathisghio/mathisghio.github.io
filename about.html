@@ -156,11 +156,17 @@ header.nav nav a.active::after{
 }
 
 /* Fade animation (same as Track Record) */
-h1, h2, p {
+.fade-step {
   opacity:0;
   transform: translateY(30px);
   transition: all 0.8s ease-out;
 }
+
+.fade-step.visible {
+  opacity:1;
+  transform:none;
+}
+
 .visible { opacity:1 !important; transform: translateY(0) !important; }
 
    .about-header h1,
