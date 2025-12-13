@@ -132,46 +132,17 @@ header.nav nav a.active::after{
    MEDIA GRID
 ========================================================= */
 .media-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:26px;
   margin-top:40px;
 }
 
-.media-item{
-  position:relative;
+/* optional: make iframe responsive like grid */
+.lightwidget-widget{
+  width:100%;
+  border:0;
   overflow:hidden;
+  min-height:600px;
   border-radius:18px;
   box-shadow:0 0 30px rgba(0,122,255,.25);
-  transition:.4s ease;
-}
-
-.media-item img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  transition:.6s ease;
-}
-
-.media-item:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 45px rgba(0,122,255,.55);
-}
-
-.media-item:hover img{
-  transform:scale(1.06);
-}
-
-.media-item.video::after{
-  content:"▶";
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  color:white;
-  text-shadow:0 0 20px rgba(0,0,0,.7);
 }
 
 /* =========================================================
@@ -191,6 +162,9 @@ footer{
   .nav-logo img{
     height:52px;
     max-width:180px;
+  }
+  .lightwidget-widget{
+    min-height:500px;
   }
 }
 </style>
@@ -220,37 +194,17 @@ footer{
   </p>
 
   <div class="media-grid">
-
-    <a class="media-item" href="https://www.instagram.com/reel/DR129umAJyo/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta1.jpg" alt="Wingfoil racing speed">
-    </a>
-
-    <a class="media-item video" href="https://www.instagram.com/reel/DP889bjjOMn/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta2.jpg" alt="Wingfoil action video">
-    </a>
-
-    <a class="media-item" href="https://www.instagram.com/reel/DRutIgZjKMK/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta3.jpg" alt="Competition moment">
-    </a>
-     
-     <a class="media-item" href="https://www.instagram.com/reel/DNn4yVfIRTT/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==https://www.instagram.com/reel/DNn4yVfIRTT/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta4.jpg" alt="Wingfoil speed video">
-   </a>
-     <a class="media-item" href="https://www.instagram.com/reel/DPMakLLjNJW/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta5.jpg" alt="Wingfoil win video">
-   </a>
-     
-   <a class="media-item" href="https://www.instagram.com/reel/C87P1FOoEAn/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta6.jpg" alt="Wingfoil speed video">
-   </a>
-     <a class="media-item" href="https://www.instagram.com/reel/DNn4yVfIRTT/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==https://www.instagram.com/reel/DNn4yVfIRTT/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank">
-      <img src="media/insta7.jpg" alt="Wingfoil competition video">
-   </a>
-    <!-- Duplique jusqu’à ~10 posts -->
+    <!-- LightWidget WIDGET -->
+    <iframe src="//lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html" 
+            scrolling="no" allowtransparency="true" class="lightwidget-widget">
+    </iframe>
   </div>
 </section>
 
 <footer>© Wingfoil Racing / Robert Hadjuk</footer>
+
+<!-- LightWidget JS -->
+<script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
 
 </body>
 </html>
