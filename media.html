@@ -3,35 +3,241 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Médias – Mathis Ghio</title>
-<link rel="stylesheet" href="styles.css" />
+<title>Media – Mathis Ghio</title>
+
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   GLOBAL THEME (same as Track Record)
+========================================================= */
+body{
+  margin:0;
+  background:#000;
+  font-family:"Inter", Arial, sans-serif;
+  color:#d8e9ff;
+  overflow-x:hidden;
+}
+
+/* animated grid background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  width:200%;
+  height:200%;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(0,122,255,.07) 0px,
+      rgba(0,122,255,.07) 2px,
+      transparent 2px,
+      transparent 80px
+    );
+  animation:moveLines 18s linear infinite;
+  pointer-events:none;
+  z-index:-1;
+}
+@keyframes moveLines{
+  from{transform:translate(0,0);}
+  to{transform:translate(-300px,-300px);}
+}
+
+/* =========================================================
+   NAV (IDENTICAL TO TRACK RECORD)
+========================================================= */
+header.nav{
+  position:fixed;
+  inset:0 0 auto 0;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  background:linear-gradient(180deg, rgba(5,5,7,.65), rgba(5,5,7,.25));
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  z-index:50;
+}
+
+.nav-logo img{
+  height:64px;
+  max-width:260px;
+  width:auto;
+  object-fit:contain;
+  border-radius:8px;
+  box-shadow:0 0 16px rgba(0,122,255,.45);
+}
+
+header.nav nav{
+  display:flex;
+  gap:22px;
+}
+
+header.nav nav a{
+  color:#b9d9ff;
+  text-decoration:none;
+  font-size:15px;
+  letter-spacing:.4px;
+  position:relative;
+}
+
+header.nav nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-3px;
+  height:2px;
+  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
+  transform:scaleX(0);
+  transition:.25s;
+}
+
+header.nav nav a:hover,
+header.nav nav a.active{
+  color:#fff;
+}
+header.nav nav a:hover::after,
+header.nav nav a.active::after{
+  transform:scaleX(1);
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+.page{
+  max-width:1200px;
+  margin:120px auto 60px;
+  padding:60px 6vw;
+  background:#111;
+  border-radius:18px;
+  box-shadow:0 8px 30px rgba(0,0,0,.6);
+}
+
+.page h1{
+  font-size:42px;
+  margin:0 0 10px;
+}
+
+.page-subtitle{
+  max-width:520px;
+  font-size:17px;
+  color:#9ccaff;
+  opacity:.9;
+}
+
+/* =========================================================
+   MEDIA GRID
+========================================================= */
+.media-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:26px;
+  margin-top:40px;
+}
+
+.media-item{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(0,122,255,.25);
+  transition:.4s ease;
+}
+
+.media-item img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  transition:.6s ease;
+}
+
+.media-item:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 45px rgba(0,122,255,.55);
+}
+
+.media-item:hover img{
+  transform:scale(1.06);
+}
+
+.media-item.video::after{
+  content:"▶";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  color:white;
+  text-shadow:0 0 20px rgba(0,0,0,.7);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer{
+  text-align:center;
+  padding:30px 0;
+  font-size:14px;
+  color:#aaa;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:768px){
+  .nav-logo img{
+    height:52px;
+    max-width:180px;
+  }
+}
+</style>
 </head>
+
 <body>
+
 <header class="nav">
-<a class="logo" href="index.html">
-<img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
-</a>
-</nav>
-<a href="about.html">About</a>
-<a href="track_record.html">Track record</a>
-<a href="partners.html">Partners</a>
-<a href="media.html" class="active">Media</a>
-<a href="powerbooks.html">Powerbooks</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <a class="nav-logo" href="index.html">
+    <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
+  </a>
+
+  <nav>
+    <a href="about.html">About</a>
+    <a href="track_record.html">Track Record</a>
+    <a href="partners.html">Partners</a>
+    <a href="media.html" class="active">Media</a>
+    <a href="powerbooks.html">Powerbooks</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </header>
 
-
 <section class="page">
-<h1>Médias</h1>
-<div class="gallery">
-<img src="images/1.jpg" />
-<img src="images/2.jpg" />
-<img src="images/3.jpg" />
-</div>
+  <h1>Media</h1>
+  <p class="page-subtitle">
+    Selected highlights — racing, speed & innovation
+  </p>
+
+  <div class="media-grid">
+
+    <a class="media-item" href="https://www.instagram.com/p/POST1/" target="_blank">
+      <img src="media/insta1.jpg" alt="Wingfoil racing speed">
+    </a>
+
+    <a class="media-item video" href="https://www.instagram.com/p/POST2/" target="_blank">
+      <img src="media/insta2.jpg" alt="Wingfoil action video">
+    </a>
+
+    <a class="media-item" href="https://www.instagram.com/p/POST3/" target="_blank">
+      <img src="media/insta3.jpg" alt="Competition moment">
+    </a>
+
+    <!-- Duplique jusqu’à ~10 posts -->
+  </div>
 </section>
 
-
 <footer>© Wingfoil Racing / Robert Hadjuk</footer>
+
 </body>
 </html>
