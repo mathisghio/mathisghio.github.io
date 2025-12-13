@@ -287,7 +287,7 @@ h1, h2, p {
   background: linear-gradient(
     70deg,
     transparent 30%,
-    rgba(255,255,255,0.10 note) 48%,
+    rgba(255,255,255,0.10) 48%,
     rgba(255,255,255,0.02) 55%,
     transparent 70%
   );
@@ -327,6 +327,16 @@ h1, h2, p {
   opacity:0.85;
 }
 
+.signature-quote{
+  margin:30px 0;
+  padding-left:18px;
+  border-left:3px solid #3b82f6;
+  color:#cfe5ff;
+  font-style:italic;
+  opacity:.9;
+}
+
+   
 /* =========================================================
    FOOTER
 ========================================================= */
@@ -355,7 +365,7 @@ footer {
 <header class="nav">
 
   <a class="nav-logo" href="index.html">
-    <img src="images/logo_Mathis_Ghio.png " alt="Mathis Ghio Logo">
+    <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
   </a>
   <nav>
     <a href="about.html" class="active">About</a>
@@ -404,7 +414,7 @@ footer {
   “Performance is built in silence. Results speak on the water.”
 </blockquote>
      
-    <div class="stats-overview-step delay-4"">
+    <div class="stats-overview-step delay-4">
       <div class="stat-card"><h2>5x</h2><p>World Champion</p></div>
       <div class="stat-card"><h2>4x</h2><p>European Champion</p></div>
       <div class="stat-card"><h2>41.40 kts</h2><p>Speed Record (77 km/h)</p></div>
@@ -438,6 +448,7 @@ window.addEventListener('mousemove', (e) => {
   const y = (e.clientY / window.innerHeight - 0.5) * 12;
 
   photo.style.transform = `translate(${x}px, ${y}px) scale(1.04)`;
+});
 });
 
 </script>
