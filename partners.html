@@ -6,321 +6,360 @@
 <title>Partners – Mathis Ghio</title>
 <link rel="stylesheet" href="styles.css" />
 <style>
-:root{
-  --bg:#050507;
-  --blue-1:#0ea5ff;
-  --blue-2:#3b82f6;
-}
-
-
-  
 /* =========================================================
-   NAV – SAME AS TRACK RECORD / MEDIA / POWERBOOKS
+   VARIABLES & GLOBAL
 ========================================================= */
-header.nav{
-  position:fixed;
-  left:0; right:0; top:0;
-  height:68px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  z-index:60;
-  background: linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25));
-  border-bottom:1px solid rgba(255,255,255,0.03);
-  backdrop-filter: blur(6px);
+:root {
+  --bg: #050507;
+  --blue-1: #0ea5ff;
+  --blue-2: #3b82f6;
+  --text-main: #d8e9ff;
+  --glass: rgba(255, 255, 255, 0.03);
+  --border-glass: rgba(255, 255, 255, 0.06);
 }
 
-header.nav img{
-  height:60px;
-  width:auto;
-  display:block;
+body {
+  margin: 0;
+  background: #000;
+  font-family: "Inter", Arial, sans-serif;
+  color: var(--text-main);
+  overflow-x: hidden;
 }
 
-nav{
-  display:flex;
-  gap:20px;
-  align-items:center;
+/* Background Animation */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(14, 165, 255, 0.04) 0px,
+    rgba(14, 165, 255, 0.04) 1px,
+    transparent 1px,
+    transparent 60px
+  );
+  animation: moveLines 25s linear infinite;
+  z-index: -1;
+  opacity: 0.6;
 }
 
-nav a{
-  color:#b9d9ff;
-  text-decoration:none;
-  font-weight:500;
-  padding:6px 4px;
-  position:relative;
-  letter-spacing:0.4px;
-  transition:color .25s ease;
-  font-size:15px;
+@keyframes moveLines {
+  to { transform: translate(-300px, -300px); }
 }
 
-nav a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-2px;
-  height:2px;
-  background:linear-gradient(90deg, #0ea5ff, #3b82f6);
-  border-radius:2px;
-  transform:scaleX(0);
-  transform-origin:center;
-  transition:transform .25s ease;
-  opacity:0.85;
+/* =========================================================
+   NAV – IDENTIQUE PAGE MEDIA
+========================================================= */
+header.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 70px; /* Standardisé */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(5, 5, 7, 0.75); /* Plus sombre pour lisibilité */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
-nav a:hover{
-  color:#d9ecff;
+header.nav img {
+  height: 42px; /* Taille logo ajustée standard */
+  width: auto;
+  display: block;
 }
 
-nav a:hover::after{
-  transform:scaleX(1);
+nav {
+  display: flex;
+  gap: 30px;
 }
 
-nav a.active{
-  color:#ffffff;
-  font-weight:600;
+nav a {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  position: relative;
+  padding: 5px 0;
 }
 
-nav a.active::after{
-  transform:scaleX(1);
+nav a:hover {
+  color: #fff;
 }
 
-  .partner-cta{
-  margin-top:80px;
-  text-align:center;
+nav a.active {
+  color: #fff;
 }
 
-.partner-cta a{
-  color:#0ea5ff;
-  font-weight:600;
-  text-decoration:none;
-  border-bottom:2px solid rgba(14,165,255,.4);
-  padding-bottom:4px;
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--blue-1);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
 }
 
-.partner-cta a:hover{
-  opacity:.8;
+nav a:hover::after,
+nav a.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
+/* Mobile Nav adjustment */
+@media (max-width: 768px) {
+  header.nav { padding: 0 20px; }
+  nav { gap: 15px; }
+  nav a { font-size: 12px; }
+}
 
-/* --- PAGE WRAPPER --- */
+/* =========================================================
+   HERO SECTION
+========================================================= */
+.hero {
+  padding: 140px 6vw 20px 6vw;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 0 0 16px;
+  background: linear-gradient(to bottom, #fff, #99aab5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+.hero .lead {
+  font-size: 18px;
+  color: #8899ac;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
 .page {
-  padding:60px 6vw;
-  max-width:1000px;
-  margin:120px auto 60px;
-  background:#111;
-  border-radius:16px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+  padding: 60px 6vw;
+  max-width: 1000px;
+  margin: 40px auto 100px;
+  background: #0b0b0e; /* Fond légèrement plus clair que le body */
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- TITRES --- */
-/* Animations ciblées uniquement */
-.page h1,
-h2.tier-title,
-.partner-stats h2 {
-  opacity:0;
-  transform:translateY(30px);
-  transition: all 0.8s ease-out;
+/* Glow effect top border */
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue-2), transparent);
+  opacity: 0.5;
 }
 
-.page h1.visible,
-h2.tier-title.visible,
-.partner-stats h2.visible {
-  opacity:1;
-  transform:translateY(0);
+/* =========================================================
+   PARTNERS GRID
+========================================================= */
+.tier-title {
+  text-align: center;
+  font-size: 24px;
+  margin: 0 0 40px;
+  letter-spacing: 1px;
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
+.tier-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--blue-1);
+  margin: 10px auto 0;
+}
 
-/* --- PARTNER GRID --- */
 .partner-category {
-  margin-bottom:50px;
+  margin-bottom: 80px;
 }
 
 .partner-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
-  gap:30px;
-  align-items:center;
-  justify-items:center;
-  opacity:0;
-  transform:translateY(30px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  opacity: 0;
+  transform: translateY(20px);
   transition: all 0.8s ease-out;
 }
+
 .partner-grid.visible {
-  opacity:1;
-  transform:translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* main sponsors larger */
+.partner-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  height: 140px;
+  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.partner-card img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7) brightness(1.2);
+  transition: all 0.4s ease;
+}
+
+/* Hover Effects */
+.partner-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(14, 165, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.partner-card:hover img {
+  filter: grayscale(0%) opacity(1) brightness(1);
+  transform: scale(1.05);
+}
+
+/* Main Sponsors Specifics */
 .partner-grid img.main {
-  width:190px;
-  height:130px;
+  max-width: 90%;
+  max-height: 90%;
 }
 
-/* size corrections */
-.partner-grid img.ozone { transform:scale(1.14); }
-.partner-grid img.overstims { transform:scale(1.12); }
-.partner-grid img.dept13 { transform:scale(1.10); }
-.partner-grid img.liguesud { transform:scale(1.10); }
-
-/* default logos */
-.partner-grid img {
-  width:165px;
-  height:110px;
-  object-fit:contain;
-  transition: transform 0.3s, box-shadow 0.3s;
+/* =========================================================
+   STATS SECTION (ADDED)
+========================================================= */
+.partner-stats {
+  margin: 80px 0 60px;
+  text-align: center;
+  padding-top: 60px;
+  border-top: 1px solid var(--border-glass);
 }
 
-/* hover */
-.partner-grid img:hover {
-  transform:scale(1.12);
-  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+.partner-stats h2 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 40px;
 }
 
-/* MOBILE RESPONSIVE */
-@media (max-width:600px) {
-  .partner-grid {
-    grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
-    gap:20px;
-  }
-  .partner-grid img {
-    width:130px;
-    height:90px;
-  }
-  .partner-grid img.main {
-    width:160px;
-    height:110px;
-  }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
 }
 
-.tier-title{
-  text-align:center;
-  font-size:26px;
-  margin-bottom:36px;
-  letter-spacing:1px;
-  color:#e5f1ff;
-  position:relative;
+.stat {
+  background: linear-gradient(145deg, rgba(14, 165, 255, 0.05), rgba(0,0,0,0.2));
+  padding: 30px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(14, 165, 255, 0.1);
+  transition: transform 0.3s;
 }
 
-.tier-title::after{
-  content:"";
-  display:block;
-  width:80px;
-  height:3px;
-  margin:14px auto 0;
-  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
-  border-radius:3px;
+.stat:hover {
+  transform: translateY(-5px);
+  border-color: rgba(14, 165, 255, 0.3);
 }
 
-  .partner-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:40px;
-  margin-top:50px;
+.stat span {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
 }
 
-  h2.tier-title{
-  text-align:center;
-  font-size:26px;
-  margin:50px 0 25px;
-  letter-spacing:1px;
-  color:#e5f1ff;
-}
-  
-.partner-card img{
-  max-width:100%;
-  max-height:90px;
-  object-fit:contain;
-  filter:brightness(.9);
-  transition:.5s ease;
+.stat p {
+  font-size: 14px;
+  color: #8899ac;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-  .partner-card:hover img{
-  filter:brightness(1.1);
-}
-  
-  .partner-card{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  border-radius:18px;
-  background:#0c0f14;
-  transition:.5s cubic-bezier(.22,1,.36,1);
+/* =========================================================
+   CTA & FOOTER
+========================================================= */
+.partner-cta {
+  text-align: center;
+  margin-top: 60px;
 }
 
-.partner-card:hover{
-  transform:translateY(-6px);
+.partner-cta h2 {
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
-  .partner-stats{
-  margin-top:90px;
-  text-align:center;
+.partner-cta a {
+  display: inline-block;
+  color: #0ea5ff;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 16px;
+  border: 1px solid rgba(14, 165, 255, 0.3);
+  padding: 12px 30px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
 }
 
-.stats-grid{
-  margin-top:40px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:30px;
+.partner-cta a:hover {
+  background: rgba(14, 165, 255, 0.1);
+  border-color: #0ea5ff;
+  color: #fff;
 }
 
-.stat{
-  padding:26px;
-  border-radius:20px;
-  background:linear-gradient(135deg, rgba(9,30,80,.55), rgba(20,40,70,.35));
-  border:1px solid rgba(0,122,255,.25);
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #445;
+  font-size: 13px;
+  border-top: 1px solid rgba(255,255,255,0.03);
 }
 
-.stat span{
-  font-size:34px;
-  display:block;
-  margin-bottom:10px;
+/* Mobile Responsive Adjustments */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 36px; }
+  .page { padding: 40px 5vw; }
+  .partner-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+  .partner-card { height: 100px; padding: 10px; }
 }
-
-.stat p{
-  color:#cfe6ff;
-  font-size:16px;
-}
-
-
-.partner-reassurance{
-  text-align:center;
-  margin-top:50px;
-  opacity:.65;
-  font-size:15px;
-  letter-spacing:.6px;
-}
-
-  .page-subtitle{
-  max-width:520px;
-  font-size:17px;
-  color:#9ccaff;
-}
-
-/* ---------- hero / container ---------- */
-.hero{
-  padding:120px 6vw 40px 6vw;
-  max-width:1200px;
-  margin:0 auto;
-  position:relative;
-  z-index:20;
-}
-
-.hero h1{
-  font-size:40px;
-  color:var(--blue-1);
-  margin:0 0 12px;
-  letter-spacing:1px;
-}
-
-.hero .lead{
-  color:#d1e9ff;
-  margin:0 0 28px;
-}
-
-  
 </style>
 </head>
 <body>
@@ -338,85 +377,83 @@ h2.tier-title.visible,
     <a href="contact.html">Contact</a>
   </nav>
 </header>
-  
+
 <main class="hero" role="main">
   <h1>Partners</h1>
   <p class="lead">
-    Elite wingfoil racing project — performance, visibility & innovation.
+    Elite wingfoil racing project. Driving performance, innovation, and visibility together.
   </p>
 </main>
 
+<section class="page">
 
-  <section class="page">
-
-<!-- MAIN SPONSORS -->
-<div class="partner-category">
-<h2 class="tier-title">Title Partners</h2>
-  <div class="partner-grid">
-
-    <a href="https://ozonekites.com/" target="_blank" class="partner-card">
-      <img class="main ozone" src="images/sponsor-ozone.svg" alt="Ozone">
-    </a>
-
-    <a href="https://www.levitaz.com/" target="_blank" class="partner-card">
-      <img class="main" src="images/sponsor-levitaz.png" alt="Levitaz">
-    </a>
-
-    <a href="https://www.forwardwip.com/" target="_blank" class="partner-card">
-      <img class="main" src="images/sponsor-Forward-WIP.png" alt="Forward WIP">
-    </a>
-
+  <div class="partner-category">
+    <h2 class="tier-title">Title Partners</h2>
+    <div class="partner-grid">
+      <a href="https://ozonekites.com/" target="_blank" class="partner-card">
+        <img class="main ozone" src="images/sponsor-ozone.svg" alt="Ozone">
+      </a>
+      <a href="https://www.levitaz.com/" target="_blank" class="partner-card">
+        <img class="main" src="images/sponsor-levitaz.png" alt="Levitaz">
+      </a>
+      <a href="https://www.forwardwip.com/" target="_blank" class="partner-card">
+        <img class="main" src="images/sponsor-Forward-WIP.png" alt="Forward WIP">
+      </a>
+    </div>
   </div>
-</div>
 
-
-<!-- OTHER PARTNERS -->
-<div class="partner-category">
-<h2 class="tier-title">Official Partners</h2>
-  <div class="partner-grid">
-
-    <a href="https://www.overstims.com/" target="_blank" class="partner-card">
-      <img class="overstims" src="images/sponsor-overstims.png" alt="Overstims">
-    </a>
-
-    <a href="https://www.ffvoile.fr/" target="_blank" class="partner-card">
-      <img src="images/sponsor-FFVoile.png" alt="FFVoile">
-    </a>
-
-    <a href="https://www.insa-lyon.fr/" target="_blank" class="partner-card">
-      <img src="images/sponsor-INSA.png" alt="INSA Lyon">
-    </a>
-
-    <a href="https://www.departement13.fr/" target="_blank" class="partner-card">
-      <img class="dept13" src="images/sponsor-departement13.png" alt="Departement 13">
-    </a>
-
-    <a href="https://www.ampmetropole.fr/" target="_blank" class="partner-card">
-      <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix-Marseille">
-    </a>
-
-    <a href="https://ligue-sud.ffvoile.fr/" target="_blank" class="partner-card">
-      <img class="liguesud" src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
-    </a>
-
+  <div class="partner-category">
+    <h2 class="tier-title">Official Partners</h2>
+    <div class="partner-grid">
+      <a href="https://www.overstims.com/" target="_blank" class="partner-card">
+        <img class="overstims" src="images/sponsor-overstims.png" alt="Overstims">
+      </a>
+      <a href="https://www.ffvoile.fr/" target="_blank" class="partner-card">
+        <img src="images/sponsor-FFVoile.png" alt="FFVoile">
+      </a>
+      <a href="https://www.insa-lyon.fr/" target="_blank" class="partner-card">
+        <img src="images/sponsor-INSA.png" alt="INSA Lyon">
+      </a>
+      <a href="https://www.departement13.fr/" target="_blank" class="partner-card">
+        <img class="dept13" src="images/sponsor-departement13.png" alt="Departement 13">
+      </a>
+      <a href="https://www.ampmetropole.fr/" target="_blank" class="partner-card">
+        <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix-Marseille">
+      </a>
+      <a href="https://ligue-sud.ffvoile.fr/" target="_blank" class="partner-card">
+        <img class="liguesud" src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
+      </a>
+    </div>
   </div>
-</div>
 
+  <div class="partner-stats">
+    <h2>Project Impact</h2>
+    <div class="stats-grid">
+      <div class="stat">
+        <span>15+</span>
+        <p>International Races</p>
+      </div>
+      <div class="stat">
+        <span>35k</span>
+        <p>Social Reach</p>
+      </div>
+      <div class="stat">
+        <span>100%</span>
+        <p>Dedication</p>
+      </div>
+    </div>
+  </div>
 
-<p class="partner-reassurance">
-  Selected partners only — exclusive collaborations
-</p>
-
-  
   <div class="partner-cta">
-  <h2>Interested in a partnership?</h2>
-  <a href="contact.html">Contact me</a>
-</div>
-  
+    <h2>Interested in a partnership?</h2>
+    <a href="contact.html">Become a Partner</a>
+  </div>
+
 </section>
 
-<footer>© Wingfoil Racing / Robert Hadjuk </footer>
-
+<footer>
+  © 2024 Wingfoil Racing / Mathis Ghio. All rights reserved.
+</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -426,22 +463,23 @@ document.addEventListener('DOMContentLoaded', () => {
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.1 });
 
-  document.querySelectorAll('.tier-title, .partner-grid').forEach(el => observer.observe(el));
+  document.querySelectorAll('.partner-grid, .partner-stats').forEach(el => observer.observe(el));
 });
-</script>
 
-<script>
+// Header scroll effect
 const header = document.querySelector('header.nav');
-window.addEventListener('scroll', ()=> {
-  header.style.boxShadow =
-    window.scrollY > 12
-    ? '0 10px 30px rgba(2,6,23,0.6)'
-    : 'none';
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 10) {
+    header.style.background = 'rgba(5, 5, 7, 0.9)';
+    header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
+  } else {
+    header.style.background = 'rgba(5, 5, 7, 0.75)';
+    header.style.boxShadow = 'none';
+  }
 });
 </script>
 
-  
 </body>
 </html>
