@@ -7,365 +7,219 @@
 <link rel="stylesheet" href="styles.css" />
 <style>
 /* =========================================================
-   VARIABLES & GLOBAL
+   GLOBAL DARK + BLUE THEME (Identique à About)
 ========================================================= */
-:root {
-  --bg: #050507;
-  --blue-1: #0ea5ff;
-  --blue-2: #3b82f6;
-  --text-main: #d8e9ff;
-  --glass: rgba(255, 255, 255, 0.03);
-  --border-glass: rgba(255, 255, 255, 0.06);
-}
-
 body {
   margin: 0;
   background: #000;
   font-family: "Inter", Arial, sans-serif;
-  color: var(--text-main);
+  color: #d8e9ff;
   overflow-x: hidden;
 }
 
-/* Background Animation */
+/* Moving blue grid lines */
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  width: 200%;
-  height: 200%;
-  background: repeating-linear-gradient(
-    115deg,
-    rgba(14, 165, 255, 0.04) 0px,
-    rgba(14, 165, 255, 0.04) 1px,
-    transparent 1px,
-    transparent 60px
-  );
-  animation: moveLines 25s linear infinite;
-  z-index: -1;
-  opacity: 0.6;
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:200%; height:200%;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(0, 122, 255, 0.07) 0px,
+      rgba(0, 122, 255, 0.07) 2px,
+      transparent 2px,
+      transparent 80px
+    );
+  animation: moveLines 18s linear infinite;
+  pointer-events:none;
+  z-index:-1;
 }
-
 @keyframes moveLines {
-  to { transform: translate(-300px, -300px); }
+  from { transform:translateX(0) translateY(0); }
+  to   { transform:translateX(-300px) translateY(-300px); }
 }
 
 /* =========================================================
-   NAV – IDENTIQUE PAGE MEDIA
+   NAVIGATION (Identique à About)
 ========================================================= */
 header.nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 70px; /* Standardisé */
+  left: 0; right: 0; top: 0;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  background: rgba(5, 5, 7, 0.75); /* Plus sombre pour lisibilité */
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: 1000;
-  transition: all 0.3s ease;
+  padding: 0 20px;
+  z-index: 60;
+  background: linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
 }
 
-header.nav img {
-  height: 42px; /* Taille logo ajustée standard */
-  width: auto;
-  display: block;
-}
-
-nav {
+.nav-logo {
   display: flex;
-  gap: 30px;
-}
-
-nav a {
-  color: #a0a0a0;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
-  font-size: 14px;
+  padding: 6px 0;
+}
+
+.nav-logo img {
+  height: 70px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 16px rgba(0,122,255,0.45);
+}
+
+header.nav nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+header.nav nav a {
+  color: #b9d9ff;
+  text-decoration: none;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: color 0.3s ease;
+  padding: 6px 4px;
   position: relative;
-  padding: 5px 0;
+  letter-spacing: 0.4px;
+  font-size: 15px;
+  transition: color .25s ease;
 }
 
-nav a:hover {
-  color: #fff;
-}
-
-nav a.active {
-  color: #fff;
-}
-
-nav a::after {
+header.nav nav a::after {
   content: "";
   position: absolute;
-  bottom: 0; left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--blue-1);
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, #0ea5ff, #3b82f6);
+  border-radius: 2px;
   transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
+  transform-origin: center;
+  transition: transform .25s ease;
+  opacity: 0.85;
 }
 
-nav a:hover::after,
-nav a.active::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
+header.nav nav a:hover { color: #d9ecff; }
+header.nav nav a:hover::after { transform: scaleX(1); }
 
-/* Mobile Nav adjustment */
-@media (max-width: 768px) {
-  header.nav { padding: 0 20px; }
-  nav { gap: 15px; }
-  nav a { font-size: 12px; }
+header.nav nav a.active {
+  color: #ffffff;
+  font-weight: 600;
 }
+header.nav nav a.active::after { transform: scaleX(1); }
 
-/* =========================================================
-   HERO SECTION
-========================================================= */
-.hero {
-  padding: 140px 6vw 20px 6vw;
-  max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-.hero h1 {
-  font-size: 48px;
-  margin: 0 0 16px;
-  background: linear-gradient(to bottom, #fff, #99aab5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-}
-
-.hero .lead {
-  font-size: 18px;
-  color: #8899ac;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
+@media (max-width:768px) {
+  .nav-logo img { height: 52px; max-width: 180px; }
 }
 
 /* =========================================================
-   PAGE CONTAINER
+   PAGE STRUCTURE & CONTENT
 ========================================================= */
 .page {
+  max-width: 1100px;
+  margin: 120px auto 40px;
   padding: 60px 6vw;
-  max-width: 1000px;
-  margin: 40px auto 100px;
-  background: #0b0b0e; /* Fond légèrement plus clair que le body */
-  border: 1px solid var(--border-glass);
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  position: relative;
-  overflow: hidden;
+  background: #111;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  animation: pageFade 0.9s ease forwards;
 }
 
-/* Glow effect top border */
-.page::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--blue-2), transparent);
-  opacity: 0.5;
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
 }
 
-/* =========================================================
-   PARTNERS GRID
-========================================================= */
+h1 { font-size: 40px; color: #0ea5ff; margin-bottom: 12px; }
+.lead { color: #9ccaff; font-size: 18px; margin-bottom: 40px; }
+
+.partner-category { margin-bottom: 60px; }
 .tier-title {
   text-align: center;
-  font-size: 24px;
-  margin: 0 0 40px;
-  letter-spacing: 1px;
-  color: #fff;
-  text-transform: uppercase;
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
+  font-size: 26px;
+  margin-bottom: 36px;
+  color: #e5f1ff;
 }
-
 .tier-title::after {
   content: "";
   display: block;
-  width: 40px;
-  height: 2px;
-  background: var(--blue-1);
-  margin: 10px auto 0;
-}
-
-.partner-category {
-  margin-bottom: 80px;
+  width: 60px;
+  height: 3px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg,#0ea5ff,#3b82f6);
+  border-radius: 3px;
 }
 
 .partner-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 30px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease-out;
-}
-
-.partner-grid.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .partner-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 16px;
-  height: 140px;
-  padding: 20px;
-  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  padding: 24px;
+  background: #0c0f14;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 122, 255, 0.1);
+  transition: 0.4s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(0, 122, 255, 0.3);
+  border-color: rgba(0, 122, 255, 0.4);
 }
 
 .partner-card img {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 100%;
+  max-height: 90px;
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.7) brightness(1.2);
-  transition: all 0.4s ease;
+  filter: brightness(0.9);
+  transition: 0.4s ease;
 }
 
-/* Hover Effects */
-.partner-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(14, 165, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
+.partner-card:hover img { filter: brightness(1.1); }
 
-.partner-card:hover img {
-  filter: grayscale(0%) opacity(1) brightness(1);
-  transform: scale(1.05);
-}
-
-/* Main Sponsors Specifics */
-.partner-grid img.main {
-  max-width: 90%;
-  max-height: 90%;
-}
-
-/* =========================================================
-   STATS SECTION (ADDED)
-========================================================= */
-.partner-stats {
-  margin: 80px 0 60px;
-  text-align: center;
-  padding-top: 60px;
-  border-top: 1px solid var(--border-glass);
-}
-
-.partner-stats h2 {
-  font-size: 24px;
-  color: #fff;
-  margin-bottom: 40px;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-}
-
-.stat {
-  background: linear-gradient(145deg, rgba(14, 165, 255, 0.05), rgba(0,0,0,0.2));
-  padding: 30px 20px;
-  border-radius: 16px;
-  border: 1px solid rgba(14, 165, 255, 0.1);
-  transition: transform 0.3s;
-}
-
-.stat:hover {
-  transform: translateY(-5px);
-  border-color: rgba(14, 165, 255, 0.3);
-}
-
-.stat span {
-  display: block;
-  font-size: 36px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 8px;
-  font-variant-numeric: tabular-nums;
-}
-
-.stat p {
-  font-size: 14px;
-  color: #8899ac;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* =========================================================
-   CTA & FOOTER
-========================================================= */
 .partner-cta {
   text-align: center;
-  margin-top: 60px;
-}
-
-.partner-cta h2 {
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 20px;
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
 
 .partner-cta a {
-  display: inline-block;
   color: #0ea5ff;
   font-weight: 600;
   text-decoration: none;
-  font-size: 16px;
-  border: 1px solid rgba(14, 165, 255, 0.3);
-  padding: 12px 30px;
+  border: 2px solid rgba(14,165,255,.4);
+  padding: 12px 24px;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .partner-cta a:hover {
-  background: rgba(14, 165, 255, 0.1);
-  border-color: #0ea5ff;
-  color: #fff;
+  background: rgba(14,165,255,0.1);
+  box-shadow: 0 0 20px rgba(14,165,255,0.3);
 }
 
-footer {
-  text-align: center;
-  padding: 40px;
-  color: #445;
-  font-size: 13px;
-  border-top: 1px solid rgba(255,255,255,0.03);
-}
+footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
 
-/* Mobile Responsive Adjustments */
-@media (max-width: 600px) {
-  .hero h1 { font-size: 36px; }
-  .page { padding: 40px 5vw; }
-  .partner-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-  .partner-card { height: 100px; padding: 10px; }
-}
 </style>
 </head>
 <body>
 
 <header class="nav">
-  <a class="logo" href="index.html">
+  <a class="nav-logo" href="index.html">
     <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
   </a>
   <nav>
@@ -378,26 +232,23 @@ footer {
   </nav>
 </header>
 
-<main class="hero" role="main">
-  <h1>Partners</h1>
-  <p class="lead">
-    Elite wingfoil racing project. Driving performance, innovation, and visibility together.
-  </p>
-</main>
-
 <section class="page">
+  <div class="partner-header">
+    <h1>Partners</h1>
+    <p class="lead">Elite wingfoil racing project — performance, visibility & innovation.</p>
+  </div>
 
   <div class="partner-category">
     <h2 class="tier-title">Title Partners</h2>
     <div class="partner-grid">
       <a href="https://ozonekites.com/" target="_blank" class="partner-card">
-        <img class="main ozone" src="images/sponsor-ozone.svg" alt="Ozone">
+        <img src="images/sponsor-ozone.svg" alt="Ozone">
       </a>
       <a href="https://www.levitaz.com/" target="_blank" class="partner-card">
-        <img class="main" src="images/sponsor-levitaz.png" alt="Levitaz">
+        <img src="images/sponsor-levitaz.png" alt="Levitaz">
       </a>
       <a href="https://www.forwardwip.com/" target="_blank" class="partner-card">
-        <img class="main" src="images/sponsor-Forward-WIP.png" alt="Forward WIP">
+        <img src="images/sponsor-Forward-WIP.png" alt="Forward WIP">
       </a>
     </div>
   </div>
@@ -406,7 +257,7 @@ footer {
     <h2 class="tier-title">Official Partners</h2>
     <div class="partner-grid">
       <a href="https://www.overstims.com/" target="_blank" class="partner-card">
-        <img class="overstims" src="images/sponsor-overstims.png" alt="Overstims">
+        <img src="images/sponsor-overstims.png" alt="Overstims">
       </a>
       <a href="https://www.ffvoile.fr/" target="_blank" class="partner-card">
         <img src="images/sponsor-FFVoile.png" alt="FFVoile">
@@ -415,71 +266,18 @@ footer {
         <img src="images/sponsor-INSA.png" alt="INSA Lyon">
       </a>
       <a href="https://www.departement13.fr/" target="_blank" class="partner-card">
-        <img class="dept13" src="images/sponsor-departement13.png" alt="Departement 13">
+        <img src="images/sponsor-departement13.png" alt="Departement 13">
       </a>
-      <a href="https://www.ampmetropole.fr/" target="_blank" class="partner-card">
-        <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix-Marseille">
-      </a>
-      <a href="https://ligue-sud.ffvoile.fr/" target="_blank" class="partner-card">
-        <img class="liguesud" src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
-      </a>
-    </div>
-  </div>
-
-  <div class="partner-stats">
-    <h2>Project Impact</h2>
-    <div class="stats-grid">
-      <div class="stat">
-        <span>15+</span>
-        <p>International Races</p>
-      </div>
-      <div class="stat">
-        <span>35k</span>
-        <p>Social Reach</p>
-      </div>
-      <div class="stat">
-        <span>100%</span>
-        <p>Dedication</p>
-      </div>
     </div>
   </div>
 
   <div class="partner-cta">
     <h2>Interested in a partnership?</h2>
-    <a href="contact.html">Become a Partner</a>
+    <a href="contact.html">Contact me</a>
   </div>
-
 </section>
 
-<footer>
-  © 2024 Wingfoil Racing / Mathis Ghio. All rights reserved.
-</footer>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.partner-grid, .partner-stats').forEach(el => observer.observe(el));
-});
-
-// Header scroll effect
-const header = document.querySelector('header.nav');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 10) {
-    header.style.background = 'rgba(5, 5, 7, 0.9)';
-    header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
-  } else {
-    header.style.background = 'rgba(5, 5, 7, 0.75)';
-    header.style.boxShadow = 'none';
-  }
-});
-</script>
+<footer>© Wingfoil Racing / Robert Hadjuk</footer>
 
 </body>
 </html>
