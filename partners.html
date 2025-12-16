@@ -11,7 +11,28 @@
   --blue-1:#0ea5ff;
   --blue-2:#3b82f6;
 }
+.partners-hero{
+  text-align:center;
+  margin-bottom:70px;
+}
 
+.partners-hero h1{
+  font-size:46px;
+  margin-bottom:14px;
+  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.partners-hero p{
+  max-width:620px;
+  margin:0 auto;
+  font-size:18px;
+  color:#9ccaff;
+  opacity:.9;
+}
+
+  
 /* =========================================================
    NAV – SAME AS TRACK RECORD / MEDIA / POWERBOOKS
 ========================================================= */
@@ -84,6 +105,29 @@ nav a.active::after{
   transform:scaleX(1);
 }
 
+  .partner-cta{
+  margin-top:80px;
+  text-align:center;
+}
+
+.partner-cta a{
+  display:inline-block;
+  margin-top:20px;
+  padding:16px 34px;
+  border-radius:30px;
+  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 30px rgba(0,122,255,.45);
+  transition:transform .25s ease;
+}
+
+.partner-cta a:hover{
+  transform:scale(1.05);
+}
+
+
 /* --- PAGE WRAPPER --- */
 .page {
   padding:60px 6vw;
@@ -95,18 +139,22 @@ nav a.active::after{
 }
 
 /* --- TITRES --- */
-h1, h2 {
-  color:#0b74de;
-  letter-spacing:1px;
-  text-align:center;
+/* Animations ciblées uniquement */
+.page h1,
+h2.tier-title,
+.partner-stats h2 {
   opacity:0;
   transform:translateY(30px);
   transition: all 0.8s ease-out;
 }
-h1.visible, h2.visible {
+
+.page h1.visible,
+h2.tier-title.visible,
+.partner-stats h2.visible {
   opacity:1;
   transform:translateY(0);
 }
+
 
 /* --- PARTNER GRID --- */
 .partner-category {
@@ -170,6 +218,84 @@ h1.visible, h2.visible {
   }
 }
 
+.tier-title{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:36px;
+  letter-spacing:1px;
+  color:#e5f1ff;
+  position:relative;
+}
+
+.tier-title::after{
+  content:"";
+  display:block;
+  width:80px;
+  height:3px;
+  margin:14px auto 0;
+  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
+  border-radius:3px;
+}
+
+  .partner-card{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  border-radius:18px;
+  background:linear-gradient(145deg, rgba(20,40,70,.45), rgba(10,20,40,.35));
+  border:1px solid rgba(0,122,255,.25);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+
+.partner-card:hover{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 15px 40px rgba(0,122,255,.35);
+}
+
+  .partner-stats{
+  margin-top:90px;
+  text-align:center;
+}
+
+.stats-grid{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:30px;
+}
+
+.stat{
+  padding:26px;
+  border-radius:20px;
+  background:linear-gradient(135deg, rgba(9,30,80,.55), rgba(20,40,70,.35));
+  border:1px solid rgba(0,122,255,.25);
+}
+
+.stat span{
+  font-size:34px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.stat p{
+  color:#cfe6ff;
+  font-size:16px;
+}
+
+  .partners-hero{
+  padding:140px 6vw 40px;
+}
+
+.partner-reassurance{
+  text-align:center;
+  margin-top:50px;
+  opacity:.65;
+  font-size:15px;
+  letter-spacing:.6px;
+}
+
+  
 </style>
 </head>
 <body>
@@ -187,25 +313,32 @@ h1.visible, h2.visible {
     <a href="contact.html">Contact</a>
   </nav>
 </header>
-
+  
+<section class="partners-hero">
+  <h1>Partners & Sponsors</h1>
+  <p>
+    Elite wingfoil racing project — performance, visibility & innovation.
+  </p>
+</section>
+  
 <section class="page">
-<h1>My Partners</h1>
+
 
 
 <!-- MAIN SPONSORS -->
 <div class="partner-category">
-  <h2>Main Sponsors</h2>
+<h2 class="tier-title">Title Partners</h2>
   <div class="partner-grid">
 
-    <a href="https://ozonekites.com/" target="_blank">
+    <a href="https://ozonekites.com/" target="_blank" class="partner-card">
       <img class="main ozone" src="images/sponsor-ozone.svg" alt="Ozone">
     </a>
 
-    <a href="https://www.levitaz.com/" target="_blank">
+    <a href="https://www.levitaz.com/" target="_blank" class="partner-card">
       <img class="main" src="images/sponsor-levitaz.png" alt="Levitaz">
     </a>
 
-    <a href="https://www.forwardwip.com/" target="_blank">
+    <a href="https://www.forwardwip.com/" target="_blank" class="partner-card">
       <img class="main" src="images/sponsor-Forward-WIP.png" alt="Forward WIP">
     </a>
 
@@ -215,36 +348,69 @@ h1.visible, h2.visible {
 
 <!-- OTHER PARTNERS -->
 <div class="partner-category">
-  <h2>Other Partners</h2>
+<h2 class="tier-title">Official Partners</h2>
   <div class="partner-grid">
 
-    <a href="https://www.overstims.com/" target="_blank">
+    <a href="https://www.overstims.com/" target="_blank" class="partner-card">
       <img class="overstims" src="images/sponsor-overstims.png" alt="Overstims">
     </a>
 
-    <a href="https://www.ffvoile.fr/" target="_blank">
+    <a href="https://www.ffvoile.fr/" target="_blank" class="partner-card">
       <img src="images/sponsor-FFVoile.png" alt="FFVoile">
     </a>
 
-    <a href="https://www.insa-lyon.fr/" target="_blank">
+    <a href="https://www.insa-lyon.fr/" target="_blank" class="partner-card">
       <img src="images/sponsor-INSA.png" alt="INSA Lyon">
     </a>
 
-    <a href="https://www.departement13.fr/" target="_blank">
+    <a href="https://www.departement13.fr/" target="_blank" class="partner-card">
       <img class="dept13" src="images/sponsor-departement13.png" alt="Departement 13">
     </a>
 
-    <a href="https://www.ampmetropole.fr/" target="_blank">
+    <a href="https://www.ampmetropole.fr/" target="_blank" class="partner-card">
       <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix-Marseille">
     </a>
 
-    <a href="https://ligue-sud.ffvoile.fr/" target="_blank">
+    <a href="https://ligue-sud.ffvoile.fr/" target="_blank" class="partner-card">
       <img class="liguesud" src="images/sponsor-ligue-sud.png" alt="Ligue Sud">
     </a>
 
   </div>
 </div>
 
+<div class="partner-stats">
+  <h2>Why partner with this project?</h2>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <span>5×</span>
+      <p>World Champion</p>
+    </div>
+    <div class="stat">
+      <span>🌍</span>
+      <p>International exposure</p>
+    </div>
+    <div class="stat">
+      <span>📸</span>
+      <p>High-quality media & content</p>
+    </div>
+    <div class="stat">
+      <span>🤝</span>
+      <p>Long-term brand partnership</p>
+    </div>
+  </div>
+</div>
+
+<p class="partner-reassurance">
+  Selected partners only — exclusive collaborations
+</p>
+
+  
+  <div class="partner-cta">
+  <h2>Interested in a partnership?</h2>
+  <a href="contact.html">Contact me</a>
+</div>
+  
 </section>
 
 <footer>© Wingfoil Racing / Robert Hadjuk </footer>
