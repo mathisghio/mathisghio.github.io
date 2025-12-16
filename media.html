@@ -233,6 +233,35 @@ footer{
   padding:30px;
 }
 
+.lightwidget-widget{
+  width:100%;
+  min-height:600px;
+  border-radius:18px;
+  box-shadow:0 0 30px rgba(0,122,255,.25);
+  margin-top:40px;
+}
+
+/* Titre Instagram */
+h2.tier-title{
+  text-align:center;
+  font-size:26px;
+  margin:50px 0 25px;
+  letter-spacing:1px;
+  color:#e5f1ff;
+  position:relative;
+}
+
+h2.tier-title::after{
+  content:"";
+  display:block;
+  width:80px;
+  height:3px;
+  margin:14px auto 0;
+  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
+  border-radius:3px;
+}
+
+   
 </style>
 </head>
 
@@ -268,10 +297,6 @@ window.addEventListener('scroll', ()=> {
   <h1>Media</h1>
   <p class="page-subtitle">Selected highlights — racing, speed & innovation</p>
 
-  <!-- Instagram -->
-  <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
-    scrolling="no" class="lightwidget-widget"></iframe>
-
   <!-- Podiums Gallery -->
   <div class="gallery">
     <h2>Podiums & Racing Moments</h2>
@@ -284,7 +309,14 @@ window.addEventListener('scroll', ()=> {
       <div class="gallery-item"><img src="media/podium-4.JPG"></div>
       <div class="gallery-item"><img src="media/podium-5.JPG"></div>
       <div class="gallery-item"><img src="media/podium-6.JPG"></div>
+      <div class="gallery-item"><img src="media/podium-7.JPG"></div>
     </div>
+
+ <!-- Instagram -->
+     <h2 class="tier-title">Latest Instagram posts:</h2>
+  <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
+    scrolling="no" class="lightwidget-widget"></iframe>
+     
   </div>
 </section>
 
@@ -301,6 +333,17 @@ const observer = new IntersectionObserver(entries=>{
   });
 },{threshold:0.25});
 items.forEach(i=>observer.observe(i));
+const insta = document.querySelector('.lightwidget-widget');
+const observer2 = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.style.opacity = 1;
+  });
+},{threshold:0.25});
+
+insta.style.opacity = 0;
+insta.style.transition = "opacity 1s ease-out";
+observer2.observe(insta);
+   
 </script>
 
 </body>
