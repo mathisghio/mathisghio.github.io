@@ -33,9 +33,9 @@ header.nav{
 
 /* Logo */
 header.nav img{
-  height:60px;
+  height:80px;
   width:auto;
-  display:block;
+  max-width:220px; /* ← contrôle la longueur */
 }
 
 /* Navigation */
