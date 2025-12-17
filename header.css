@@ -33,7 +33,7 @@ header.nav{
 
 /* Logo */
 header.nav img{
-  height:150px;
+  height:120px;
   width:auto;
   max-width:300px; /* ← contrôle la longueur */
 }
