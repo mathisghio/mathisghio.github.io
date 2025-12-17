@@ -5,23 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Mathis Ghio – Wingfoil</title>
 <link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="header.css" /> <!-- header CSS -->
 </head>
 <body>
 
-<!-- Header / Navigation -->
-<header class="nav">
-<a class="logo" href="index.html">
-<img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
-</a>
-</nav>
-    <a href="about.html">About</a>
-    <a href="track_record.html">Track Record</a>
-    <a href="partners.html">Partners</a>
-    <a href="media.html">Media</a>
-    <a href="powerbooks.html">Powerbooks</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+<!-- Header sera injecté / géré par header.js -->
 
 <!-- Hero Section -->
 <section class="hero">
@@ -92,7 +80,6 @@
 <!-- FAQ JS -->
 <script>
 const faqs = document.querySelectorAll('.faq-item');
-
 faqs.forEach(item => {
   const question = item.querySelector('.faq-question');
   question.addEventListener('click', () => {
@@ -100,6 +87,9 @@ faqs.forEach(item => {
   });
 });
 </script>
+
+<!-- Header JS -->
+<script src="header.js" defer></script>
 
 </body>
 </html>
