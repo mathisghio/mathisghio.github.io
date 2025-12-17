@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerHTML = `
     <header class="nav">
       <a href="index.html" class="nav-logo">
-        <img src="images/logo.png" alt="Mathis Ghio">
+        <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio">
       </a>
       <nav>
         <a href="index.html" data-page="home">Home</a>
