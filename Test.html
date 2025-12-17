@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Powerbooks – Mathis Ghio</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           GLOBAL – STYLE IDENTIQUE À ABOUT/PARTNERS
+        ========================================================= */
+        body {
+            margin: 0;
+            background: #000;
+            font-family: "Inter", Arial, sans-serif;
+            color: #d8e9ff;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(115deg, rgba(0, 122, 255, 0.07) 0px, rgba(0, 122, 255, 0.07) 2px, transparent 2px, transparent 80px);
+            animation: moveLines 18s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes moveLines {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-300px, -300px);
+            }
+        }
+
+        /* =========================================================
+           NAVIGATION (Identique à ton nouveau standard)
+        ========================================================= */
+        header.nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 60;
+            background: linear-gradient(180deg, rgba(5, 5, 7, 0.6), rgba(5, 5, 7, 0.25));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(6px);
+        }
+
+        .nav-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 240px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 16px rgba(0, 122, 255, 0.45);
+        }
+
+        header.nav nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        header.nav nav a {
+            color: #b9d9ff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 4px;
+            position: relative;
+            letter-spacing: 0.4px;
+            font-size: 15px;
+            transition: color .25s ease;
+        }
+
+        header.nav nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 2px;
+            background: linear-gradient(90deg, #0ea5ff, #3b82f6);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform .25s ease;
+        }
+
+        header.nav nav a:hover, header.nav nav a.active {
+            color: #fff;
+        }
+
+        header.nav nav a:hover::after, header.nav nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* =========================================================
+           PAGE LAYOUT
+        ========================================================= */
+        .page {
+            max-width: 1100px;
+            margin: 120px auto 60px;
+            padding: 60px 6vw;
+            background: rgba(17, 17, 17, 0.9);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .page h1 {
+            font-size: 48px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #fff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            max-width: 600px;
+            font-size: 18px;
+            color: #9ccaff;
+            margin-bottom: 50px;
+        }
+
+        /* =========================================================
+           INTERACTIVE CARDS
+        ========================================================= */
+        .powerbooks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .powerbook-card {
+            perspective: 1000px; /* Pour l'effet 3D */
+        }
+
+        .powerbook-content {
+            background: linear-gradient(145deg, rgba(9, 30, 80, 0.4), rgba(5, 5, 7, 0.8));
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .powerbook-card:hover .powerbook-content {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
+            border-color: rgba(0, 122, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 122, 255, 0.2);
+        }
+
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0ea5ff;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .powerbook-content h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+
+        .powerbook-content p {
+            color: #8899ac;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .preview-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .powerbook-card:hover .preview-container img {
+            transform: scale(1.08);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block; /* Important for accessibility if using as a true button */
+        }
+
+        .btn-main {
+            background: #0ea5ff;
+            color: #fff;
+        }
+
+        .btn-main:hover {
+            background: #3b82f6;
+            box-shadow: 0 0 20px rgba(14, 165, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d8e9ff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .powerbooks-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                margin-top: 100px;
+                padding: 40px 20px;
+            }
+
+            .nav nav {
+                gap: 10px; /* Reduce gap on smaller screens */
+            }
+
+            header.nav nav a {
+                font-size: 14px; /* Reduce font size on smaller screens */
+                padding: 4px 2px;
+            }
+        }
+
+        /* Accessibility improvements */
+        .btn:focus {
+            outline: 2px solid #0ea5ff; /* Better focus indicator */
+            outline-offset: 2px;
+        }
+
+        /* Subtle card background gradient animation */
+        .powerbook-content {
+            background: linear-gradient(145deg, rgba(9, 30, 80, 0.4), rgba(5, 5, 7, 0.8));
+            /* Add the following lines */
+            background-size: 200% 200%;
+            animation: gradientAnimation 5s infinite alternate;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="nav">
+    <a class="nav-logo" href="index.html">
+        <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
+    </a>
+    <nav>
+        <a href="about.html">About</a>
+        <a href="track_record.html">Track Record</a>
+        <a href="partners.html">Partners</a>
+        <a href="media.html">Media</a>
+        <a href="powerbooks.html" class="active">Powerbooks</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section class="page">
+    <h1>Powerbooks</h1>
+    <p class="page-subtitle">
+        Explore my official documentation. High-resolution press kits and partnership opportunities designed for professional elite
+        racing.
+    </p>
+
+    <div class="powerbooks-container">
+
+        <div class="powerbook-card">
+            <div class="powerbook-content">
+                <span class="badge">Press Ready</span>
+                <h2>Pressbook</h2>
+                <p>Career highlights, media impact, and professional gallery for journalists.</p>
+
+                <div class="preview-container">
+                    <img src="images/pressbook-preview.png" alt="Pressbook preview">
+                </div>
+
+                <div class="actions">
+                    <a href="https://www.canva.com/design/DAGbYSK8wB4/wm6aoEBnqZQbou45ViiEqQ/edit?utm_content=DAGbYSK8wB4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                       target="_blank" class="btn btn-main">Open Reader</a>
+                    <a href="media/Pressbook_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download
+                       class="btn btn-secondary">PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="powerbook-card">
+            <div class="powerbook-content">
+                <span class="badge">Sponsorship</span>
+                <h2>Partnership File</h2>
+                <p>Strategic vision, audience statistics, and customized branding opportunities.</p>
+
+                <div class="preview-container">
+                    <img src="images/partnership-preview.png" alt="Partnership file preview">
+                </div>
+
+                <div class="actions">
+                    <a href="https://www.canva.com/design/DAF1Arwsds0/WjUtwG3sp-DNh3kCIyRqew/edit?utm_content=DAF1Arwsds0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                       target="_blank" class="btn btn-main">View Vision</a>
+                    <a href="media/Partnership_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download
+                       class="btn btn-secondary">PDF</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>© Mathis Ghio / Wingfoil Racing</footer>
+
+<script>
+    // Optionnel : Effet de brillance qui suit la souris sur les cartes
+    const cards = document.querySelectorAll('.powerbook-content');
+    cards.forEach(card => {
+        card.onmousemove = (e) => {
+            const x = e.pageX - card.offsetLeft;
+            const y = e.pageY - card.offsetTop;
+            card.style.setProperty('--x', x + 'px');
+            card.style.setProperty('--y', y + 'px');
+        };
+    });
+
+    // Scroll effect pour le header
+    const header = document.querySelector('header.nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            header.style.background = "rgba(5, 5, 7, 0.95)";
+            header.style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
+        } else {
+            header.style.background = "linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25))";
+            header.style.boxShadow = "none";
+        }
+    });
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Powerbooks – Mathis Ghio</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           GLOBAL – STYLE IDENTIQUE À ABOUT/PARTNERS
+        ========================================================= */
+        body {
+            margin: 0;
+            background: #000;
+            font-family: "Inter", Arial, sans-serif;
+            color: #d8e9ff;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(115deg, rgba(0, 122, 255, 0.07) 0px, rgba(0, 122, 255, 0.07) 2px, transparent 2px, transparent 80px);
+            animation: moveLines 18s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes moveLines {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(-300px, -300px);
+            }
+        }
+
+        /* =========================================================
+           NAVIGATION (Identique à ton nouveau standard)
+        ========================================================= */
+        header.nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 60;
+            background: linear-gradient(180deg, rgba(5, 5, 7, 0.6), rgba(5, 5, 7, 0.25));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(6px);
+        }
+
+        .nav-logo img {
+            height: 70px;
+            width: auto;
+            max-width: 240px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 16px rgba(0, 122, 255, 0.45);
+        }
+
+        header.nav nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        header.nav nav a {
+            color: #b9d9ff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 4px;
+            position: relative;
+            letter-spacing: 0.4px;
+            font-size: 15px;
+            transition: color .25s ease;
+        }
+
+        header.nav nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 2px;
+            background: linear-gradient(90deg, #0ea5ff, #3b82f6);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform .25s ease;
+        }
+
+        header.nav nav a:hover, header.nav nav a.active {
+            color: #fff;
+        }
+
+        header.nav nav a:hover::after, header.nav nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* =========================================================
+           PAGE LAYOUT
+        ========================================================= */
+        .page {
+            max-width: 1100px;
+            margin: 120px auto 60px;
+            padding: 60px 6vw;
+            background: rgba(17, 17, 17, 0.9);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .page h1 {
+            font-size: 48px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #fff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            max-width: 600px;
+            font-size: 18px;
+            color: #9ccaff;
+            margin-bottom: 50px;
+        }
+
+        /* =========================================================
+           INTERACTIVE CARDS
+        ========================================================= */
+        .powerbooks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .powerbook-card {
+            perspective: 1000px; /* Pour l'effet 3D */
+        }
+
+        .powerbook-content {
+            background: linear-gradient(145deg, rgba(9, 30, 80, 0.4), rgba(5, 5, 7, 0.8));
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .powerbook-card:hover .powerbook-content {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
+            border-color: rgba(0, 122, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 122, 255, 0.2);
+        }
+
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #0ea5ff;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .powerbook-content h2 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+
+        .powerbook-content p {
+            color: #8899ac;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .preview-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .powerbook-card:hover .preview-container img {
+            transform: scale(1.08);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block; /* Important for accessibility if using as a true button */
+        }
+
+        .btn-main {
+            background: #0ea5ff;
+            color: #fff;
+        }
+
+        .btn-main:hover {
+            background: #3b82f6;
+            box-shadow: 0 0 20px rgba(14, 165, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d8e9ff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .powerbooks-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                margin-top: 100px;
+                padding: 40px 20px;
+            }
+
+            .nav nav {
+                gap: 10px; /* Reduce gap on smaller screens */
+            }
+
+            header.nav nav a {
+                font-size: 14px; /* Reduce font size on smaller screens */
+                padding: 4px 2px;
+            }
+        }
+
+        /* Accessibility improvements */
+        .btn:focus {
+            outline: 2px solid #0ea5ff; /* Better focus indicator */
+            outline-offset: 2px;
+        }
+
+        /* Subtle card background gradient animation */
+        .powerbook-content {
+            background: linear-gradient(145deg, rgba(9, 30, 80, 0.4), rgba(5, 5, 7, 0.8));
+            /* Add the following lines */
+            background-size: 200% 200%;
+            animation: gradientAnimation 5s infinite alternate;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="nav">
+    <a class="nav-logo" href="index.html">
+        <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo">
+    </a>
+    <nav>
+        <a href="about.html">About</a>
+        <a href="track_record.html">Track Record</a>
+        <a href="partners.html">Partners</a>
+        <a href="media.html">Media</a>
+        <a href="powerbooks.html" class="active">Powerbooks</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section class="page">
+    <h1>Powerbooks</h1>
+    <p class="page-subtitle">
+        Explore my official documentation. High-resolution press kits and partnership opportunities designed for professional elite
+        racing.
+    </p>
+
+    <div class="powerbooks-container">
+
+        <div class="powerbook-card">
+            <div class="powerbook-content">
+                <span class="badge">Press Ready</span>
+                <h2>Pressbook</h2>
+                <p>Career highlights, media impact, and professional gallery for journalists.</p>
+
+                <div class="preview-container">
+                    <img src="images/pressbook-preview.png" alt="Pressbook preview">
+                </div>
+
+                <div class="actions">
+                    <a href="https://www.canva.com/design/DAGbYSK8wB4/wm6aoEBnqZQbou45ViiEqQ/edit?utm_content=DAGbYSK8wB4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                       target="_blank" class="btn btn-main">Open Reader</a>
+                    <a href="media/Pressbook_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download
+                       class="btn btn-secondary">PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="powerbook-card">
+            <div class="powerbook-content">
+                <span class="badge">Sponsorship</span>
+                <h2>Partnership File</h2>
+                <p>Strategic vision, audience statistics, and customized branding opportunities.</p>
+
+                <div class="preview-container">
+                    <img src="images/partnership-preview.png" alt="Partnership file preview">
+                </div>
+
+                <div class="actions">
+                    <a href="https://www.canva.com/design/DAF1Arwsds0/WjUtwG3sp-DNh3kCIyRqew/edit?utm_content=DAF1Arwsds0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                       target="_blank" class="btn btn-main">View Vision</a>
+                    <a href="media/Partnership_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download
+                       class="btn btn-secondary">PDF</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>© Mathis Ghio / Wingfoil Racing</footer>
+
+<script>
+    // Optionnel : Effet de brillance qui suit la souris sur les cartes
+    const cards = document.querySelectorAll('.powerbook-content');
+    cards.forEach(card => {
+        card.onmousemove = (e) => {
+            const x = e.pageX - card.offsetLeft;
+            const y = e.pageY - card.offsetTop;
+            card.style.setProperty('--x', x + 'px');
+            card.style.setProperty('--y', y + 'px');
+        };
+    });
+
+    // Scroll effect pour le header
+    const header = document.querySelector('header.nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            header.style.background = "rgba(5, 5, 7, 0.95)";
+            header.style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
+        } else {
+            header.style.background = "linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25))";
+            header.style.boxShadow = "none";
+        }
+    });
+</script>
+
+</body>
+</html>
