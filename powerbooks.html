@@ -6,6 +6,8 @@
 <title>Powerbooks – Mathis Ghio</title>
 
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="header.css">
+<script src="header.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -41,64 +43,6 @@ body::before {
   from { transform:translate(0,0); }
   to { transform:translate(-300px,-300px); }
 }
-
-/* =========================================================
-   NAVIGATION (Identique à ton nouveau standard)
-========================================================= */
-header.nav {
-  position: fixed;
-  left: 0; right: 0; top: 0;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 60;
-  background: linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25));
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-  backdrop-filter: blur(6px);
-}
-
-.nav-logo img {
-  height: 70px;
-  width: auto;
-  max-width: 240px;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 0 16px rgba(0,122,255,0.45);
-}
-
-header.nav nav {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-header.nav nav a {
-  color: #b9d9ff;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 6px 4px;
-  position: relative;
-  letter-spacing: 0.4px;
-  font-size: 15px;
-  transition: color .25s ease;
-}
-
-header.nav nav a::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -2px;
-  height: 2px;
-  background: linear-gradient(90deg, #0ea5ff, #3b82f6);
-  border-radius: 2px;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform .25s ease;
-}
-
-header.nav nav a:hover, header.nav nav a.active { color: #fff; }
-header.nav nav a:hover::after, header.nav nav a.active::after { transform: scaleX(1); }
 
 /* =========================================================
    PAGE LAYOUT
@@ -138,7 +82,7 @@ header.nav nav a:hover::after, header.nav nav a.active::after { transform: scale
 }
 
 .powerbook-card {
-  perspective: 1000px; /* Pour l'effet 3D */
+  perspective: 1000px;
 }
 
 .powerbook-content {
@@ -153,8 +97,8 @@ header.nav nav a:hover::after, header.nav nav a.active::after { transform: scale
 
 .powerbook-card:hover .powerbook-content {
   transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
-  border-color: rgba(0, 122, 255, 0.5);
-  box-shadow: 0 15px 40px rgba(0, 122, 255, 0.2);
+  border-color: rgba(0, 122, 255,0.5);
+  box-shadow: 0 15px 40px rgba(0, 122, 255,0.2);
 }
 
 .badge {
@@ -226,18 +170,18 @@ header.nav nav a:hover::after, header.nav nav a.active::after { transform: scale
 
 .btn-main:hover {
   background: #3b82f6;
-  box-shadow: 0 0 20px rgba(14, 165, 255, 0.4);
+  box-shadow: 0 0 20px rgba(14, 165, 255,0.4);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255,0.05);
+  border: 1px solid rgba(255, 255, 255,0.1);
   color: #d8e9ff;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255,0.1);
+  border-color: rgba(255, 255, 255,0.3);
 }
 
 footer {
@@ -254,20 +198,6 @@ footer {
 </style>
 </head>
 <body>
-
-<header class="nav">
-  <a class="nav-logo" href="index.html">
-    <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio Logo" loading="lazy">
-  </a>
-  <nav>
-    <a href="about.html">About</a>
-    <a href="track_record.html">Track Record</a>
-    <a href="partners.html">Partners</a>
-    <a href="media.html">Media</a>
-    <a href="powerbooks.html" class="active">Powerbooks</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
 
 <section class="page">
   <h1>Powerbooks</h1>
@@ -306,7 +236,8 @@ footer {
 
         <div class="actions">
           <a href="https://www.canva.com/design/DAF1Arwsds0/WjUtwG3sp-DNh3kCIyRqew/edit?utm_content=DAF1Arwsds0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="btn btn-main">View Vision</a>
-          <a href="media/Partnership_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download class="btn btn-secondary">PDF</a>        </div>
+          <a href="media/Partnership_File_Mathis_GHIO_Wingfoil.pdf" type="application/pdf" download class="btn btn-secondary">PDF</a>
+        </div>
       </div>
     </div>
   </div>
@@ -324,18 +255,6 @@ cards.forEach(card => {
     card.style.setProperty('--x', x + 'px');
     card.style.setProperty('--y', y + 'px');
   };
-});
-
-// Scroll effect pour le header
-const header = document.querySelector('header.nav');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) {
-    header.style.background = "rgba(5, 5, 7, 0.95)";
-    header.style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
-  } else {
-    header.style.background = "linear-gradient(180deg, rgba(5,5,7,0.6), rgba(5,5,7,0.25))";
-    header.style.boxShadow = "none";
-  }
 });
 </script>
 
