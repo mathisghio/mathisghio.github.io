@@ -32,30 +32,13 @@ a:hover {
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 
-h1, h2, p {
+.fade {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease-out;
 }
 
-h1.visible, h2.visible, p.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================
-   About / Stats / Cards
-   ========================= */
-.about-container, .stats-overview, .pdf-section, .gallery {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease-out;
-}
-
-.about-container.visible,
-.stats-overview.visible,
-.pdf-section.visible,
-.gallery.visible {
+.fade.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -203,4 +186,19 @@ footer {
   .about-container { flex-direction: column; }
   .stats-overview { flex-direction: column; }
   .gallery img { width: 45%; }
+}
+
+@media (max-width: 768px) {
+  .fade {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
 }
