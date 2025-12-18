@@ -96,5 +96,21 @@ faqs.forEach(item => {
 <!-- Header JS -->
 <script src="header.js" defer></script>
 
+<!-- Scroll reveal animations -->
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(
+  "h1, h2, p, .about-container, .stats-overview, .gallery"
+).forEach(el => observer.observe(el));
+</script>
+
+  
 </body>
 </html>
