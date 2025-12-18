@@ -136,6 +136,19 @@ h1 { font-size: 40px; color: #0ea5ff; margin-bottom: 12px; }
   box-shadow: 0 0 20px rgba(14,165,255,0.3);
 }
 
+   /* 5 cartes sur une seule ligne */
+.official-grid {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px; /* un peu plus serré */
+}
+
+
+   /* Logos plus grands (Département & Métropole) */
+.partner-card.big-logo img {
+  max-height: 150px;   /* au lieu de 90px */
+  max-width: 95%;
+}
+
 footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
 </style>
 </head>
@@ -164,7 +177,7 @@ footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
 
   <div class="partner-category">
     <h2 class="tier-title">Official Partners</h2>
-    <div class="partner-grid">
+    <div class="partner-grid official-grid">
       <a href="https://www.overstims.com/" target="_blank" class="partner-card">
         <img src="images/sponsor-overstims.png" alt="Overstims">
       </a>
@@ -174,10 +187,10 @@ footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
       <a href="https://www.insa-lyon.fr/" target="_blank" class="partner-card">
         <img src="images/sponsor-INSA.png" alt="INSA Lyon">
       </a>
-      <a href="https://www.departement13.fr/en-actions/sport/soutenir-les-sportifs-de-haut-niveau/aide-individuelle-aux-athletes-de-haut-niveau" target="_blank" class="partner-card">
+      <a href="https://www.departement13.fr/en-actions/sport/soutenir-les-sportifs-de-haut-niveau/aide-individuelle-aux-athletes-de-haut-niveau" target="_blank" class="partner-card big-logo">
         <img src="images/sponsor-departement13.png" alt="Departement 13">
       </a>
-       <a href="https://ampmetropole.fr/sport/la-metropole-soutient-les-sportifs-de-haut-niveau/" target="_blank" class="partner-card">
+       <a href="https://ampmetropole.fr/sport/la-metropole-soutient-les-sportifs-de-haut-niveau/" target="_blank" class="partner-card big-logo">
         <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix Marseille">
       </a>
     </div>
