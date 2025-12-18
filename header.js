@@ -2,9 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // HTML du header
   const headerHTML = `
     <header class="nav">
-      <a href="index.html" class="nav-logo">
+      <div class="logo">
+      <a href="index.html">
         <img src="images/logo_Mathis_Ghio.png" alt="Mathis Ghio">
       </a>
+      </div>
+
       <nav>
         <a href="index.html" data-page="home">Home</a>
         <a href="about.html" data-page="about">About</a>
