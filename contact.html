@@ -52,14 +52,6 @@ p { line-height:1.8; font-size:16px; margin-bottom:16px; }
 
 .contact-info { display:flex; flex-direction:column; gap:20px; margin-bottom:40px; }
 .contact-item { display:flex; align-items:center; gap:12px; }
-.contact-item img { 
-  width: 40px;               /* un peu plus large */
-  aspect-ratio: 1 / 1;       /* 🔑 verrouille le cercle */
-  height: auto;
-  border-radius: 50%;
-  object-fit: contain;
-  display: block; 
-}
 
   .contact-item.card{
   background:#0c0f18;
@@ -67,6 +59,10 @@ p { line-height:1.8; font-size:16px; margin-bottom:16px; }
   padding:18px 20px;
   box-shadow:0 0 25px rgba(0,122,255,.18);
   transition:.35s cubic-bezier(.22,1,.36,1);
+}
+  
+  .contact-item.card:hover .icon-badge {
+  box-shadow: 0 0 18px rgba(14,165,255,.55);
 }
 
 h2.tier-title{
@@ -142,6 +138,28 @@ form.contact-form input, form.contact-form textarea {
   outline:none;
 }
 
+.icon-badge {
+  width: 42px;                 /* taille VISUELLE fixe */
+  height: 42px;
+  border-radius: 50%;          /* cercle parfait */
+  
+  background: rgba(14,165,255,0.12);
+  box-shadow: 0 0 12px rgba(14,165,255,.35);
+
+  display: flex;               /* centrage parfait */
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;              /* empêche l’écrasement */
+}
+
+  .icon-badge img {
+  width: 20px;                 /* taille normalisée */
+  height: 20px;
+  object-fit: contain;         /* respect du dessin */
+  display: block;
+}
+
 footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-size:14px; }
 
 @media (max-width:768px){
@@ -160,22 +178,30 @@ For partnerships, media inquiries or professional opportunities.
   <div class="contact-info">
 
   <div class="contact-item card reveal">
+    <div class="icon-badge">
     <img src="images/email-icon.png" alt="Email">
+    </div>
     <p>Professional Email: <a href="mailto:contact@mathisghio.com">contact@mathisghio.com</a></p>
   </div>
 
   <div class="contact-item card reveal">
+    <div class="icon-badge">
     <img src="images/instagram-icon.png" alt="Instagram">
+    </div>
     <p>Instagram: <a href="https://www.instagram.com/mathisghio/" target="_blank">@mathisghio</a></p>
   </div>
 
   <div class="contact-item card reveal">
-    <img src="images/facebook-icon.png" alt="Facebook">
+    <div class="icon-badge">
+      <img src="images/facebook-icon.png" alt="Facebook">
+    </div>
     <p>Facebook: <a href="https://www.facebook.com/MathisGhioWing/" target="_blank">Mathis Ghio – WingFoil</a></p>
   </div>
 
   <div class="contact-item card reveal">
+    <div class="icon-badge">
     <img src="images/linkedin-icon.png" alt="Linkedin">
+    </div>
     <p>Linkedin: <a href="https://fr.linkedin.com/in/mathis-ghio-93075515a" target="_blank">Mathis Ghio</a></p>
   </div>
 </div>
