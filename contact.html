@@ -159,7 +159,47 @@ form.contact-form input, form.contact-form textarea {
   object-fit: contain;         /* respect du dessin */
   display: block;
 }
+.icon-badge {
+  transition: transform .35s cubic-bezier(.22,1,.36,1),
+              box-shadow .35s;
+}
 
+.contact-item.card:hover .icon-badge {
+  transform: scale(1.12) rotate(2deg);
+}
+.contact-item.card.clickable {
+  cursor: pointer;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+  form.contact-form button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+  form.contact-form button.sent {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  box-shadow: 0 0 35px rgba(34,197,94,.6);
+  transform: scale(1.05);
+}
+
+  #form-status {
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+  #form-status.visible {
+  opacity: 1;
+}
+
+  
+  
 footer { text-align:center; padding:20px 0; margin-top:40px; color:#aaa; font-size:14px; }
 
 @media (max-width:768px){
@@ -181,28 +221,30 @@ For partnerships, media inquiries or professional opportunities.
     <div class="icon-badge">
     <img src="images/email-icon.png" alt="Email">
     </div>
-    <p>Professional Email: <a href="mailto:contact@mathisghio.com">contact@mathisghio.com</a></p>
+    <p>
+      Professional Email: <a href="mailto:contact@mathisghio.com">contact@mathisghio.com</a>
+    </p>
   </div>
 
-  <div class="contact-item card reveal">
+  <div class="contact-item card reveal clickable" onclick="window.open('https://www.instagram.com/mathisghio/', '_blank')">
     <div class="icon-badge">
     <img src="images/instagram-icon.png" alt="Instagram">
     </div>
-    <p>Instagram: <a href="https://www.instagram.com/mathisghio/" target="_blank">@mathisghio</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/mathisghio/" target="_blank" aria-label="Visit my Instagram profile">@mathisghio</a></p>
   </div>
 
-  <div class="contact-item card reveal">
+  <div class="contact-item card reveal clickable" onclick="window.open('https://www.facebook.com/MathisGhioWing/', '_blank')">
     <div class="icon-badge">
       <img src="images/facebook-icon.png" alt="Facebook">
     </div>
-    <p>Facebook: <a href="https://www.facebook.com/MathisGhioWing/" target="_blank">Mathis Ghio – WingFoil</a></p>
+    <p>Facebook: <a href="https://www.facebook.com/MathisGhioWing/" target="_blank" aria-label="Visit my Facebook page">Mathis Ghio – WingFoil</a></p>
   </div>
 
-  <div class="contact-item card reveal">
+  <div class="contact-item card reveal clickable" onclick="window.open('https://fr.linkedin.com/in/mathis-ghio-93075515a', '_blank')">
     <div class="icon-badge">
     <img src="images/linkedin-icon.png" alt="Linkedin">
     </div>
-    <p>Linkedin: <a href="https://fr.linkedin.com/in/mathis-ghio-93075515a" target="_blank">Mathis Ghio</a></p>
+    <p>Linkedin: <a href="https://fr.linkedin.com/in/mathis-ghio-93075515a" target="_blank" aria-label="Visit my LinkedIn profile">Mathis Ghio</a></p>
   </div>
 </div>
 
@@ -211,16 +253,73 @@ For partnerships, media inquiries or professional opportunities.
 I’m open to brand collaborations, media features and performance-driven projects.
 </p>
 
-<form class="contact-form reveal" action="https://formspree.io/f/your-form-id" method="POST">
+<form class="contact-form reveal" id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
   <input type="text" name="name" placeholder="Your Name" required>
   <input type="email" name="_replyto" placeholder="Your Email" required>
   <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
   <button type="submit">Send Message</button>
 </form>
 
+<p id="form-status"
+   aria-live="polite"
+   style="text-align:center; margin-top:20px;"></p>
+
+<script>
+const form = document.getElementById("contact-form");
+const status = document.getElementById("form-status");
+const button = form.querySelector("button"); // ← ICI
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // 1️⃣ état "sending"
+  button.disabled = true;                    // ← ICI
+  button.textContent = "Sending…";
+  status.textContent = "Sending your message…";
+  status.classList.add("visible");
+  status.style.color = "#9ccaff";
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { "Accept": "application/json" }
+    });
+
+    // 2️⃣ succès confirmé par le serveur
+    if (response.ok) {
+      button.textContent = "Sent ✓";
+      button.classList.add("sent");
+      button.disabled = true; // reste bloqué
+      status.textContent = "Message sent successfully, I will come back to you as soon as possible. Thank you!";
+      status.classList.add("visible");
+      status.style.color = "#4aa0ff";
+      form.reset();
+    } else {
+      throw new Error("Server error");
+    }
+  } catch (err) {
+    button.textContent = "Send Message";
+    status.textContent = "Oops… something went wrong. Please try again.";
+    status.classList.add("visible");
+    status.style.color = "#ff6b6b";
+  }
+
+  // 3️⃣ réactivation après feedback
+  setTimeout(() => {
+    button.classList.remove("sent");
+    button.disabled = false;                 // ← ICI
+    button.textContent = "Send Message";
+  }, 2500);
+});
+</script>
+
+  
 </section>
 
-<footer>© Wingfoil Racing / Robert Hadjuk </footer>
+<footer>© Mathis Ghio - Wingfoil Racing / Robert Hadjuk </footer>
   
 <script>
 const reveals = document.querySelectorAll('.reveal');
