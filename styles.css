@@ -27,6 +27,7 @@ a:hover {
   padding: 60px 6vw;
   max-width: 900px;
   margin: 40px auto;
+scroll-margin-top: 90px;
   background: #111;
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
