@@ -47,7 +47,7 @@ ABOUT
         Beyond racing, I actively collaborate in R&D programs with leading brands.
       </p>
 
-      <div class="stats-overview fade">
+      <div class="stats-overview">
         <div class="stat-card fade"><h2>5x</h2><p>World Champion</p></div>
         <div class="stat-card fade"><h2>4x</h2><p>European Champion</p></div>
         <div class="stat-card fade"><h2>41.40 kts</h2><p>World Speed Record</p></div>
@@ -136,7 +136,7 @@ POWERBOOKS
       <a class="btn fade" href="powerbooks.html">Open</a>
     </div>
 
-    <div class="powerbook-card fade">
+    <div class="powerbook-card">
       <h3>Partnership File</h3>
       <p>Audience data, exposure and sponsorship opportunities.</p>
       <a class="btn fade" href="powerbooks.html">Open</a>
@@ -173,8 +173,26 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.fade')
   .forEach(el => observer.observe(el));
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const elements = document.querySelectorAll('.fade');
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+
+  elements.forEach(el => observer.observe(el));
+});
+
 </script>
 
+  
 
 </body>
 </html>
