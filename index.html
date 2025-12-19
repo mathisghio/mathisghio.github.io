@@ -16,23 +16,6 @@
 
 <body data-page="home">
 
-
-  <style>
-.hero {
-  background: url("images/hero-main.JPG") center / cover no-repeat;
-}
-
-    .hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("images/hero-grain.png");
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-    
-  </style>
 <!-- Header injecté via header.js -->
 
 <!-- ======================================================
@@ -49,7 +32,7 @@ HERO
 <!-- ======================================================
 ABOUT
 ====================================================== -->
-<section class="page" id="about">
+<section class="page section-bg about-bg" id="about">
   <h2 class="fade">About</h2>
 
   <div class="about-container fade">
@@ -82,7 +65,7 @@ ABOUT
 <!-- ======================================================
 ACHIEVEMENTS / TRACK RECORD
 ====================================================== -->
-<section class="page" id="achievements">
+<section class="page section-bg achievements-bg" id="achievements">
 <h2 class="fade">Achievements</h2>
   <p class="section-subtitle fade">World titles, major wins and record performances.</p>
 
@@ -127,7 +110,10 @@ PARTNERS
 <!-- ======================================================
 MEDIA
 ====================================================== -->
-<section class="page" id="media">
+<section class="page section-bg media-bg" id="media">
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="media/media-bg.mp4" type="video/mp4">
+  </video>
   <h2 class="fade">Media Highlights</h2>
   <p class="section-subtitle fade">Racing action, podiums and behind-the-scenes moments.</p>
 
