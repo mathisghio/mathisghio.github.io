@@ -21,6 +21,16 @@
 .hero {
   background: url("images/hero/hero-main.JPG") center / cover no-repeat;
 }
+
+    .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("images/ui/hero-grain.png");
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
     
   </style>
 <!-- Header injecté via header.js -->
@@ -142,12 +152,22 @@ POWERBOOKS
 
   <div class="powerbooks-container fade">
     <div class="powerbook-card">
+      <img src="images/powerbooks/pressbook-cover.jpg" alt="Pressbook cover">
       <h3>Pressbook</h3>
       <p>Career overview, results and professional imagery.</p>
       <a class="btn fade" href="powerbooks.html">Open</a>
     </div>
-
+<style>
+  .powerbook-card img {
+  width: 100%;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+}
+</style>
+    
     <div class="powerbook-card">
+      <img src="images/powerbooks/partnership-cover.jpg" alt="Partnership file cover">
       <h3>Partnership File</h3>
       <p>Audience data, exposure and sponsorship opportunities.</p>
       <a class="btn fade" href="powerbooks.html">Open</a>
