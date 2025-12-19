@@ -73,7 +73,7 @@ HERO (APPLE CINEMATIC)
   justify-content: center;
 
   background: 
-    url("images/hero/hero-main.JPG") center / cover no-repeat;
+    url("images/hero-main.JPG") center / cover no-repeat;
   overflow: hidden;
 }
 
