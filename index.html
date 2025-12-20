@@ -110,29 +110,52 @@ PARTNERS
 <!-- ======================================================
 MEDIA
 ====================================================== -->
-  <div class="media-item">  
-  <img src="images/media-1.jpg" alt="">
-  <video src="videos/media-1.mp4" muted loop playsinline></video>
-  </div>
+<section class="page section-bg media-bg" id="media">
 
   <h2 class="fade">Media Highlights</h2>
-  <p class="section-subtitle fade">Racing action, podiums and behind-the-scenes moments.</p>
+  <p class="section-subtitle fade">
+    Racing action, podiums and behind-the-scenes moments.
+  </p>
 
   <div class="gallery fade">
-    <img src="media/index-gallery-1.jpg" loading="lazy">
-    <img src="media/index-gallery-2.JPG" loading="lazy">
-    <img src="media/index-gallery-3.JPG" loading="lazy">
-    <img src="media/index-gallery-4.JPG" class="vertical" loading="lazy">
-    <img src="media/index-gallery-5.JPG" class="bottom" loading="lazy">
-    <img src="media/index-gallery-6.JPG" class="bottom" loading="lazy">
-    <img src="media/index-gallery-7.JPG" class="bottom" loading="lazy">
+
+    <div class="media-item">
+      <img src="media/index-gallery-1.jpg" loading="lazy">
+      <video src="videos/media-1.mp4" muted loop playsinline></video>
+    </div>
+
+    <div class="media-item">
+      <img src="media/index-gallery-2.JPG" loading="lazy">
+    </div>
+
+    <div class="media-item">
+      <img src="media/index-gallery-3.JPG" loading="lazy">
+    </div>
+
+    <div class="media-item vertical">
+      <img src="media/index-gallery-4.JPG" loading="lazy">
+    </div>
+
+    <div class="media-item bottom">
+      <img src="media/index-gallery-5.JPG" loading="lazy">
+    </div>
+
+    <div class="media-item bottom">
+      <img src="media/index-gallery-6.JPG" loading="lazy">
+    </div>
+
+    <div class="media-item bottom">
+      <img src="media/index-gallery-7.JPG" loading="lazy">
+    </div>
 
   </div>
 
   <div class="centered" style="margin-top:40px;">
     <a class="btn fade" href="media.html">View full media</a>
   </div>
+
 </section>
+
 
 <!-- ======================================================
 POWERBOOKS
@@ -177,19 +200,47 @@ CONTACT
 
 <!-- Scroll reveal -->
 <script>
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
+if (window.matchMedia('(hover: hover)').matches) {
+  document.querySelectorAll('.media-item').forEach(item => {
+    const video = item.querySelector('video');
+    if (!video) return;
+
+    item.addEventListener('mouseenter', () => video.play());
+    item.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
   });
-}, { threshold: 0.2 });
+}
+</script>
 
-document.querySelectorAll('.fade')
-  .forEach(el => observer.observe(el));
+  <script>
+if (window.innerWidth > 900) {
+  const sections = document.querySelectorAll('.section-bg');
 
-  document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    sections.forEach(section => {
+      const offset = section.offsetTop;
+      const height = section.offsetHeight;
+      const progress =
+        (scrollY - offset + window.innerHeight) /
+        (height + window.innerHeight);
+
+      section.style.setProperty(
+        '--parallax',
+        `${Math.min(Math.max(progress * -40, -40), 0)}px`
+      );
+    });
+  });
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
   const elements = document.querySelectorAll('.fade');
+
   if (!('IntersectionObserver' in window)) {
     elements.forEach(el => el.classList.add('visible'));
     return;
@@ -197,46 +248,17 @@ document.querySelectorAll('.fade')
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.2 });
 
   elements.forEach(el => observer.observe(el));
 });
-
 </script>
 
-  <script>
-document.querySelectorAll('.media-item').forEach(item => {
-  const video = item.querySelector('video');
-
-  item.addEventListener('mouseenter', () => video.play());
-  item.addEventListener('mouseleave', () => {
-    video.pause();
-    video.currentTime = 0;
-  });
-});
-</script>
-
-  <script>
-const sections = document.querySelectorAll('.section-bg');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-
-  sections.forEach(section => {
-    const offset = section.offsetTop;
-    const height = section.offsetHeight;
-    const progress = (scrollY - offset + window.innerHeight) / (height + window.innerHeight);
-
-    section.style.setProperty(
-      '--parallax',
-      `${Math.min(Math.max(progress * -40, -40), 0)}px`
-    );
-  });
-});
-</script>
-
-
+  
 </body>
 </html>
