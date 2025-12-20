@@ -254,18 +254,6 @@ STATS (GLASS APPLE)
 }
 
 /* ==============================
-PARTNERS
-============================== */
-.partner-grid {
-  max-width: 1100px;
-  margin: 90px auto 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 60px;
-  align-items: center;
-}
-
-/* ==============================
 PARTNERS – HOME (CONSISTENT)
 ============================== */
 .partner-grid {
@@ -274,6 +262,7 @@ PARTNERS – HOME (CONSISTENT)
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 40px;
+  align-items: stretch;
 }
 
 .partner-card {
@@ -281,6 +270,7 @@ PARTNERS – HOME (CONSISTENT)
   align-items: center;
   justify-content: center;
   padding: 26px;
+  min-height: 140px; /* 🔑 FORCE L’HARMONISATION */
   background: var(--glass);
   backdrop-filter: blur(18px);
   border-radius: var(--radius);
@@ -323,13 +313,6 @@ PARTNERS – HOME (CONSISTENT)
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 24px;
   }
-}
-
-
-.partner-logo img:hover {
-  filter: none;
-  opacity: 1;
-  transform: scale(1.1);
 }
 
 /* ==============================
