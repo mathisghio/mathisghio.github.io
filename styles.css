@@ -210,9 +210,9 @@ ABOUT
   background-image: url("images/hero-grain.png");
   background-repeat: repeat;
   background-size: cover;
-  background-position: 25% center; /* décale vers la gauche */
-  filter: brightness(1.15) contrast(1.05);
-  opacity: 0.45;
+  background-position: 15% center; /* décale vers la gauche */
+  filter: brightness(1.05) contrast(1.05);
+  opacity: 0.40;
   mix-blend-mode: normal;
 }
 
