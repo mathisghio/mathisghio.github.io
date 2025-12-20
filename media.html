@@ -177,8 +177,14 @@ GALLERY PODIUMS
   border: 1px solid rgba(58,176,255,0.15);
   box-shadow: 0 15px 35px rgba(58,176,255,0.25);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
 }
 
+.gallery-item.tapped::after {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+  
 .gallery-item[data-type="video"]:hover {
   transform: translateY(-6px);
   box-shadow: 0 25px 60px rgba(58,176,255,0.45);
@@ -214,6 +220,21 @@ INSTAGRAM WIDGET
   transition: opacity 1s ease-out;
 }
 
+  .insta-loader {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#78d1ff;
+  font-weight:bold;
+  height:600px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+
 /* ==============================
 RESPONSIVE
 ============================== */
@@ -228,12 +249,35 @@ RESPONSIVE
 }
 @media(max-width:500px){
   .gallery-grid{grid-template-columns:1fr;}
+  gap: 15px; /* moins d’espace, plus de contenu visible */
+  .gallery-item.large {
+    grid-row: auto;
+  }
 }
 
   @media(max-width:600px){
   .gallery-item.large{ grid-row:auto; }
+  .gallery-item { backdrop-filter: none; /* <-- Désactivation pour mobiles */
+  }
+  body::before { display: none; /* supprime le motif animé */
+  }   
+  .page {
+    backdrop-filter: none; /* enlève le blur qui rame */
+    background: var(--bg-main);
+  }
+     .btn {
+    padding: 20px 32px;
+    font-size: 1rem;
+  }
+    .gallery-item[data-type="video"]::after {
+    font-size: 4rem; /* plus gros sur petit écran */
+  }
+    .page-subtitle { font-size: 0.95rem; }
+  h2.tier-title { font-size: 20px; }
+  .page {
+    background: rgba(5,7,12,0.9); /* plus opaque pour lisibilité */
+  }
 }
-
 
 footer{
   text-align:center;
@@ -292,8 +336,8 @@ footer{
     
     <!-- Grille Instagram -->
     <h2 class="tier-title">Latest Instagram Posts</h2>
-    <div id="insta-placeholder" style="height:600px; display:flex; align-items:center; justify-content:center; color:#78d1ff; font-weight:bold;">
-  Loading Instagram…
+    <div id="insta-placeholder" class="insta-loader" style="height:600px; display:flex; align-items:center; justify-content:center; color:#78d1ff; font-weight:bold;">
+  <span>Loading Instagram…</span>
 </div>
     <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
       scrolling="no" class="lightwidget-widget"></iframe>
@@ -334,6 +378,32 @@ observer2.observe(insta);
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
 const lightbox = GLightbox({ selector: '.glightbox' });
+</script>
+
+  <script>
+    document.querySelectorAll('.gallery-item[data-type="video"]').forEach(item => {
+      item.addEventListener('touchstart', () => {
+        item.classList.add('tapped');
+        setTimeout(() => item.classList.remove('tapped'), 300);
+      });
+    });
+const insta = document.querySelector('.lightwidget-widget');
+const placeholder = document.getElementById('insta-placeholder');
+
+const instaObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      insta.src = insta.dataset.src; // mettre le vrai src dans data-src
+      insta.style.opacity = 1;
+      placeholder.style.display = 'none';
+      instaObserver.disconnect();
+    }
+  });
+}, {threshold:0.25});
+
+instaObserver.observe(insta);
+
+    
 </script>
 
   
