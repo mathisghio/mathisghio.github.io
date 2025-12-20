@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Media – Mathis Ghio</title>
 <link rel="icon" type="image/png" href="images/favicon.png">
-
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  
 <!-- HEADER GLOBAL -->
 <link rel="stylesheet" href="header.css">
 
@@ -202,17 +204,35 @@ footer{
     <h2>Podiums & Action Moments</h2>
 
     <div class="gallery-grid">
-      <div class="gallery-item large"><img src="media/podium-main.JPG" loading="lazy"></div>
-      <div class="gallery-item"><img src="media/podium-1.JPG" loading="lazy"></div>
-      <div class="gallery-item"><img src="media/podium-2.JPG" loading="lazy" style="object-position: 33% 60%;"></div>
-      <div class="gallery-item"><img src="media/podium-3.JPG" loading="lazy"></div>
-      <div class="gallery-item"><img src="media/podium-4.JPG" loading="lazy" style="object-position: right 54%;"></div>
-      <div class="gallery-item"><img src="media/podium-5.JPG" loading="lazy" style="object-position: center 20%;"></div>
-      <div class="gallery-item"><img src="media/podium-6.JPG" loading="lazy"></div>
-      <div class="gallery-item"><img src="media/podium-7.JPG" loading="lazy"></div>
+      <div class="gallery-item large glightbox"><img src="media/podium-main.JPG" loading="lazy"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-1.JPG" loading="lazy"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-2.JPG" loading="lazy" style="object-position: 33% 60%;"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-3.JPG" loading="lazy"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-4.JPG" loading="lazy" style="object-position: right 54%;"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-5.JPG" loading="lazy" style="object-position: center 20%;"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-6.JPG" loading="lazy"></div>
+      <div class="gallery-item glightbox"><img src="media/podium-7.JPG" loading="lazy"></div>
     </div>
 
-    <!-- Instagram -->
+      <!-- Video Gallery -->
+<a href="media/action-clip.mp4" class="gallery-item glightbox" data-type="video">
+  <img src="media/action-thumb.JPG" loading="lazy">
+</a>
+
+    <div class="partner-cta" style="margin-top:60px; text-align:center;">
+  <h2>Want to follow or collaborate?</h2>
+  <a href="contact.html" class="btn">Contact Me</a>
+  <div style="margin-top:20px;">
+    <a href="https://www.instagram.com/mathisghio/" target="_blank" class="btn" style="margin-right:10px;">Instagram</a>
+    <a href="https://www.facebook.com/MathisGhioWing/" target="_blank" class="btn" style="margin-right:10px;">Facebook</a>
+      <a href="https://www.tiktok.com/@mathisghio12" target="_blank" class="btn" style="margin-right:10px;">TikTok</a>
+    <a href="https://fr.linkedin.com/in/mathis-ghio-93075515a" target="_blank" class="btn" style="margin-right:10px;">LinkedIn</a>
+    <a href="https://www.youtube.com/@mathisghio8613" target="_blank" class="btn">YouTube</a>
+  </div>
+</div>
+
+    
+    <!-- Grille Instagram -->
     <h2 class="tier-title">Latest Instagram Posts</h2>
     <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
       scrolling="no" class="lightwidget-widget"></iframe>
@@ -244,6 +264,12 @@ insta.style.opacity = 0;
 observer2.observe(insta);
 </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+const lightbox = GLightbox({ selector: '.glightbox' });
+</script>
+  
 <script src="header.js" defer></script>
+  
 </body>
 </html>
