@@ -150,10 +150,54 @@ GALLERY PODIUMS
 
 .gallery-item:hover img{
   transform:scale(1.08);
+  transition: transform 0.4s ease;
 }
 
 .gallery-item:hover::after{
   opacity:1;
+}
+
+  .btn {
+  padding: 16px 40px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3ab0ff, #78d1ff);
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all .45s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 25px 60px rgba(58,176,255,.45);
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 35px 90px rgba(58,176,255,.7);
+}
+
+.gallery-item[data-type="video"] {
+  border: 1px solid rgba(58,176,255,0.15);
+  box-shadow: 0 15px 35px rgba(58,176,255,0.25);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gallery-item[data-type="video"]:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(58,176,255,0.45);
+}
+
+.gallery-item[data-type="video"]::after {
+  content: "▶";
+  font-size: 3rem;
+  color: rgba(255,255,255,0.8);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.8;
+  transition: transform 0.3s ease;
+}
+.gallery-item[data-type="video"]:hover::after {
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
 /* ==============================
@@ -185,6 +229,11 @@ RESPONSIVE
   .gallery-grid{grid-template-columns:1fr;}
 }
 
+  @media(max-width:600px){
+  .gallery-item.large{ grid-row:auto; }
+}
+
+
 footer{
   text-align:center;
   color:#888;
@@ -215,9 +264,17 @@ footer{
     </div>
 
       <!-- Video Gallery -->
-<a href="media/action-clip.mp4" class="gallery-item glightbox" data-type="video">
-  <img src="media/action-thumb.JPG" loading="lazy">
-</a>
+<h2 class="tier-title">Action Clips</h2>
+<div class="gallery-grid">
+  <a href="media/video-1.mp4" class="gallery-item glightbox" data-type="video">
+    <img src="media/video-1-thumb.JPG" loading="lazy" alt="Action clip 1">
+  </a>
+
+  <a href="media/video-2.mp4" class="gallery-item glightbox" data-type="video">
+    <img src="media/video-2-thumb.JPG" loading="lazy" alt="Action clip 2">
+  </a>
+
+</div>
 
     <div class="partner-cta" style="margin-top:60px; text-align:center;">
   <h2>Want to follow or collaborate?</h2>
@@ -234,6 +291,9 @@ footer{
     
     <!-- Grille Instagram -->
     <h2 class="tier-title">Latest Instagram Posts</h2>
+    <div id="insta-placeholder" style="height:600px; display:flex; align-items:center; justify-content:center; color:#78d1ff; font-weight:bold;">
+  Loading Instagram…
+</div>
     <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
       scrolling="no" class="lightwidget-widget"></iframe>
   </div>
@@ -255,12 +315,22 @@ items.forEach(i=>observer.observe(i));
 
 /* Instagram fade-in */
 const insta = document.querySelector('.lightwidget-widget');
+const placeholder = document.getElementById('insta-placeholder');
+
+  insta.addEventListener('load', () => {
+  placeholder.style.display = 'none';
+  insta.style.opacity = 1;
+});
+  
 const observer2 = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
-    if(e.isIntersecting) e.target.style.opacity = 1;
+    if(e.isIntersecting) {
+      e.target.style.opacity = 1;
+      const placeholder = document.getElementById('insta-placeholder');
+      if(placeholder) placeholder.style.display = 'none';
+    }
   });
 },{threshold:0.25});
-insta.style.opacity = 0;
 observer2.observe(insta);
 </script>
 
@@ -268,6 +338,7 @@ observer2.observe(insta);
 <script>
 const lightbox = GLightbox({ selector: '.glightbox' });
 </script>
+
   
 <script src="header.js" defer></script>
   
