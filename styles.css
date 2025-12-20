@@ -70,6 +70,7 @@ p {
   object-fit: cover;
   z-index: 0;
   opacity: 0.35;
+  pointer-events: none;
 }
 
 .section-bg::after {
