@@ -255,6 +255,16 @@ STATS (GLASS APPLE)
 /* ==============================
 PARTNERS – HOME (CONSISTENT)
 ============================== */
+.page > h2,
+.page > p,
+.page > .gallery,
+.page > .powerbooks-container, 
+.page > .btn {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #partners .tier-title {
   margin-bottom: 20px;
 }
@@ -284,8 +294,9 @@ PARTNERS – HOME (CONSISTENT)
   align-items: stretch;
 }
 
-#partners .partner-category:last-child .partner-grid {
+#partners .partner-category:nth-of-type(2) .partner-grid {
   grid-template-columns: repeat(5, 1fr);
+  max-width: 1300px;
 }
 
 
@@ -336,7 +347,7 @@ PARTNERS – HOME (CONSISTENT)
   .partner-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
-    #partners .partner-category:last-child .partner-grid {
+    #partners .partner-category:nth-of-type(2) .partner-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
@@ -538,6 +549,11 @@ p {
   .gallery .vertical {
     grid-column: auto;
     grid-row: auto;
+  }
+  
+  .media-bg {
+  padding-top: 140px;
+  padding-bottom: 140px;
   }
   
 }
