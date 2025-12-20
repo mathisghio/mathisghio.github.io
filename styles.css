@@ -173,15 +173,18 @@ SECTIONS
   transition: opacity 1.2s cubic-bezier(.4,0,.2,1),
               transform 1.2s cubic-bezier(.4,0,.2,1);
 }
-.section-bg:not(.active-bg)::before,
-.section-bg:not(.active-bg) .bg-video {
+
+.section-bg:not(.active-bg)::before {
   opacity: 0;
 }
-
-.section-bg.active-bg::before,
-.section-bg.active-bg .bg-video {
+.section-bg.active-bg::before {
   opacity: 1;
 }
+
+.media-bg {
+  background-color: var(--bg-main);
+}
+
 
 /* ==============================
 ABOUT
