@@ -182,18 +182,6 @@ SECTIONS
   transform: scale(1);
 }
 
-.section-bg:not(.active-bg)::before,
-.section-bg:not(.active-bg) .bg-video {
-  opacity: 0;
-  transform: scale(1.04);
-}
-
-.section-bg.active-bg::before,
-.section-bg.active-bg .bg-video {
-  opacity: 1;
-  transform: scale(1);
-}
-
 /* ==============================
 ABOUT
 ============================== */
@@ -222,8 +210,8 @@ ABOUT
   background-size: cover;
   background-position: 25% center; /* décale vers la gauche */
   filter: brightness(1.15) contrast(1.05);
-  opacity: 0.38;
-  mix-blend-mode: overlay;
+  opacity: 0.45;
+  mix-blend-mode: normal;
 }
 
 
@@ -294,7 +282,7 @@ MEDIA
   margin: 80px auto 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 180px;
+  grid-auto-rows: minmax(180px, 1fr);
   gap: 26px;
 }
 
@@ -310,6 +298,8 @@ MEDIA
 
 .gallery img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--radius);
   transition: transform .7s ease;
 }
@@ -424,4 +414,14 @@ MOBILE ULTRA PREMIUM
     width: 100%;
     max-width: 320px;
   }
+.gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 160px;
+  }
+
+  .gallery .vertical {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  
 }
