@@ -175,13 +175,11 @@ SECTIONS
 .section-bg:not(.active-bg)::before,
 .section-bg:not(.active-bg) .bg-video {
   opacity: 0;
-  transform: scale(1.04);
 }
 
 .section-bg.active-bg::before,
 .section-bg.active-bg .bg-video {
   opacity: 1;
-  transform: scale(1);
 }
 
 /* ==============================
@@ -256,6 +254,26 @@ STATS (GLASS APPLE)
 /* ==============================
 PARTNERS – HOME (CONSISTENT)
 ============================== */
+#partners .tier-title {
+  margin-bottom: 20px;
+}
+
+#partners .partner-grid {
+  margin-top: 30px;
+}
+
+.partner-category + .partner-category {
+  margin-top: 140px;
+}
+
+#partners .partner-category:last-child .tier-title {
+  margin-bottom: 18px;
+}
+
+#partners .partner-category:last-child .partner-grid {
+  margin-top: 24px;
+}
+
 .partner-grid {
   max-width: 1100px;
   margin: 90px auto 0;
@@ -264,6 +282,11 @@ PARTNERS – HOME (CONSISTENT)
   gap: 40px;
   align-items: stretch;
 }
+
+#partners .partner-category:last-child .partner-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
 
 .partner-card {
   display: flex;
@@ -311,6 +334,8 @@ PARTNERS – HOME (CONSISTENT)
 @media (max-width: 900px) {
   .partner-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    #partners .partner-category:last-child .partner-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 }
@@ -378,8 +403,8 @@ MEDIA
 }
 
 .media-item:hover img {
-  opacity: 0;
-  transform: scale(1.03);
+  opacity: 1;
+  transform: scale(1.20);
 }
 
 .media-bg::after {
