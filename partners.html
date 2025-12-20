@@ -6,17 +6,30 @@
 <title>Partners – Mathis Ghio</title>
 <link rel="icon" type="image/png" href="images/favicon.png">
 
+<!-- HEADER GLOBAL -->
 <link rel="stylesheet" href="header.css">
 
+<!-- STYLE PARTNERS + APPLE-LIKE -->
 <style>
-/* =========================================================
-   GLOBAL DARK + BLUE THEME (Identique à About)
-========================================================= */
+:root {
+  --bg-main: #05070c;
+  --accent: #3ab0ff;
+  --glass: rgba(255,255,255,0.08);
+  --radius: 28px;
+}
+
+/* ==============================
+GLOBAL BODY
+============================== */
 body {
   margin: 0;
-  background: #000;
-  font-family: "Inter", Arial, sans-serif;
-  color: #d8e9ff;
+  background:
+    radial-gradient(1200px at 50% -200px, #142044, transparent 60%),
+    var(--bg-main);
+  color: #eef3ff;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
@@ -29,8 +42,8 @@ body::before {
   background:
     repeating-linear-gradient(
       115deg,
-      rgba(0, 122, 255, 0.07) 0px,
-      rgba(0, 122, 255, 0.07) 2px,
+      rgba(58,176,255,0.05) 0px,
+      rgba(58,176,255,0.05) 2px,
       transparent 2px,
       transparent 80px
     );
@@ -43,44 +56,49 @@ body::before {
   to   { transform:translateX(-300px) translateY(-300px); }
 }
 
-/* =========================================================
-   PAGE STRUCTURE & CONTENT
-========================================================= */
+/* ==============================
+PAGE CONTAINER
+============================== */
 .page {
-  max-width: 1100px;
+  position: relative;
+  max-width: 1200px;
   margin: 120px auto 40px;
-  padding: 60px 6vw;
-  background: #111;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-  animation: pageFade 0.9s ease forwards;
-}
-
-@keyframes pageFade {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
-}
-
-h1 { font-size: 40px; color: #0ea5ff; margin-bottom: 12px; }
-.lead { color: #9ccaff; font-size: 18px; margin-bottom: 40px; }
-
-.partner-category { margin-bottom: 60px; }
-.tier-title {
+  padding: 60px 7vw;
   text-align: center;
-  font-size: 26px;
-  margin-bottom: 36px;
-  color: #e5f1ff;
+  z-index: 1;
 }
-.tier-title::after {
+
+/* ==============================
+HEADINGS
+============================== */
+h1 {
+  font-size: clamp(3rem, 6vw, 4rem);
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.lead {
+  color: #9fb0d3;
+  font-size: 1.15rem;
+  margin-bottom: 40px;
+}
+h2.tier-title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: #eef3ff;
+  margin-bottom: 36px;
+}
+h2.tier-title::after {
   content: "";
   display: block;
   width: 60px;
   height: 3px;
   margin: 14px auto 0;
-  background: linear-gradient(90deg,#0ea5ff,#3b82f6);
+  background: linear-gradient(90deg,var(--accent),#78d1ff);
   border-radius: 3px;
 }
 
+/* ==============================
+PARTNER GRID CARDS
+============================== */
 .partner-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -92,16 +110,17 @@ h1 { font-size: 40px; color: #0ea5ff; margin-bottom: 12px; }
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: #0c0f14;
-  border-radius: 18px;
-  border: 1px solid rgba(0, 122, 255, 0.1);
-  transition: 0.4s ease;
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  border-radius: var(--radius);
+  border: 1px solid rgba(58,176,255,0.1);
+  transition: all 0.4s ease;
 }
 
 .partner-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 25px rgba(0, 122, 255, 0.3);
-  border-color: rgba(0, 122, 255, 0.4);
+  box-shadow: 0 0 25px rgba(58,176,255,0.3);
+  border-color: rgba(58,176,255,0.4);
 }
 
 .partner-card img {
@@ -112,53 +131,53 @@ h1 { font-size: 40px; color: #0ea5ff; margin-bottom: 12px; }
   transition: 0.4s ease;
 }
 
-.partner-card:hover img { filter: brightness(1.1); }
+.partner-card:hover img {
+  filter: brightness(1.1);
+}
 
+.partner-card.big-logo img {
+  max-height: 250px;
+  max-width: 95%;
+}
+
+/* ==============================
+CTA BUTTON
+============================== */
 .partner-cta {
-  text-align: center;
   margin-top: 80px;
   padding-top: 40px;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
-
 .partner-cta a {
-  color: #0ea5ff;
-  font-weight: 600;
+  color: var(--accent);
+  font-weight: 500;
   text-decoration: none;
-  border: 2px solid rgba(14,165,255,.4);
+  border: 2px solid rgba(58,176,255,0.4);
   padding: 12px 24px;
   border-radius: 50px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
-
 .partner-cta a:hover {
-  background: rgba(14,165,255,0.1);
-  box-shadow: 0 0 20px rgba(14,165,255,0.3);
+  background: rgba(58,176,255,0.1);
+  box-shadow: 0 0 20px rgba(58,176,255,0.3);
 }
 
-   /* 5 cartes sur une seule ligne */
-.official-grid {
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px; /* un peu plus serré */
+/* ==============================
+RESPONSIVE
+============================== */
+@media (max-width: 900px) {
+  .partner-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
 }
-
-
-   /* Logos plus grands (Département & Métropole) */
-.partner-card.big-logo img {
-  max-height: 250px;   /* au lieu de 90px */
-  max-width: 95%;
-}
-
-footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
 </style>
 </head>
 <body>
 
 <section class="page">
-  <div class="partner-header">
-    <h1>Partners</h1>
-    <p class="lead">Elite wingfoil racing project — performance, visibility & innovation.</p>
-  </div>
+  <h1>Partners</h1>
+  <p class="lead">Elite wingfoil racing project — performance, visibility & innovation.</p>
 
   <div class="partner-category">
     <h2 class="tier-title">Title Partners</h2>
@@ -177,7 +196,7 @@ footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
 
   <div class="partner-category">
     <h2 class="tier-title">Official Partners</h2>
-    <div class="partner-grid official-grid">
+    <div class="partner-grid">
       <a href="https://www.overstims.com/" target="_blank" class="partner-card">
         <img src="images/sponsor-overstims.png" alt="Overstims">
       </a>
@@ -190,7 +209,7 @@ footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
       <a href="https://www.departement13.fr/en-actions/sport/soutenir-les-sportifs-de-haut-niveau/aide-individuelle-aux-athletes-de-haut-niveau" target="_blank" class="partner-card big-logo">
         <img src="images/sponsor-departement13.png" alt="Departement 13">
       </a>
-       <a href="https://ampmetropole.fr/sport/la-metropole-soutient-les-sportifs-de-haut-niveau/" target="_blank" class="partner-card big-logo">
+      <a href="https://ampmetropole.fr/sport/la-metropole-soutient-les-sportifs-de-haut-niveau/" target="_blank" class="partner-card big-logo">
         <img src="images/sponsor-metropole-aix-marseille.png" alt="Metropole Aix Marseille">
       </a>
     </div>
@@ -202,10 +221,8 @@ footer { text-align: center; padding: 40px 0; color: #777; font-size: 14px; }
   </div>
 </section>
 
-<footer>© Wingfoil Racing / Robert Hadjuk</footer>
+<footer>© Mathis Ghio</footer>
 
 <script src="header.js" defer></script>
-
-   
 </body>
 </html>
