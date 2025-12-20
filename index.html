@@ -137,7 +137,10 @@ PARTNERS
 MEDIA
 ====================================================== -->
 <section class="page section-bg media-bg active-bg" id="media">
-
+  
+  <video class="bg-video" autoplay muted loop playsinline>
+    <video src="media/media-1.mp4" muted loop playsinline></video>
+  </video>
   <h2 class="fade">Media Highlights</h2>
   <p class="section-subtitle fade">
     Racing action, podiums and behind-the-scenes moments.
@@ -147,7 +150,6 @@ MEDIA
 
     <div class="media-item">
       <img src="media/index-gallery-1.jpg" loading="lazy">
-      <video src="media/media-1.mp4" muted loop playsinline></video>
     </div>
 
     <div class="media-item">
@@ -275,7 +277,7 @@ const bgObserver = new IntersectionObserver(entries => {
     }
   });
 }, {
-  threshold: 0.3
+  threshold: 0.55
 });
 
 bgSections.forEach(section => bgObserver.observe(section));
