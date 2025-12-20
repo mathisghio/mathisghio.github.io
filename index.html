@@ -206,7 +206,37 @@ document.querySelectorAll('.fade')
 
 </script>
 
-  
+  <script>
+document.querySelectorAll('.media-item').forEach(item => {
+  const video = item.querySelector('video');
+
+  item.addEventListener('mouseenter', () => video.play());
+  item.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
+</script>
+
+  <script>
+const sections = document.querySelectorAll('.section-bg');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  sections.forEach(section => {
+    const offset = section.offsetTop;
+    const height = section.offsetHeight;
+    const progress = (scrollY - offset + window.innerHeight) / (height + window.innerHeight);
+
+    section.style.setProperty(
+      '--parallax',
+      `${Math.min(Math.max(progress * -40, -40), 0)}px`
+    );
+  });
+});
+</script>
+
 
 </body>
 </html>
