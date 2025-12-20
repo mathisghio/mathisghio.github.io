@@ -6,22 +6,29 @@
 <title>Media – Mathis Ghio</title>
 <link rel="icon" type="image/png" href="images/favicon.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
 <!-- HEADER GLOBAL -->
 <link rel="stylesheet" href="header.css">
-   
-<style>
 
-/* =========================================================
-   GLOBAL
-========================================================= */
+<style>
+:root {
+  --bg-main: #05070c;
+  --accent: #3ab0ff;
+  --glass: rgba(255,255,255,0.08);
+  --radius: 28px;
+}
+
+/* ==============================
+GLOBAL BODY + GRADIENT / LINES
+============================== */
 body{
   margin:0;
-  background:#000;
-  font-family:"Inter", Arial, sans-serif;
-  color:#d8e9ff;
+  background:
+    radial-gradient(1200px at 50% -200px, #142044, transparent 60%),
+    var(--bg-main);
+  font-family:-apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  color:#eef3ff;
   overflow-x:hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 body::before{
@@ -32,8 +39,8 @@ body::before{
   height:200%;
   background:repeating-linear-gradient(
     115deg,
-    rgba(0,122,255,.07) 0px,
-    rgba(0,122,255,.07) 2px,
+    rgba(58,176,255,0.05) 0px,
+    rgba(58,176,255,0.05) 2px,
     transparent 2px,
     transparent 80px
   );
@@ -41,39 +48,61 @@ body::before{
   z-index:-1;
 }
 @keyframes moveLines{
-  to{transform:translate(-300px,-300px);}
+  from {transform:translateX(0) translateY(0);}
+  to{transform:translateX(-300px) translateY(-300px);}
 }
 
-/* =========================================================
-   PAGE
-========================================================= */
+/* ==============================
+PAGE CONTAINER
+============================== */
 .page{
+  position: relative;
   max-width:1200px;
   margin:120px auto 80px;
-  padding:60px 6vw;
-  background:#111;
-  border-radius:18px;
-  box-shadow:0 8px 30px rgba(0,0,0,.6);
+  padding:60px 7vw;
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  border-radius: var(--radius);
+  text-align:center;
 }
 
-h1{font-size:42px;}
+/* ==============================
+HEADINGS
+============================== */
+h1{
+  font-size: clamp(3rem,6vw,4rem);
+  color: var(--accent);
+  margin-bottom: 12px;
+}
 .page-subtitle{
   max-width:520px;
-  font-size:17px;
-  color:#9ccaff;
+  font-size:1.05rem;
+  color:#9fb0d3;
+  margin:auto;
+}
+h2.tier-title{
+  text-align:center;
+  font-size:26px;
+  margin:50px 0 25px;
+  letter-spacing:1px;
+  color:#eef3ff;
+  position:relative;
+}
+h2.tier-title::after{
+  content:"";
+  display:block;
+  width:80px;
+  height:3px;
+  margin:14px auto 0;
+  background:linear-gradient(90deg,var(--accent),#78d1ff);
+  border-radius:3px;
 }
 
-
-/* =========================================================
-   GALLERY PODIUMS – B + C
-========================================================= */
+/* ==============================
+GALLERY PODIUMS
+============================== */
 .gallery{
   margin-top:90px;
-}
-
-.gallery h2{
-  font-size:28px;
-  margin-bottom:30px;
 }
 
 .gallery-grid{
@@ -86,10 +115,12 @@ h1{font-size:42px;}
 .gallery-item{
   position:relative;
   overflow:hidden;
-  border-radius:18px;
+  border-radius: var(--radius);
   transform:translateY(40px);
   opacity:0;
   transition:.8s cubic-bezier(.22,1,.36,1);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
 }
 
 .gallery-item.visible{
@@ -110,7 +141,7 @@ h1{font-size:42px;}
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,.65));
+  background:linear-gradient(180deg, transparent 45%, rgba(0,0,0,.45));
   opacity:0;
   transition:.4s;
 }
@@ -123,20 +154,22 @@ h1{font-size:42px;}
   opacity:1;
 }
 
-/* =========================================================
-   INSTAGRAM
-========================================================= */
+/* ==============================
+INSTAGRAM WIDGET
+============================== */
 .lightwidget-widget{
   width:100%;
   min-height:600px;
-  border-radius:18px;
-  box-shadow:0 0 30px rgba(0,122,255,.25);
+  border-radius: var(--radius);
+  box-shadow:0 0 30px rgba(58,176,255,.25);
+  margin-top:50px;
+  opacity:0;
+  transition: opacity 1s ease-out;
 }
 
-   
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* ==============================
+RESPONSIVE
+============================== */
 @media(max-width:900px){
   .gallery-grid{
     grid-template-columns:1fr 1fr;
@@ -153,29 +186,8 @@ h1{font-size:42px;}
 footer{
   text-align:center;
   color:#888;
-  padding:30px;
+  padding:40px 0;
 }
-
-/* Titre Instagram */
-h2.tier-title{
-  text-align:center;
-  font-size:26px;
-  margin:50px 0 25px;
-  letter-spacing:1px;
-  color:#e5f1ff;
-  position:relative;
-}
-
-h2.tier-title::after{
-  content:"";
-  display:block;
-  width:80px;
-  height:3px;
-  margin:14px auto 0;
-  background:linear-gradient(90deg,#0ea5ff,#3b82f6);
-  border-radius:3px;
-}
-
 </style>
 </head>
 
@@ -192,34 +204,27 @@ h2.tier-title::after{
     <div class="gallery-grid">
       <div class="gallery-item large"><img src="media/podium-main.JPG" loading="lazy"></div>
       <div class="gallery-item"><img src="media/podium-1.JPG" loading="lazy"></div>
-<div class="gallery-item">
-  <img src="media/podium-2.JPG" loading="lazy" style="object-position: 33% 60%;">
-</div>
+      <div class="gallery-item"><img src="media/podium-2.JPG" loading="lazy" style="object-position: 33% 60%;"></div>
       <div class="gallery-item"><img src="media/podium-3.JPG" loading="lazy"></div>
-<div class="gallery-item">
-  <img src="media/podium-4.JPG" loading="lazy" style="object-position: right 54%;">
-</div>
-<div class="gallery-item">
-  <img src="media/podium-5.JPG" loading="lazy" style="object-position: center 20%;">
-</div>
+      <div class="gallery-item"><img src="media/podium-4.JPG" loading="lazy" style="object-position: right 54%;"></div>
+      <div class="gallery-item"><img src="media/podium-5.JPG" loading="lazy" style="object-position: center 20%;"></div>
       <div class="gallery-item"><img src="media/podium-6.JPG" loading="lazy"></div>
       <div class="gallery-item"><img src="media/podium-7.JPG" loading="lazy"></div>
     </div>
 
- <!-- Instagram -->
-     <h2 class="tier-title">Latest Instagram Posts</h2>
-  <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
-    scrolling="no" class="lightwidget-widget"></iframe>
-     
+    <!-- Instagram -->
+    <h2 class="tier-title">Latest Instagram Posts</h2>
+    <iframe src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
+      scrolling="no" class="lightwidget-widget"></iframe>
   </div>
 </section>
 
-<footer>© Wingfoil Racing / Robert Hadjuk / Jean Souville </footer>
+<footer>© Wingfoil Racing / Mathis Ghio</footer>
 
 <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
 
 <script>
-/* Scroll reveal */
+/* Scroll reveal podiums */
 const items = document.querySelectorAll('.gallery-item');
 const observer = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
@@ -227,21 +232,18 @@ const observer = new IntersectionObserver(entries=>{
   });
 },{threshold:0.25});
 items.forEach(i=>observer.observe(i));
+
+/* Instagram fade-in */
 const insta = document.querySelector('.lightwidget-widget');
 const observer2 = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting) e.target.style.opacity = 1;
   });
 },{threshold:0.25});
-
 insta.style.opacity = 0;
-insta.style.transition = "opacity 1s ease-out";
 observer2.observe(insta);
-   
 </script>
 
 <script src="header.js" defer></script>
-
-   
 </body>
 </html>
