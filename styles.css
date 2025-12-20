@@ -335,6 +335,7 @@ PARTNERS – HOME (CONSISTENT)
 @media (max-width: 900px) {
   .partner-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
     #partners .partner-category:last-child .partner-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
