@@ -32,7 +32,7 @@ HERO
 <!-- ======================================================
 ABOUT
 ====================================================== -->
-<section class="page section-bg about-bg" id="about">
+<section class="page section-bg about-bg active-bg" id="about">
   <h2 class="fade">About</h2>
 
   <div class="about-container fade">
@@ -65,7 +65,7 @@ ABOUT
 <!-- ======================================================
 ACHIEVEMENTS / TRACK RECORD
 ====================================================== -->
-<section class="page section-bg achievements-bg" id="achievements">
+<section class="page section-bg achievements-bg active-bg" id="achievements">
 <h2 class="fade">Achievements</h2>
   <p class="section-subtitle fade">World titles, major wins and record performances.</p>
 
@@ -110,7 +110,7 @@ PARTNERS
 <!-- ======================================================
 MEDIA
 ====================================================== -->
-<section class="page section-bg media-bg" id="media">
+<section class="page section-bg media-bg active-bg" id="media">
 
   <h2 class="fade">Media Highlights</h2>
   <p class="section-subtitle fade">
@@ -237,6 +237,25 @@ if (window.innerWidth > 900) {
 }
 </script>
 
+<script>
+const bgSections = document.querySelectorAll('.section-bg');
+
+const bgObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active-bg');
+    } else {
+      entry.target.classList.remove('active-bg');
+    }
+  });
+}, {
+  threshold: 0.3
+});
+
+bgSections.forEach(section => bgObserver.observe(section));
+</script>
+
+  
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const elements = document.querySelectorAll('.fade');
