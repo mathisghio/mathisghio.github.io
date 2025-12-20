@@ -255,7 +255,9 @@ RESPONSIVE
   }
 }
 
+  
   @media(max-width:600px){
+  html { scroll-padding-top: 80px; }
   .gallery-item.large{ grid-row:auto; }
   .gallery-item { backdrop-filter: none; /* <-- Désactivation pour mobiles */
   }
@@ -365,16 +367,30 @@ const placeholder = document.getElementById('insta-placeholder');
 const observer2 = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting) {
-      e.target.style.opacity = 1;
-      const placeholder = document.getElementById('insta-placeholder');
-      if(placeholder) placeholder.style.display = 'none';
+      insta.src = insta.dataset.src;
+      insta.style.opacity = 1;
+      placeholder.style.display = 'none';
+      instaObserver.disconnect();
     }
   });
-},{threshold:0.25});
-observer2.observe(insta);
-
+}, {threshold:0.25});
+instaObserver.observe(insta);
 </script>
 
+<script>
+document.querySelectorAll('.gallery-item img').forEach(img => {
+  const imgObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        img.src = img.dataset.src;
+        imgObserver.disconnect();
+      }
+    });
+  }, {threshold:0.1});
+  imgObserver.observe(img);
+});
+  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
 const lightbox = GLightbox({ selector: '.glightbox' });
