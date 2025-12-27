@@ -212,9 +212,9 @@ ABOUT
   background-image: url("images/hero-grain.png");
   background-repeat: repeat;
   background-size: cover;
-  background-position: 15% center; /* décale vers la gauche */
+  background-position: 5% center; /* décale vers la gauche */
   filter: brightness(1.05) contrast(1.05);
-  opacity: 0.40;
+  opacity: 0.5;
   mix-blend-mode: normal;
 }
 
@@ -356,6 +356,17 @@ PARTNERS – HOME (CONSISTENT)
   }
 }
 
+/* ==============================
+PARTNERS – VIDEO BACKGROUND
+============================== */
+
+.partners-bg {
+  background-color: var(--bg-main);
+}
+
+.partners-bg::after {
+  background: rgba(5,7,12,0.35);
+  
 /* ==============================
 MEDIA
 ============================== */
