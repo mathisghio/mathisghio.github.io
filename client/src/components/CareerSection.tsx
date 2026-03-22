@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { InteractiveWavesBackground } from './InteractiveWavesBackground'
+import { InteractiveWaves } from './InteractiveWaves'
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
@@ -51,8 +51,8 @@ export function CareerSection() {
 
   return (
     <section id="career" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #050810 50%, #08090E 100%)' }}>
-      <div className="absolute inset-0 z-0" style={{ opacity: 0.5 }}>
-        <InteractiveWavesBackground strokeColor="rgba(14, 165, 233, 0.6)" backgroundColor="transparent" />
+      <div className="absolute inset-0 z-0" style={{ opacity: 0.8 }}>
+        <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.5)" backgroundColor="transparent" pointerSize={1} />
       </div>
       <div className="absolute left-1/2 top-0 bottom-0 w-px pointer-events-none hidden lg:block z-20" style={{ background: 'linear-gradient(to bottom, transparent, rgba(14, 165, 233, 0.15), transparent)' }} />
       <div className="container relative z-20">
@@ -69,7 +69,7 @@ export function CareerSection() {
           <div className="absolute left-6 top-0 bottom-0 w-px lg:hidden" style={{ background: 'linear-gradient(to bottom, transparent, rgba(14, 165, 233, 0.3), transparent)' }} />
           <div className="flex flex-col gap-0">
             {careerTimeline.map((item, i) => (
-              <motion.div key={i} className="relative" initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6, delay: i * 0.1, ease: 'easeOut' }}>
+              <motion.div key={i} className="relative" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, delay: i * 0.1, ease: 'easeOut' }}>
                 <div className={`flex gap-6 lg:gap-12 pb-12 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
                   <div className="flex-shrink-0 lg:hidden pt-1">
                     <div className="w-3 h-3 rounded-full ml-4" style={{ background: (item as any).gold ? '#F59E0B' : '#0EA5E9', boxShadow: (item as any).gold ? '0 0 10px rgba(245,158,11,0.6)' : '0 0 10px rgba(14,165,233,0.6)', marginTop: '6px' }} />
