@@ -96,41 +96,39 @@ export function Navigation() {
         </div>
       </nav>
 
-<div
-  className="fixed inset-0 z-40 lg:hidden transition-all duration-300"
-  style={{
-    opacity: menuOpen ? 1 : 0,
-    pointerEvents: menuOpen ? 'all' : 'none',
-    background: 'rgba(8, 9, 14, 0.97)',
-    backdropFilter: 'blur(20px)',
-  }}
->
-  <div className="flex flex-col items-center justify-start min-h-full pt-24 pb-12 gap-6 overflow-y-auto h-full px-8">
-    {navLinks.map((link, i) => (
-      <button
-        key={link.href}
-        onClick={() => handleNavClick(link.href)}
-        className="font-display text-3xl text-white uppercase tracking-widest transition-all duration-200 hover:text-cyan-400 flex-shrink-0"
+      <div
+        className="fixed inset-0 z-40 lg:hidden transition-all duration-300"
         style={{
-          transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
-          transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
           opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'all' : 'none',
+          background: 'rgba(8, 9, 14, 0.97)',
+          backdropFilter: 'blur(20px)',
         }}
       >
-        {link.label}
-      </button>
-    ))}
-    
-      href="mailto:contact@mathisghio.com"
-      className="mt-4 px-8 py-3 font-heading font-bold text-sm uppercase tracking-widest text-white rounded-sm flex-shrink-0"
-      style={{ background: 'linear-gradient(135deg, #0EA5E9, #0284C7)', letterSpacing: '0.15em' }}
-    >
-      Contact
-    </a>
-  </div>
-</div>
-
-      
+        <div className="flex flex-col items-center justify-start min-h-full pt-24 pb-12 gap-6 overflow-y-auto h-full px-8">
+          {navLinks.map((link, i) => (
+            <button
+              key={link.href}
+              onClick={() => handleNavClick(link.href)}
+              className="font-display text-3xl text-white uppercase tracking-widest transition-all duration-200 hover:text-cyan-400 flex-shrink-0"
+              style={{
+                transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
+                transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
+                opacity: menuOpen ? 1 : 0,
+              }}
+            >
+              {link.label}
+            </button>
+          ))}
+          
+            href="mailto:contact@mathisghio.com"
+            className="mt-4 px-8 py-3 font-heading font-bold text-sm uppercase tracking-widest text-white rounded-sm flex-shrink-0"
+            style={{ background: 'linear-gradient(135deg, #0EA5E9, #0284C7)', letterSpacing: '0.15em' }}
+          >
+            Contact
+          </a>
+        </div>
+      </div>
     </>
   )
 }
