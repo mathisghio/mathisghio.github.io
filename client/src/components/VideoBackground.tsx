@@ -42,7 +42,7 @@ export function VideoBackground({ videoSrc, fallbackImageSrc, className = '' }: 
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           backgroundRepeat: 'no-repeat',
-          opacity: videoLoaded && !videoError ? 0 : 1,
+          opacity: videoError ? 1 : 0,
           transition: 'opacity 0.6s ease',
         }}
       />
