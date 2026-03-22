@@ -69,7 +69,7 @@ export function CareerSection() {
           <div className="absolute left-6 top-0 bottom-0 w-px lg:hidden" style={{ background: 'linear-gradient(to bottom, transparent, rgba(14, 165, 233, 0.3), transparent)' }} />
           <div className="flex flex-col gap-0">
             {careerTimeline.map((item, i) => (
-              <motion.div key={i} className="relative" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, delay: i * 0.1, ease: 'easeOut' }}>
+              <motion.div key={i} className="relative" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-30px" }} transition={{ duration: 0.5, delay: i * 0.05, ease: [0.25, 0.1, 0.25, 1] }}>
                 <div className={`flex gap-6 lg:gap-12 pb-12 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
                   <div className="flex-shrink-0 lg:hidden pt-1">
                     <div className="w-3 h-3 rounded-full ml-4" style={{ background: (item as any).gold ? '#F59E0B' : '#0EA5E9', boxShadow: (item as any).gold ? '0 0 10px rgba(245,158,11,0.6)' : '0 0 10px rgba(14,165,233,0.6)', marginTop: '6px' }} />
