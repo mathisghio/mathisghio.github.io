@@ -120,7 +120,7 @@ export function Navigation() {
               {link.label}
             </button>
           ))}
-          
+          <a
             href="mailto:contact@mathisghio.com"
             className="mt-4 px-8 py-3 font-heading font-bold text-sm uppercase tracking-widest text-white rounded-sm flex-shrink-0"
             style={{ background: 'linear-gradient(135deg, #0EA5E9, #0284C7)', letterSpacing: '0.15em' }}
