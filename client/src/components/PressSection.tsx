@@ -55,10 +55,10 @@ export function PressSection() {
           className="flex flex-col items-center text-center w-full"
         >
           <div className="flex items-center gap-3 mb-6 justify-center">
-            <div className="section-line" />
+          <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
             <span
               className="font-body text-xs uppercase tracking-widest"
-              style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}
+              style={{ color: 'rgba(241, 245, 249, 0.6)', letterSpacing: '0.2em' }}
             >
               Press & Media
             </span>
