@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Wind, Zap, Waves, Target } from 'lucide-react'
+import { ShaderAnimation2 } from './ShaderAnimation2'
 
 const FOIL_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/wingfoil-action-generated_c89eb0f5.jpg'
 
@@ -25,7 +26,11 @@ export function SportSection() {
   const { ref, inView } = useInView(0.1)
   return (
     <section id="sport" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}>
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+      <div className="absolute inset-0 z-0" style={{ opacity: 0.18 }}>
+        <ShaderAnimation2 />
+      </div>
+      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.7) 0%, rgba(8,9,14,0.5) 50%, rgba(8,9,14,0.7) 100%)' }} />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <div className="flex items-center gap-3 mb-6"><div className="section-line" /><span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>The Sport</span></div>
