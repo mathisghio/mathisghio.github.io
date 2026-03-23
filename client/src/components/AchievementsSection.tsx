@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Trophy, Star, Zap, Award } from 'lucide-react'
-import { InteractiveWavesBackground } from './InteractiveWavesBackground'
+import { ShaderAnimation } from './ShaderAnimation'
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null)
@@ -48,10 +48,10 @@ export function AchievementsSection() {
 
   return (
     <section id="achievements" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
-      <div className="absolute inset-0 z-0" style={{ opacity: 0.6 }}>
-        <InteractiveWavesBackground strokeColor="rgba(14, 165, 233, 0.7)" backgroundColor="transparent" />
+     <div className="absolute inset-0 z-0" style={{ opacity: 0.4 }}>
+        <ShaderAnimation />
       </div>
-      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.95) 0%, rgba(8,9,14,0.85) 50%, rgba(8,9,14,0.95) 100%)' }} />
+      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.85) 0%, rgba(8,9,14,0.7) 50%, rgba(8,9,14,0.85) 100%)' }} />
       <div className="absolute right-0 top-1/2 -translate-y-1/2 font-display select-none pointer-events-none z-0" style={{ fontSize: 'clamp(200px, 30vw, 400px)', color: 'rgba(14, 165, 233, 0.03)', lineHeight: 1, right: '-2%' }}>5×</div>
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
