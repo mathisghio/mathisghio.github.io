@@ -23,8 +23,8 @@ export function HeroSection() {
     <section id="top" className="relative w-full overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
       <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
       <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.6) 0%, rgba(8,9,14,0.4) 40%, rgba(8,9,14,0.8) 100%)' }} />
-      <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
-        <Waves strokeColor="rgba(14, 165, 233, 0.12)" backgroundColor="transparent" />
+      <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.65 }}>
+  <Waves strokeColor="rgba(14, 165, 233, 0.25)" backgroundColor="transparent" />
       </div>
       <div className="absolute left-0 top-0 bottom-0 z-30 flex flex-col justify-center gap-2 pl-6 hidden lg:flex">
         {[...Array(5)].map((_, i) => (
