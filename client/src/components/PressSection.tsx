@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Download, FileText, Mail } from 'lucide-react'
+import { FallingPattern } from './FallingPattern'
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
@@ -20,8 +21,18 @@ const pressResources = [
 export function PressSection() {
   const { ref, inView } = useInView(0.1)
   return (
-    <section id="press" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}>
-      <div className="container relative z-10">
+<section id="press" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}>
+  <div className="absolute inset-0 z-0" style={{ opacity: 0.35 }}>
+    <FallingPattern
+      color="rgba(14, 165, 233, 0.6)"
+      backgroundColor="transparent"
+      duration={150}
+      blurIntensity="1px"
+      density={1}
+    />
+  </div>
+  <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(180deg, rgba(8,9,14,0.6) 0%, rgba(8,9,14,0.4) 50%, rgba(8,9,14,0.6) 100%)' }} />
+  <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <div className="flex items-center gap-3 mb-6"><div className="section-line" /><span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Press & Media</span></div>
           <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>MEDIA KIT</h2>
