@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Download, FileText, Mail } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { LampContainer } from '@/components/ui/lamp'
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
@@ -21,49 +21,9 @@ const pressResources = [
 export function PressSection() {
   const { ref, inView } = useInView(0.1)
   return (
-<section id="press" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}>
-<div className="absolute inset-0 z-0 overflow-hidden">
-  <div className="relative flex w-full h-full scale-y-125 items-start justify-center isolate">
-    <motion.div
-      initial={{ opacity: 0.5, width: '15rem' }}
-      whileInView={{ opacity: 1, width: '30rem' }}
-      transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-      style={{ backgroundImage: 'conic-gradient(from 70deg at center top, #0EA5E9, transparent, transparent)' }}
-      className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] top-0"
-    >
-      <div className="absolute w-full left-0 h-40 bottom-0 z-20" style={{ background: '#08090E', maskImage: 'linear-gradient(to top, white, transparent)' }} />
-      <div className="absolute w-40 h-full left-0 bottom-0 z-20" style={{ background: '#08090E', maskImage: 'linear-gradient(to right, white, transparent)' }} />
-    </motion.div>
-    <motion.div
-      initial={{ opacity: 0.5, width: '15rem' }}
-      whileInView={{ opacity: 1, width: '30rem' }}
-      transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-      style={{ backgroundImage: 'conic-gradient(from 290deg at center top, transparent, transparent, #0EA5E9)' }}
-      className="absolute inset-auto left-1/2 h-56 w-[30rem] top-0"
-    >
-      <div className="absolute w-40 h-full right-0 bottom-0 z-20" style={{ background: '#08090E', maskImage: 'linear-gradient(to left, white, transparent)' }} />
-      <div className="absolute w-full right-0 h-40 bottom-0 z-20" style={{ background: '#08090E', maskImage: 'linear-gradient(to top, white, transparent)' }} />
-    </motion.div>
-    <div className="absolute top-0 h-48 w-full translate-y-12 scale-x-150 blur-2xl" style={{ background: '#08090E' }} />
-    <div className="absolute top-0 z-50 h-36 w-[28rem] translate-y-0 rounded-full opacity-40 blur-3xl" style={{ background: '#0EA5E9' }} />
-    <motion.div
-      initial={{ width: '8rem' }}
-      whileInView={{ width: '16rem' }}
-      transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-      className="absolute top-0 z-30 h-36 w-64 -translate-y-6 rounded-full blur-2xl opacity-60"
-      style={{ background: '#0284C7' }}
-    />
-    <motion.div
-      initial={{ width: '15rem' }}
-      whileInView={{ width: '30rem' }}
-      transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-      className="absolute top-0 z-50 h-0.5 w-[30rem] -translate-y-4"
-      style={{ background: '#0EA5E9' }}
-    />
-    <div className="absolute top-0 z-40 h-44 w-full translate-y-10" style={{ background: '#08090E' }} />
-  </div>
-</div>
-  <div className="container relative z-10">
+<section id="press" ref={ref} className="relative overflow-hidden" style={{ background: '#08090E' }}>
+  <LampContainer className="pt-0">
+  <div className="container relative z-10 py-24 lg:py-36">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <div className="flex items-center gap-3 mb-6"><div className="section-line" /><span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Press & Media</span></div>
           <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>MEDIA KIT</h2>
@@ -101,6 +61,7 @@ export function PressSection() {
           </div>
         </div>
       </div>
+      </LampContainer>
     </section>
   )
 }
