@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from '@/hooks/useInView'
 
 const ABOUT_WATER = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/about-water_efffaf99.JPG'
 const ABOUT_LAND = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/portrait_eau_fcd69e14.JPG'
 const HERO_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-main_cc5a0cb5.JPG'
 
-function useInView(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-  useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setInView(true) }, { threshold })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, inView }
-}
+
 
 export function AboutSection() {
   const { ref, inView } = useInView(0.15)
