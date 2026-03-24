@@ -4,9 +4,10 @@ interface SectionHeaderProps {
   line2: string
   lightColor?: boolean
   goldGradient?: boolean
+  className?: string
 }
 
-export function SectionHeader({ label, line1, line2, lightColor, goldGradient }: SectionHeaderProps) {
+export function SectionHeader({ label, line1, line2, lightColor, goldGradient, className = '' }: SectionHeaderProps) {
   return (
     <>
       <div className="flex items-center gap-3 mb-6">
@@ -16,7 +17,7 @@ export function SectionHeader({ label, line1, line2, lightColor, goldGradient }:
         </span>
       </div>
       <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>{line1}</h2>
-      <h2 className="font-display leading-none" style={{
+      <h2 className={`font-display leading-none ${className}`} style={{
         fontSize: 'clamp(48px, 8vw, 110px)',
         background: goldGradient
           ? 'linear-gradient(135deg, #F59E0B, #FCD34D)'
