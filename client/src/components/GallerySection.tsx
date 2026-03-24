@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import { FallingPattern } from '@/components/FallingPattern'
+import { motion } from 'framer-motion'
+import { LampContainer } from '@/components/ui/lamp'
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(false)
   useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setInView(true) }, { threshold })
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true) },
+      { threshold }
+    )
     if (ref.current) obs.observe(ref.current)
     return () => obs.disconnect()
   }, [threshold])
@@ -28,47 +32,58 @@ export function GallerySection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
 
   return (
-    <section
-      id="gallery"
-      ref={ref}
-      className="relative py-24 lg:py-36 overflow-hidden"
-      style={{ background: '#08090E' }}
-    >
-      {/* FallingPattern background — couleur dorée pour distinguer de Partners */}
-      <div className="absolute inset-0 z-0">
-        <FallingPattern
-          color="rgba(245, 158, 11, 0.25)"
-          backgroundColor="transparent"
-          duration={140}
-          blurIntensity="0.6em"
-          density={1}
-          className="w-full h-full"
-        />
-      </div>
+    <section id="gallery" ref={ref} style={{ background: '#08090E' }}>
 
-      {/* Gradient overlays */}
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 12%, transparent 88%, #08090E 100%)' }}
-      />
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)' }}
-      />
-
-      <div className="container relative z-10">
-        <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="section-line" />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Media Gallery</span>
+      {/* ── Lamp header ── */}
+      <LampContainer>
+        <motion.div
+          initial={{ opacity: 0.5, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
+          className="flex flex-col items-center text-center w-full"
+        >
+          <div className="flex items-center gap-3 mb-6 justify-center">
+            <div
+              className="section-line"
+              style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }}
+            />
+            <span
+              className="font-body text-xs uppercase tracking-widest"
+              style={{ color: 'rgba(241, 245, 249, 0.6)', letterSpacing: '0.2em' }}
+            >
+              Media Gallery
+            </span>
           </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>RACING ACTION</h2>
-          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>& PODIUMS</h2>
-        </div>
+          <h2
+            className="font-display text-white leading-none"
+            style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}
+          >
+            RACING ACTION
+          </h2>
+          <h2
+            className="font-display leading-none"
+            style={{
+              fontSize: 'clamp(48px, 8vw, 110px)',
+              background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            & PODIUMS
+          </h2>
+        </motion.div>
+      </LampContainer>
 
+      {/* ── Grille photos ── */}
+      <div className="container relative z-10 pb-24 lg:pb-36">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[200px] transition-all duration-700"
-          style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '200ms',
+          }}
         >
           {galleryImages.map((img, i) => (
             <div
@@ -90,13 +105,18 @@ export function GallerySection() {
                 style={{
                   transition: 'transform 0.6s ease, filter 0.4s ease',
                   transform: hoveredIdx === i ? 'scale(1.08)' : 'scale(1)',
-                  filter: hoveredIdx === i ? 'saturate(1.3) brightness(1.1)' : 'saturate(1.0) brightness(0.9)',
+                  filter: hoveredIdx === i
+                    ? 'saturate(1.3) brightness(1.1)'
+                    : 'saturate(1.0) brightness(0.9)',
                 }}
                 loading="lazy"
               />
               <div
                 className="absolute inset-0 transition-opacity duration-300"
-                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)', opacity: hoveredIdx === i ? 1 : 0 }}
+                style={{
+                  background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)',
+                  opacity: hoveredIdx === i ? 1 : 0,
+                }}
               />
             </div>
           ))}
@@ -104,7 +124,11 @@ export function GallerySection() {
 
         <div
           className="mt-12 flex flex-wrap gap-4 justify-center transition-all duration-700"
-          style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '400ms',
+          }}
         >
           {[
             { href: 'https://instagram.com/mathisghio', label: '@mathisghio' },
@@ -117,8 +141,7 @@ export function GallerySection() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 rounded-sm font-heading font-semibold text-sm uppercase tracking-wider transition-all duration-300"
               style={{
-                background: 'rgba(8, 9, 14, 0.7)',
-                backdropFilter: 'blur(8px)',
+                background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 color: 'rgba(241, 245, 249, 0.8)',
                 letterSpacing: '0.1em',
