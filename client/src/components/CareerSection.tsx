@@ -175,7 +175,7 @@ export function CareerSection() {
           className="mb-0 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <SectionHeader label="MY CAREER HISTORY" line1="MY JOURNEY" line2="TO THE TOP" />
+          <SectionHeader label="MY CAREER HISTORY" line1="MY JOURNEY" line2="TO THE TOP" className="mb-6" />
           <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
             From a young sailor on the French Riviera to 5× World Champion — a journey defined by passion,
             dedication, and an insatiable drive to push wingfoil to its limits.
