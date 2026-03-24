@@ -1,19 +1,21 @@
 import React from 'react'
 
 interface DualToneRainBackgroundProps {
-  /** Accent color — defaults to the site's cyan */
   color?: string
 }
 
 export function DualToneRainBackground({ color = '#0EA5E9' }: DualToneRainBackgroundProps) {
+  const id = 'dtrb'
+
   const css = `
-    .dtrb-rain {
+    /* ── Rain layer — solid black bg + CSS gradient streaks ──────────── */
+    .${id}-rain {
       --c: ${color};
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-color: transparent;
+      background-color: #000;
       background-image:
         radial-gradient(4px 100px at 0px 235px,   var(--c), transparent),
         radial-gradient(4px 100px at 300px 235px,  var(--c), transparent),
@@ -64,26 +66,34 @@ export function DualToneRainBackground({ color = '#0EA5E9' }: DualToneRainBackgr
         300px 281px, 300px 281px, 300px 281px,
         300px 158px, 300px 158px, 300px 158px,
         300px 210px, 300px 210px, 300px 210px;
-      animation: dtrb-fall 150s linear infinite;
+      animation: ${id}-fall 150s linear infinite;
     }
 
-    /* Blur + dot overlay — dims and softens the rain */
-    .dtrb-overlay {
+    /*
+     * ── Overlay — mirrors the ruixen original exactly ─────────────────
+     * backdrop-brightness(5) is the magic: it multiplies the luminosity of
+     * whatever it blurs (the rain layer) by 5, making dim streaks pop.
+     * The dot grid masks out the "between" pixels, giving the grid texture.
+     */
+    .${id}-overlay {
       position: absolute;
       inset: 0;
       z-index: 1;
-      backdrop-filter: blur(1em);
+      /* blur(1em) softens + brightness(5) amplifies the rain streaks */
+      backdrop-filter: blur(1em) brightness(5);
+      -webkit-backdrop-filter: blur(1em) brightness(5);
+      /* Dot grid: transparent circles every 8px on the site's bg colour */
       background-image: radial-gradient(
         circle at 50% 50%,
         transparent 0,
         transparent 2px,
-        rgba(8,9,14,0.72) 2px
+        hsl(229 28% 6%) 2px
       );
       background-size: 8px 8px;
       pointer-events: none;
     }
 
-    @keyframes dtrb-fall {
+    @keyframes ${id}-fall {
       0% {
         background-position:
           0px 220px,   3px 220px,   151.5px 337.5px,
@@ -120,8 +130,8 @@ export function DualToneRainBackground({ color = '#0EA5E9' }: DualToneRainBackgr
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: css }} />
-      <div className="dtrb-rain" aria-hidden />
-      <div className="dtrb-overlay" aria-hidden />
+      <div className={`${id}-rain`} aria-hidden />
+      <div className={`${id}-overlay`} aria-hidden />
     </>
   )
 }
