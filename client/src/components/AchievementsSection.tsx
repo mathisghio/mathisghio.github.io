@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Trophy, Star, Zap, Award } from 'lucide-react'
 import { ShaderAnimation } from './ShaderAnimation'
 import { useInView } from '@/hooks/useInView'
+import { SectionHeader } from '@/components/SectionHeader'
 
 
 function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
@@ -46,9 +47,7 @@ export function AchievementsSection() {
       <div className="absolute right-0 top-1/2 -translate-y-1/2 font-display select-none pointer-events-none z-0" style={{ fontSize: 'clamp(200px, 30vw, 400px)', color: 'rgba(14, 165, 233, 0.03)', lineHeight: 1, right: '-2%' }}>5×</div>
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-          <div className="flex items-center gap-3 mb-6"><div className="section-line" /><span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Achievements</span></div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>MY WORLD TITLES</h2>
-          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #F59E0B, #FCD34D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>& PERSONAL RECORDS</h2>
+          <SectionHeader label="Achievements" line1="MY WORLD TITLES" line2="& PERSONAL RECORDS" goldGradient />
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}>
           {[{ icon: Trophy, value: 5, suffix: '×', label: 'World Titles', gold: true }, { icon: Award, value: 4, suffix: '×', label: 'European Titles', gold: false }, { icon: Star, value: 10, suffix: '+', label: 'World Cup Wins', gold: false }, { icon: Zap, value: 41.40, suffix: ' kts', label: 'Speed Record', gold: false }].map((stat, i) => (
