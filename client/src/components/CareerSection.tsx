@@ -162,24 +162,59 @@ const timelineData = [
 
 export function CareerSection() {
   const { ref: headerRef, inView } = useInView(0.05)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // InteractiveWaves measures its container once on mount via
+  // getBoundingClientRect(). At that point only the header exists, so the
+  // SVG grid is only ~300px tall.
+  //
+  // Fix: watch the section's height with a ResizeObserver. Every time it
+  // grows (images load, timeline expands), fire a synthetic window 'resize'
+  // event. InteractiveWaves listens to window resize → calls setSize() +
+  // setLines() → redraws the full grid to match the new section height.
+  // ─────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
+    let lastHeight = 0
+
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const h = entry.contentRect.height
+        if (Math.abs(h - lastHeight) > 2) {
+          lastHeight = h
+          window.dispatchEvent(new Event('resize'))
+        }
+      }
+    })
+
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   return (
-    /*
-     * Rules:
-     * - position:relative  → containing block for the absolute wave layer
-     * - NO overflow:hidden → sticky dates need a free scroll container
-     * - isolation:isolate  → local stacking context, no z-index bleed into
-     *   neighbouring sections (Achievements, GOAT…)
-     * - The wave div is absolute inset-0 → its bounds = exactly this section
-     *   InteractiveWaves sets itself to position:absolute inset-0 internally,
-     *   so it fills whatever its parent measures — the full section height.
-     */
     <section
       id="career"
+      ref={sectionRef}
       className="relative"
-      style={{ background: '#08090E', isolation: 'isolate' }}
+      style={{
+        background: '#08090E',
+        // New stacking context: z-indexes inside this section are self-contained
+        // and never compete with neighbouring sections (Achievements, GOAT…).
+        isolation: 'isolate',
+      }}
     >
-      {/* Wave background — strictly within this section's bounds */}
+      {/*
+       * Wave background
+       * ───────────────
+       * position:absolute inset-0  → bounded to this section only (no bleed
+       *   into Achievements above or GOAT below).
+       * NO overflow:hidden on the <section> → sticky dates work correctly.
+       * The ResizeObserver above ensures the SVG grid is redrawn whenever
+       * images load and the section grows taller.
+       */}
       <div
         aria-hidden
         className="absolute inset-0 z-0"
