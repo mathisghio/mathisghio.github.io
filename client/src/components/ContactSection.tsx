@@ -66,7 +66,7 @@ export function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
             className="flex flex-col items-center text-center w-full"
-            style={{ paddingTop: '6rem' }}  // ← compense le -translate-y-80, ramène le label dans la zone visible
+            style={{ paddingTop: '4rem' }}  // ← compense le -translate-y-80, ramène le label dans la zone visible
           >
             <div className="flex items-center gap-3 mb-6 justify-center">
               <div
