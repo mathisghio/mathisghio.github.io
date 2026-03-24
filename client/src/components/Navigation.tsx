@@ -381,36 +381,126 @@ export function Navigation() {
       </nav>
 
       {/* ── Menu mobile ──────────────────────────────────────────────────── */}
+      {/* CSS gradient-button injecté une seule fois */}
+      <style>{`
+        .mgMobileMenu {
+          position: fixed; inset: 0; z-index: 40;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(8,9,14,0.72);
+          backdrop-filter: blur(28px);
+          -webkit-backdrop-filter: blur(28px);
+          transition: opacity 0.28s ease;
+        }
+        .mgMobileInner {
+          display: flex; flex-direction: column; gap: 6px;
+          padding: 10px;
+          background: rgba(10,12,22,0.82);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 20px;
+          box-shadow: 0 24px 80px rgba(0,0,0,0.6), inset 0 0 0 .5px rgba(255,255,255,0.04);
+          min-width: 210px;
+          max-width: 260px;
+          width: 68vw;
+          transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
+        }
+
+        /* ── Gradient button — chaque item nav ── */
+        .mgMobileBtn {
+          position: relative;
+          cursor: pointer;
+          width: 100%;
+          padding: 12px 20px;
+          border-radius: 11px;
+          border: none;
+          /* fond sombre de base */
+          background: rgba(14,16,30,0.6);
+          color: rgba(255,255,255,0.5);
+          font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-align: left;
+          text-transform: uppercase;
+          outline: none;
+          user-select: none;
+          display: flex;
+          align-items: center;
+          gap: 11px;
+          transition: color 0.2s ease, background 0.2s ease;
+          overflow: hidden;
+        }
+
+        /* Bordure gradient via ::before (masque CSS) */
+        .mgMobileBtn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 11px;
+          padding: 1px;
+          background: linear-gradient(
+            135deg,
+            rgba(255,255,255,0.12) 0%,
+            rgba(14,165,233,0.0) 40%,
+            rgba(14,165,233,0.0) 60%,
+            rgba(255,255,255,0.06) 100%
+          );
+          -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                        linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          transition: background 0.22s ease;
+        }
+
+        /* Hover */
+        .mgMobileBtn:hover {
+          color: rgba(255,255,255,0.85);
+          background: rgba(20,28,55,0.75);
+        }
+        .mgMobileBtn:hover::before {
+          background: linear-gradient(
+            135deg,
+            rgba(14,165,233,0.55) 0%,
+            rgba(56,189,248,0.15) 50%,
+            rgba(14,165,233,0.35) 100%
+          );
+        }
+
+        /* Actif */
+        .mgMobileBtn.mgMobileBtnActive {
+          color: rgba(255,255,255,1);
+          background: rgba(14,165,233,0.1);
+        }
+        .mgMobileBtn.mgMobileBtnActive::before {
+          background: linear-gradient(
+            135deg,
+            rgba(14,165,233,0.7) 0%,
+            rgba(56,189,248,0.25) 50%,
+            rgba(14,165,233,0.5) 100%
+          );
+        }
+
+        /* Dot indicateur */
+        .mgMobileDot {
+          width: 5px; height: 5px;
+          border-radius: 50%;
+          flex-shrink: 0;
+          transition: background 0.2s, box-shadow 0.2s;
+        }
+      `}</style>
+
       <div
-        className="fixed inset-0 z-40 lg:hidden transition-all duration-300"
-        style={{
-          opacity:        menuOpen ? 1 : 0,
-          pointerEvents:  menuOpen ? "all" : "none",
-          background:     "rgba(8,9,14,0.88)",
-          backdropFilter: "blur(28px)",
-          WebkitBackdropFilter: "blur(28px)",
-        }}
+        className="mgMobileMenu lg:hidden"
+        style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "all" : "none" }}
       >
-        {/* Fermer en cliquant hors de la pill */}
+        {/* Overlay — clic dehors ferme */}
         <div className="absolute inset-0" onClick={() => setMenuOpen(false)} />
 
-        {/* Pill verticale — même esthétique que le desktop */}
         <div
-          className="absolute left-1/2 top-1/2 flex flex-col items-stretch"
+          className="mgMobileInner relative"
           style={{
-            transform: `translateX(-50%) translateY(${menuOpen ? "-50%" : "calc(-50% + 16px)"})`,
-            transition: "transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease",
+            transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.96) translateY(12px)",
             opacity: menuOpen ? 1 : 0,
-            background: "rgba(0,0,0,0.58)",
-            border: "1px solid rgba(255,255,255,0.09)",
-            borderRadius: "20px",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            boxShadow: "0 12px 55px rgba(0,0,0,0.7), inset 0 0 0 .5px rgba(255,255,255,0.04)",
-            padding: "8px",
-            minWidth: "220px",
-            maxWidth: "280px",
-            width: "72vw",
           }}
         >
           {NAV_ITEMS.map((item, i) => {
@@ -419,40 +509,20 @@ export function Navigation() {
               <button
                 key={item.href}
                 onClick={() => handleNav(item.href, i)}
+                className={`mgMobileBtn${active ? " mgMobileBtnActive" : ""}`}
                 style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  padding: "11px 18px",
-                  borderRadius: "12px",
-                  border: "none",
-                  background: active ? "rgba(50,125,255,0.14)" : "none",
-                  color: active ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.52)",
-                  fontFamily: "inherit",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  letterSpacing: "0.06em",
-                  textAlign: "left",
-                  outline: "none",
-                  userSelect: "none",
-                  textTransform: "uppercase",
-                  transition: "background 0.18s ease, color 0.18s ease",
-                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
-                  transform: menuOpen ? "translateX(0)" : "translateX(-8px)",
+                  transitionDelay: menuOpen ? `${i * 28}ms` : "0ms",
+                  transform: menuOpen ? "translateX(0)" : "translateX(-6px)",
                   opacity: menuOpen ? 1 : 0,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
                 }}
               >
-                {/* Dot actif */}
-                <span style={{
-                  width: 5, height: 5,
-                  borderRadius: "50%",
-                  background: active ? "#0EA5E9" : "rgba(255,255,255,0.18)",
-                  flexShrink: 0,
-                  boxShadow: active ? "0 0 6px rgba(14,165,233,0.8)" : "none",
-                  transition: "background 0.2s, box-shadow 0.2s",
-                }} />
+                <span
+                  className="mgMobileDot"
+                  style={{
+                    background: active ? "#0EA5E9" : "rgba(255,255,255,0.18)",
+                    boxShadow: active ? "0 0 7px rgba(14,165,233,0.9)" : "none",
+                  }}
+                />
                 {item.label}
               </button>
             );
