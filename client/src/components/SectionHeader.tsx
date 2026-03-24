@@ -2,10 +2,11 @@ interface SectionHeaderProps {
   label: string
   line1: string
   line2: string
-  lightColor?: boolean // pour les sections avec LampContainer (texte clair)
+  lightColor?: boolean
+  goldGradient?: boolean
 }
 
-export function SectionHeader({ label, line1, line2, lightColor }: SectionHeaderProps) {
+export function SectionHeader({ label, line1, line2, lightColor, goldGradient }: SectionHeaderProps) {
   return (
     <>
       <div className="flex items-center gap-3 mb-6">
@@ -15,7 +16,15 @@ export function SectionHeader({ label, line1, line2, lightColor }: SectionHeader
         </span>
       </div>
       <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>{line1}</h2>
-      <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{line2}</h2>
+      <h2 className="font-display leading-none" style={{
+        fontSize: 'clamp(48px, 8vw, 110px)',
+        background: goldGradient
+          ? 'linear-gradient(135deg, #F59E0B, #FCD34D)'
+          : 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text'
+      }}>{line2}</h2>
     </>
   )
 }
