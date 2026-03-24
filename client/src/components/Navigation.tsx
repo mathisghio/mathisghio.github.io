@@ -386,32 +386,77 @@ export function Navigation() {
         style={{
           opacity:        menuOpen ? 1 : 0,
           pointerEvents:  menuOpen ? "all" : "none",
-          background:     "rgba(8,9,14,0.97)",
-          backdropFilter: "blur(20px)",
+          background:     "rgba(8,9,14,0.88)",
+          backdropFilter: "blur(28px)",
+          WebkitBackdropFilter: "blur(28px)",
         }}
       >
-        <div className="flex flex-col items-center justify-start min-h-full pt-24 pb-12 gap-6 overflow-y-auto h-full px-8">
-          {NAV_ITEMS.map((item, i) => (
-            <button
-              key={item.href}
-              onClick={() => handleNav(item.href, i)}
-              className="font-display text-3xl text-white uppercase tracking-widest transition-all duration-200 hover:text-cyan-400 flex-shrink-0"
-              style={{
-                transitionDelay: menuOpen ? `${i * 50}ms` : "0ms",
-                transform: menuOpen ? "translateY(0)"  : "translateY(20px)",
-                opacity:   menuOpen ? 1 : 0,
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-          <a
-            href="mailto:contact@mathisghio.com"
-            className="mt-4 px-8 py-3 font-heading font-bold text-sm uppercase tracking-widest text-white rounded-sm flex-shrink-0"
-            style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", letterSpacing: "0.15em" }}
-          >
-            Contact
-          </a>
+        {/* Fermer en cliquant hors de la pill */}
+        <div className="absolute inset-0" onClick={() => setMenuOpen(false)} />
+
+        {/* Pill verticale — même esthétique que le desktop */}
+        <div
+          className="absolute left-1/2 top-1/2 flex flex-col items-stretch"
+          style={{
+            transform: `translateX(-50%) translateY(${menuOpen ? "-50%" : "calc(-50% + 16px)"})`,
+            transition: "transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease",
+            opacity: menuOpen ? 1 : 0,
+            background: "rgba(0,0,0,0.58)",
+            border: "1px solid rgba(255,255,255,0.09)",
+            borderRadius: "20px",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            boxShadow: "0 12px 55px rgba(0,0,0,0.7), inset 0 0 0 .5px rgba(255,255,255,0.04)",
+            padding: "8px",
+            minWidth: "220px",
+            maxWidth: "280px",
+            width: "72vw",
+          }}
+        >
+          {NAV_ITEMS.map((item, i) => {
+            const active = i === activeIndex;
+            return (
+              <button
+                key={item.href}
+                onClick={() => handleNav(item.href, i)}
+                style={{
+                  position: "relative",
+                  cursor: "pointer",
+                  padding: "11px 18px",
+                  borderRadius: "12px",
+                  border: "none",
+                  background: active ? "rgba(50,125,255,0.14)" : "none",
+                  color: active ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.52)",
+                  fontFamily: "inherit",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  letterSpacing: "0.06em",
+                  textAlign: "left",
+                  outline: "none",
+                  userSelect: "none",
+                  textTransform: "uppercase",
+                  transition: "background 0.18s ease, color 0.18s ease",
+                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
+                  transform: menuOpen ? "translateX(0)" : "translateX(-8px)",
+                  opacity: menuOpen ? 1 : 0,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                {/* Dot actif */}
+                <span style={{
+                  width: 5, height: 5,
+                  borderRadius: "50%",
+                  background: active ? "#0EA5E9" : "rgba(255,255,255,0.18)",
+                  flexShrink: 0,
+                  boxShadow: active ? "0 0 6px rgba(14,165,233,0.8)" : "none",
+                  transition: "background 0.2s, box-shadow 0.2s",
+                }} />
+                {item.label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </>
