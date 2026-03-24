@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
 import { FallingPattern } from '@/components/FallingPattern'
 import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
+import { SectionHeader } from '@/components/SectionHeader'
 
 
 const titlePartners = [
@@ -57,12 +57,7 @@ export function PartnersSection() {
 
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="section-line" />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Partners</span>
-          </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>TRUSTED BY</h2>
-          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>THE BEST</h2>
+         <SectionHeader label="Partners" line1="TRUSTED BY" line2="THE BEST" />
         </div>
 
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '200ms' }}>
