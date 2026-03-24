@@ -1,19 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
 import { DualToneRainBackground } from './DualToneRainBackground'
-
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true) },
-      { threshold }
-    )
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, inView }
-}
+import { ShinyButton } from '@/components/ui/shiny-button'
+import { useInView } from '@/hooks/useInView'
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer — R&D partner',   logoText: 'OZONE'       },
@@ -22,11 +9,11 @@ const titlePartners = [
 ]
 
 const officialPartners = [
-  { name: 'Overstims',      url: 'https://www.overstims.com/',          description: 'Nutrition partner'        },
-  { name: 'FFVoile',        url: 'https://hn.ffvoile.fr/',              description: 'French Sailing Federation' },
-  { name: 'INSA Lyon',      url: 'https://www.insa-lyon.fr/',           description: 'Engineering school'       },
-  { name: 'Département 13', url: 'https://www.departement13.fr/',       description: 'Bouches-du-Rhône'         },
-  { name: 'Métropole AMP',  url: 'https://ampmetropole.fr/',            description: 'Aix-Marseille-Provence'   },
+  { name: 'Overstims',      url: 'https://www.overstims.com/',          description: 'Nutrition partner'         },
+  { name: 'FFVoile',        url: 'https://hn.ffvoile.fr/',              description: 'French Sailing Federation'  },
+  { name: 'INSA Lyon',      url: 'https://www.insa-lyon.fr/',           description: 'Engineering school'        },
+  { name: 'Département 13', url: 'https://www.departement13.fr/',       description: 'Bouches-du-Rhône'          },
+  { name: 'Métropole AMP',  url: 'https://ampmetropole.fr/',            description: 'Aix-Marseille-Provence'    },
 ]
 
 export function PartnersSection() {
@@ -40,29 +27,22 @@ export function PartnersSection() {
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}
     >
       {/*
-       * ── Rain background ─────────────────────────────────────────────────
-       * DualToneRainBackground renders two children:
-       *   1. .dtrb-rain   (position:absolute inset-0, z auto)
-       *   2. .dtrb-overlay (position:absolute inset-0, z-index:1, blur + dot grid)
-       * The section is position:relative + overflow:hidden so both are clipped
-       * to section bounds. Content sits above via z-index:10.
+       * Rain background — DualToneRainBackground renders:
+       *   1. .dtrb-rain   : black bg + animated cyan gradient streaks
+       *   2. .dtrb-overlay: blur(1em) brightness(5) + dot grid
+       * brightness(5) is what makes the rain POP — exactly like the ruixen original.
+       * Content sits at z-index 10, above both layers (overlay is z-index 1).
        */}
-      <DualToneRainBackground color="rgba(14,165,233,0.5)" />
+      <DualToneRainBackground color="#0EA5E9" />
 
-      {/* Edge fades — keep rain from bleeding into adjacent sections */}
+      {/* Edge fades so rain doesn't bleed hard into adjacent sections */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(180deg, #08090E 0%, transparent 12%, transparent 88%, #08090E 100%)',
-        }}
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }}
       />
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(90deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)',
-        }}
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }}
       />
 
       {/* ── Content ── */}
@@ -101,10 +81,7 @@ export function PartnersSection() {
           className="mb-16 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '200ms' }}
         >
-          <h3
-            className="font-body text-xs uppercase tracking-widest mb-8"
-            style={{ color: 'rgba(245, 158, 11, 0.7)', letterSpacing: '0.2em' }}
-          >
+          <h3 className="font-body text-xs uppercase tracking-widest mb-8" style={{ color: 'rgba(245,158,11,0.7)', letterSpacing: '0.2em' }}>
             Title Partners
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -115,26 +92,15 @@ export function PartnersSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group p-8 rounded-sm card-hover flex flex-col items-center text-center"
-                style={{
-                  background:    'rgba(8,9,14,0.7)',
-                  backdropFilter: 'blur(12px)',
-                  border:        '1px solid rgba(245,158,11,0.15)',
-                  textDecoration: 'none',
-                }}
+                style={{ background: 'rgba(8,9,14,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}
               >
-                <div
-                  className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400"
-                  style={{ color: 'rgba(241,245,249,0.9)' }}
-                >
+                <div className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.9)' }}>
                   {partner.logoText}
                 </div>
                 <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>
                   {partner.description}
                 </p>
-                <div
-                  className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16"
-                  style={{ background: '#0EA5E9' }}
-                />
+                <div className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16" style={{ background: '#0EA5E9' }} />
               </a>
             ))}
           </div>
@@ -145,10 +111,7 @@ export function PartnersSection() {
           className="transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
         >
-          <h3
-            className="font-body text-xs uppercase tracking-widest mb-8"
-            style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}
-          >
+          <h3 className="font-body text-xs uppercase tracking-widest mb-8" style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}>
             Official Partners
           </h3>
           <div className="flex flex-wrap gap-3">
@@ -159,17 +122,9 @@ export function PartnersSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-3 px-5 py-3 rounded-sm transition-all duration-300"
-                style={{
-                  background:    'rgba(8,9,14,0.6)',
-                  backdropFilter: 'blur(8px)',
-                  border:        '1px solid rgba(255,255,255,0.06)',
-                  textDecoration: 'none',
-                }}
+                style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
               >
-                <span
-                  className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400"
-                  style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}
-                >
+                <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
                 <span className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.4)' }}>
@@ -184,38 +139,28 @@ export function PartnersSection() {
         <div
           className="mt-16 p-8 rounded-sm transition-all duration-700"
           style={{
-            background:    'rgba(8,9,14,0.75)',
+            background: 'rgba(8,9,14,0.75)',
             backdropFilter: 'blur(16px)',
-            border:        '1px solid rgba(14,165,233,0.15)',
-            opacity:       inView ? 1 : 0,
-            transform:     inView ? 'translateY(0)' : 'translateY(20px)',
+            border: '1px solid rgba(14,165,233,0.15)',
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '600ms',
           }}
         >
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div>
-              <h3
-                className="font-heading font-bold text-2xl text-white mb-2"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
-              >
+              <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 Interested in a Partnership?
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
                 Sponsorships, brand collaborations, product development and long-term strategic partnerships.
               </p>
             </div>
-            <a
-              href="mailto:contact@mathisghio.com"
-              className="flex-shrink-0 px-8 py-3 rounded-sm font-heading font-bold text-sm uppercase tracking-wider text-white transition-all duration-300"
-              style={{
-                background:    'linear-gradient(135deg, #0EA5E9, #0284C7)',
-                boxShadow:     '0 0 20px rgba(14,165,233,0.3)',
-                letterSpacing: '0.15em',
-                textDecoration: 'none',
-              }}
-            >
+
+            {/* ShinyButton — same style as the rest of the site */}
+            <ShinyButton href="mailto:contact@mathisghio.com">
               Become a Partner
-            </a>
+            </ShinyButton>
           </div>
         </div>
 
