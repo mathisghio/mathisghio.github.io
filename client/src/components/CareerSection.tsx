@@ -16,23 +16,6 @@ function useInView(threshold = 0.05) {
   return { ref, inView }
 }
 
-// Tracks whether the career section is currently visible in the viewport
-// so we can show/hide the fixed-position wave background accordingly
-function useSectionVisible(sectionRef: React.RefObject<HTMLElement | null>) {
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0 } // fire as soon as 1px is visible
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-  return visible
-}
-
 const imgShadow =
   'rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,42,53,0.06),_0_1px_1px_rgba(0,0,0,0.05),_0_0_0_1px_rgba(34,42,53,0.04),_0_0_4px_rgba(34,42,53,0.08),_0_16px_68px_rgba(47,48,55,0.05),_0_1px_0_rgba(255,255,255,0.1)_inset]'
 
@@ -46,7 +29,7 @@ const timelineData = [
           I built my foundations at AVCR, developing a passion for watersports that would define my career.
         </p>
         <div className="mb-8">
-          {['International competition from age 7', "French Elite Athlete list (2017)", 'AVCR club — multidiscipline training'].map((item, i) => (
+          {['International competition from age 7', 'French Elite Athlete list (2017)', 'AVCR club — multidiscipline training'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
@@ -179,28 +162,28 @@ const timelineData = [
 
 export function CareerSection() {
   const { ref: headerRef, inView } = useInView(0.05)
-  const sectionRef = useRef<HTMLElement>(null)
-  const waveVisible = useSectionVisible(sectionRef)
 
   return (
-    <>
-      {/*
-       * ── Fixed wave background ───────────────────────────────────────────
-       * position: fixed → always viewport-sized → no height measurement issue.
-       * pointer-events: none → mouse events still reach the page content.
-       * opacity transitions in/out as the career section enters/leaves view.
-       * z-index: -1 relative to everything, but above the page background.
-       */}
+    /*
+     * Rules:
+     * - position:relative  → containing block for the absolute wave layer
+     * - NO overflow:hidden → sticky dates need a free scroll container
+     * - isolation:isolate  → local stacking context, no z-index bleed into
+     *   neighbouring sections (Achievements, GOAT…)
+     * - The wave div is absolute inset-0 → its bounds = exactly this section
+     *   InteractiveWaves sets itself to position:absolute inset-0 internally,
+     *   so it fills whatever its parent measures — the full section height.
+     */
+    <section
+      id="career"
+      className="relative"
+      style={{ background: '#08090E', isolation: 'isolate' }}
+    >
+      {/* Wave background — strictly within this section's bounds */}
       <div
         aria-hidden
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: waveVisible ? 'auto' : 'none',
-          opacity: waveVisible ? 1 : 0,
-          transition: 'opacity 0.6s ease',
-        }}
+        className="absolute inset-0 z-0"
+        style={{ opacity: 0.6 }}
       >
         <InteractiveWaves
           strokeColor="rgba(14,165,233,0.4)"
@@ -209,50 +192,38 @@ export function CareerSection() {
         />
       </div>
 
-      {/* ── Section shell ──────────────────────────────────────────────────── */}
-      <section
-        id="career"
-        ref={sectionRef}
-        className="relative"
-        style={{
-          background: '#08090E',
-          // Isolate stacking context so section content sits above the fixed wave
-          isolation: 'isolate',
-        }}
-      >
-        {/* Section header */}
-        <div className="container relative z-10 pt-24 lg:pt-36" ref={headerRef}>
-          <div
-            className="mb-0 transition-all duration-700"
-            style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="section-line" />
-              <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
-                MY CAREER HISTORY
-              </span>
-            </div>
-            <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>
-              MY JOURNEY
-            </h2>
-            <h2
-              className="font-display leading-none mb-6"
-              style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-            >
-              TO THE TOP
-            </h2>
-            <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
-              From a young sailor on the French Riviera to 5× World Champion — a journey defined by passion,
-              dedication, and an insatiable drive to push wingfoil to its limits.
-            </p>
+      {/* Section header */}
+      <div className="container relative z-10 pt-24 lg:pt-36" ref={headerRef}>
+        <div
+          className="mb-0 transition-all duration-700"
+          style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="section-line" />
+            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
+              MY CAREER HISTORY
+            </span>
           </div>
+          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>
+            MY JOURNEY
+          </h2>
+          <h2
+            className="font-display leading-none mb-6"
+            style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+          >
+            TO THE TOP
+          </h2>
+          <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
+            From a young sailor on the French Riviera to 5× World Champion — a journey defined by passion,
+            dedication, and an insatiable drive to push wingfoil to its limits.
+          </p>
         </div>
+      </div>
 
-        {/* Timeline — z-index above the fixed wave */}
-        <div className="relative z-10">
-          <Timeline data={timelineData} />
-        </div>
-      </section>
-    </>
+      {/* Timeline */}
+      <div className="relative z-10">
+        <Timeline data={timelineData} />
+      </div>
+    </section>
   )
 }
