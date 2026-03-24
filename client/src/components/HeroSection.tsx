@@ -35,15 +35,7 @@ export function HeroSection() {
         style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.5) 0%, rgba(8,9,14,0.3) 40%, rgba(8,9,14,0.75) 100%)' }}
       />
 
-      {/*
-       * ── Layer 3 : interactive waves ──────────────────────────────────────
-       * z-30 → above the dark gradient, below the text (z-40+).
-       * Uses the fixed InteractiveWaves (clientX/Y mouse tracking) so the
-       * pointer dot and wave deformation are accurate even after scrolling.
-       * overflow-hidden on the <section> clips the waves to the hero bounds.
-       * pointer-events stays active on desktop; on mobile the component is
-       * hidden so it doesn't interfere with touch-scroll.
-       */}
+      {/* ── Layer 3 : interactive waves ── */}
       <div
         className="absolute inset-0 z-30 hidden lg:block"
         style={{ opacity: 0.7 }}
@@ -72,32 +64,6 @@ export function HeroSection() {
       {/* ── Layer 5 : hero text + CTA ── */}
       <div className="relative z-40 h-full flex flex-col justify-end pb-24 lg:pb-32">
         <div className="container">
-
-          {/* Badge */}
-          <div
-            className="mb-6 transition-all duration-700"
-            style={{
-              opacity:   visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: '200ms',
-            }}
-          >
-            <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{
-                color:      '#0EA5E9',
-                background: 'rgba(14, 165, 233, 0.1)',
-                border:     '1px solid rgba(14, 165, 233, 0.25)',
-                letterSpacing: '0.2em',
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
-              />
-              5× World Champion · 41.40 kts Speed Record
-            </span>
-          </div>
 
           {/* Name */}
           <div
@@ -154,10 +120,9 @@ export function HeroSection() {
               transitionDelay: '650ms',
             }}
           >
-            
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-  View My Achievements
-</ShinyButton>
+              View My Achievements
+            </ShinyButton>
             
             <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
@@ -180,6 +145,34 @@ export function HeroSection() {
         </span>
         <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
       </button>
+
+      {/* ── Badge bottom-right — above stats bar ── */}
+      <div
+        className="absolute right-6 z-40 transition-all duration-700 hidden sm:block"
+        style={{
+          bottom: 'calc(56px + 1.5rem)', /* stats bar height (~56px) + gap */
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(10px)',
+          transitionDelay: '800ms',
+        }}
+      >
+        <span
+          className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
+          style={{
+            color:      '#0EA5E9',
+            background: 'rgba(14, 165, 233, 0.1)',
+            border:     '1px solid rgba(14, 165, 233, 0.25)',
+            letterSpacing: '0.2em',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
+          />
+          5× World Champion · 41.40 kts Speed Record
+        </span>
+      </div>
 
       {/* ── Bottom stats bar ── */}
       <div
