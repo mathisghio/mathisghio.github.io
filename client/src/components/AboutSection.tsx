@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react'
 import { useInView } from '@/hooks/useInView'
 
 const ABOUT_WATER = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/about-water_efffaf99.JPG'
