@@ -24,8 +24,10 @@ const NAV_ITEMS = [
 ];
 
 // Portion VISIBLE au-dessus de la pill (reste caché derrière)
-const WING_VISIBLE = 0.58; // 58% de la hauteur dépasse
-const FOIL_VISIBLE = 0.52; // 52% — le foil est plus haut, on en cache un peu plus
+// Wing normal  : H=64,  WING_VISIBLE=0.58 → visibleAbove=37px → pillTopPad=45px
+// Foil normal  : H=185, FOIL_VISIBLE=0.20 → visibleAbove=37px → pillTopPad=45px  ← même hauteur
+const WING_VISIBLE = 0.58;
+const FOIL_VISIBLE = 0.20; // 20% seulement dépasse : foil grand mais très caché derrière la pill
 
 // ─── CSS ─────────────────────────────────────────────────────────────────────
 
@@ -256,8 +258,10 @@ export function Navigation() {
   const compact = scrolled;
 
   // ── Dimensions ─────────────────────────────────────────────────────────────
-  const mascotW = isWing ? (compact ? 72  : 110) : (compact ? 52  : 80);
-  const mascotH = isWing ? (compact ? 42  : 64)  : (compact ? 92  : 142);
+  // Wing  : landscape 110×64  → visibleAbove = round(64×0.58) = 37px
+  // Foil  : portrait  96×185  → visibleAbove = round(185×0.20) = 37px  ← même pillTopPad
+  const mascotW = isWing ? (compact ? 72  : 110) : (compact ? 62  : 96);
+  const mascotH = isWing ? (compact ? 42  : 64)  : (compact ? 115 : 185);
 
   // Partie visible au-dessus de la pill
   const overlapRatio   = isWing ? WING_VISIBLE : FOIL_VISIBLE;
