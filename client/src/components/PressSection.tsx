@@ -167,19 +167,9 @@ export function PressSection() {
                 For interviews, press releases, photo requests, or media partnerships, please contact our press office.
               </p>
             </div>
-            <a
-              href="mailto:contact@mathisghio.com?subject=Media%20Inquiry"
-              className="flex-shrink-0 flex items-center gap-2 px-6 py-3 rounded-sm font-heading font-bold text-sm uppercase tracking-wider text-white transition-all duration-300"
-              style={{
-                background: 'linear-gradient(135deg, #0EA5E9, #0284C7)',
-                boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)',
-                letterSpacing: '0.15em',
-                textDecoration: 'none',
-              }}
-            >
-              <Mail size={16} />
-              Contact Press
-            </a>
+            <ShinyButton href="mailto:contact@mathisghio.com?subject=Media%20Inquiry">
+              <span className="flex items-center gap-2"><Mail size={16} />Contact Press</span>
+            </ShinyButton>
           </div>
         </div>
 
