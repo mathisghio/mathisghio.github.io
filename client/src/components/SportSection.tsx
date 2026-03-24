@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Wind, Zap, Waves, Target } from 'lucide-react'
 import { ShaderAnimation2 } from './ShaderAnimation2'
+import { useInView } from '@/hooks/useInView'
+
 
 const FOIL_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/wingfoil-action-generated_c89eb0f5.jpg'
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-  useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setInView(true) }, { threshold })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, inView }
-}
 
 const sportFacts = [
   { icon: Wind, title: 'The Wing', description: 'A handheld inflatable wing that captures wind power. The athlete controls angle and power with both hands, generating lift and speed across the water surface.' },
