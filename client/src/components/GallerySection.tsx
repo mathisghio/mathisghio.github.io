@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
