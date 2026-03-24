@@ -52,7 +52,11 @@ export function ShaderAnimation2() {
     window.addEventListener('resize', onWindowResize, false)
     const animate = () => {
       const animationId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.05
+      /*
+       * Was 0.05 — spheres formed slowly with long black gaps between.
+       * Now 0.18 — 3.6× faster, spheres stay visible much longer per cycle.
+       */
+      uniforms.time.value += 0.18
       renderer.render(scene, camera)
       if (sceneRef.current) sceneRef.current.animationId = animationId
     }
