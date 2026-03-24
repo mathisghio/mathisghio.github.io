@@ -162,92 +162,20 @@ const timelineData = [
 
 export function CareerSection() {
   const { ref: headerRef, inView } = useInView(0.05)
-  const sectionRef = useRef<HTMLElement>(null)
-  // waveKey forces InteractiveWaves to fully remount (re-run useEffect →
-  // setSize → setLines) once we know the section has its final height.
-  const [waveKey, setWaveKey] = useState(0)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-
-    const fireResize = () => window.dispatchEvent(new Event('resize'))
-
-    // ── Strategy 1: watch every height change of the section ─────────────
-    // ResizeObserver fires after layout, so getBoundingClientRect() inside
-    // InteractiveWaves will read the current, correct height.
-    const ro = new ResizeObserver(fireResize)
-    ro.observe(section)
-
-    // ── Strategy 2: timed dispatches to catch image loading ───────────────
-    // Images load asynchronously. Dispatching resize at several intervals
-    // guarantees at least one fires after the last image has settled.
-    const timers = [100, 400, 900, 1800].map(d => setTimeout(fireResize, d))
-
-    // ── Strategy 3: remount InteractiveWaves once ALL images have loaded ──
-    // A clean remount is the most reliable fix: the component re-runs its
-    // useEffect, calls setSize() on a container that already has the full
-    // section height, and draws the complete SVG grid.
-    const imgs = Array.from(section.querySelectorAll('img'))
-    let loaded = 0
-    const onImgLoad = () => {
-      loaded++
-      if (loaded >= imgs.length) {
-        // Small delay so the last reflow settles before we measure
-        setTimeout(() => setWaveKey(k => k + 1), 50)
-      }
-    }
-    imgs.forEach(img => {
-      if (img.complete) onImgLoad()
-      else img.addEventListener('load', onImgLoad, { once: true })
-    })
-    // Edge case: no images, or all already cached
-    if (imgs.length === 0 || loaded >= imgs.length) {
-      setTimeout(() => setWaveKey(k => k + 1), 50)
-    }
-
-    return () => {
-      ro.disconnect()
-      timers.forEach(clearTimeout)
-    }
-  }, [])
 
   return (
     <section
       id="career"
-      ref={sectionRef}
       className="relative"
-      style={{
-        background: '#08090E',
-        // Isolated stacking context: z-indexes inside this section never
-        // compete with Achievements above or GOAT below.
-        isolation: 'isolate',
-      }}
+      style={{ background: '#08090E', isolation: 'isolate' }}
     >
-      {/*
-       * Wave background
-       * ───────────────
-       * position:absolute top/left/right/bottom:0  →  bounded to this
-       * section only. No overflow:hidden on <section> so sticky dates work.
-       *
-       * key={waveKey}: forces a full remount of InteractiveWaves after all
-       * images have loaded, so setSize() reads the correct full-section
-       * height and setLines() draws the complete SVG grid.
-       */}
+      {/* Wave background — absolute inset-0 = bounded to this section only */}
       <div
         aria-hidden
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 0,
-          opacity: 0.6,
-        }}
+        className="absolute inset-0 z-0"
+        style={{ opacity: 0.6 }}
       >
         <InteractiveWaves
-          key={waveKey}
           strokeColor="rgba(14,165,233,0.4)"
           backgroundColor="transparent"
           pointerSize={1}
@@ -282,7 +210,7 @@ export function CareerSection() {
         </div>
       </div>
 
-      {/* Timeline */}
+      {/* Timeline — transparent background lets waves show through */}
       <div className="relative z-10">
         <Timeline data={timelineData} />
       </div>
