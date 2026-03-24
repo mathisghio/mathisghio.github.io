@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { InteractiveWaves } from './InteractiveWaves'
 import { VideoBackground } from './VideoBackground'
 import { ChevronDown } from 'lucide-react'
+import { ShinyButton } from '@/components/ui/shiny-button'
+
 
 const HERO_VIDEO     = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/bg_4011f03b.mp4'
 const HERO_GENERATED = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-bg-generated_0e69783e.jpg'
@@ -152,29 +154,17 @@ export function HeroSection() {
               transitionDelay: '650ms',
             }}
           >
-            <button
-              onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}
-              className="group relative overflow-hidden px-8 py-3 font-heading font-bold text-sm uppercase tracking-widest text-white rounded-sm transition-all duration-300"
-              style={{
-                background:  'linear-gradient(135deg, #0EA5E9, #0284C7)',
-                boxShadow:   '0 0 25px rgba(14, 165, 233, 0.4)',
-                letterSpacing: '0.15em',
-              }}
-            >
-              View My Achievements
-            </button>
-            <button
+            
+            <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
+  View My Achievements
+</ShinyButton>
+            
+            <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-3 font-heading font-semibold text-sm uppercase tracking-widest rounded-sm transition-all duration-300"
-              style={{
-                color:      'rgba(241, 245, 249, 0.85)',
-                border:     '1px solid rgba(241, 245, 249, 0.2)',
-                letterSpacing: '0.15em',
-                background: 'rgba(255,255,255,0.04)',
-              }}
+              className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
             >
               My Journey
-            </button>
+            </ShinyButton>
           </div>
         </div>
       </div>
