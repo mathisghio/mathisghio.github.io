@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { FallingPattern } from '@/components/FallingPattern'
 import { useInView } from '@/hooks/useInView'
+import { ShinyButton } from '@/components/ui/shiny-button'
 
 
 const titlePartners = [
