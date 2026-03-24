@@ -380,112 +380,158 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* ── Menu mobile ──────────────────────────────────────────────────── */}
-      {/* CSS gradient-button injecté une seule fois */}
+      {/* ── Menu mobile — Gradient Button style (Serafim / 21st.dev) ── */}
       <style>{`
+        /* ── Overlay ── */
         .mgMobileMenu {
           position: fixed; inset: 0; z-index: 40;
           display: flex; align-items: center; justify-content: center;
-          background: rgba(8,9,14,0.72);
-          backdrop-filter: blur(28px);
-          -webkit-backdrop-filter: blur(28px);
-          transition: opacity 0.28s ease;
+          background: rgba(5,6,10,0.80);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          transition: opacity 0.26s ease;
         }
         .mgMobileInner {
-          display: flex; flex-direction: column; gap: 6px;
+          position: relative;
+          display: flex; flex-direction: column; gap: 8px;
           padding: 10px;
-          background: rgba(10,12,22,0.82);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 20px;
-          box-shadow: 0 24px 80px rgba(0,0,0,0.6), inset 0 0 0 .5px rgba(255,255,255,0.04);
-          min-width: 210px;
-          max-width: 260px;
-          width: 68vw;
-          transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
+          min-width: 224px;
+          max-width: 272px;
+          width: 72vw;
+          transition: transform 0.36s cubic-bezier(.34,1.56,.64,1), opacity 0.24s ease;
         }
 
-        /* ── Gradient button — chaque item nav ── */
+        /* ──────────────────────────────────────────────────────────────
+           Serafim gradient-button  (reproduction fidèle)
+           Technique : fond opaque + bordure gradient via ::before + mask
+        ────────────────────────────────────────────────────────────── */
         .mgMobileBtn {
           position: relative;
-          cursor: pointer;
           width: 100%;
-          padding: 12px 20px;
-          border-radius: 11px;
-          border: none;
-          /* fond sombre de base */
-          background: rgba(14,16,30,0.6);
-          color: rgba(255,255,255,0.5);
-          font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-          font-size: 14px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-align: left;
-          text-transform: uppercase;
+          cursor: pointer;
           outline: none;
-          user-select: none;
+          border: none;
+          border-radius: 11px;
+          /* fond sombre — identique à la "dark card" du composant original */
+          background: linear-gradient(
+            180deg,
+            rgba(24, 27, 58, 0.72) 0%,
+            rgba(13, 14, 30, 0.85) 100%
+          );
+          padding: 13px 22px;
           display: flex;
           align-items: center;
-          gap: 11px;
-          transition: color 0.2s ease, background 0.2s ease;
+          gap: 12px;
+          /* typo */
+          font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+          font-size: 14.5px;
+          font-weight: 700;
+          letter-spacing: 0.13em;
+          text-align: left;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.42);
+          user-select: none;
+          -webkit-tap-highlight-color: transparent;
+          /* transitions */
+          transition: color 0.22s ease, background 0.22s ease;
           overflow: hidden;
         }
 
-        /* Bordure gradient via ::before (masque CSS) */
+        /* ── Bordure gradient (::before) ──
+           Padding de 1px + mask XOR = seule la bordure est visible */
         .mgMobileBtn::before {
           content: '';
           position: absolute;
           inset: 0;
           border-radius: 11px;
           padding: 1px;
-          background: linear-gradient(
-            135deg,
-            rgba(255,255,255,0.12) 0%,
-            rgba(14,165,233,0.0) 40%,
-            rgba(14,165,233,0.0) 60%,
-            rgba(255,255,255,0.06) 100%
+          /* conic-gradient centré comme dans le composant Serafim */
+          background: conic-gradient(
+            from 180deg at 50% 50%,
+            rgba(255,255,255,0.08)   0deg,
+            rgba(255,255,255,0.04)  60deg,
+            rgba(255,255,255,0.02) 120deg,
+            rgba(255,255,255,0.00) 180deg,
+            rgba(255,255,255,0.02) 240deg,
+            rgba(255,255,255,0.04) 300deg,
+            rgba(255,255,255,0.08) 360deg
           );
-          -webkit-mask: linear-gradient(#fff 0 0) content-box,
-                        linear-gradient(#fff 0 0);
+          -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           pointer-events: none;
-          transition: background 0.22s ease;
+          transition: background 0.24s ease, opacity 0.24s ease;
         }
 
-        /* Hover */
+        /* ── Shimmer interne (::after) — comme le reflet Serafim ── */
+        .mgMobileBtn::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -60%;
+          width: 40%; height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.04),
+            transparent
+          );
+          transform: skewX(-15deg);
+          pointer-events: none;
+          transition: left 0.5s ease;
+        }
+
+        /* ── Hover ── */
         .mgMobileBtn:hover {
-          color: rgba(255,255,255,0.85);
-          background: rgba(20,28,55,0.75);
+          color: rgba(255,255,255,0.88);
+          background: linear-gradient(
+            180deg,
+            rgba(14,165,233,0.10) 0%,
+            rgba(14,165,233,0.04) 100%
+          );
         }
         .mgMobileBtn:hover::before {
-          background: linear-gradient(
-            135deg,
-            rgba(14,165,233,0.55) 0%,
-            rgba(56,189,248,0.15) 50%,
-            rgba(14,165,233,0.35) 100%
+          background: conic-gradient(
+            from 180deg at 50% 50%,
+            rgba(14,165,233,0.55)   0deg,
+            rgba(56,189,248,0.20)   90deg,
+            rgba(14,165,233,0.08)  180deg,
+            rgba(56,189,248,0.20)  270deg,
+            rgba(14,165,233,0.55)  360deg
           );
         }
+        /* shimmer glisse vers la droite au hover */
+        .mgMobileBtn:hover::after {
+          left: 120%;
+        }
 
-        /* Actif */
+        /* ── Actif (section visible) ── */
         .mgMobileBtn.mgMobileBtnActive {
           color: rgba(255,255,255,1);
-          background: rgba(14,165,233,0.1);
+          background: linear-gradient(
+            180deg,
+            rgba(14,165,233,0.16) 0%,
+            rgba(14,165,233,0.06) 100%
+          );
         }
         .mgMobileBtn.mgMobileBtnActive::before {
-          background: linear-gradient(
-            135deg,
-            rgba(14,165,233,0.7) 0%,
-            rgba(56,189,248,0.25) 50%,
-            rgba(14,165,233,0.5) 100%
+          background: conic-gradient(
+            from 180deg at 50% 50%,
+            rgba(14,165,233,0.80)   0deg,
+            rgba(56,189,248,0.30)   90deg,
+            rgba(14,165,233,0.18)  180deg,
+            rgba(56,189,248,0.30)  270deg,
+            rgba(14,165,233,0.80)  360deg
           );
         }
 
-        /* Dot indicateur */
+        /* ── Dot indicateur ── */
         .mgMobileDot {
           width: 5px; height: 5px;
           border-radius: 50%;
           flex-shrink: 0;
-          transition: background 0.2s, box-shadow 0.2s;
+          transition: background 0.22s ease, box-shadow 0.22s ease;
         }
       `}</style>
 
@@ -493,13 +539,13 @@ export function Navigation() {
         className="mgMobileMenu lg:hidden"
         style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "all" : "none" }}
       >
-        {/* Overlay — clic dehors ferme */}
+        {/* Overlay arrière — clic ferme */}
         <div className="absolute inset-0" onClick={() => setMenuOpen(false)} />
 
         <div
-          className="mgMobileInner relative"
+          className="mgMobileInner"
           style={{
-            transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.96) translateY(12px)",
+            transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.94) translateY(14px)",
             opacity: menuOpen ? 1 : 0,
           }}
         >
@@ -511,16 +557,16 @@ export function Navigation() {
                 onClick={() => handleNav(item.href, i)}
                 className={`mgMobileBtn${active ? " mgMobileBtnActive" : ""}`}
                 style={{
-                  transitionDelay: menuOpen ? `${i * 28}ms` : "0ms",
-                  transform: menuOpen ? "translateX(0)" : "translateX(-6px)",
+                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
+                  transform: menuOpen ? "translateX(0) scale(1)" : "translateX(-8px) scale(0.97)",
                   opacity: menuOpen ? 1 : 0,
                 }}
               >
                 <span
                   className="mgMobileDot"
                   style={{
-                    background: active ? "#0EA5E9" : "rgba(255,255,255,0.18)",
-                    boxShadow: active ? "0 0 7px rgba(14,165,233,0.9)" : "none",
+                    background: active ? "#0EA5E9" : "rgba(255,255,255,0.16)",
+                    boxShadow: active ? "0 0 8px rgba(14,165,233,0.95)" : "none",
                   }}
                 />
                 {item.label}
