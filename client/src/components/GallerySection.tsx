@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
+import { ShinyButton } from '@/components/ui/shiny-button'
 
 const galleryImages = [
   { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-1_31f119eb.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
@@ -17,6 +18,15 @@ const galleryImages = [
 export function GallerySection() {
   const { ref, inView } = useInView(0.05)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+
+  /* Inject LightWidget script once */
+  useEffect(() => {
+    if (document.querySelector('script[src*="lightwidget"]')) return
+    const script = document.createElement('script')
+    script.src = 'https://cdn.lightwidget.com/widgets/lightwidget.js'
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
 
   return (
     <section id="gallery" ref={ref} style={{ background: '#08090E' }}>
@@ -63,7 +73,7 @@ export function GallerySection() {
       </LampContainer>
 
       {/* ── Grille photos ── */}
-      <div className="container relative z-10 pb-24 lg:pb-36">
+      <div className="container relative z-10 pb-12 lg:pb-16">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[200px] transition-all duration-700"
           style={{
@@ -109,36 +119,68 @@ export function GallerySection() {
           ))}
         </div>
 
+        {/* ── Social CTA buttons (ShinyButton style) ── */}
         <div
-          className="mt-12 flex flex-wrap gap-4 justify-center transition-all duration-700"
+          className="mt-10 flex flex-wrap gap-4 justify-center transition-all duration-700"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '400ms',
           }}
         >
-          {[
-            { href: 'https://instagram.com/mathisghio', label: '@mathisghio' },
-            { href: 'https://www.facebook.com/MathisGhioWing', label: 'Facebook' },
-          ].map((s, i) => (
-            <a
-              key={i}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-sm font-heading font-semibold text-sm uppercase tracking-wider transition-all duration-300"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: 'rgba(241, 245, 249, 0.8)',
-                letterSpacing: '0.1em',
-              }}
+          <ShinyButton
+            href="https://instagram.com/mathisghio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @mathisghio
+          </ShinyButton>
+          <ShinyButton
+            href="https://www.facebook.com/MathisGhioWing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+          >
+            Facebook
+          </ShinyButton>
+        </div>
+
+        {/* ── Instagram LightWidget ── */}
+        <div
+          className="mt-12 transition-all duration-700"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '550ms',
+          }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="section-line" />
+            <span
+              className="font-body text-xs uppercase tracking-widest"
+              style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}
             >
-              {s.label}
-            </a>
-          ))}
+              Latest on Instagram
+            </span>
+          </div>
+          <iframe
+            src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
+            scrolling="no"
+            allowTransparency={true}
+            className="lightwidget-widget"
+            style={{
+              width: '100%',
+              border: 0,
+              overflow: 'hidden',
+              display: 'block',
+              borderRadius: '4px',
+            }}
+          />
         </div>
       </div>
+
+      {/* bottom padding */}
+      <div className="pb-12 lg:pb-24" />
     </section>
   )
 }
