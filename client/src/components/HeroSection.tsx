@@ -4,7 +4,6 @@ import { VideoBackground } from './VideoBackground'
 import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
-
 const HERO_VIDEO     = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/bg_4011f03b.mp4'
 const HERO_GENERATED = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-bg-generated_0e69783e.jpg'
 
@@ -29,16 +28,27 @@ export function HeroSection() {
       {/* ── Layer 1 : video / fallback image ── */}
       <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
 
-      {/* ── Layer 2 : dark gradient overlay ── */}
+      {/*
+       * ── Layer 2 : dark gradient overlay ──────────────────────────────
+       * Previously: rgba(8,9,14,0.5) → 0.3 → 0.75
+       * Now lighter: rgba(8,9,14,0.25) → 0.12 → 0.55
+       * The video breathes more, text stays readable at the bottom.
+       */}
       <div
         className="absolute inset-0 z-20"
-        style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.5) 0%, rgba(8,9,14,0.3) 40%, rgba(8,9,14,0.75) 100%)' }}
+        style={{
+          background: 'linear-gradient(to bottom, rgba(8,9,14,0.25) 0%, rgba(8,9,14,0.12) 35%, rgba(8,9,14,0.55) 100%)',
+        }}
       />
 
-      {/* ── Layer 3 : interactive waves ── */}
+      {/*
+       * ── Layer 3 : interactive waves ──────────────────────────────────
+       * Reduced from opacity 0.7 → 0.45 so the waves are a subtle texture
+       * rather than a heavy overlay on top of the now-brighter video.
+       */}
       <div
         className="absolute inset-0 z-30 hidden lg:block"
-        style={{ opacity: 0.7 }}
+        style={{ opacity: 0.45 }}
       >
         <InteractiveWaves
           strokeColor="rgba(14, 165, 233, 0.25)"
@@ -74,10 +84,7 @@ export function HeroSection() {
               transitionDelay: '350ms',
             }}
           >
-            <h1
-              className="font-display text-white leading-none"
-              style={{ fontSize: 'clamp(72px, 14vw, 200px)' }}
-            >
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(72px, 14vw, 200px)' }}>
               MATHIS
             </h1>
             <h1
@@ -103,10 +110,7 @@ export function HeroSection() {
               transitionDelay: '500ms',
             }}
           >
-            <p
-              className="font-body text-lg font-light"
-              style={{ color: 'rgba(241, 245, 249, 0.75)', lineHeight: 1.6 }}
-            >
+            <p className="font-body text-lg font-light" style={{ color: 'rgba(241, 245, 249, 0.75)', lineHeight: 1.6 }}>
               I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
             </p>
           </div>
@@ -123,7 +127,6 @@ export function HeroSection() {
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
               View My Achievements
             </ShinyButton>
-            
             <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
               className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
@@ -140,17 +143,15 @@ export function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
         style={{ color: 'rgba(241, 245, 249, 0.5)' }}
       >
-        <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>
-          Scroll
-        </span>
+        <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
         <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
       </button>
 
-      {/* ── Badge bottom-right — above stats bar ── */}
+      {/* ── Badge bottom-right ── */}
       <div
         className="absolute right-6 z-40 transition-all duration-700 hidden sm:block"
         style={{
-          bottom: 'calc(56px + 1.5rem)', /* stats bar height (~56px) + gap */
+          bottom: 'calc(56px + 1.5rem)',
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0)' : 'translateY(10px)',
           transitionDelay: '800ms',
@@ -159,17 +160,14 @@ export function HeroSection() {
         <span
           className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
           style={{
-            color:      '#0EA5E9',
+            color: '#0EA5E9',
             background: 'rgba(14, 165, 233, 0.1)',
-            border:     '1px solid rgba(14, 165, 233, 0.25)',
+            border: '1px solid rgba(14, 165, 233, 0.25)',
             letterSpacing: '0.2em',
             backdropFilter: 'blur(8px)',
           }}
         >
-          <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
-          />
+          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
           5× World Champion · 41.40 kts Speed Record
         </span>
       </div>
@@ -178,11 +176,11 @@ export function HeroSection() {
       <div
         className="absolute bottom-0 left-0 right-0 z-40 transition-all duration-700"
         style={{
-          opacity:         visible ? 1 : 0,
+          opacity: visible ? 1 : 0,
           transitionDelay: '800ms',
-          borderTop:       '1px solid rgba(14, 165, 233, 0.1)',
-          background:      'rgba(8, 9, 14, 0.6)',
-          backdropFilter:  'blur(10px)',
+          borderTop: '1px solid rgba(14, 165, 233, 0.1)',
+          background: 'rgba(8, 9, 14, 0.6)',
+          backdropFilter: 'blur(10px)',
         }}
       >
         <div className="container">
@@ -200,18 +198,13 @@ export function HeroSection() {
                 <span
                   className="font-display text-2xl lg:text-3xl"
                   style={{
-                    color:      i === 0 ? '#F59E0B' : '#0EA5E9',
-                    textShadow: i === 0
-                      ? '0 0 20px rgba(245, 158, 11, 0.5)'
-                      : '0 0 20px rgba(14, 165, 233, 0.5)',
+                    color: i === 0 ? '#F59E0B' : '#0EA5E9',
+                    textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)',
                   }}
                 >
                   {stat.value}
                 </span>
-                <span
-                  className="font-body text-xs uppercase tracking-widest mt-1"
-                  style={{ color: 'rgba(148, 163, 184, 0.8)', letterSpacing: '0.1em' }}
-                >
+                <span className="font-body text-xs uppercase tracking-widest mt-1" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.1em' }}>
                   {stat.label}
                 </span>
               </div>
