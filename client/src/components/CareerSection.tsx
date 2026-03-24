@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
 import { InteractiveWaves } from './InteractiveWaves'
 import { Timeline } from '@/components/ui/timeline'
 import { useInView } from '@/hooks/useInView'
-
+import { SectionHeader } from '@/components/SectionHeader'
 
 const imgShadow =
   'rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,42,53,0.06),_0_1px_1px_rgba(0,0,0,0.05),_0_0_0_1px_rgba(34,42,53,0.04),_0_0_4px_rgba(34,42,53,0.08),_0_16px_68px_rgba(47,48,55,0.05),_0_1px_0_rgba(255,255,255,0.1)_inset]'
@@ -176,21 +175,7 @@ export function CareerSection() {
           className="mb-0 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="section-line" />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
-              MY CAREER HISTORY
-            </span>
-          </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>
-            MY JOURNEY
-          </h2>
-          <h2
-            className="font-display leading-none mb-6"
-            style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-          >
-            TO THE TOP
-          </h2>
+          <SectionHeader label="MY CAREER HISTORY" line1="MY JOURNEY" line2="TO THE TOP" />
           <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
             From a young sailor on the French Riviera to 5× World Champion — a journey defined by passion,
             dedication, and an insatiable drive to push wingfoil to its limits.
