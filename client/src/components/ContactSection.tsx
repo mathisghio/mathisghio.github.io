@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Instagram, Facebook, Linkedin, ExternalLink } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
