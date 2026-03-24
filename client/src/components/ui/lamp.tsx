@@ -117,7 +117,7 @@ export const LampContainer = ({
       </div>
 
       {/* Contenu — remonté dans la zone de lumière */}
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5 w-full">
+      <div className="relative z-50 flex -translate-y-52 flex-col items-center px-5 w-full">
         {children}
       </div>
     </div>
