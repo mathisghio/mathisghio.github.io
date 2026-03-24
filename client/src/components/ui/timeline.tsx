@@ -12,12 +12,18 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
 
+  // ResizeObserver ensures height is remeasured after images load
   useEffect(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
-    }
-  }, [ref]);
+    const el = ref.current;
+    if (!el) return;
+
+    const measure = () => setHeight(el.getBoundingClientRect().height);
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -26,6 +32,16 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+
+  const trackStyle: React.CSSProperties = {
+    height: height + "px",
+    background:
+      "linear-gradient(to bottom, transparent 0%, rgba(14,165,233,0.2) 10%, rgba(14,165,233,0.2) 90%, transparent 100%)",
+    WebkitMaskImage:
+      "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+    maskImage:
+      "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+  };
 
   return (
     <div
@@ -39,9 +55,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             key={index}
             className="flex justify-start pt-10 md:pt-40 md:gap-10"
           >
-            {/* ── Left: sticky year dot + label ── */}
+            {/* Left: sticky year + dot */}
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-              {/* Dot */}
               <div
                 className="h-10 absolute left-3 md:left-3 w-10 rounded-full flex items-center justify-center"
                 style={{ background: "#08090E" }}
@@ -50,17 +65,16 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
                   className="h-4 w-4 rounded-full p-2"
                   style={{
                     background: "rgba(14,165,233,0.12)",
-                    border: "1px solid rgba(14,165,233,0.45)",
-                    boxShadow: "0 0 8px rgba(14,165,233,0.35)",
+                    border: "1px solid rgba(14,165,233,0.5)",
+                    boxShadow: "0 0 10px rgba(14,165,233,0.4)",
                   }}
                 />
               </div>
-              {/* Year label — desktop */}
               <h3
                 className="hidden md:block md:pl-20 font-display"
                 style={{
                   fontSize: "clamp(36px, 4vw, 60px)",
-                  color: "rgba(14,165,233,0.5)",
+                  color: "rgba(14,165,233,0.55)",
                   letterSpacing: "0.02em",
                   lineHeight: 1,
                 }}
@@ -69,15 +83,11 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               </h3>
             </div>
 
-            {/* ── Right: content ── */}
+            {/* Right: content */}
             <div className="relative pl-20 pr-4 md:pl-4 w-full">
-              {/* Year label — mobile */}
               <h3
                 className="md:hidden block text-2xl mb-4 font-display"
-                style={{
-                  color: "rgba(14,165,233,0.6)",
-                  letterSpacing: "0.02em",
-                }}
+                style={{ color: "rgba(14,165,233,0.7)", letterSpacing: "0.02em" }}
               >
                 {item.title}
               </h3>
@@ -86,27 +96,20 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           </div>
         ))}
 
-        {/* ── Scroll-animated vertical line ── */}
+        {/* Static faded track */}
         <div
-          className="absolute left-8 top-0 w-[2px] overflow-hidden"
-          style={{
-            height: height + "px",
-            background:
-              "linear-gradient(to bottom, transparent 0%, rgba(14,165,233,0.15) 10%, rgba(14,165,233,0.15) 90%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
-          }}
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px]"
+          style={trackStyle}
         >
+          {/* Animated cyan beam */}
           <motion.div
             className="absolute inset-x-0 top-0 w-[2px] rounded-full"
             style={{
               height: heightTransform,
               opacity: opacityTransform,
               background:
-                "linear-gradient(to bottom, transparent 0%, #38BDF8 20%, #0EA5E9 100%)",
-              boxShadow: "0 0 6px rgba(14,165,233,0.7)",
+                "linear-gradient(to top, #0EA5E9 0%, #38BDF8 25%, transparent 100%)",
+              boxShadow: "0 0 8px 1px rgba(14,165,233,0.55)",
             }}
           />
         </div>
