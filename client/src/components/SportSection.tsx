@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
 import { Wind, Zap, Waves, Target } from 'lucide-react'
 import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
+import { SectionHeader } from '@/components/SectionHeader'
 
 
 const FOIL_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/wingfoil-action-generated_c89eb0f5.jpg'
@@ -25,9 +25,7 @@ export function SportSection() {
       <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-          <div className="flex items-center gap-3 mb-6"><div className="section-line" /><span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>The Sport</span></div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>WHAT IS</h2>
-          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>WINGFOIL?</h2>
+          <SectionHeader label="The Sport" line1="WHAT IS" line2="WINGFOIL?" />
         </div>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative transition-all duration-1000" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}>
