@@ -100,11 +100,9 @@ export function PartnersSection() {
               <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>Interested in a Partnership?</h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148, 163, 184, 0.7)' }}>Sponsorships, brand collaborations, product development and long-term strategic partnerships.</p>
             </div>
-            <a href="mailto:contact@mathisghio.com"
-              className="flex-shrink-0 px-8 py-3 rounded-sm font-heading font-bold text-sm uppercase tracking-wider text-white transition-all duration-300"
-              style={{ background: 'linear-gradient(135deg, #0EA5E9, #0284C7)', boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)', letterSpacing: '0.15em', textDecoration: 'none' }}>
+            <ShinyButton href="mailto:contact@mathisghio.com">
               Become a Partner
-            </a>
+            </ShinyButton>
           </div>
         </div>
       </div>
