@@ -97,16 +97,20 @@ export function ContactSection() {
             >
               TOUCH
             </h2>
-            <p
-              className="font-body text-base mt-4 max-w-lg"
+          </motion.div>
+        </LampContainer>
+
+        <div className="container relative z-10 pt-8 pb-0">
+        <p
+              className="font-body text-base mt-4 max-w-lg mx-auto text-center"
               style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7 }}
             >
               For partnerships, media inquiries, professional opportunities and collaboration.
               Open to brand collaborations, media features and performance-driven projects.
             </p>
-          </motion.div>
-        </LampContainer>
+          </div>
 
+        
         {/* ── Cartes contact ── */}
         <div className="container relative z-10 pb-24 lg:pb-36">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
