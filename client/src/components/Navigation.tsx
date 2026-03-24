@@ -210,8 +210,10 @@ export function Navigation() {
   const compact = scrolled;
 
   // ── Dimensions du mascot ─────────────────────────────────────────────────
-  const mascotW = isWing ? (compact ? 72 : 110) : (compact ? 34 : 52);
-  const mascotH = isWing ? (compact ? 42 : 64)  : (compact ? 58 : 90);
+  // Wing  : landscape, ratio ~1.72
+  // Foil  : portrait, agrandi pour mieux correspondre à la wing (ratio ~0.56)
+  const mascotW = isWing ? (compact ? 72  : 110) : (compact ? 52  : 80);
+  const mascotH = isWing ? (compact ? 42  : 64)  : (compact ? 92  : 142);
 
   // bottom du mascotWrap :
   // On veut que OVERLAP_RATIO de la hauteur soit visible au-dessus de la pill.
