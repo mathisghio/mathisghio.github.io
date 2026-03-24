@@ -1,15 +1,11 @@
 /**
  * Navigation.tsx — Mathis Ghio
  *
- * Remplace intégralement l'ancien Navigation.tsx.
- * - Desktop : pill flottante avec mascot animé (wing ou foil)
- * - Mobile  : hamburger + menu plein écran (identique à l'ancien)
- * - Zéro Next.js, zéro framer-motion sur le mascot
- * - Animations CSS pures → GPU-friendly, éco
- *
- * Images à placer dans : client/public/images/
- *   wing-mascot.webp  (fourni)
- *   foil-mascot.webp  (fourni)
+ * Nouveautés v2 :
+ * - Scroll spy : le tab actif suit la section visible à l'écran
+ * - Compact au scroll : pill plus petite + mascot réduit dès qu'on descend
+ * - Toggle wing ↔ foil : bouton discret en fin de pill
+ * - Animations CSS pures, zéro framer-motion sur le mascot
  */
 
 import { useState, useEffect, useRef } from "react";
@@ -28,25 +24,30 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-// "wing" = photo Ozone Fusion  |  "foil" = photo Levitaz
-const MASCOT: "wing" | "foil" = "wing";
+// ─── CSS ─────────────────────────────────────────────────────────────────────
 
-// ─── CSS injecté une seule fois (pas de fichier externe) ─────────────────────
-
-const MASCOT_CSS = `
+const NAV_CSS = `
 .mgNav {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  padding: 8px;
   border-radius: 9999px;
   background: rgba(0,0,0,0.52);
   border: 1px solid rgba(255,255,255,0.08);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 12px 55px rgba(0,0,0,0.7), inset 0 0 0 .5px rgba(255,255,255,0.04);
+  /* transition sur padding et gap pour l'effet compact */
+  transition: padding 0.4s ease, gap 0.4s ease;
+  padding: 8px;
 }
+.mgNav.mgCompact {
+  padding: 4px 5px;
+  gap: 1px;
+}
+
+/* ── Mascot ── */
 .mgMascotWrap {
   position: absolute;
   bottom: calc(100% + 6px);
@@ -63,6 +64,8 @@ const MASCOT_CSS = `
   object-fit: contain;
   filter: drop-shadow(0 4px 20px rgba(70,150,255,0.42));
   transform-origin: 50% 85%;
+  /* transition de taille pour le mode compact */
+  transition: width 0.4s ease, height 0.4s ease, filter 0.3s ease;
 }
 @keyframes mgWingFloat {
   0%,100% { transform: translateY(0) rotate(-1.2deg); }
@@ -87,6 +90,8 @@ const MASCOT_CSS = `
 .mgWingGust  { will-change:transform; animation: mgWingGust .3s cubic-bezier(.15,0,0,1) forwards; filter:drop-shadow(0 4px 22px rgba(70,150,255,.58)); }
 .mgFoilBob   { transform-origin:50% 15%; animation: mgFoilBob 3.5s ease-in-out infinite; }
 .mgFoilDive  { transform-origin:50% 15%; will-change:transform; animation: mgFoilDive .3s cubic-bezier(.15,0,0,1) forwards; filter:drop-shadow(0 5px 26px rgba(40,190,255,.62)); }
+
+/* ── Particules ── */
 .mgParticles { position:absolute; top:5px; left:50%; pointer-events:none; }
 .mgParticles span { position:absolute; border-radius:50%; }
 .mgSpray span:nth-child(1){width:5.5px;height:5.5px;background:rgba(155,215,255,.95);animation:mgSp1 .88s ease-out infinite}
@@ -102,14 +107,24 @@ const MASCOT_CSS = `
 @keyframes mgBub1{0%{transform:translate(0,0) scale(0);opacity:0}32%{opacity:.9}100%{transform:translate(9px,-20px) scale(1);opacity:0}}
 @keyframes mgBub2{0%{transform:translate(0,0) scale(0);opacity:0}32%{opacity:.7}100%{transform:translate(-7px,-16px) scale(.84);opacity:0}}
 @keyframes mgBub3{0%{transform:translate(0,0) scale(0);opacity:0}32%{opacity:.54}100%{transform:translate(14px,-10px) scale(.66);opacity:0}}
+
+/* ── Tabs ── */
 .mgTab {
   position:relative; cursor:pointer;
-  font-size:12.5px; font-weight:600; letter-spacing:.028em;
-  padding:10px 16px; border-radius:9999px; border:none; background:none;
+  letter-spacing:.028em;
+  border-radius:9999px; border:none; background:none;
   color:rgba(255,255,255,.46); font-family:inherit;
   outline:none; user-select:none;
-  transition:color .22s ease;
   -webkit-tap-highlight-color:transparent;
+  /* transition pour l'effet compact */
+  transition: color .22s ease, padding .4s ease, font-size .4s ease;
+  padding: 10px 15px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.mgNav.mgCompact .mgTab {
+  padding: 6px 9px;
+  font-size: 11px;
 }
 .mgTab:hover:not(.mgTabActive){background:rgba(255,255,255,.06);color:rgba(255,255,255,.72)}
 .mgTabActive{color:rgba(255,255,255,1)}
@@ -120,9 +135,49 @@ const MASCOT_CSS = `
 .mgGlowShimmer{position:absolute;inset:0;border-radius:9999px;background:linear-gradient(90deg,transparent,rgba(115,185,255,.18),transparent);animation:mgShimmer 3.2s ease-in-out infinite}
 @keyframes mgGlowPulse{0%,100%{opacity:.18}50%{opacity:.44}}
 @keyframes mgShimmer{0%,100%{transform:translateX(-120%)}50%{transform:translateX(120%)}}
+
+/* ── Bouton toggle mascot ── */
+.mgToggle {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  margin-left: 4px;
+  transition: background .2s ease, border-color .2s ease, padding .4s ease;
+  flex-shrink: 0;
+}
+.mgNav.mgCompact .mgToggle {
+  padding: 3px 6px;
+}
+.mgToggle:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+.mgToggleLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: color .2s ease, font-size .4s ease;
+}
+.mgNav.mgCompact .mgToggleLabel { font-size: 8.5px; }
+.mgToggleDot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+/* Accessibilité : réduire mouvements */
+@media (prefers-reduced-motion: reduce) {
+  .mgMascot, .mgGlowInner, .mgGlowOuter, .mgGlowShimmer, .mgParticles span {
+    animation: none !important;
+  }
+}
 `;
 
-// ─── Composant principal ──────────────────────────────────────────────────────
+// ─── Composant ────────────────────────────────────────────────────────────────
 
 export function Navigation() {
   const [scrolled,    setScrolled]    = useState(false);
@@ -130,20 +185,41 @@ export function Navigation() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hovered,     setHovered]     = useState(false);
   const [mascotLeft,  setMascotLeft]  = useState(0);
+  const [mascot,      setMascot]      = useState<"wing" | "foil">("wing");
 
   const pillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // Flag pour désactiver brièvement le scroll spy lors d'un clic nav
+  const scrollSpyPaused = useRef(false);
 
-  const isWing = MASCOT === "wing";
+  const isWing  = mascot === "wing";
+  // Compact = scrolled > 80px
+  const compact = scrolled;
 
-  // Fond de barre au scroll
+  // ── Tailles mascot selon compact ──────────────────────────────────────────
+  const mascotW = isWing ? (compact ? 72 : 110) : (compact ? 34 : 52);
+  const mascotH = isWing ? (compact ? 42 : 64)  : (compact ? 58 : 90);
+
+  // ── paddingTop du wrapper pill (espace pour le mascot au-dessus) ──────────
+  const pillTopPad = isWing ? (compact ? 42 : 64) : (compact ? 58 : 90);
+
+  // ── CSS injection ─────────────────────────────────────────────────────────
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50);
+    if (document.getElementById("mg-nav-css")) return;
+    const s = document.createElement("style");
+    s.id = "mg-nav-css";
+    s.textContent = NAV_CSS;
+    document.head.appendChild(s);
+  }, []);
+
+  // ── Scroll → compact + fond de barre ─────────────────────────────────────
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Position horizontale du mascot
+  // ── Position horizontale du mascot ────────────────────────────────────────
   useEffect(() => {
     const pill = pillRef.current;
     const btn  = btnRefs.current[activeIndex];
@@ -151,23 +227,55 @@ export function Navigation() {
     const pr = pill.getBoundingClientRect();
     const br = btn.getBoundingClientRect();
     setMascotLeft(br.left - pr.left + br.width / 2);
-  }, [activeIndex]);
+  }, [activeIndex, compact]);
 
-  // Injection CSS (une seule fois dans <head>)
+  // ── Scroll spy ────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (document.getElementById("mg-nav-css")) return;
-    const s = document.createElement("style");
-    s.id = "mg-nav-css";
-    s.textContent = MASCOT_CSS;
-    document.head.appendChild(s);
+    const sectionIds = NAV_ITEMS.map(item => item.href.slice(1));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (scrollSpyPaused.current) return;
+        // Parmi les sections intersectées, on prend celle qui est la plus haute
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          const id  = visible[0].target.id;
+          const idx = sectionIds.indexOf(id);
+          if (idx !== -1) setActiveIndex(idx);
+        }
+      },
+      {
+        // La section est "active" quand son bord supérieur est dans le quart
+        // supérieur de la fenêtre (entre -10% et -60% du bas)
+        rootMargin: "-15% 0px -60% 0px",
+        threshold: 0,
+      }
+    );
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
+  // ── Click nav ─────────────────────────────────────────────────────────────
   const handleNav = (href: string, index: number) => {
     setMenuOpen(false);
     setActiveIndex(index);
+    // Pause le scroll spy le temps du scroll programmatique (~800ms)
+    scrollSpyPaused.current = true;
+    setTimeout(() => { scrollSpyPaused.current = false; }, 900);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // ── Toggle mascot ─────────────────────────────────────────────────────────
+  const toggleMascot = () => setMascot(m => m === "wing" ? "foil" : "wing");
+
+  // ── Classe mascot ─────────────────────────────────────────────────────────
   const mascotClass = isWing
     ? hovered ? "mgMascot mgWingGust" : "mgMascot mgWingFloat"
     : hovered ? "mgMascot mgFoilDive" : "mgMascot mgFoilBob";
@@ -207,18 +315,21 @@ export function Navigation() {
             </span>
           </button>
 
-          {/* ── Pill desktop (lg+) ──────────────────────────────────────────── */}
+          {/* ── Pill desktop ────────────────────────────────────────────────── */}
           <div
             className="hidden lg:block"
-            style={{ paddingTop: 64 }} /* espace vertical pour le mascot */
+            style={{
+              paddingTop: pillTopPad,
+              transition: "padding-top 0.4s ease",
+            }}
           >
             <div
               ref={pillRef}
-              className="mgNav"
+              className={`mgNav${compact ? " mgCompact" : ""}`}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
             >
-              {/* Mascot positionné au-dessus du tab actif */}
+              {/* Mascot */}
               <div
                 className="mgMascotWrap"
                 style={{ left: mascotLeft }}
@@ -232,12 +343,12 @@ export function Navigation() {
                 <img
                   src={isWing ? "/images/wing-mascot.webp" : "/images/foil-mascot.webp"}
                   alt=""
-                  width={isWing ? 110 : 52}
-                  height={isWing ? 64  : 90}
+                  width={mascotW}
+                  height={mascotH}
                   className={mascotClass}
                   draggable={false}
                   decoding="async"
-                  // @ts-expect-error attribut HTML standard, pas encore dans les types React
+                  // @ts-expect-error attribut HTML standard
                   fetchpriority="low"
                 />
               </div>
@@ -264,6 +375,28 @@ export function Navigation() {
                   </button>
                 );
               })}
+
+              {/* Toggle wing ↔ foil */}
+              <button
+                className="mgToggle"
+                onClick={toggleMascot}
+                title={`Passer au ${isWing ? "foil" : "wing"}`}
+                aria-label={`Changer de mascot : actuellement ${isWing ? "wing" : "foil"}`}
+              >
+                <span
+                  className="mgToggleLabel"
+                  style={{ color: isWing ? "rgba(120,180,255,0.9)" : "rgba(255,255,255,0.35)" }}
+                >
+                  W
+                </span>
+                <span className="mgToggleDot" />
+                <span
+                  className="mgToggleLabel"
+                  style={{ color: !isWing ? "rgba(80,220,255,0.9)" : "rgba(255,255,255,0.35)" }}
+                >
+                  F
+                </span>
+              </button>
             </div>
           </div>
 
@@ -282,9 +415,9 @@ export function Navigation() {
       <div
         className="fixed inset-0 z-40 lg:hidden transition-all duration-300"
         style={{
-          opacity:       menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? "all" : "none",
-          background:    "rgba(8,9,14,0.97)",
+          opacity:        menuOpen ? 1 : 0,
+          pointerEvents:  menuOpen ? "all" : "none",
+          background:     "rgba(8,9,14,0.97)",
           backdropFilter: "blur(20px)",
         }}
       >
