@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { FallingPattern } from '@/components/FallingPattern'
+import { useInView } from '@/hooks/useInView'
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-  useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setInView(true) }, { threshold })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [threshold])
-  return { ref, inView }
-}
 
 const titlePartners = [
   { name: 'Ozone', url: 'https://ozonekites.com/team/mathis-ghio/', description: 'Wing & kite manufacturer — R&D partner', logoText: 'OZONE' },
