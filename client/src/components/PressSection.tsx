@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Download, FileText, Mail } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
+import { ShinyButton } from '@/components/ui/shiny-button'
 
 
 const pressResources = [
