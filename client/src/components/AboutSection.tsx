@@ -1,8 +1,8 @@
 import { useInView } from '@/hooks/useInView'
 
-const ABOUT_WATER = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/about-water_efffaf99.JPG'
-const ABOUT_LAND = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/portrait_eau_fcd69e14.JPG'
-const HERO_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-main_cc5a0cb5.JPG'
+const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/portrait_terre_debgqe.jpg'
+const ABOUT_LAND = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774428254/portrait_eau_ggldfg.jpg'
+const HERO_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426100/hero-main_zissjo.jpg'
 
 
 
