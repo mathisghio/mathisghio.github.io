@@ -14,7 +14,8 @@ const timelineData = [
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
           I started competing internationally at age 7 in Optimist class.<br />
           Registered on France's High Level Athlete list since 2017,<br />
-          I built my foundations at AVCR, developing a passion for watersports with windsurfing, with my first world title in  windsurfing that would define the rest of my career.
+          I built my foundations at AVCR, where I developed a passion for watersports and won my first world title <br />
+          in the Bic Techno 293 Junior class, a defining step in my career.        
         </p>
         <div className="mb-8">
           {['International competition from age 7', 'French High level Athlete list (2017)', 'AVCR club windsurfing training'].map((item, i) => (
@@ -54,6 +55,8 @@ const timelineData = [
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X_windsurfing_jump" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774425947/IMG_3046_2030_n9a5eq.jpg" alt="IQFoil jibe" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/Wing_beginnings_gxn5xh.jpg" alt="Wingfoil beginings" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774481055/podium_national_jexlqb.avif" alt="Wingfoil first national win" className={imgShadow} />
+
         </div>
       </div>
     ),
