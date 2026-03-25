@@ -24,7 +24,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X windsurf jump" className={imgShadow} />
+          <img src="" alt="Optimist picture" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Beginning windsurfing" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} />
         </div>
       </div>
@@ -49,8 +50,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-2_397d8419.JPG" alt="Wingfoil action" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-3_1c7dc267.JPG" alt="Competition" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X_windsurfing_jump" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774425947/IMG_3046_2030_n9a5eq.jpg" alt="IQFoil jibe" className={imgShadow} />
         </div>
       </div>
     ),
