@@ -12,19 +12,20 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I started competing internationally at age 7. Registered on France's Elite Athlete list since 2017,
-          I built my foundations at AVCR, developing a passion for watersports that would define my career.
+          I started competing internationally at age 7 in Optimist class. 
+          Registered on France's High Level Athlete list since 2017,
+          I built my foundations at AVCR, developing a passion for watersports with windsurfing, that would define the rest of my career.
         </p>
         <div className="mb-8">
-          {['International competition from age 7', 'French Elite Athlete list (2017)', 'AVCR club — multidiscipline training'].map((item, i) => (
+          {['International competition from age 7', 'French High level Athlete list (2017)', 'AVCR club windsurfing training'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/about-water_efffaf99.JPG" alt="Mathis jeune athlète" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/portrait_eau_fcd69e14.JPG" alt="Portrait eau" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X windsurf jump" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} />
         </div>
       </div>
     ),
@@ -34,8 +35,11 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I discovered wingfoil and immediately felt a deep connection to the sport. I progressed rapidly through
-          national and European competitions, beginning R&D collaboration with Ozone.
+          I began my Olympic windsurfing campaign in 2018 on the RS:X, which transitioned to the iQFoil in 2020. 
+          Alongside iQFoil, I discovered wingfoil to further develop my foiling skills, 
+          and quickly felt a strong connection to the discipline.
+          I then chose to fully commit to wingfoil competition, progressing through national and European events 
+          while starting R&D collaborations with my sponsors.
         </p>
         <div className="mb-8">
           {['National wingfoil circuit — top results', 'European debut — immediate podiums', 'R&D partnership with Ozone kicks off', 'Levitaz hydrofoil collaboration begins'].map((item, i) => (
@@ -56,8 +60,8 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          My breakthrough season. I claimed the Wingfoil Racing World Championship and the GWA Race European title —
-          announcing my arrival at the absolute top of the sport.
+          My breakthrough season, where I won the Wingfoil Racing World Championship and the GWA Race European title,
+          marking an important step in my progression.
         </p>
         <div className="mb-8">
           {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', '1st place — GWA World Cup'].map((item, i) => (
@@ -78,11 +82,11 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I defended and expanded my titles — Double World Champion, Formula Wing European Champion,
-          and three World Cup victories. My dominance became undeniable.
+          I continued to build consistency at the top level, defending my titles 
+          and earning Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
         </p>
         <div className="mb-8">
-          {['🏆 Double Wingfoil Racing World Champion', '🥇 Formula Wing European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
+          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -100,11 +104,11 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          An extraordinary season. Triple Wingfoil Racing World Champion, Double Formula Wing European Champion,
-          three more World Cup wins. Total mastery of the discipline.
+          A standout season, with a Triple Wingfoil Racing World Champion title,
+          Double Formula Wing European Champion, and three additional World Cup victories.
         </p>
         <div className="mb-8">
-          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Double Formula Wing European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
+          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -122,15 +126,15 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-3" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          The most dominant season in wingfoil history. Quadruple World Champion, Formula Wing World Champion,
-          Triple European Champion. The GOAT season.
+          My strongest season to date, marking four World Champion titles, 
+          a Formula Wing World title, and four European titles.
         </p>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(148,163,184,0.7)' }}>
-          I'm incredibly grateful for what I've been able to achieve — years of dedication, hard work,
+          I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work,
           and support from my team and sponsors made this possible.
         </p>
         <div className="mb-8">
-          {['🏆 Quadruple Wingfoil Racing World Champion', '🏆 Formula Wing World Champion', '🥇 Triple Formula Wing European Champion', '2× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
+          {['🏆 Quadruple Wingfoil Racing World Champion', '🏆 Formula Wing World Champion', '🥇 Quadruple European Champion', '2× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-semibold" style={{ color: 'rgba(245,158,11,0.95)' }}>
               {item}
             </div>
@@ -177,7 +181,7 @@ export function CareerSection() {
         >
           <SectionHeader label="MY CAREER HISTORY" line1="MY JOURNEY" line2="TO THE TOP" className="mb-6" />
           <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
-            From a young sailor on the French Riviera to 5× World Champion — a journey defined by passion,
+            From a young sailor on the French Riviera to 5× World Champion, my journey is defined by passion,
             dedication, and an insatiable drive to push wingfoil to its limits.
           </p>
         </div>
