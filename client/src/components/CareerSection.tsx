@@ -52,6 +52,7 @@ const timelineData = [
         <div className="grid grid-cols-2 gap-4">
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X_windsurfing_jump" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774425947/IMG_3046_2030_n9a5eq.jpg" alt="IQFoil jibe" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/Wing_beginnings_gxn5xh.jpg" alt="Wingfoil beginings" className={imgShadow} />
         </div>
       </div>
     ),
@@ -72,8 +73,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-4_27ccf7aa.JPG" alt="Podium 2022" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-5_2015d9ef.JPG" alt="Racing 2022" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_hsk2f2.jpg" alt="Racing 2022" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_podium_rokru0.jpg" alt="Podium 2022" className={imgShadow} />
         </div>
       </div>
     ),
@@ -94,8 +95,9 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-6_19d7f02b.JPG" alt="Racing 2023" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-7_9dcd6816.JPG" alt="Podium 2023" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/3rd_World_Title_iqcsfh.jpg" alt="Racing 1 2023" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471498/3rd_World_Title_1_a8drpa.jpg" alt="Racing 2 2023" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/2nd_World_Title_Podium_vyonqq.jpg" alt="Podium 2023" className={imgShadow} />
         </div>
       </div>
     ),
@@ -116,8 +118,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-1_31f119eb.jpg" alt="Action 2024" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/podium-main_ca0aec18.JPG" alt="Podium 2024" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/3rd_World_Title_iqcsfh.jpg" alt="Action 2024" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471309/4th_World_Title_podium_p8fzac.jpg" alt="Podium 2024" className={imgShadow} />
         </div>
       </div>
     ),
@@ -142,10 +144,10 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-main_cc5a0cb5.JPG" alt="Champion 2025" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/podium-main_ca0aec18.JPG" alt="Podium 2025" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-1_31f119eb.jpg" alt="Racing 2025" className={imgShadow} />
-          <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-4_27ccf7aa.JPG" alt="Action 2025" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426748/achievements-bg_ncunhu.jpg" alt="Champion 2025" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg" alt="Beach champion 2025" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg" alt="Racing 2025" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg" alt="Podium 2 2025" className={imgShadow} />
         </div>
       </div>
     ),
