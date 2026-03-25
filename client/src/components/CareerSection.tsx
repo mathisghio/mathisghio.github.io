@@ -110,7 +110,7 @@ const timelineData = [
           Double Formula Wing European Champion, and three additional World Cup victories.
         </p>
         <div className="mb-8">
-          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
+          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing', 'Start of the R&D partnership with Ozone'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
