@@ -26,8 +26,8 @@ export function AboutSection() {
             </div>
             {[
               { text: "I\'m a French professional wingfoil and sailing athlete, competing internationally since childhood. I\'m a multiple-time World and European Champion in Wingfoil, competing at the highest international level.", delay: '300ms' },
-              { text: "I\'m a member of the French Elite Athlete list (2017–2026), combining international competition with Materials Engineering studies at INSA Lyon — enrolled in the Sport-Study program.", delay: '400ms' },
-              { text: "R&D collaboration with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions. Focused on performance, innovation, and sharing wingfoil expertise globally.", delay: '500ms' },
+              { text: "I\'m a member of the French Elite Athlete list (2017–2026), combining international competition with Materials Engineering studies at INSA Lyon in the Sport-Study program.", delay: '400ms' },
+              { text: "I apply my engineering knowledge to product development and on-water testing through R&D collaborations with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions. Focused on performance, innovation, and sharing wingfoil expertise globally.", delay: '500ms' },
             ].map((p, i) => (
               <p key={i} className="font-body mb-5 transition-all duration-700" style={{ color: 'rgba(148, 163, 184, 0.9)', lineHeight: 1.8, fontSize: '1rem', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(15px)', transitionDelay: p.delay }}>{p.text}</p>
             ))}
