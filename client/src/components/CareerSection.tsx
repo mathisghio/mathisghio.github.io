@@ -12,8 +12,8 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I started competing internationally at age 7 in Optimist class. 
-          Registered on France's High Level Athlete list since 2017,
+          I started competing internationally at age 7 in Optimist class.<br />
+          Registered on France's High Level Athlete list since 2017,<br />
           I built my foundations at AVCR, developing a passion for watersports with windsurfing, that would define the rest of my career.
         </p>
         <div className="mb-8">
@@ -25,7 +25,7 @@ const timelineData = [
         </div>
         <div className="grid grid-cols-2 gap-4">
           <img src="" alt="Optimist picture" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Beginning windsurfing" className={imgShadow} />
+          <img src="" alt="Beginning windsurfing" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} />
         </div>
       </div>
@@ -36,14 +36,14 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I began my Olympic windsurfing campaign in 2018 on the RS:X, which transitioned to the iQFoil in 2020. 
-          Alongside iQFoil, I discovered wingfoil to further develop my foiling skills, 
-          and quickly felt a strong connection to the discipline.
-          I then chose to fully commit to wingfoil competition, progressing through national and European events 
+          I began my Olympic windsurfing campaign in 2018 on the RS:X, which transitioned to the iQFoil in 2020.<br />
+          Alongside iQFoil, I discovered wingfoil to further develop my foiling skills,<br />
+          and quickly felt a strong connection to the discipline.<br />
+          I then chose to fully commit to wingfoil competition, progressing through national and European events <br />
           while starting R&D collaborations with my sponsors.
         </p>
         <div className="mb-8">
-          {['National wingfoil circuit — top results', 'European debut — immediate podiums', 'R&D partnership with Ozone kicks off', 'Levitaz hydrofoil collaboration begins'].map((item, i) => (
+          {['National wingfoil circuit — top results', 'European debut — immediate podiums', 'R&D partnership with Levitaz and Forward Wip kicks off'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
@@ -84,8 +84,8 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I continued to build consistency at the top level, defending my titles 
-          and earning Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
+          I continued to build consistency at the top level, defending my titles and earning <br />
+          Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
         </p>
         <div className="mb-8">
           {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
@@ -106,7 +106,7 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          A standout season, with a Triple Wingfoil Racing World Champion title,
+          A standout season, with a Triple Wingfoil Racing World Champion title, <br />
           Double Formula Wing European Champion, and three additional World Cup victories.
         </p>
         <div className="mb-8">
@@ -128,11 +128,11 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-3" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          My strongest season to date, marking four World Champion titles, 
+          My strongest season to date, marking four World Champion titles, <br />
           a Formula Wing World title, and four European titles.
         </p>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(148,163,184,0.7)' }}>
-          I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work,
+          I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work, <br />
           and support from my team and sponsors made this possible.
         </p>
         <div className="mb-8">
