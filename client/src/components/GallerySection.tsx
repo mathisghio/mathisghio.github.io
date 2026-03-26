@@ -5,6 +5,7 @@ import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
 import { VideoPlayerPro } from '@/components/VideoPlayerPro'
+import './DualToneRainGallery.css'
 
 const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774425298/media_1_mknwkz.mp4'
 
@@ -28,18 +29,6 @@ const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
-  { src: 'CLOUDINARY_URL_9',  alt: 'Photo 9'  },
-  { src: 'CLOUDINARY_URL_10', alt: 'Photo 10' },
-  { src: 'CLOUDINARY_URL_11', alt: 'Photo 11' },
-  { src: 'CLOUDINARY_URL_12', alt: 'Photo 12' },
-  { src: 'CLOUDINARY_URL_13', alt: 'Photo 13' },
-  { src: 'CLOUDINARY_URL_14', alt: 'Photo 14' },
-  { src: 'CLOUDINARY_URL_15', alt: 'Photo 15' },
-  { src: 'CLOUDINARY_URL_16', alt: 'Photo 16' },
-  { src: 'CLOUDINARY_URL_17', alt: 'Photo 17' },
-  { src: 'CLOUDINARY_URL_18', alt: 'Photo 18' },
-  { src: 'CLOUDINARY_URL_19', alt: 'Photo 19' },
-  { src: 'CLOUDINARY_URL_20', alt: 'Photo 20' },
 ]
 
 /* ─── Scroll-reveal wrapper ────────────────────────────────────────────── */
@@ -108,28 +97,51 @@ export function GallerySection() {
   }, [])
 
   return (
-    <section id="gallery" ref={ref} style={{ background: '#08090E' }}>
+    <section
+      id="gallery"
+      ref={ref}
+      className="relative overflow-hidden"
+      style={{ background: '#08090E' }}
+    >
+      {/* ── Slow rain background (gallery variant) ── */}
+      {/* opacity 0.55 → much subtler than Partners' full-opacity version */}
+      <div className="absolute inset-0 z-0" style={{ opacity: 0.55 }}>
+        <div className="dtrb-rain-gallery" aria-hidden />
+        <div className="dtrb-overlay-gallery" aria-hidden />
+      </div>
+
+      {/* Edge fades so rain doesn't bleed hard */}
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)' }}
+      />
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 5%, transparent 95%, #08090E 100%)' }}
+      />
 
       {/* ── Lamp header ── */}
-      <LampContainer>
-        <motion.div
-          initial={{ opacity: 0.5, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-          className="flex flex-col items-center text-center w-full"
-        >
-          <div className="flex items-center gap-3 mb-6 justify-center">
-            <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(241,245,249,0.6)', letterSpacing: '0.2em' }}>
-              Media Gallery
-            </span>
-          </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>RACING ACTION</h2>
-          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            & PODIUMS
-          </h2>
-        </motion.div>
-      </LampContainer>
+      <div className="relative z-10">
+        <LampContainer>
+          <motion.div
+            initial={{ opacity: 0.5, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
+            className="flex flex-col items-center text-center w-full"
+          >
+            <div className="flex items-center gap-3 mb-6 justify-center">
+              <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
+              <span className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(241,245,249,0.6)', letterSpacing: '0.2em' }}>
+                Media Gallery
+              </span>
+            </div>
+            <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>RACING ACTION</h2>
+            <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              & PODIUMS
+            </h2>
+          </motion.div>
+        </LampContainer>
+      </div>
 
       {/* ── Image grid ── */}
       <div className="container relative z-10 pb-12 lg:pb-16">
@@ -172,7 +184,7 @@ export function GallerySection() {
             </span>
           </div>
         </div>
-        <GlassCards images={stackedImages.filter(img => !img.src.startsWith('CLOUDINARY_URL'))} />
+        <GlassCards images={stackedImages} />
       </div>
 
       {/* ── Social CTA ── */}
