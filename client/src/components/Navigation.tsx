@@ -18,7 +18,7 @@ const NAV_ITEMS = [
 ];
 
 // Increased from 0.58 → 0.82 so the wing floats much higher above the pill
-const WING_VISIBLE = 0.82;
+const WING_VISIBLE = 0.88;
 
 const NAV_CSS = `
 .mgNav {
