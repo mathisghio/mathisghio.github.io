@@ -33,7 +33,7 @@ const TC: Record<CompType, string> = {
 const TL: Record<CompType, string> = {
   world_champ: 'IWSA Formula Wing World Championship',
   world_cup:   'IWSA World Cup',
-  european:    'IWSA Formula Wing European Championship',
+  european:    'IWSA Formula Wing European Champ.',
   national:    'National',
 }
 
@@ -114,75 +114,89 @@ function drawInfoPanel(
   visible: boolean // whether marker is on visible hemisphere
 ) {
   const color = TC[comp.type]
-  const PW = 210, PH = 84, PAD = 14, R = 6
-  const CONN = 10  // connector line length
+  const PW = 252, PH = 88, PAD = 14, R = 6
+  const CONN = 10
 
-  // Position: right of marker if fits, else left; center vertically
+  // Position: prefer right of marker, fall back to left; clamp vertically
   let rx = markerX + CONN + 6
   let ry = markerY - PH / 2
   if (!visible || rx + PW > canvasW - 8) rx = markerX - CONN - PW - 6
   if (rx < 8) rx = 8
   ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
 
+  const textW = PW - PAD - 12  // usable text width (leave room for accent bar + PAD)
+
   ctx.save()
 
-  // Glow behind panel
-  ctx.shadowColor = color
-  ctx.shadowBlur  = 16
+  // Glow
+  ctx.shadowColor = color; ctx.shadowBlur = 18
   drawRoundRect(ctx, rx, ry, PW, PH, R)
   ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
   ctx.shadowBlur = 0
 
   // Background
   drawRoundRect(ctx, rx, ry, PW, PH, R)
-  ctx.fillStyle = 'rgba(4,6,14,0.94)'; ctx.fill()
+  ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
 
   // Border
   ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
-  drawRoundRect(ctx, rx, ry, PW, PH, R)
-  ctx.stroke()
+  drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
 
   // Left accent bar
   drawRoundRect(ctx, rx, ry + 10, 3, PH - 20, 2)
   ctx.fillStyle = color; ctx.fill()
 
-  // Connector line from marker to panel
+  // Connector line
   if (visible && markerX >= 0) {
-    ctx.beginPath()
     const lineX1 = markerX + (rx > markerX ? 4 : -4)
     const lineX2 = rx > markerX ? rx : rx + PW
-    const lineY  = markerY
-    ctx.moveTo(lineX1, lineY); ctx.lineTo(lineX2, lineY)
+    ctx.beginPath(); ctx.moveTo(lineX1, markerY); ctx.lineTo(lineX2, markerY)
     ctx.strokeStyle = color + '45'; ctx.lineWidth = 1; ctx.stroke()
-    // small circle at junction
-    ctx.beginPath(); ctx.arc(lineX1, lineY, 2, 0, 2*Math.PI)
+    ctx.beginPath(); ctx.arc(lineX1, markerY, 2, 0, 2*Math.PI)
     ctx.fillStyle = color + '80'; ctx.fill()
   }
 
-  // Flag + name
+  // Clip text to panel interior so long names don't overflow
+  ctx.save()
+  drawRoundRect(ctx, rx + 5, ry, PW - 5, PH, 0); ctx.clip()
+
+  // Name (flag + event name)
   ctx.fillStyle = 'rgba(241,245,249,0.95)'
-  ctx.font = `bold 13px "Barlow Condensed", "Arial Narrow", sans-serif`
-  ctx.letterSpacing = '0.04em'
-  const nameText = `${comp.flag} ${comp.name}`
-  ctx.fillText(nameText, rx + PAD, ry + 22)
+  ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
+  ctx.letterSpacing = '0.03em'
+  // Measure and truncate if needed
+  let nameText = `${comp.flag} ${comp.name}`
+  while (ctx.measureText(nameText).width > textW && nameText.length > 4) {
+    nameText = nameText.slice(0, -2) + '…'
+  }
+  ctx.fillText(nameText, rx + PAD, ry + 23)
 
   // Location
   ctx.fillStyle = 'rgba(148,163,184,0.62)'
   ctx.font = `11px "DM Sans", system-ui, sans-serif`
   ctx.letterSpacing = '0'
-  ctx.fillText(comp.location, rx + PAD, ry + 40)
+  let locText = comp.location
+  while (ctx.measureText(locText).width > textW && locText.length > 4) {
+    locText = locText.slice(0, -2) + '…'
+  }
+  ctx.fillText(locText, rx + PAD, ry + 42)
 
-  // Date (colored)
+  // Date
   ctx.fillStyle = color
   ctx.font = `500 11px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(comp.date, rx + PAD, ry + 56)
+  ctx.fillText(comp.date, rx + PAD, ry + 59)
 
   // Type label
   ctx.fillStyle = 'rgba(148,163,184,0.30)'
-  ctx.font = `10px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(TL[comp.type].toUpperCase(), rx + PAD, ry + 72)
+  ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
+  let typeText = TL[comp.type].toUpperCase()
+  while (ctx.measureText(typeText).width > textW && typeText.length > 4) {
+    typeText = typeText.slice(0, -2) + '…'
+  }
+  ctx.fillText(typeText, rx + PAD, ry + 75)
 
-  ctx.restore()
+  ctx.restore() // end clip
+  ctx.restore() // end panel
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -529,14 +543,19 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
       const {k,tx,ty}=viewRef.current
       ctx.clearRect(0,0,w,h)
 
-      // Apply view transform for all base-projection content
-      ctx.save()
-      ctx.setTransform(k,0,0,k,tx,ty)
-
-      // Ocean gradient (in base space, covers large area)
-      const ocean=ctx.createRadialGradient(w*.5,h*.35,0,w*.5,h*.5,w*.85)
+      // ── Ocean background in screen space (full canvas, no transform needed) ──
+      // Drawn BEFORE the view transform so it always covers 100% of the canvas
+      // regardless of pan position — no more black edges when panning.
+      const ocean=ctx.createRadialGradient(w*.5,h*.38,0,w*.5,h*.5,Math.max(w,h)*.9)
       ocean.addColorStop(0,'#031830'); ocean.addColorStop(.65,'#020D1C'); ocean.addColorStop(1,'#010608')
-      ctx.fillStyle=ocean; ctx.fillRect(-200/k,-200/k,(w+400)/k,(h+400)/k)
+      ctx.fillStyle=ocean; ctx.fillRect(0,0,w,h)
+
+      // ── KEY FIX: include DPR in setTransform so Retina canvases render correctly.
+      // ctx.scale(dpr,dpr) was called once at setup, but ctx.setTransform() REPLACES
+      // the entire matrix — without DPR here, on DPR=2 the content only fills the
+      // top-left quadrant of the physical canvas (blurry + wrong size).
+      ctx.save()
+      ctx.setTransform(k*dpr, 0, 0, k*dpr, tx*dpr, ty*dpr)
 
       // Graticule
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
