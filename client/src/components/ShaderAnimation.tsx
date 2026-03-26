@@ -35,6 +35,7 @@ export function ShaderAnimation() {
     camera.position.z = 1
     const scene = new THREE.Scene()
     const geometry = new THREE.PlaneGeometry(2, 2)
+    const uniforms = { time: { value: 1.0 }, resolution: { value: new THREE.Vector2() } }
     const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
