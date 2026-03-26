@@ -1,23 +1,15 @@
 /**
  * Navigation.tsx — Mathis Ghio
- *
- * Wing only — mascot photo réelle partiellement cachée derrière la pill
- * - Scroll spy
- * - Compact au scroll (pill + mascot réduits)
- * - Hover tab actif    → gust (rotation + spray)
- * - Hover tab non-actif → tilt + filets d'air
- * - Animations CSS pures, zéro framer-motion
  */
 
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 
-// ─── Config ───────────────────────────────────────────────────────────────────
-
 const NAV_ITEMS = [
   { label: "About",        href: "#about" },
   { label: "Achievements", href: "#achievements" },
   { label: "Career",       href: "#career" },
+  { label: "Season",       href: "#season" },
   { label: "The Sport",    href: "#sport" },
   { label: "Gallery",      href: "#gallery" },
   { label: "Partners",     href: "#partners" },
@@ -25,14 +17,9 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-// Portion visible au-dessus de la pill — le reste est caché derrière
-// Normal : H=64, 0.58 → 37px visibles → pillTopPad = 45px
 const WING_VISIBLE = 0.58;
 
-// ─── CSS ─────────────────────────────────────────────────────────────────────
-
 const NAV_CSS = `
-/* ── Pill ── */
 .mgNav {
   position: relative;
   display: inline-flex;
@@ -49,8 +36,6 @@ const NAV_CSS = `
   overflow: visible;
 }
 .mgNav.mgCompact { padding: 4px 5px; gap: 1px; }
-
-/* Masque la partie basse du mascot derrière la pill */
 .mgNav::before {
   content: '';
   position: absolute;
@@ -69,8 +54,6 @@ const NAV_CSS = `
   z-index: 1;
   pointer-events: none;
 }
-
-/* ── Mascot wrap (z-index 0 = derrière le ::before) ── */
 .mgMascotWrap {
   position: absolute;
   transform: translateX(-50%);
@@ -81,7 +64,6 @@ const NAV_CSS = `
   z-index: 0;
   transition: left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.4s ease;
 }
-
 .mgMascot {
   display: block;
   object-fit: contain;
@@ -89,40 +71,23 @@ const NAV_CSS = `
   transform-origin: 50% 85%;
   transition: width 0.4s ease, height 0.4s ease, filter 0.3s ease;
 }
-
-/* ── Animations mascot ── */
-
-/* Idle */
 @keyframes mgWingFloat {
   0%,100% { transform: translateY(0) rotate(-1.2deg); }
   50%     { transform: translateY(-5px) rotate(1.2deg); }
 }
 .mgWingFloat { animation: mgWingFloat 3.2s ease-in-out infinite; }
-
-/* Hover tab non-actif — tilt doux */
 @keyframes mgWingTilt {
   0%   { transform: none; }
   25%  { transform: translateY(-4px) rotate(10deg) scale(1.06); }
   100% { transform: translateY(-3px) rotate(8deg) scale(1.05); }
 }
-.mgWingTilt {
-  will-change: transform;
-  animation: mgWingTilt .25s cubic-bezier(.15,0,0,1) forwards;
-}
-
-/* Hover tab actif — gust complet */
+.mgWingTilt { will-change: transform; animation: mgWingTilt .25s cubic-bezier(.15,0,0,1) forwards; }
 @keyframes mgWingGust {
   0%   { transform: none; }
   20%  { transform: translateY(-12px) rotate(21deg) scale(1.14); }
   100% { transform: translateY(-11px) rotate(19deg) scale(1.12); }
 }
-.mgWingGust {
-  will-change: transform;
-  animation: mgWingGust .3s cubic-bezier(.15,0,0,1) forwards;
-  filter: drop-shadow(0 4px 22px rgba(70,150,255,.58));
-}
-
-/* ── Spray (hover actif) ── */
+.mgWingGust { will-change: transform; animation: mgWingGust .3s cubic-bezier(.15,0,0,1) forwards; filter: drop-shadow(0 4px 22px rgba(70,150,255,.58)); }
 .mgParticles { position:absolute; top:5px; left:50%; pointer-events:none; z-index:25; }
 .mgParticles span { position:absolute; border-radius:50%; }
 .mgSpray span:nth-child(1){width:5.5px;height:5.5px;background:rgba(155,215,255,.95);animation:mgSp1 .88s ease-out infinite}
@@ -131,32 +96,16 @@ const NAV_CSS = `
 @keyframes mgSp1{0%{transform:translate(0,0) scale(0);opacity:0}40%{opacity:1}100%{transform:translate(18px,-16px) scale(1.1);opacity:0}}
 @keyframes mgSp2{0%{transform:translate(0,0) scale(0);opacity:0}40%{opacity:.8}100%{transform:translate(-15px,-13px) scale(.88);opacity:0}}
 @keyframes mgSp3{0%{transform:translate(0,0) scale(0);opacity:0}40%{opacity:.6}100%{transform:translate(22px,-7px) scale(.7);opacity:0}}
-
-/* ── Filets d'air (hover non-actif) ── */
-.mgAirStreaks {
-  position: absolute;
-  top: 25%; left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 25;
-  width: 100px; height: 40px;
-}
-.mgAirStreaks span {
-  position: absolute;
-  height: 1.5px;
-  border-radius: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,232,255,0.85), transparent);
-}
-.mgAirStreaks span:nth-child(1){ width:32px; top:6px;  left:0;   animation: mgAir1 .42s ease-out infinite; }
-.mgAirStreaks span:nth-child(2){ width:22px; top:16px; left:8px;  animation: mgAir2 .38s ease-out infinite .12s; }
-.mgAirStreaks span:nth-child(3){ width:28px; top:27px; left:3px;  animation: mgAir3 .46s ease-out infinite .06s; }
-.mgAirStreaks span:nth-child(4){ width:16px; top:11px; left:20px; animation: mgAir4 .35s ease-out infinite .2s; }
+.mgAirStreaks { position:absolute; top:25%; left:50%; transform:translateX(-50%); pointer-events:none; z-index:25; width:100px; height:40px; }
+.mgAirStreaks span { position:absolute; height:1.5px; border-radius:1px; background:linear-gradient(90deg,transparent,rgba(200,232,255,0.85),transparent); }
+.mgAirStreaks span:nth-child(1){ width:32px; top:6px;  left:0;    animation:mgAir1 .42s ease-out infinite; }
+.mgAirStreaks span:nth-child(2){ width:22px; top:16px; left:8px;  animation:mgAir2 .38s ease-out infinite .12s; }
+.mgAirStreaks span:nth-child(3){ width:28px; top:27px; left:3px;  animation:mgAir3 .46s ease-out infinite .06s; }
+.mgAirStreaks span:nth-child(4){ width:16px; top:11px; left:20px; animation:mgAir4 .35s ease-out infinite .2s; }
 @keyframes mgAir1{0%{transform:translateX(-40px);opacity:0}30%{opacity:.9}100%{transform:translateX(70px);opacity:0}}
 @keyframes mgAir2{0%{transform:translateX(-35px);opacity:0}30%{opacity:.7}100%{transform:translateX(65px);opacity:0}}
 @keyframes mgAir3{0%{transform:translateX(-45px);opacity:0}30%{opacity:.75}100%{transform:translateX(68px);opacity:0}}
 @keyframes mgAir4{0%{transform:translateX(-30px);opacity:0}30%{opacity:.55}100%{transform:translateX(55px);opacity:0}}
-
-/* ── Tabs (z-index 2 = au-dessus du ::before) ── */
 .mgTab {
   position: relative; z-index: 2;
   cursor: pointer; letter-spacing: .028em;
@@ -177,14 +126,11 @@ const NAV_CSS = `
 .mgGlowShimmer { position:absolute;inset:0;border-radius:9999px;background:linear-gradient(90deg,transparent,rgba(115,185,255,.18),transparent);animation:mgShimmer 3.2s ease-in-out infinite }
 @keyframes mgGlowPulse { 0%,100%{opacity:.18}50%{opacity:.44} }
 @keyframes mgShimmer   { 0%,100%{transform:translateX(-120%)}50%{transform:translateX(120%)} }
-
 @media (prefers-reduced-motion: reduce) {
   .mgMascot, .mgGlowInner, .mgGlowOuter, .mgGlowShimmer,
   .mgParticles span, .mgAirStreaks span { animation: none !important; }
 }
 `;
-
-// ─── Composant ────────────────────────────────────────────────────────────────
 
 export function Navigation() {
   const [scrolled,      setScrolled]      = useState(false);
@@ -199,56 +145,44 @@ export function Navigation() {
   const scrollSpyPaused = useRef(false);
 
   const compact = scrolled;
-
-  // ── Dimensions wing ────────────────────────────────────────────────────────
   const mascotW    = compact ? 72  : 110;
   const mascotH    = compact ? 42  : 64;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
   const mascotTop    = -visibleAbove;
   const pillTopPad   = visibleAbove + 8;
 
-  // ── État animation ──────────────────────────────────────────────────────────
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
   const isNonActiveHovered = hoveredTabIdx !== null && hoveredTabIdx !== activeIndex;
-
   const mascotClass = isActiveHovered    ? "mgMascot mgWingGust"
                     : isNonActiveHovered ? "mgMascot mgWingTilt"
                     :                      "mgMascot mgWingFloat";
 
-  // ── CSS injection ──────────────────────────────────────────────────────────
   useEffect(() => {
     if (document.getElementById("mg-nav-css")) return;
     const s = document.createElement("style");
-    s.id = "mg-nav-css";
-    s.textContent = NAV_CSS;
+    s.id = "mg-nav-css"; s.textContent = NAV_CSS;
     document.head.appendChild(s);
   }, []);
 
-  // ── Scroll → compact ───────────────────────────────────────────────────────
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // ── Position mascot ────────────────────────────────────────────────────────
   useEffect(() => {
-    const pill = pillRef.current;
-    const btn  = btnRefs.current[activeIndex];
+    const pill = pillRef.current, btn = btnRefs.current[activeIndex];
     if (!pill || !btn) return;
-    const pr = pill.getBoundingClientRect();
-    const br = btn.getBoundingClientRect();
+    const pr = pill.getBoundingClientRect(), br = btn.getBoundingClientRect();
     setMascotLeft(br.left - pr.left + br.width / 2);
   }, [activeIndex, compact]);
 
-  // ── Scroll spy ─────────────────────────────────────────────────────────────
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
     const observer = new IntersectionObserver(
       (entries) => {
         if (scrollSpyPaused.current) return;
-        const visible = entries
-          .filter(e => e.isIntersecting)
+        const visible = entries.filter(e => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible.length > 0) {
           const idx = ids.indexOf(visible[0].target.id);
@@ -261,10 +195,8 @@ export function Navigation() {
     return () => observer.disconnect();
   }, []);
 
-  // ── Nav click ──────────────────────────────────────────────────────────────
   const handleNav = (href: string, index: number) => {
-    setMenuOpen(false);
-    setActiveIndex(index);
+    setMenuOpen(false); setActiveIndex(index);
     scrollSpyPaused.current = true;
     setTimeout(() => { scrollSpyPaused.current = false; }, 900);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -272,96 +204,40 @@ export function Navigation() {
 
   return (
     <>
-      {/* ── Barre principale ─────────────────────────────────────────────── */}
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{
-          background:     scrolled ? "rgba(8,9,14,0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(20px)"        : "none",
-          borderBottom:   scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
-        }}
-      >
+      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{ background:scrolled?"rgba(8,9,14,0.92)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(14,165,233,0.1)":"none" }}>
         <div className="container flex items-center justify-between py-4">
-
-          {/* Logo */}
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3"
-          >
-            <div
-              className="w-8 h-8 rounded-sm flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}
-            >
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-sm flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}>
               <span className="font-display text-white text-sm leading-none">MG</span>
             </div>
-            <span
-              className="hidden sm:block font-heading font-bold text-white text-lg tracking-wider uppercase"
-              style={{ letterSpacing: "0.15em" }}
-            >
-              Mathis Ghio
-            </span>
+            <span className="hidden sm:block font-heading font-bold text-white text-lg tracking-wider uppercase"
+              style={{ letterSpacing: "0.15em" }}>Mathis Ghio</span>
           </button>
 
-          {/* ── Pill desktop ─────────────────────────────────────────────── */}
-          <div
-            className="hidden lg:block"
-            style={{ paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}
-          >
-            <div
-              ref={pillRef}
-              className={`mgNav${compact ? " mgCompact" : ""}`}
+          <div className="hidden lg:block" style={{ paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}>
+            <div ref={pillRef} className={`mgNav${compact ? " mgCompact" : ""}`}
               onMouseEnter={() => setPillHovered(true)}
-              onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}
-            >
-              {/* Wing mascot */}
-              <div
-                className="mgMascotWrap"
-                style={{ left: mascotLeft, top: mascotTop, bottom: "auto" }}
-                aria-hidden="true"
-              >
-                {isActiveHovered && (
-                  <div className="mgParticles mgSpray">
-                    <span /><span /><span />
-                  </div>
-                )}
-                {isNonActiveHovered && (
-                  <div className="mgAirStreaks">
-                    <span /><span /><span /><span />
-                  </div>
-                )}
-                <img
-                  src="/images/wing-mascot.webp"
-                  alt=""
-                  width={mascotW}
-                  height={mascotH}
-                  className={mascotClass}
-                  draggable={false}
-                  decoding="async"
+              onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}>
+              <div className="mgMascotWrap" style={{ left: mascotLeft, top: mascotTop, bottom: "auto" }} aria-hidden="true">
+                {isActiveHovered && (<div className="mgParticles mgSpray"><span /><span /><span /></div>)}
+                {isNonActiveHovered && (<div className="mgAirStreaks"><span /><span /><span /><span /></div>)}
+                <img src="/images/wing-mascot.webp" alt="" width={mascotW} height={mascotH}
+                  className={mascotClass} draggable={false} decoding="async"
                   // @ts-expect-error attribut HTML standard
-                  fetchpriority="low"
-                />
+                  fetchpriority="low" />
               </div>
-
-              {/* Tabs */}
               {NAV_ITEMS.map((item, i) => {
                 const active = i === activeIndex;
                 return (
-                  <button
-                    key={item.href}
-                    ref={el => { btnRefs.current[i] = el; }}
+                  <button key={item.href} ref={el => { btnRefs.current[i] = el; }}
                     className={`mgTab${active ? " mgTabActive" : ""}`}
                     onClick={() => handleNav(item.href, i)}
                     onMouseEnter={() => setHoveredTabIdx(i)}
                     onMouseLeave={() => setHoveredTabIdx(null)}
-                    aria-current={active ? "page" : undefined}
-                  >
-                    {active && (
-                      <span className="mgTabGlow" aria-hidden="true">
-                        <span className="mgGlowInner" />
-                        <span className="mgGlowOuter" />
-                        <span className="mgGlowShimmer" />
-                      </span>
-                    )}
+                    aria-current={active ? "page" : undefined}>
+                    {active && (<span className="mgTabGlow" aria-hidden="true"><span className="mgGlowInner" /><span className="mgGlowOuter" /><span className="mgGlowShimmer" /></span>)}
                     <span className="mgTabLabel">{item.label}</span>
                   </button>
                 );
@@ -369,206 +245,36 @@ export function Navigation() {
             </div>
           </div>
 
-          {/* Hamburger mobile */}
-          <button
-            className="lg:hidden p-2 text-white"
-            onClick={() => setMenuOpen(v => !v)}
-            aria-label={menuOpen ? "Fermer" : "Menu"}
-          >
+          <button className="lg:hidden p-2 text-white" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Fermer" : "Menu"}>
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </nav>
 
-      {/* ── Menu mobile — Gradient Button style (Serafim / 21st.dev) ── */}
       <style>{`
-        /* ── Overlay ── */
-        .mgMobileMenu {
-          position: fixed; inset: 0; z-index: 40;
-          display: flex; align-items: center; justify-content: center;
-          background: rgba(5,6,10,0.80);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          transition: opacity 0.26s ease;
-        }
-        .mgMobileInner {
-          position: relative;
-          display: flex; flex-direction: column; gap: 8px;
-          padding: 10px;
-          min-width: 224px;
-          max-width: 272px;
-          width: 72vw;
-          transition: transform 0.36s cubic-bezier(.34,1.56,.64,1), opacity 0.24s ease;
-        }
-
-        /* ──────────────────────────────────────────────────────────────
-           Serafim gradient-button  (reproduction fidèle)
-           Technique : fond opaque + bordure gradient via ::before + mask
-        ────────────────────────────────────────────────────────────── */
-        .mgMobileBtn {
-          position: relative;
-          width: 100%;
-          cursor: pointer;
-          outline: none;
-          border: none;
-          border-radius: 11px;
-          /* fond sombre — identique à la "dark card" du composant original */
-          background: linear-gradient(
-            180deg,
-            rgba(24, 27, 58, 0.72) 0%,
-            rgba(13, 14, 30, 0.85) 100%
-          );
-          padding: 13px 22px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          /* typo */
-          font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
-          font-size: 14.5px;
-          font-weight: 700;
-          letter-spacing: 0.13em;
-          text-align: left;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.42);
-          user-select: none;
-          -webkit-tap-highlight-color: transparent;
-          /* transitions */
-          transition: color 0.22s ease, background 0.22s ease;
-          overflow: hidden;
-        }
-
-        /* ── Bordure gradient (::before) ──
-           Padding de 1px + mask XOR = seule la bordure est visible */
-        .mgMobileBtn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 11px;
-          padding: 1px;
-          /* conic-gradient centré comme dans le composant Serafim */
-          background: conic-gradient(
-            from 180deg at 50% 50%,
-            rgba(255,255,255,0.08)   0deg,
-            rgba(255,255,255,0.04)  60deg,
-            rgba(255,255,255,0.02) 120deg,
-            rgba(255,255,255,0.00) 180deg,
-            rgba(255,255,255,0.02) 240deg,
-            rgba(255,255,255,0.04) 300deg,
-            rgba(255,255,255,0.08) 360deg
-          );
-          -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          pointer-events: none;
-          transition: background 0.24s ease, opacity 0.24s ease;
-        }
-
-        /* ── Shimmer interne (::after) — comme le reflet Serafim ── */
-        .mgMobileBtn::after {
-          content: '';
-          position: absolute;
-          top: 0; left: -60%;
-          width: 40%; height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,0.04),
-            transparent
-          );
-          transform: skewX(-15deg);
-          pointer-events: none;
-          transition: left 0.5s ease;
-        }
-
-        /* ── Hover ── */
-        .mgMobileBtn:hover {
-          color: rgba(255,255,255,0.88);
-          background: linear-gradient(
-            180deg,
-            rgba(14,165,233,0.10) 0%,
-            rgba(14,165,233,0.04) 100%
-          );
-        }
-        .mgMobileBtn:hover::before {
-          background: conic-gradient(
-            from 180deg at 50% 50%,
-            rgba(14,165,233,0.55)   0deg,
-            rgba(56,189,248,0.20)   90deg,
-            rgba(14,165,233,0.08)  180deg,
-            rgba(56,189,248,0.20)  270deg,
-            rgba(14,165,233,0.55)  360deg
-          );
-        }
-        /* shimmer glisse vers la droite au hover */
-        .mgMobileBtn:hover::after {
-          left: 120%;
-        }
-
-        /* ── Actif (section visible) ── */
-        .mgMobileBtn.mgMobileBtnActive {
-          color: rgba(255,255,255,1);
-          background: linear-gradient(
-            180deg,
-            rgba(14,165,233,0.16) 0%,
-            rgba(14,165,233,0.06) 100%
-          );
-        }
-        .mgMobileBtn.mgMobileBtnActive::before {
-          background: conic-gradient(
-            from 180deg at 50% 50%,
-            rgba(14,165,233,0.80)   0deg,
-            rgba(56,189,248,0.30)   90deg,
-            rgba(14,165,233,0.18)  180deg,
-            rgba(56,189,248,0.30)  270deg,
-            rgba(14,165,233,0.80)  360deg
-          );
-        }
-
-        /* ── Dot indicateur ── */
-        .mgMobileDot {
-          width: 5px; height: 5px;
-          border-radius: 50%;
-          flex-shrink: 0;
-          transition: background 0.22s ease, box-shadow 0.22s ease;
-        }
+        .mgMobileMenu { position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(5,6,10,0.80);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:opacity 0.26s ease; }
+        .mgMobileInner { position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;min-width:224px;max-width:272px;width:72vw;transition:transform 0.36s cubic-bezier(.34,1.56,.64,1),opacity 0.24s ease; }
+        .mgMobileBtn { position:relative;width:100%;cursor:pointer;outline:none;border:none;border-radius:11px;background:linear-gradient(180deg,rgba(24,27,58,0.72) 0%,rgba(13,14,30,0.85) 100%);padding:13px 22px;display:flex;align-items:center;gap:12px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:14.5px;font-weight:700;letter-spacing:0.13em;text-align:left;text-transform:uppercase;color:rgba(255,255,255,0.42);user-select:none;-webkit-tap-highlight-color:transparent;transition:color 0.22s ease,background 0.22s ease;overflow:hidden; }
+        .mgMobileBtn::before { content:'';position:absolute;inset:0;border-radius:11px;padding:1px;background:conic-gradient(from 180deg at 50% 50%,rgba(255,255,255,0.08) 0deg,rgba(255,255,255,0.04) 60deg,rgba(255,255,255,0.02) 120deg,rgba(255,255,255,0.00) 180deg,rgba(255,255,255,0.02) 240deg,rgba(255,255,255,0.04) 300deg,rgba(255,255,255,0.08) 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:background 0.24s ease,opacity 0.24s ease; }
+        .mgMobileBtn::after { content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);transform:skewX(-15deg);pointer-events:none;transition:left 0.5s ease; }
+        .mgMobileBtn:hover { color:rgba(255,255,255,0.88);background:linear-gradient(180deg,rgba(14,165,233,0.10) 0%,rgba(14,165,233,0.04) 100%); }
+        .mgMobileBtn:hover::before { background:conic-gradient(from 180deg at 50% 50%,rgba(14,165,233,0.55) 0deg,rgba(56,189,248,0.20) 90deg,rgba(14,165,233,0.08) 180deg,rgba(56,189,248,0.20) 270deg,rgba(14,165,233,0.55) 360deg); }
+        .mgMobileBtn:hover::after { left:120%; }
+        .mgMobileBtn.mgMobileBtnActive { color:rgba(255,255,255,1);background:linear-gradient(180deg,rgba(14,165,233,0.16) 0%,rgba(14,165,233,0.06) 100%); }
+        .mgMobileBtn.mgMobileBtnActive::before { background:conic-gradient(from 180deg at 50% 50%,rgba(14,165,233,0.80) 0deg,rgba(56,189,248,0.30) 90deg,rgba(14,165,233,0.18) 180deg,rgba(56,189,248,0.30) 270deg,rgba(14,165,233,0.80) 360deg); }
+        .mgMobileDot { width:5px;height:5px;border-radius:50%;flex-shrink:0;transition:background 0.22s ease,box-shadow 0.22s ease; }
       `}</style>
 
-      <div
-        className="mgMobileMenu lg:hidden"
-        style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "all" : "none" }}
-      >
-        {/* Overlay arrière — clic ferme */}
+      <div className="mgMobileMenu lg:hidden" style={{ opacity:menuOpen?1:0, pointerEvents:menuOpen?"all":"none" }}>
         <div className="absolute inset-0" onClick={() => setMenuOpen(false)} />
-
-        <div
-          className="mgMobileInner"
-          style={{
-            transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.94) translateY(14px)",
-            opacity: menuOpen ? 1 : 0,
-          }}
-        >
+        <div className="mgMobileInner" style={{ transform:menuOpen?"scale(1) translateY(0)":"scale(0.94) translateY(14px)", opacity:menuOpen?1:0 }}>
           {NAV_ITEMS.map((item, i) => {
             const active = i === activeIndex;
             return (
-              <button
-                key={item.href}
-                onClick={() => handleNav(item.href, i)}
+              <button key={item.href} onClick={() => handleNav(item.href, i)}
                 className={`mgMobileBtn${active ? " mgMobileBtnActive" : ""}`}
-                style={{
-                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
-                  transform: menuOpen ? "translateX(0) scale(1)" : "translateX(-8px) scale(0.97)",
-                  opacity: menuOpen ? 1 : 0,
-                }}
-              >
-                <span
-                  className="mgMobileDot"
-                  style={{
-                    background: active ? "#0EA5E9" : "rgba(255,255,255,0.16)",
-                    boxShadow: active ? "0 0 8px rgba(14,165,233,0.95)" : "none",
-                  }}
-                />
+                style={{ transitionDelay:menuOpen?`${i*30}ms`:"0ms", transform:menuOpen?"translateX(0) scale(1)":"translateX(-8px) scale(0.97)", opacity:menuOpen?1:0 }}>
+                <span className="mgMobileDot" style={{ background:active?"#0EA5E9":"rgba(255,255,255,0.16)", boxShadow:active?"0 0 8px rgba(14,165,233,0.95)":"none" }} />
                 {item.label}
               </button>
             );
