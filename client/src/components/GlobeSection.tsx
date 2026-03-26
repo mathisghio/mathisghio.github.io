@@ -33,7 +33,7 @@ const TC: Record<CompType, string> = {
 const TL: Record<CompType, string> = {
   world_champ: 'IWSA Formula Wing World Championship',
   world_cup:   'IWSA World Cup',
-  european:    'IWSA Formula Wing European Champ.',
+  european:    'IWSA Formula Wing European Championship',
   national:    'National',
 }
 
