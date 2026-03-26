@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
-import { Play, Pause, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react'
+import { VideoPlayerPro } from '@/components/VideoPlayerPro'
 
 const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774425298/media_1_mknwkz.mp4'
 
@@ -19,10 +19,6 @@ const galleryImages = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg', alt: '5th World title', span: 'col-span-1 row-span-1' },
 ]
 
-/*
- * ── Replace each URL below with your 20 Cloudinary links ──────────────────
- * Format: { src: 'https://res.cloudinary.com/...', alt: 'description' }
- */
 const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Photo 1' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg', alt: 'Photo 2' },
@@ -32,7 +28,6 @@ const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
-  // ── Paste your 20 Cloudinary URLs here ── //
   { src: 'CLOUDINARY_URL_9',  alt: 'Photo 9'  },
   { src: 'CLOUDINARY_URL_10', alt: 'Photo 10' },
   { src: 'CLOUDINARY_URL_11', alt: 'Photo 11' },
@@ -47,172 +42,33 @@ const stackedImages: GlassCardImage[] = [
   { src: 'CLOUDINARY_URL_20', alt: 'Photo 20' },
 ]
 
-/* ─── Video player ─────────────────────────────────────────────────────── */
-function VideoPlayer({ src }: { src: string }) {
-  const videoRef      = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying]         = useState(true)
-  const [muted, setMuted]             = useState(true)   // autoplay requires muted start
-  const [progress, setProgress]       = useState(0)
-  const [duration, setDuration]       = useState(0)
-  const [fullscreen, setFullscreen]   = useState(false)
-  const [showControls, setShowControls] = useState(true)
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    v.play().catch(() => {})
-    v.addEventListener('loadedmetadata', () => setDuration(v.duration))
-  }, [])
-
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    const fn = () => setProgress(v.currentTime / (v.duration || 1))
-    v.addEventListener('timeupdate', fn)
-    return () => v.removeEventListener('timeupdate', fn)
-  }, [])
-
-  const resetHideTimer = useCallback(() => {
-    setShowControls(true)
-    if (hideTimer.current) clearTimeout(hideTimer.current)
-    hideTimer.current = setTimeout(() => setShowControls(false), 2800)
-  }, [])
-
-  useEffect(() => { resetHideTimer() }, [resetHideTimer])
-
-  const togglePlay = () => {
-    const v = videoRef.current; if (!v) return
-    if (v.paused) { v.play(); setPlaying(true) } else { v.pause(); setPlaying(false) }
-  }
-
-  const toggleMute = () => {
-    const v = videoRef.current; if (!v) return
-    v.muted = !v.muted
-    setMuted(v.muted)
-  }
-
-  const seek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const v = videoRef.current; if (!v) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    v.currentTime = ((e.clientX - rect.left) / rect.width) * v.duration
-  }
-
-  const toggleFullscreen = () => {
-    const el = videoRef.current?.closest('.video-player-root') as HTMLElement
-    if (!document.fullscreenElement) { el?.requestFullscreen(); setFullscreen(true) }
-    else { document.exitFullscreen(); setFullscreen(false) }
-  }
-
-  const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
-
-  return (
-    <div
-      className="video-player-root relative w-full overflow-hidden rounded-sm"
-      style={{ aspectRatio: '16/9', background: '#000', border: '1px solid rgba(14,165,233,0.18)' }}
-      onMouseMove={resetHideTimer}
-      onMouseLeave={() => { if (hideTimer.current) clearTimeout(hideTimer.current); setShowControls(false) }}
-      onMouseEnter={resetHideTimer}
-    >
-      <video
-        ref={videoRef}
-        src={src}
-        className="w-full h-full object-cover"
-        autoPlay muted loop playsInline
-      />
-
-      {/* ── Sound badge — always visible until user unmutes ── */}
-      {muted && (
-        <button
-          onClick={e => { e.stopPropagation(); toggleMute() }}
-          className="absolute top-4 right-4 z-20 flex items-center gap-2 px-3 py-2 rounded-sm transition-all duration-200 hover:bg-white/20"
-          style={{ background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}
-        >
-          <VolumeX size={14} className="text-white" />
-          <span className="font-body text-xs text-white uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
-            Son désactivé — cliquer pour activer
-          </span>
-        </button>
-      )}
-
-      {/* ── Controls bar ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 transition-all duration-300"
-        style={{
-          opacity:    showControls ? 1 : 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)',
-          padding:    '2.5rem 1.25rem 0.9rem',
-          pointerEvents: showControls ? 'auto' : 'none',
-        }}
-      >
-        {/* Progress */}
-        <div
-          className="w-full h-1 rounded-full mb-3 cursor-pointer group"
-          style={{ background: 'rgba(255,255,255,0.18)' }}
-          onClick={seek}
-        >
-          <div
-            className="h-full rounded-full relative"
-            style={{ width: `${progress * 100}%`, background: 'linear-gradient(90deg, #0EA5E9, #38BDF8)', transition: 'width 0.1s linear' }}
-          >
-            <div
-              className="absolute right-0 top-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ background: '#fff', boxShadow: '0 0 6px rgba(14,165,233,0.8)', transform: 'translate(50%, -50%)' }}
-            />
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex items-center gap-3">
-          <button onClick={togglePlay} className="text-white hover:text-cyan-400 transition-colors p-1">
-            {playing ? <Pause size={16} /> : <Play size={16} />}
-          </button>
-          <button onClick={toggleMute} className="text-white hover:text-cyan-400 transition-colors p-1">
-            {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-          </button>
-          <span className="font-body text-xs" style={{ color: 'rgba(255,255,255,0.65)' }}>
-            {fmt(progress * duration)} / {fmt(duration)}
-          </span>
-          <div className="flex-1" />
-          <button onClick={toggleFullscreen} className="text-white hover:text-cyan-400 transition-colors p-1">
-            {fullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Click overlay for play/pause — behind the sound badge */}
-      <div className="absolute inset-0 cursor-pointer z-10" onClick={togglePlay} />
-    </div>
-  )
-}
-
 /* ─── Scroll-reveal wrapper ────────────────────────────────────────────── */
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [revealed, setRevealed] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
     offset: ['start center', 'end end'],
   })
 
-  /*
-   * Bigger final size: video expands to full container width (no maxWidth cap
-   * during the animation — the container itself is already max-w-[1200px]).
-   * Larger starting inset (48% / 28%) → more dramatic reveal.
-   */
-  const insetY    = useTransform(scrollYProgress, [0, 0.85], [48, 0])
-  const insetX    = useTransform(scrollYProgress, [0, 0.85], [28, 0])
-  const radius    = useTransform(scrollYProgress, [0, 0.85], [32, 6])
-  const clipPath  = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`
+  const insetY   = useTransform(scrollYProgress, [0, 0.85], [48, 0])
+  const insetX   = useTransform(scrollYProgress, [0, 0.85], [28, 0])
+  const radius   = useTransform(scrollYProgress, [0, 0.85], [32, 6])
+  const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`
 
   const labelOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1])
   const labelY       = useTransform(scrollYProgress, [0, 0.35], [24, 0])
 
+  useEffect(() => {
+    return scrollYProgress.on('change', v => {
+      if (v > 0.3 && !revealed) setRevealed(true)
+    })
+  }, [scrollYProgress, revealed])
+
   return (
-    /* min-h-[220vh] gives more scroll space → the reveal feels slower + more cinematic */
     <div ref={scrollRef} className="relative min-h-[220vh] w-full">
       <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
-
         <motion.div
           style={{ opacity: labelOpacity, y: labelY }}
           className="flex items-center gap-3 mb-8"
@@ -223,15 +79,15 @@ function ScrollRevealVideo() {
           </span>
         </motion.div>
 
-        {/*
-         * maxWidth: min(96vw, 1200px) → video reaches near full screen width
-         * when the inset animation finishes.
-         */}
         <motion.div
           style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }}
           className="overflow-hidden"
         >
-          <VideoPlayer src={MEDIA_VIDEO} />
+          {revealed ? (
+            <VideoPlayerPro src={MEDIA_VIDEO} sound={false} />
+          ) : (
+            <div style={{ aspectRatio: '16/9', background: '#000' }} />
+          )}
         </motion.div>
       </div>
     </div>
