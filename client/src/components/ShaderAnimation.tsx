@@ -76,7 +76,6 @@ observer.observe(container)
       renderer.dispose()
       geometry.dispose()
       material.dispose()
-  }
     }
   }, [])
 
