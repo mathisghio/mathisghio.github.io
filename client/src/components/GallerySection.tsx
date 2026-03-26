@@ -7,7 +7,7 @@ import {
   Play, Pause, Volume2, VolumeX, Maximize2, Minimize2
 } from 'lucide-react'
 
-const MEDIA_VIDEO = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/media.mp4'
+const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774425298/media_1_mknwkz.mp4'
 
 const galleryImages = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
