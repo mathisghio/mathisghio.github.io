@@ -16,24 +16,24 @@ interface Comp {
   lat: number; lng: number; type: CompType
 }
 const COMPS: Comp[] = [
-  { id:0, name:'World Cup IWSA R',       location:'Hong Kong',               flag:'🇭🇰', date:'Feb 4–7',   month:'FEB', lat:22.30, lng:114.20, type:'world_cup'   },
-  { id:1, name:'European Champ. IWSA F', location:'Naples, Italy',           flag:'🇮🇹', date:'Apr 8–11',  month:'APR', lat:40.85, lng:14.27,  type:'european'    },
-  { id:2, name:'Défi Wing',              location:'Gruissan, France',        flag:'🇫🇷', date:'May 11–14', month:'MAY', lat:43.11, lng:3.09,   type:'national'    },
-  { id:3, name:'World Cup IWSA R',       location:'Silvaplana, Switzerland', flag:'🇨🇭', date:'Jun 17–20', month:'JUN', lat:46.47, lng:9.80,   type:'world_cup'   },
-  { id:4, name:'World Cup IWSA R',       location:'Gizzeria, Italy',         flag:'🇮🇹', date:'Jul 8–11',  month:'JUL', lat:38.97, lng:16.18,  type:'world_cup'   },
-  { id:5, name:'World Champ. IWSA F',    location:'Istanbul, Türkiye',       flag:'🇹🇷', date:'Aug 11–14', month:'AUG', lat:41.01, lng:28.98,  type:'world_champ' },
-  { id:6, name:'World Cup IWSA R',       location:'Daishan, China',          flag:'🇨🇳', date:'Oct 16–20', month:'OCT', lat:30.21, lng:122.20, type:'world_cup'   },
-  { id:7, name:'French Champ. S&R',      location:'Leucate, France',         flag:'🇫🇷', date:'Oct 23–25', month:'OCT', lat:42.92, lng:3.04,   type:'national'    },
-  { id:8, name:'IWSA Racing',            location:'Cagliari, Sardinia',      flag:'🇮🇹', date:'Nov 1–3',   month:'NOV', lat:39.22, lng:9.12,   type:'world_cup'   },
-  { id:9, name:'World Cup IWSA R',       location:'Jericoacoara, Brazil',    flag:'🇧🇷', date:'Dec 1–4',   month:'DEC', lat:-2.80, lng:-40.50, type:'world_cup'   },
+  { id:0, name:'IWSA World Cup N°1',       location:'Hong Kong, China',               flag:'🇭🇰', date:'Feb 4–8',   month:'FEB', lat:22.30, lng:114.20, type:'world_cup'   },
+  { id:1, name:'IWSA Formula Wing European Championship', location:'Naples, Italy',           flag:'🇮🇹', date:'Apr 8–12',  month:'APR', lat:40.85, lng:14.27,  type:'european'    },
+  { id:2, name:'Defi Wing',              location:'Gruissan, France',        flag:'🇫🇷', date:'May 11–13', month:'MAY', lat:43.11, lng:3.09,   type:'national'    },
+  { id:3, name:'IWSA World Cup N°2',       location:'Silvaplana, Switzerland', flag:'🇨🇭', date:'Jun 16–20', month:'JUN', lat:46.47, lng:9.80,   type:'world_cup'   },
+  { id:4, name:'IWSA World Cup N°3',       location:'Gizzeria, Italy',         flag:'🇮🇹', date:'Jul 8–12',  month:'JUL', lat:38.97, lng:16.18,  type:'world_cup'   },
+  { id:5, name:'IWSA Formula Wing World Championship',    location:'Istanbul, Türkiye',       flag:'🇹🇷', date:'Aug 11–15', month:'AUG', lat:41.01, lng:28.98,  type:'world_champ' },
+  { id:6, name:'IWSA World Cup N°4',       location:'Daishan, China',          flag:'🇨🇳', date:'Sep 15–20', month:'SEP', lat:30.21, lng:122.20, type:'world_cup'   },
+   { id:7, name:'IWSA World Cup N°5',            location:'Cagliari, Sardinia',      flag:'🇮🇹', date:'Sep 30–Oct 4',   month:'NOV', lat:39.22, lng:9.12,   type:'world_cup'   },
+   { id:8, name:'French Championship',      location:'Granville, France',         flag:'🇫🇷', date:'Oct 23–25', month:'OCT', lat:48.84, lng:-1.60,   type:'national'    },
+  { id:9, name:'IWSA World Cup N°6',       location:'Jericoacoara, Brazil',    flag:'🇧🇷', date:'Dec 1–5',   month:'DEC', lat:-2.80, lng:-40.50, type:'world_cup'   },
 ]
 const TC: Record<CompType, string> = {
   world_champ: '#F59E0B', world_cup: '#EC4899',
   european:    '#0EA5E9', national:  '#A78BFA',
 }
 const TL: Record<CompType, string> = {
-  world_champ: 'World Championship', world_cup: 'World Cup',
-  european:    'European Champ.',    national:  'National / Invitational',
+  world_champ: 'IWSA Formula Wing World Championship', world_cup: 'IWSA World Cup',
+  european:    'IWSA Formula Wing European Champ.',    national:  'National',
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
