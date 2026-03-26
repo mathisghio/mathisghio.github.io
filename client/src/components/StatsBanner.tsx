@@ -10,8 +10,6 @@ const items = [
 ]
 
 export function StatsBanner() {
-  const doubled = [...items, ...items]
-
   return (
     <div
       className="relative overflow-hidden py-4"
@@ -22,7 +20,7 @@ export function StatsBanner() {
       }}
     >
       <div className="flex" style={{ animation: 'marquee 30s linear infinite' }}>
-        {doubled.map((item, i) => (
+        {[...items, ...items].map((item, i) => (
           <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
             <span
               className="font-display text-sm whitespace-nowrap"
