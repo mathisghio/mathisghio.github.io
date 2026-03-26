@@ -3,7 +3,7 @@ import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
 
-const FOIL_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/wingfoil-action-generated_c89eb0f5.jpg'
+const FOIL_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774497631/AI_Generated_Foil_ljznrd.png'
 
 const sportFacts = [
   { icon: Wind,   title: 'The Wing',      description: 'A handheld inflatable wing that captures wind power. The athlete controls angle and power with both hands, generating lift and speed across the water surface.' },
