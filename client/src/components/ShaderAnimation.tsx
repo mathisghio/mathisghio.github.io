@@ -4,7 +4,6 @@ import * as THREE from 'three'
 
 export function ShaderAnimation() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<{ camera: THREE.Camera; scene: THREE.Scene; renderer: THREE.WebGLRenderer; uniforms: any; animationId: number } | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -50,23 +49,35 @@ export function ShaderAnimation() {
     }
     onWindowResize()
     window.addEventListener('resize', onWindowResize, false)
-    const animate = () => {
-      const animationId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.05
-      renderer.render(scene, camera)
-      if (sceneRef.current) sceneRef.current.animationId = animationId
-    }
-    sceneRef.current = { camera, scene, renderer, uniforms, animationId: 0 }
-    animate()
+    let rafId = 0
+    let running = false
+
+const animate = () => {
+  if (!running) return
+  rafId = requestAnimationFrame(animate)
+  uniforms.time.value += 0.05 
+  renderer.render(scene, camera)
+}
+
+const observer = new IntersectionObserver(
+  ([entry]) => {
+    running = entry.isIntersecting
+    if (running) animate()
+  },
+  { threshold: 0 }
+)
+observer.observe(container)    
     return () => {
       window.removeEventListener('resize', onWindowResize)
-      if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId)
-        if (container && sceneRef.current.renderer.domElement) container.removeChild(sceneRef.current.renderer.domElement)
-        sceneRef.current.renderer.dispose()
-        geometry.dispose()
-        material.dispose()
+      observer.disconnect()
+      cancelAnimationFrame(rafId)
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement)
       }
+      renderer.dispose()
+      geometry.dispose()
+      material.dispose()
+  }
     }
   }, [])
 
