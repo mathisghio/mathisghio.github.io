@@ -5,6 +5,7 @@ import { AboutSection } from '@/components/AboutSection'
 import { AchievementsSection } from '@/components/AchievementsSection'
 import { CareerSection } from '@/components/CareerSection'
 import { GoatSection } from '@/components/GoatSection'
+import { GlobeSection } from '@/components/GlobeSection'
 import { SportSection } from '@/components/SportSection'
 import { GallerySection } from '@/components/GallerySection'
 import { PartnersSection } from '@/components/PartnersSection'
@@ -24,6 +25,7 @@ export default function Home() {
       <AchievementsSection />
       <CareerSection />
       <GoatSection />
+      <GlobeSection />
       <SportSection />
       <GallerySection />
       <PartnersSection />
