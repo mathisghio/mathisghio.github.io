@@ -4,11 +4,11 @@ import * as THREE from 'three'
 
 export function ShaderAnimation2() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<{ camera: THREE.Camera; scene: THREE.Scene; renderer: THREE.WebGLRenderer; uniforms: any; animationId: number } | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
     const container = containerRef.current
+
     const vertexShader = `void main() { gl_Position = vec4( position, 1.0 ); }`
     const fragmentShader = `
       #define TWO_PI 6.2831853072
@@ -29,20 +29,23 @@ export function ShaderAnimation2() {
         gl_FragColor = vec4(color[0],color[1],color[2],1.0);
       }
     `
+
     const camera = new THREE.Camera()
     camera.position.z = 1
     const scene = new THREE.Scene()
     const geometry = new THREE.PlaneGeometry(2, 2)
     const uniforms = {
-      time: { type: 'f', value: 1.0 },
-      resolution: { type: 'v2', value: new THREE.Vector2() },
+      time: { value: 1.0 },
+      resolution: { value: new THREE.Vector2() },
     }
     const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setPixelRatio(window.devicePixelRatio)
     container.appendChild(renderer.domElement)
+
     const onWindowResize = () => {
       renderer.setSize(container.clientWidth, container.clientHeight)
       uniforms.resolution.value.x = renderer.domElement.width
@@ -50,27 +53,36 @@ export function ShaderAnimation2() {
     }
     onWindowResize()
     window.addEventListener('resize', onWindowResize, false)
+
+    let rafId = 0
+    let running = false
+
     const animate = () => {
-      const animationId = requestAnimationFrame(animate)
-      /*
-       * Was 0.05 — spheres formed slowly with long black gaps between.
-       * Now 0.18 — 3.6× faster, spheres stay visible much longer per cycle.
-       */
+      if (!running) return
+      rafId = requestAnimationFrame(animate)
       uniforms.time.value += 0.18
       renderer.render(scene, camera)
-      if (sceneRef.current) sceneRef.current.animationId = animationId
     }
-    sceneRef.current = { camera, scene, renderer, uniforms, animationId: 0 }
-    animate()
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        running = entry.isIntersecting
+        if (running) animate()
+      },
+      { threshold: 0 }
+    )
+    observer.observe(container)
+
     return () => {
       window.removeEventListener('resize', onWindowResize)
-      if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId)
-        if (container && sceneRef.current.renderer.domElement) container.removeChild(sceneRef.current.renderer.domElement)
-        sceneRef.current.renderer.dispose()
-        geometry.dispose()
-        material.dispose()
+      observer.disconnect()
+      cancelAnimationFrame(rafId)
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement)
       }
+      renderer.dispose()
+      geometry.dispose()
+      material.dispose()
     }
   }, [])
 
