@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Maximize2, X } from 'lucide-react'
+import { Mail, ExternalLink, FileText, Handshake } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
@@ -10,19 +9,27 @@ const DOCS = [
     id: 'pressbook',
     label: 'Pressbook',
     sublabel: 'Complete Media Kit',
+    description:
+      'Full press kit including athlete biography, competition results, high-resolution photos, and official statistics for media and press use.',
+    icon: FileText,
     color: '#0EA5E9',
     url: 'https://canva.link/s85g1kf1ihu4mgu',
+    cta: 'Open Pressbook',
   },
   {
     id: 'partnership',
     label: 'Partnership File',
     sublabel: 'Sponsorship Opportunities',
+    description:
+      'Detailed sponsorship proposal including audience reach, brand exposure opportunities, activation formats, and partnership packages.',
+    icon: Handshake,
     color: '#F59E0B',
     url: 'https://canva.link/zhyha69b76tu16b',
+    cta: 'Open Partnership File',
   },
 ]
 
-function CanvaEmbed({
+function DocCard({
   doc,
   inView,
   delay = 0,
@@ -31,142 +38,141 @@ function CanvaEmbed({
   inView: boolean
   delay?: number
 }) {
-  const [fullscreen, setFullscreen] = useState(false)
+  const Icon = doc.icon
 
   return (
-    <>
-      <div
-        className="transition-all duration-700"
+    <div
+      className="transition-all duration-700"
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(30px)',
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      <a
+        href={doc.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block rounded-sm card-hover"
         style={{
-          opacity: inView ? 1 : 0,
-          transform: inView ? 'translateY(0)' : 'translateY(30px)',
-          transitionDelay: `${delay}ms`,
+          background: 'rgba(255,255,255,0.02)',
+          border: `1px solid ${doc.color}20`,
+          textDecoration: 'none',
+          overflow: 'hidden',
+          position: 'relative',
         }}
       >
-        {/* Header row */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="section-line"
-              style={{ background: `linear-gradient(90deg, ${doc.color}, transparent)` }}
-            />
-            <div>
-              <span
-                className="font-heading font-bold text-lg uppercase tracking-wider block"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif', color: doc.color, letterSpacing: '0.12em' }}
-              >
-                {doc.label}
-              </span>
-              <span
-                className="font-body text-xs uppercase tracking-widest"
-                style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.18em' }}
-              >
-                {doc.sublabel}
-              </span>
-            </div>
-          </div>
-          <button
-            onClick={() => setFullscreen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-sm transition-all duration-200"
-            style={{
-              background: `${doc.color}0e`,
-              border: `1px solid ${doc.color}30`,
-              color: 'rgba(148,163,184,0.7)',
-              fontSize: '0.7rem',
-              fontFamily: 'Barlow Condensed, sans-serif',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = `${doc.color}60` }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = `${doc.color}30` }}
-          >
-            <Maximize2 size={12} />
-            Plein écran
-          </button>
-        </div>
-
-        {/* iframe wrapper */}
+        {/* Top glow edge */}
         <div
-          className="relative w-full rounded-sm overflow-hidden"
+          className="absolute top-0 left-0 right-0 h-px pointer-events-none"
           style={{
-            aspectRatio: '16/10',
-            border: `1px solid ${doc.color}20`,
-            boxShadow: `0 0 60px ${doc.color}08`,
-            background: 'rgba(4,6,14,0.95)',
+            background: `linear-gradient(90deg, transparent, ${doc.color}60, transparent)`,
           }}
-        >
-          {/* Top glow edge */}
-          <div
-            className="absolute top-0 left-0 right-0 h-px pointer-events-none z-10"
-            style={{ background: `linear-gradient(90deg, transparent, ${doc.color}50, transparent)` }}
-          />
-          <iframe
-            src={`${doc.url}?embed`}
-            allowFullScreen
-            allow="fullscreen"
-            loading="lazy"
-            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-            title={`Mathis Ghio — ${doc.label}`}
-          />
-        </div>
+        />
 
-        {/* Caption */}
-        <p
-          className="mt-3 font-body text-xs text-center"
-          style={{ color: 'rgba(148,163,184,0.4)', letterSpacing: '0.05em' }}
-        >
-          Document mis à jour en temps réel · Powered by Canva
-        </p>
-      </div>
-
-      {/* Fullscreen overlay */}
-      {fullscreen && (
+        {/* Hover background glow */}
         <div
-          className="fixed inset-0 z-[9999] flex flex-col"
-          style={{ background: 'rgba(4,6,14,0.97)', backdropFilter: 'blur(8px)' }}
-        >
-          <div
-            className="flex items-center justify-between px-6 py-4 flex-shrink-0"
-            style={{ borderBottom: `1px solid ${doc.color}20` }}
-          >
-            <div>
-              <span
-                className="font-heading font-bold uppercase tracking-wider"
-                style={{ fontFamily: 'Barlow Condensed, sans-serif', color: doc.color, letterSpacing: '0.15em', fontSize: '1.1rem' }}
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(ellipse at 50% 0%, ${doc.color}08 0%, transparent 60%)`,
+          }}
+        />
+
+        <div className="relative p-8 lg:p-10">
+          {/* Header row */}
+          <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center gap-4">
+              {/* Icon badge */}
+              <div
+                className="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0"
+                style={{
+                  background: `${doc.color}10`,
+                  border: `1px solid ${doc.color}30`,
+                }}
               >
-                {doc.label}
-              </span>
-              <span
-                className="ml-3 font-body text-xs uppercase"
-                style={{ color: 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
-              >
-                {doc.sublabel}
-              </span>
+                <Icon size={22} style={{ color: doc.color }} />
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <div
+                    className="section-line"
+                    style={{ background: `linear-gradient(90deg, ${doc.color}, transparent)` }}
+                  />
+                </div>
+                <h3
+                  className="font-heading font-bold text-xl uppercase tracking-wider"
+                  style={{
+                    fontFamily: 'Barlow Condensed, sans-serif',
+                    color: doc.color,
+                    letterSpacing: '0.12em',
+                    lineHeight: 1,
+                  }}
+                >
+                  {doc.label}
+                </h3>
+                <p
+                  className="font-body text-xs uppercase tracking-widest mt-1"
+                  style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.18em' }}
+                >
+                  {doc.sublabel}
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => setFullscreen(false)}
-              className="flex items-center gap-2 px-4 py-2 rounded-sm transition-all duration-200"
+
+            {/* External link indicator */}
+            <div
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm opacity-60 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: 'rgba(148,163,184,0.7)',
+                background: `${doc.color}0e`,
+                border: `1px solid ${doc.color}25`,
+                color: doc.color,
+                fontSize: '0.7rem',
+                fontFamily: 'Barlow Condensed, sans-serif',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                flexShrink: 0,
               }}
             >
-              <X size={16} />
-            </button>
+              <ExternalLink size={11} />
+              <span>Canva</span>
+            </div>
           </div>
-          <div className="flex-1 relative">
-            <iframe
-              src={`${doc.url}?embed`}
-              allowFullScreen
-              allow="fullscreen"
-              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-              title={`Mathis Ghio — ${doc.label} (fullscreen)`}
-            />
+
+          {/* Description */}
+          <p
+            className="font-body text-sm mb-8"
+            style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.75, maxWidth: '560px' }}
+          >
+            {doc.description}
+          </p>
+
+          {/* CTA row */}
+          <div className="flex items-center justify-between">
+            <div
+              className="flex items-center gap-2 font-heading font-bold uppercase tracking-wider text-sm transition-all duration-300 group-hover:gap-3"
+              style={{
+                fontFamily: 'Barlow Condensed, sans-serif',
+                color: doc.color,
+                letterSpacing: '0.1em',
+              }}
+            >
+              <span>{doc.cta}</span>
+              <ExternalLink
+                size={14}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </div>
+
+            <p
+              className="font-body text-xs"
+              style={{ color: 'rgba(148,163,184,0.3)', letterSpacing: '0.05em' }}
+            >
+              Powered by Canva
+            </p>
           </div>
         </div>
-      )}
-    </>
+      </a>
+    </div>
   )
 }
 
@@ -185,7 +191,10 @@ export function PressSection() {
           className="flex flex-col items-center text-center w-full"
         >
           <div className="flex items-center gap-3 mb-6 justify-center">
-            <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
+            <div
+              className="section-line"
+              style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }}
+            />
             <span
               className="font-body text-xs uppercase tracking-widest"
               style={{ color: 'rgba(241, 245, 249, 0.6)', letterSpacing: '0.2em' }}
@@ -193,7 +202,10 @@ export function PressSection() {
               Press & Media
             </span>
           </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>
+          <h2
+            className="font-display text-white leading-none"
+            style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}
+          >
             MEDIA KIT
           </h2>
           <h2
@@ -214,10 +226,27 @@ export function PressSection() {
       {/* ── Content ── */}
       <div className="container relative z-10 pb-24 lg:pb-36">
 
-        {/* Two embeds stacked */}
-        <div className="flex flex-col gap-16 mb-12">
+        {/* Intro text */}
+        <div
+          className="mb-12 transition-all duration-700"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+          }}
+        >
+          <p
+            className="font-body text-base max-w-xl"
+            style={{ color: 'rgba(148,163,184,0.6)', lineHeight: 1.75 }}
+          >
+            Access the complete press kit and partnership documents. Both files open directly on Canva
+            where you can view, download or share them.
+          </p>
+        </div>
+
+        {/* Two document cards */}
+        <div className="flex flex-col gap-5 mb-12">
           {DOCS.map((doc, i) => (
-            <CanvaEmbed key={doc.id} doc={doc} inView={inView} delay={i * 150} />
+            <DocCard key={doc.id} doc={doc} inView={inView} delay={i * 120} />
           ))}
         </div>
 
@@ -229,7 +258,7 @@ export function PressSection() {
             border: '1px solid rgba(14, 165, 233, 0.15)',
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
-            transitionDelay: '400ms',
+            transitionDelay: '350ms',
           }}
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
