@@ -223,7 +223,7 @@ export function Navigation() {
               <div className="mgMascotWrap" style={{ left: mascotLeft, top: mascotTop, bottom: "auto" }} aria-hidden="true">
                 {isActiveHovered && (<div className="mgParticles mgSpray"><span /><span /><span /></div>)}
                 {isNonActiveHovered && (<div className="mgAirStreaks"><span /><span /><span /><span /></div>)}
-                <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774375773/wing-mascot_2_t9hwwq.webp" alt="Mascot" width={mascotW} height={mascotH}
+                <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png" alt="Mascot" width={mascotW} height={mascotH}
                   className={mascotClass} draggable={false} decoding="async"
                   // @ts-expect-error attribut HTML standard
                   fetchpriority="low" />
