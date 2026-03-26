@@ -17,7 +17,8 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-const WING_VISIBLE = 0.58;
+// Increased from 0.58 → 0.82 so the wing floats much higher above the pill
+const WING_VISIBLE = 0.82;
 
 const NAV_CSS = `
 .mgNav {
