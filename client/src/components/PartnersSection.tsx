@@ -1,6 +1,6 @@
-import { DualToneRainBackground } from './DualToneRainBackground'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
+import { WebGLShader } from '@/components/WebGLShader'
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer — R&D partner',   logoText: 'OZONE'       },
@@ -24,24 +24,31 @@ export function PartnersSection() {
       id="partners"
       ref={ref}
       className="relative py-24 lg:py-36 overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}
+      style={{ background: '#000' }}
     >
-      {/*
-       * Rain background — DualToneRainBackground renders:
-       *   1. .dtrb-rain   : black bg + animated cyan gradient streaks
-       *   2. .dtrb-overlay: blur(1em) brightness(5) + dot grid
-       * brightness(5) is what makes the rain POP — exactly like the ruixen original.
-       * Content sits at z-index 10, above both layers (overlay is z-index 1).
-       */}
-        <DualToneRainBackground />
-      {/* Edge fades so rain doesn't bleed hard into adjacent sections */}
+      {/* ── WebGL shader background ── */}
+      {/* z-0, opacity 0.9 so the neon lines show boldly */}
+      <div className="absolute inset-0 z-0" style={{ opacity: 0.9 }}>
+        <WebGLShader />
+      </div>
+
+      {/* Dark overlay so text stays readable over the bright shader */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.72) 100%)',
+        }}
+      />
+
+      {/* Edge fades */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)' }}
       />
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }}
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 5%, transparent 95%, #08090E 100%)' }}
       />
 
       {/* ── Content ── */}
@@ -91,7 +98,7 @@ export function PartnersSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group p-8 rounded-sm card-hover flex flex-col items-center text-center"
-                style={{ background: 'rgba(8,9,14,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}
+                style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}
               >
                 <div className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.9)' }}>
                   {partner.logoText}
@@ -121,7 +128,7 @@ export function PartnersSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-3 px-5 py-3 rounded-sm transition-all duration-300"
-                style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
+                style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
               >
                 <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
@@ -138,7 +145,7 @@ export function PartnersSection() {
         <div
           className="mt-16 p-8 rounded-sm transition-all duration-700"
           style={{
-            background: 'rgba(8,9,14,0.75)',
+            background: 'rgba(0,0,0,0.6)',
             backdropFilter: 'blur(16px)',
             border: '1px solid rgba(14,165,233,0.15)',
             opacity: inView ? 1 : 0,
@@ -155,8 +162,6 @@ export function PartnersSection() {
                 Sponsorships, brand collaborations, product development and long-term strategic partnerships.
               </p>
             </div>
-
-            {/* ShinyButton — same style as the rest of the site */}
             <ShinyButton href="mailto:contact@mathisghio.com">
               Become a Partner
             </ShinyButton>
