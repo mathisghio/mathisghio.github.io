@@ -33,8 +33,7 @@ export function PartnersSection() {
        * brightness(5) is what makes the rain POP — exactly like the ruixen original.
        * Content sits at z-index 10, above both layers (overlay is z-index 1).
        */}
-      <DualToneRainBackground color="#0EA5E9" />
-
+        <DualToneRainBackground />
       {/* Edge fades so rain doesn't bleed hard into adjacent sections */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
