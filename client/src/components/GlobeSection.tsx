@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, Map } from 'lucide-react'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
+import AnimatedGradientBackground from '@/components/ui/animated-gradient-background'
 
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPETITION DATA
@@ -38,7 +39,7 @@ const TL: Record<CompType, string> = {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GEO CACHE — fetched/computed once, shared by both views
+   GEO CACHE
 ═══════════════════════════════════════════════════════════════════════════ */
 interface GeoBundle { features: d3.ExtendedFeatureCollection; dots: [number,number][] }
 let _bundle: GeoBundle | null = null
@@ -105,48 +106,41 @@ function drawRoundRect(ctx:CanvasRenderingContext2D, x:number, y:number, w:numbe
   ctx.closePath()
 }
 
-/* Draw the competition info panel directly on canvas (for 3D globe AND 2D map) */
 function drawInfoPanel(
   ctx: CanvasRenderingContext2D,
   comp: Comp,
-  markerX: number, markerY: number,  // screen position of marker (-1 if off-screen)
+  markerX: number, markerY: number,
   canvasW: number, canvasH: number,
-  visible: boolean // whether marker is on visible hemisphere
+  visible: boolean
 ) {
   const color = TC[comp.type]
   const PW = 252, PH = 88, PAD = 14, R = 6
   const CONN = 10
 
-  // Position: prefer right of marker, fall back to left; clamp vertically
   let rx = markerX + CONN + 6
   let ry = markerY - PH / 2
   if (!visible || rx + PW > canvasW - 8) rx = markerX - CONN - PW - 6
   if (rx < 8) rx = 8
   ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
 
-  const textW = PW - PAD - 12  // usable text width (leave room for accent bar + PAD)
+  const textW = PW - PAD - 12
 
   ctx.save()
 
-  // Glow
   ctx.shadowColor = color; ctx.shadowBlur = 18
   drawRoundRect(ctx, rx, ry, PW, PH, R)
   ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
   ctx.shadowBlur = 0
 
-  // Background
   drawRoundRect(ctx, rx, ry, PW, PH, R)
   ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
 
-  // Border
   ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
   drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
 
-  // Left accent bar
   drawRoundRect(ctx, rx, ry + 10, 3, PH - 20, 2)
   ctx.fillStyle = color; ctx.fill()
 
-  // Connector line
   if (visible && markerX >= 0) {
     const lineX1 = markerX + (rx > markerX ? 4 : -4)
     const lineX2 = rx > markerX ? rx : rx + PW
@@ -156,22 +150,18 @@ function drawInfoPanel(
     ctx.fillStyle = color + '80'; ctx.fill()
   }
 
-  // Clip text to panel interior so long names don't overflow
   ctx.save()
   drawRoundRect(ctx, rx + 5, ry, PW - 5, PH, 0); ctx.clip()
 
-  // Name (flag + event name)
   ctx.fillStyle = 'rgba(241,245,249,0.95)'
   ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
   ctx.letterSpacing = '0.03em'
-  // Measure and truncate if needed
   let nameText = `${comp.flag} ${comp.name}`
   while (ctx.measureText(nameText).width > textW && nameText.length > 4) {
     nameText = nameText.slice(0, -2) + '…'
   }
   ctx.fillText(nameText, rx + PAD, ry + 23)
 
-  // Location
   ctx.fillStyle = 'rgba(148,163,184,0.62)'
   ctx.font = `11px "DM Sans", system-ui, sans-serif`
   ctx.letterSpacing = '0'
@@ -181,12 +171,10 @@ function drawInfoPanel(
   }
   ctx.fillText(locText, rx + PAD, ry + 42)
 
-  // Date
   ctx.fillStyle = color
   ctx.font = `500 11px "DM Sans", system-ui, sans-serif`
   ctx.fillText(comp.date, rx + PAD, ry + 59)
 
-  // Type label
   ctx.fillStyle = 'rgba(148,163,184,0.30)'
   ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
   let typeText = TL[comp.type].toUpperCase()
@@ -195,16 +183,12 @@ function drawInfoPanel(
   }
   ctx.fillText(typeText, rx + PAD, ry + 75)
 
-  ctx.restore() // end clip
-  ctx.restore() // end panel
+  ctx.restore()
+  ctx.restore()
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GLOBE 3D — D3 orthographic
-   • Slow auto-rotation (0.10°/frame)
-   • Fly-to on competition hover (list OR globe marker)
-   • Scroll wheel zoom
-   • Info panel drawn ON canvas when hoveredId is set
+   GLOBE 3D
 ═══════════════════════════════════════════════════════════════════════════ */
 function Globe3DD3({ visible, hoveredId, onHover }: {
   visible:boolean; hoveredId:number|null
@@ -216,7 +200,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   const hoveredIdRef = useRef<number|null>(null)
   const rotRef       = useRef<[number,number]>([0,-18])
   const targetRotRef = useRef<[number,number]|null>(null)
-  const scaleRef     = useRef(1)     // zoom multiplier
+  const scaleRef     = useRef(1)
   const isDragging   = useRef(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadError,  setLoadError]  = useState(false)
@@ -224,7 +208,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   useEffect(()=>{ onHoverRef.current=onHover },[onHover])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
-  // Fly-to: set target whenever a competition is hovered
   useEffect(()=>{
     if (hoveredId!==null) {
       const comp=COMPS.find(c=>c.id===hoveredId)
@@ -256,7 +239,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 
     let bundle:GeoBundle|null=null
 
-    /* ── globe-point visibility check ──────────────────────────────── */
     function isGlobePointVisible(lng:number, lat:number): boolean {
       const [r0,r1]=rotRef.current
       const λ=lng*Math.PI/180, φ=lat*Math.PI/180
@@ -265,12 +247,10 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       return dot>=0
     }
 
-    /* ── render ─────────────────────────────────────────────────────── */
     const render=(elapsed:number)=>{
       ctx.clearRect(0,0,W,H)
       const r=BASE_R*scaleRef.current
 
-      // Atmosphere
       const atm=ctx.createRadialGradient(cx,cy,r*.82,cx,cy,r*1.22)
       atm.addColorStop(0,'transparent')
       atm.addColorStop(.55,'rgba(14,165,233,0.07)')
@@ -278,7 +258,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       ctx.beginPath(); ctx.arc(cx,cy,r*1.22,0,2*Math.PI)
       ctx.fillStyle=atm; ctx.fill()
 
-      // Ocean
       projection.scale(r)
       ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI)
       const ocean=ctx.createRadialGradient(cx-r*.28,cy-r*.28,0,cx,cy,r)
@@ -287,12 +266,10 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       ctx.strokeStyle='rgba(56,189,248,0.30)'; ctx.lineWidth=1.5; ctx.stroke()
 
       if (bundle) {
-        // Graticule
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ctx.beginPath(); geoPath(d3.geoGraticule()() as any)
         ctx.strokeStyle='rgba(56,189,248,0.07)'; ctx.lineWidth=0.7; ctx.stroke()
 
-        // Land dots
         ctx.fillStyle='rgba(14,165,233,0.44)'
         for (const [lng,lat] of bundle.dots) {
           const pt=projection([lng,lat])
@@ -302,13 +279,11 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
           ctx.beginPath(); ctx.arc(px,py,1.05,0,2*Math.PI); ctx.fill()
         }
 
-        // Land outlines
         ctx.beginPath()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         bundle.features.features.forEach(f=>geoPath(f as any))
         ctx.strokeStyle='rgba(56,189,248,0.52)'; ctx.lineWidth=0.75; ctx.stroke()
 
-        // Competition markers
         const hov=hoveredIdRef.current
         COMPS.forEach((comp,i)=>{
           const pt=projection([comp.lng,comp.lat])
@@ -336,13 +311,12 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
           ctx.restore()
         })
 
-        // ── Info panel ON canvas when a comp is hovered ──────────────
         if (hov!==null) {
           const comp=COMPS.find(c=>c.id===hov)
           if (comp) {
             const pt=projection([comp.lng,comp.lat])
             const vis=isGlobePointVisible(comp.lng,comp.lat)
-            const mx = vis && pt ? pt[0] : cx  // fallback to center if on back
+            const mx = vis && pt ? pt[0] : cx
             const my = vis && pt ? pt[1] : cy
             drawInfoPanel(ctx,comp,mx,my,W,H,vis)
           }
@@ -350,10 +324,8 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       }
     }
 
-    /* ── load geo ─────────────────────────────────────────────────── */
     loadGeoBundle().then(b=>{ bundle=b; setIsLoading(false) }).catch(()=>{ setLoadError(true); setIsLoading(false) })
 
-    /* ── animation loop ──────────────────────────────────────────── */
     const AUTO_SPEED=0.10, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
       if (targetRotRef.current!==null && !isDragging.current) {
@@ -369,7 +341,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       render(elapsed)
     })
 
-    /* ── mouse drag ───────────────────────────────────────────────── */
     let dragStart={x:0,y:0}, dragStartRot=[0,0]
     const getPos=(e:MouseEvent)=>{ const rect=canvas.getBoundingClientRect(); return {x:e.clientX-rect.left,y:e.clientY-rect.top} }
 
@@ -401,7 +372,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       else if (onGlobe) onHoverRef.current(null,0,0)
     }
 
-    /* ── scroll zoom ──────────────────────────────────────────────── */
     const onWheel=(e:WheelEvent)=>{
       e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
@@ -459,11 +429,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAP 2D FLAT — full canvas, D3 equirectangular
-   • Scroll wheel zoom (centered on cursor)
-   • Hover zoom: smooth fly-to + zoom-in on hovered competition
-   • Info panel drawn ON canvas when hoveredId is set
-   • Canvas-based marker hit detection (no DOM markers)
+   MAP 2D FLAT
 ═══════════════════════════════════════════════════════════════════════════ */
 interface ViewTransform { k:number; tx:number; ty:number }
 
@@ -475,7 +441,6 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   const canvasRef    = useRef<HTMLCanvasElement>(null)
   const onHoverRef   = useRef(onHover)
   const hoveredIdRef = useRef<number|null>(null)
-  // View transform: k = zoom scale, tx/ty = canvas-space translation
   const viewRef      = useRef<ViewTransform>({k:1,tx:0,ty:0})
   const targetViewRef= useRef<ViewTransform|null>(null)
   const [bundle, setBundle] = useState<GeoBundle|null>(null)
@@ -485,14 +450,12 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   useEffect(()=>{ onHoverRef.current=onHover },[onHover])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
-  // On competition hover → compute target zoom + pan
   useEffect(()=>{
     const {w,h}=dimsRef.current
     if (w===0) return
     if (hoveredId!==null) {
       const comp=COMPS.find(c=>c.id===hoveredId)
       if (comp) {
-        // Base projection (k=1) positions
         const baseScale=w/(2*Math.PI)
         const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
         const pt=baseProj([comp.lng,comp.lat])
@@ -506,7 +469,6 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         }
       }
     } else {
-      // Return to full view
       targetViewRef.current={k:1,tx:0,ty:0}
     }
   },[hoveredId])
@@ -534,43 +496,31 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
     canvas.style.width=`${w}px`; canvas.style.height=`${h}px`
     ctx.scale(dpr,dpr)
 
-    // Base projection at k=1
     const baseScale=w/(2*Math.PI)
     const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
 
-    /* ── render ─────────────────────────────────────────────────────── */
     const render=()=>{
       const {k,tx,ty}=viewRef.current
       ctx.clearRect(0,0,w,h)
 
-      // ── Ocean background in screen space (full canvas, no transform needed) ──
-      // Drawn BEFORE the view transform so it always covers 100% of the canvas
-      // regardless of pan position — no more black edges when panning.
       const ocean=ctx.createRadialGradient(w*.5,h*.38,0,w*.5,h*.5,Math.max(w,h)*.9)
       ocean.addColorStop(0,'#031830'); ocean.addColorStop(.65,'#020D1C'); ocean.addColorStop(1,'#010608')
       ctx.fillStyle=ocean; ctx.fillRect(0,0,w,h)
 
-      // ── KEY FIX: include DPR in setTransform so Retina canvases render correctly.
-      // ctx.scale(dpr,dpr) was called once at setup, but ctx.setTransform() REPLACES
-      // the entire matrix — without DPR here, on DPR=2 the content only fills the
-      // top-left quadrant of the physical canvas (blurry + wrong size).
       ctx.save()
       ctx.setTransform(k*dpr, 0, 0, k*dpr, tx*dpr, ty*dpr)
 
-      // Graticule
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const gp=d3.geoPath().projection(baseProj).context(ctx as any)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ctx.beginPath(); gp(d3.geoGraticule()() as any)
       ctx.strokeStyle='rgba(56,189,248,0.07)'; ctx.lineWidth=0.7/k; ctx.stroke()
 
-      // Equator
       const eq0=baseProj([-180,0]), eq1=baseProj([180,0])
       if (eq0&&eq1) {
         ctx.beginPath(); ctx.moveTo(eq0[0],eq0[1]); ctx.lineTo(eq1[0],eq1[1])
         ctx.strokeStyle='rgba(56,189,248,0.18)'; ctx.lineWidth=1.0/k; ctx.stroke()
       }
-      // Tropics dashed
       ctx.setLineDash([18/k,14/k])
       for (const lat of[-66.5,-23.5,23.5,66.5]) {
         const p0=baseProj([-180,lat]),p1=baseProj([180,lat])
@@ -580,7 +530,6 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
       }
       ctx.setLineDash([])
 
-      // Land dots (size stays visually constant across zoom levels)
       const dotR=1.05/k
       ctx.fillStyle='rgba(14,165,233,0.44)'
       for (const [lng,lat] of bundle.dots) {
@@ -588,13 +537,11 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         ctx.beginPath(); ctx.arc(pt[0],pt[1],dotR,0,2*Math.PI); ctx.fill()
       }
 
-      // Land outlines (stroke stays constant)
       ctx.beginPath()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       bundle.features.features.forEach(f=>gp(f as any))
       ctx.strokeStyle='rgba(56,189,248,0.52)'; ctx.lineWidth=0.75/k; ctx.stroke()
 
-      // Competition markers (in base space)
       const hov=hoveredIdRef.current
       COMPS.forEach((comp,i)=>{
         const pt=baseProj([comp.lng,comp.lat]); if (!pt) return
@@ -603,7 +550,7 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         const color=TC[comp.type]
         const t=Date.now()*0.0018+i*0.85
         const pulse=1+0.28*Math.sin(t)
-        const mr=1/k  // marker scale inversely proportional to zoom
+        const mr=1/k
 
         ctx.save()
         if (isHov) {
@@ -623,20 +570,17 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         ctx.restore()
       })
 
-      ctx.restore() // end view transform
+      ctx.restore()
 
-      // Vignette (screen space, no transform)
       const vign=ctx.createRadialGradient(w/2,h/2,Math.min(w,h)*.28,w/2,h/2,Math.max(w,h)*.72)
       vign.addColorStop(0,'transparent'); vign.addColorStop(1,'rgba(1,6,9,0.72)')
       ctx.fillStyle=vign; ctx.fillRect(0,0,w,h)
 
-      // Info panel in screen space when hovering
       if (hov!==null) {
         const comp=COMPS.find(c=>c.id===hov)
         if (comp) {
           const basePt=baseProj([comp.lng,comp.lat])
           if (basePt) {
-            // Transform base position to screen position
             const sx=basePt[0]*k+tx
             const sy=basePt[1]*k+ty
             const onScreen=sx>-20&&sx<w+20&&sy>-20&&sy<h+20
@@ -646,11 +590,9 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
       }
     }
 
-    /* ── RAF loop with view animation ───────────────────────────────── */
     const LERP=0.08
     let raf:number
     const loop=()=>{
-      // Animate viewRef toward targetViewRef
       const cur=viewRef.current
       const tgt=targetViewRef.current
       if (tgt) {
@@ -666,13 +608,11 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
     }
     raf=requestAnimationFrame(loop)
 
-    /* ── mouse hover detection (canvas space) ───────────────────────── */
     const getPos=(e:MouseEvent)=>{ const r=canvas.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top} }
 
     const onMouseMove=(e:MouseEvent)=>{
       const {x,y}=getPos(e)
       const {k,tx,ty}=viewRef.current
-      // Convert screen pos to base projection space
       const bx=(x-tx)/k, by=(y-ty)/k
 
       let closest:Comp|null=null, closestD=18/k
@@ -686,7 +626,6 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
     }
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
-    /* ── scroll wheel zoom ───────────────────────────────────────────── */
     const onWheel=(e:WheelEvent)=>{
       e.preventDefault()
       const {x,y}=getPos(e)
@@ -699,11 +638,9 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         tx:x-f*(x-cur.tx),
         ty:y-f*(y-cur.ty),
       }
-      // Clear hover target so we don't fight manual zoom
       targetViewRef.current=null
     }
 
-    /* ── drag pan ────────────────────────────────────────────────────── */
     let dragging=false, dragStart2={x:0,y:0}, dragStartView={k:1,tx:0,ty:0}
     const onMouseDown=(e:MouseEvent)=>{
       dragging=true
@@ -822,23 +759,56 @@ export function GlobeSection() {
   const [mode,setMode]=useState<'2d'|'3d'>('3d')
   const [hoveredId,setHoveredId]=useState<number|null>(null)
 
-  // From globe/map canvas markers (no tooltip needed — panel is on canvas)
   const handleMapHover=useCallback((comp:Comp|null)=>{
     setHoveredId(comp?.id??null)
   },[])
 
-  // From list cards
   const handleListEnter=useCallback((id:number)=>{ setHoveredId(id) },[])
   const handleListLeave=useCallback(()=>{ setHoveredId(null) },[])
 
-  // Wrap for canvas components that pass (comp, x, y)
   const handleCanvasHover=useCallback((comp:Comp|null, _x:number, _y:number)=>{
     setHoveredId(comp?.id??null)
   },[])
 
   return (
-    <section id="season" ref={sectionRef} className="relative py-24 lg:py-36 overflow-hidden" style={{background:'#08090E'}}>
-      <div className="absolute inset-0 pointer-events-none" style={{background:'radial-gradient(ellipse 50% 60% at 30% 50%, rgba(14,165,233,0.03) 0%, transparent 70%)'}}/>
+    <section id="season" ref={sectionRef} className="relative py-24 lg:py-36 overflow-hidden">
+
+      {/* ── Animated gradient background — dark cinematic palette ── */}
+      <AnimatedGradientBackground
+        Breathing
+        animationSpeed={0.008}
+        breathingRange={6}
+        startingGap={120}
+        topOffset={10}
+        gradientColors={[
+          '#08090E',   // deep dark base (35%)
+          '#070C18',   // near-black navy (50%)
+          '#061220',   // dark ocean blue (60%)
+          '#051828',   // deep sea (70%)
+          '#071424',   // abyss (80%)
+          '#060E1A',   // dark fade (90%)
+          '#08090E',   // back to base (100%)
+        ]}
+        gradientStops={[35, 50, 60, 70, 80, 90, 100]}
+      />
+
+      {/* Cyan radial accent — subtle glow from top-center */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 40% at 50% 0%, rgba(14,165,233,0.07) 0%, transparent 70%)',
+        }}
+      />
+
+      {/* Left edge glow accent */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{
+          background:
+            'radial-gradient(ellipse 30% 60% at 0% 50%, rgba(14,165,233,0.04) 0%, transparent 60%)',
+        }}
+      />
 
       <div className="container relative z-10">
 
