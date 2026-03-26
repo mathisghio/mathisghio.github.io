@@ -4,8 +4,8 @@ import { VideoBackground } from './VideoBackground'
 import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
-const HERO_VIDEO     = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/bg_4011f03b.mp4'
-const HERO_GENERATED = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/hero-bg-generated_0e69783e.jpg'
+const HERO_VIDEO     = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774426080/bg_pru1bh.mp4'
+const HERO_GENERATED = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg'
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)
@@ -25,30 +25,17 @@ export function HeroSection() {
       className="relative w-full overflow-hidden"
       style={{ height: '100svh', minHeight: '600px' }}
     >
-      {/* ── Layer 1 : video / fallback image — no brightness filter ── */}
+      {/* ── Layer 1 : video / fallback image ── */}
       <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
 
-      {/*
-       * ── Layer 2 : minimal bottom gradient only ────────────────────────
-       * No top/mid darkening — the video plays at full brightness.
-       * Only the very bottom fades to dark so the stats bar and text
-       * remain legible over any video frame.
-       */}
+      {/* ── Layer 2 : bottom gradient only ── */}
       <div
         className="absolute inset-0 z-20 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)',
-        }}
+        style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }}
       />
 
-      {/*
-       * ── Layer 3 : interactive waves ──────────────────────────────────
-       * Low opacity so they're a delicate texture over the full-brightness video.
-       */}
-      <div
-        className="absolute inset-0 z-30 hidden lg:block"
-        style={{ opacity: 0.38 }}
-      >
+      {/* ── Layer 3 : interactive waves ── */}
+      <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
         <InteractiveWaves
           strokeColor="rgba(14, 165, 233, 0.22)"
           backgroundColor="transparent"
@@ -59,17 +46,47 @@ export function HeroSection() {
       {/* ── Layer 4 : left accent lines ── */}
       <div className="absolute left-0 top-0 bottom-0 z-35 hidden lg:flex flex-col justify-center gap-2 pl-6 pointer-events-none">
         {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="h-px"
-            style={{ width: `${20 + i * 8}px`, background: `rgba(14, 165, 233, ${0.2 + i * 0.08})` }}
-          />
+          <div key={i} className="h-px" style={{ width: `${20 + i * 8}px`, background: `rgba(14, 165, 233, ${0.2 + i * 0.08})` }} />
         ))}
       </div>
 
-      {/* ── Layer 5 : hero text + CTA ── */}
+      {/* ── Layer 5 : hero content ── */}
       <div className="relative z-40 h-full flex flex-col justify-end pb-24 lg:pb-32">
         <div className="container">
+
+          {/*
+           * ── Badge — now sits directly above the name ─────────────────
+           * Removed from bottom-right corner, placed inline in the content
+           * flow so it reads as a title label on both mobile and desktop.
+           * Animates in slightly before the name (delay 200ms).
+           */}
+          <div
+            className="mb-5 transition-all duration-700"
+            style={{
+              opacity:   visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(16px)',
+              transitionDelay: '200ms',
+            }}
+          >
+            <span
+              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
+              style={{
+                color:      '#0EA5E9',
+                background: 'rgba(14,165,233,0.08)',
+                border:     '1px solid rgba(14,165,233,0.22)',
+                letterSpacing: '0.2em',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
+              />
+              5× World Champion · 41.40 kts Speed Record
+            </span>
+          </div>
+
+          {/* Name */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
@@ -82,6 +99,8 @@ export function HeroSection() {
               GHIO
             </h1>
           </div>
+
+          {/* Tagline */}
           <div
             className="mt-6 max-w-xl transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '500ms' }}
@@ -90,6 +109,8 @@ export function HeroSection() {
               I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
             </p>
           </div>
+
+          {/* CTAs */}
           <div
             className="mt-10 flex flex-wrap items-center gap-4 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
@@ -116,20 +137,6 @@ export function HeroSection() {
         <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
         <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
       </button>
-
-      {/* ── Badge bottom-right ── */}
-      <div
-        className="absolute right-6 z-40 transition-all duration-700 hidden sm:block"
-        style={{ bottom: 'calc(56px + 1.5rem)', opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(10px)', transitionDelay: '800ms' }}
-      >
-        <span
-          className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-          style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.1)', border: '1px solid rgba(14,165,233,0.25)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
-          5× World Champion · 41.40 kts Speed Record
-        </span>
-      </div>
 
       {/* ── Bottom stats bar ── */}
       <div
