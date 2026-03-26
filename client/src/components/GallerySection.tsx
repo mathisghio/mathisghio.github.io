@@ -10,14 +10,14 @@ import {
 const MEDIA_VIDEO = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/media.mp4'
 
 const galleryImages = [
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-1_31f119eb.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-2_397d8419.JPG', alt: 'Wingfoil competition', span: 'col-span-1 row-span-1' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-3_1c7dc267.JPG', alt: 'Racing action', span: 'col-span-1 row-span-1' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-4_27ccf7aa.JPG', alt: 'Wingfoil portrait', span: 'col-span-1 row-span-2' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-5_2015d9ef.JPG', alt: 'Competition moment', span: 'col-span-1 row-span-1' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-6_19d7f02b.JPG', alt: 'Wingfoil speed', span: 'col-span-1 row-span-1' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/index-gallery-7_9dcd6816.JPG', alt: 'Racing podium', span: 'col-span-1 row-span-1' },
-  { src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663455151996/gejRxzH8i7adBy6yjBjf3b/podium-main_ca0aec18.JPG', alt: 'World Championship podium', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg', alt: '4th World Title', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Silvaplana World Cup win', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Wingfoil land portrait', span: 'col-span-1 row-span-2' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426881/podium-5_lurawr.jpg', alt: 'Wingfoil frontflip', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png', alt: 'Istanbul start', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg', alt: 'Shadow start', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg', alt: '5th World title', span: 'col-span-1 row-span-1' },
 ]
 
 /* ─── Inline video player with custom controls ─────────────────────────── */
