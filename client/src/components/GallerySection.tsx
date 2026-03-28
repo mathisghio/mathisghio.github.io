@@ -5,7 +5,7 @@ import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
 import { VideoPlayerPro } from '@/components/VideoPlayerPro'
-import './DualToneRainGallery.css'
+import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 
 const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774425298/media_1_mknwkz.mp4'
 
@@ -29,9 +29,20 @@ const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
+  { src: 'CLOUDINARY_URL_9',  alt: 'Photo 9'  },
+  { src: 'CLOUDINARY_URL_10', alt: 'Photo 10' },
+  { src: 'CLOUDINARY_URL_11', alt: 'Photo 11' },
+  { src: 'CLOUDINARY_URL_12', alt: 'Photo 12' },
+  { src: 'CLOUDINARY_URL_13', alt: 'Photo 13' },
+  { src: 'CLOUDINARY_URL_14', alt: 'Photo 14' },
+  { src: 'CLOUDINARY_URL_15', alt: 'Photo 15' },
+  { src: 'CLOUDINARY_URL_16', alt: 'Photo 16' },
+  { src: 'CLOUDINARY_URL_17', alt: 'Photo 17' },
+  { src: 'CLOUDINARY_URL_18', alt: 'Photo 18' },
+  { src: 'CLOUDINARY_URL_19', alt: 'Photo 19' },
+  { src: 'CLOUDINARY_URL_20', alt: 'Photo 20' },
 ]
 
-/* ─── Scroll-reveal wrapper ────────────────────────────────────────────── */
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
@@ -58,20 +69,13 @@ function ScrollRevealVideo() {
   return (
     <div ref={scrollRef} className="relative min-h-[220vh] w-full">
       <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
-        <motion.div
-          style={{ opacity: labelOpacity, y: labelY }}
-          className="flex items-center gap-3 mb-8"
-        >
+        <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-8">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
             Race Highlights
           </span>
         </motion.div>
-
-        <motion.div
-          style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }}
-          className="overflow-hidden"
-        >
+        <motion.div style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }} className="overflow-hidden">
           {revealed ? (
             <VideoPlayerPro src={MEDIA_VIDEO} sound={false} />
           ) : (
@@ -83,7 +87,6 @@ function ScrollRevealVideo() {
   )
 }
 
-/* ─── GallerySection ───────────────────────────────────────────────────── */
 export function GallerySection() {
   const { ref, inView } = useInView(0.05)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
@@ -100,25 +103,17 @@ export function GallerySection() {
     <section
       id="gallery"
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: '#08090E' }}
+      className="relative"
+      style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}
     >
-      {/* ── Slow rain background (gallery variant) ── */}
-      {/* opacity 0.55 → much subtler than Partners' full-opacity version */}
-      <div className="absolute inset-0 z-0" style={{ opacity: 0.55 }}>
-        <div className="dtrb-rain-gallery" aria-hidden />
-        <div className="dtrb-overlay-gallery" aria-hidden />
-      </div>
+      {/* ── Rain background — slower & lighter than Partners ── */}
+      <GalleryRainBackground />
 
-      {/* Edge fades so rain doesn't bleed hard */}
-      <div
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)' }}
-      />
-      <div
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 5%, transparent 95%, #08090E 100%)' }}
-      />
+      {/* Edge fades to blend with adjacent sections */}
+      <div className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }} />
+      <div className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       {/* ── Lamp header ── */}
       <div className="relative z-10">
@@ -163,7 +158,8 @@ export function GallerySection() {
                 style={{ transition: 'transform 0.6s ease, filter 0.4s ease', transform: hoveredIdx === i ? 'scale(1.08)' : 'scale(1)', filter: hoveredIdx === i ? 'saturate(1.3) brightness(1.1)' : 'saturate(1.0) brightness(0.9)' }}
                 loading="lazy"
               />
-              <div className="absolute inset-0 transition-opacity duration-300" style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)', opacity: hoveredIdx === i ? 1 : 0 }} />
+              <div className="absolute inset-0 transition-opacity duration-300"
+                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)', opacity: hoveredIdx === i ? 1 : 0 }} />
             </div>
           ))}
         </div>
@@ -179,12 +175,10 @@ export function GallerySection() {
         <div className="container mb-12">
           <div className="flex items-center gap-3">
             <div className="section-line" />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
-              More moments
-            </span>
+            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>More moments</span>
           </div>
         </div>
-        <GlassCards images={stackedImages} />
+        <GlassCards images={stackedImages.filter(img => !img.src.startsWith('CLOUDINARY_URL'))} />
       </div>
 
       {/* ── Social CTA ── */}
@@ -193,9 +187,7 @@ export function GallerySection() {
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
       >
         <div className="flex flex-wrap gap-4 justify-center">
-          <ShinyButton href="https://instagram.com/mathisghio" target="_blank" rel="noopener noreferrer">
-            @mathisghio
-          </ShinyButton>
+          <ShinyButton href="https://instagram.com/mathisghio" target="_blank" rel="noopener noreferrer">@mathisghio</ShinyButton>
           <ShinyButton href="https://www.facebook.com/MathisGhioWing" target="_blank" rel="noopener noreferrer" className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]">
             Facebook
           </ShinyButton>
