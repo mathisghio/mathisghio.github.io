@@ -1,8 +1,11 @@
 /**
  * Navigation.tsx — Mathis Ghio
+ *
+ * Mascot rendered as position:fixed at viewport level → impossible à clipper
+ * quelle que soit la section active (Contact inclus).
  */
 
-import { useState, useEffect, useRef } from "react"; 
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -17,8 +20,7 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-// 0.95 → 95 % du sprite flotte au-dessus de la pilule (était 0.82)
-const WING_VISIBLE = 0.95;
+const WING_VISIBLE = 0.95; // fraction du sprite visible au-dessus de la pilule
 
 const NAV_CSS = `
 .mgNav {
@@ -55,23 +57,11 @@ const NAV_CSS = `
   z-index: 1;
   pointer-events: none;
 }
-.mgMascotWrap {
-  position: absolute;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  z-index: 0;
-  transition: left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.4s ease;
-  overflow: visible;
-}
 .mgMascot {
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 4px 20px rgba(70,150,255,0.42));
   transform-origin: 50% 85%;
-  transition: filter 0.3s ease;
 }
 @keyframes mgWingFloat {
   0%,100% { transform: translateY(0) rotate(-1.2deg); }
@@ -140,7 +130,10 @@ export function Navigation() {
   const [activeIndex,   setActiveIndex]   = useState(0);
   const [pillHovered,   setPillHovered]   = useState(false);
   const [hoveredTabIdx, setHoveredTabIdx] = useState<number | null>(null);
-  const [mascotLeft,    setMascotLeft]    = useState(0);
+
+  // Coordonnées VIEWPORT du mascot (position:fixed)
+  const [mascotPos,  setMascotPos]  = useState({ x: -200, y: -200 });
+  const [showMascot, setShowMascot] = useState(false);
 
   const pillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -148,20 +141,11 @@ export function Navigation() {
 
   const compact = scrolled;
 
-  // ── Mascot dimensions ────────────────────────────────────────────────
-  const mascotW = 86;
-  const mascotH = 50;
-
-  // WING_VISIBLE = 0.95 → 95 % du sprite flotte au-dessus de la pilule
+  // ── Dimensions mascot ───────────────────────────────────────────────
+  const mascotW      = 86;
+  const mascotH      = 50;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
-
-  // En compact mode la pilule est ~18 px plus courte qu'en mode normal.
-  // On compense en rendant mascotTop moins négatif de 8 px → la wing reste
-  // visuellement à la même hauteur relative quelle que soit la section active.
-  const mascotTop  = compact ? -(visibleAbove - 8) : -visibleAbove;
-
-  // pillTopPad basé sur le mode normal (constant) pour éviter un saut de hauteur du nav.
-  const pillTopPad = visibleAbove + 4;
+  const pillTopPad   = visibleAbove + 4;
 
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
   const isNonActiveHovered = hoveredTabIdx !== null && hoveredTabIdx !== activeIndex;
@@ -182,12 +166,26 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Calcule la position viewport du mascot via getBoundingClientRect.
+  // Le mascot est rendu en position:fixed → aucun parent ne peut le clipper.
   useEffect(() => {
-    const pill = pillRef.current, btn = btnRefs.current[activeIndex];
-    if (!pill || !btn) return;
-    const pr = pill.getBoundingClientRect(), br = btn.getBoundingClientRect();
-    setMascotLeft(br.left - pr.left + br.width / 2);
-  }, [activeIndex, compact]);
+    const measure = () => {
+      const btn  = btnRefs.current[activeIndex];
+      const pill = pillRef.current;
+      if (!btn || !pill) return;
+      const br = btn.getBoundingClientRect();
+      const pr = pill.getBoundingClientRect();
+      setMascotPos({
+        x: br.left + br.width / 2,  // centre horizontal du bouton actif
+        y: pr.top  - visibleAbove,  // au-dessus du bord supérieur du pill
+      });
+      setShowMascot(true);
+    };
+    measure();
+    // Re-mesure après la fin des transitions CSS compact (400ms)
+    const t = setTimeout(measure, 420);
+    return () => clearTimeout(t);
+  }, [activeIndex, compact, visibleAbove]);
 
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
@@ -216,56 +214,95 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{ background:scrolled?"rgba(8,9,14,0.92)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(14,165,233,0.1)":"none" }}>
-        {/* container relative → le pill se centre en absolu, logo reste à gauche */}
+      {/* ── Mascot — position:fixed, hors de tout contexte de clipping ── */}
+      <div
+        aria-hidden="true"
+        className="hidden lg:block"
+        style={{
+          position:   'fixed',
+          left:       mascotPos.x,
+          top:        mascotPos.y,
+          transform:  'translateX(-50%)',
+          pointerEvents: 'none',
+          zIndex:     55,
+          opacity:    showMascot ? 1 : 0,
+          transition: 'left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease',
+        }}
+      >
+        {isActiveHovered   && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
+        {isNonActiveHovered && <div className="mgAirStreaks"><span /><span /><span /><span /></div>}
+        <img
+          src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png"
+          alt=""
+          width={mascotW}
+          height={mascotH}
+          className={mascotClass}
+          draggable={false}
+          decoding="async"
+          // @ts-expect-error attribut HTML standard
+          fetchpriority="low"
+        />
+      </div>
+
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          background:    scrolled ? "rgba(8,9,14,0.92)" : "transparent",
+          backdropFilter:scrolled ? "blur(20px)"        : "none",
+          borderBottom:  scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
+        }}
+      >
         <div className="container relative flex items-center justify-between py-3">
 
           {/* Logo — gauche */}
-          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-sm flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-3"
+          >
+            <div
+              className="w-8 h-8 rounded-sm flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}
+            >
               <span className="font-display text-white text-sm leading-none">MG</span>
             </div>
-            <span className="hidden sm:block font-heading font-bold text-white text-lg tracking-wider uppercase"
-              style={{ letterSpacing: "0.15em" }}>Mathis Ghio</span>
+            <span
+              className="hidden sm:block font-heading font-bold text-white text-lg tracking-wider uppercase"
+              style={{ letterSpacing: "0.15em" }}
+            >
+              Mathis Ghio
+            </span>
           </button>
 
-          {/* Pill — centré absolument dans le container.
-              Sorti du flux flex → ne peut pas être poussé vers le bord droit.
-              La mascotte reste dans les limites du viewport quel que soit l'onglet actif. */}
+          {/* Pill — centré absolument dans le container */}
           <div
             className="hidden lg:block absolute left-1/2 -translate-x-1/2"
             style={{ top: 0, paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}
           >
-            <div ref={pillRef} className={`mgNav${compact ? " mgCompact" : ""}`}
+            <div
+              ref={pillRef}
+              className={`mgNav${compact ? " mgCompact" : ""}`}
               onMouseEnter={() => setPillHovered(true)}
-              onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}>
-              <div className="mgMascotWrap" style={{ left: mascotLeft, top: mascotTop, bottom: "auto" }} aria-hidden="true">
-                {isActiveHovered && (<div className="mgParticles mgSpray"><span /><span /><span /></div>)}
-                {isNonActiveHovered && (<div className="mgAirStreaks"><span /><span /><span /><span /></div>)}
-                <img
-                  src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png"
-                  alt="Mascot"
-                  width={mascotW}
-                  height={mascotH}
-                  className={mascotClass}
-                  draggable={false}
-                  decoding="async"
-                  // @ts-expect-error attribut HTML standard
-                  fetchpriority="low"
-                />
-              </div>
+              onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}
+            >
               {NAV_ITEMS.map((item, i) => {
                 const active = i === activeIndex;
                 return (
-                  <button key={item.href} ref={el => { btnRefs.current[i] = el; }}
+                  <button
+                    key={item.href}
+                    ref={el => { btnRefs.current[i] = el; }}
                     className={`mgTab${active ? " mgTabActive" : ""}`}
                     onClick={() => handleNav(item.href, i)}
                     onMouseEnter={() => setHoveredTabIdx(i)}
                     onMouseLeave={() => setHoveredTabIdx(null)}
-                    aria-current={active ? "page" : undefined}>
-                    {active && (<span className="mgTabGlow" aria-hidden="true"><span className="mgGlowInner" /><span className="mgGlowOuter" /><span className="mgGlowShimmer" /></span>)}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {active && (
+                      <span className="mgTabGlow" aria-hidden="true">
+                        <span className="mgGlowInner" />
+                        <span className="mgGlowOuter" />
+                        <span className="mgGlowShimmer" />
+                      </span>
+                    )}
                     <span className="mgTabLabel">{item.label}</span>
                   </button>
                 );
@@ -274,7 +311,11 @@ export function Navigation() {
           </div>
 
           {/* Hamburger — droite (mobile only) */}
-          <button className="lg:hidden p-2 text-white" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Fermer" : "Menu"}>
+          <button
+            className="lg:hidden p-2 text-white"
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label={menuOpen ? "Fermer" : "Menu"}
+          >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -294,16 +335,35 @@ export function Navigation() {
         .mgMobileDot { width:5px;height:5px;border-radius:50%;flex-shrink:0;transition:background 0.22s ease,box-shadow 0.22s ease; }
       `}</style>
 
-      <div className="mgMobileMenu lg:hidden" style={{ opacity:menuOpen?1:0, pointerEvents:menuOpen?"all":"none" }}>
+      <div
+        className="mgMobileMenu lg:hidden"
+        style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "all" : "none" }}
+      >
         <div className="absolute inset-0" onClick={() => setMenuOpen(false)} />
-        <div className="mgMobileInner" style={{ transform:menuOpen?"scale(1) translateY(0)":"scale(0.94) translateY(14px)", opacity:menuOpen?1:0 }}>
+        <div
+          className="mgMobileInner"
+          style={{ transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.94) translateY(14px)", opacity: menuOpen ? 1 : 0 }}
+        >
           {NAV_ITEMS.map((item, i) => {
             const active = i === activeIndex;
             return (
-              <button key={item.href} onClick={() => handleNav(item.href, i)}
+              <button
+                key={item.href}
+                onClick={() => handleNav(item.href, i)}
                 className={`mgMobileBtn${active ? " mgMobileBtnActive" : ""}`}
-                style={{ transitionDelay:menuOpen?`${i*30}ms`:"0ms", transform:menuOpen?"translateX(0) scale(1)":"translateX(-8px) scale(0.97)", opacity:menuOpen?1:0 }}>
-                <span className="mgMobileDot" style={{ background:active?"#0EA5E9":"rgba(255,255,255,0.16)", boxShadow:active?"0 0 8px rgba(14,165,233,0.95)":"none" }} />
+                style={{
+                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
+                  transform:       menuOpen ? "translateX(0) scale(1)" : "translateX(-8px) scale(0.97)",
+                  opacity:         menuOpen ? 1 : 0,
+                }}
+              >
+                <span
+                  className="mgMobileDot"
+                  style={{
+                    background: active ? "#0EA5E9" : "rgba(255,255,255,0.16)",
+                    boxShadow:  active ? "0 0 8px rgba(14,165,233,0.95)" : "none",
+                  }}
+                />
                 {item.label}
               </button>
             );
