@@ -18,7 +18,7 @@ const NAV_ITEMS = [
 ];
 
 // Increased from 0.58 → 0.82 so the wing floats much higher above the pill
-const WING_VISIBLE = 0.88;
+const WING_VISIBLE = 0.82;
 
 const NAV_CSS = `
 .mgNav {
@@ -146,8 +146,8 @@ export function Navigation() {
   const scrollSpyPaused = useRef(false);
 
   const compact = scrolled;
-  const mascotW    = compact ? 72  : 110;
-  const mascotH    = compact ? 42  : 64;
+  const mascotW    = 110;
+  const mascotH    = 64;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
   const mascotTop    = -visibleAbove;
   const pillTopPad   = visibleAbove + 8;
