@@ -1,6 +1,6 @@
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
-import { WebGLShader } from '@/components/WebGLShader'
+import { WebGLShader } from '@/components/ui/web-gl-shader'
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer — R&D partner',   logoText: 'OZONE'       },
@@ -24,32 +24,33 @@ export function PartnersSection() {
       id="partners"
       ref={ref}
       className="relative py-24 lg:py-36 overflow-hidden"
-      style={{ background: '#000' }}
+      style={{ background: '#08090E' }}
     >
-      {/* ── WebGL shader background ── */}
-      {/* z-0, opacity 0.9 so the neon lines show boldly */}
-      <div className="absolute inset-0 z-0" style={{ opacity: 0.9 }}>
-        <WebGLShader />
-      </div>
+      {/*
+       * WebGL sine-wave shader — chromatic aberration lines.
+       * xScale 1.2 + yScale 0.35 = wide flat waves.
+       * speed 0.006 = slower than default.
+       * opacity 0.18 = atmospheric, not overpowering.
+       */}
+      <WebGLShader
+        xScale={1.2}
+        yScale={0.35}
+        distortion={0.06}
+        speed={0.006}
+        opacity={0.18}
+      />
 
-      {/* Dark overlay so text stays readable over the bright shader */}
+      {/* Dark overlay so text stays legible over the shader */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.72) 100%)',
-        }}
+        style={{ background: 'rgba(8,9,14,0.72)' }}
       />
 
       {/* Edge fades */}
-      <div
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 8%, transparent 92%, #08090E 100%)' }}
-      />
-      <div
-        className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 5%, transparent 95%, #08090E 100%)' }}
-      />
+      <div className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }} />
+      <div className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       {/* ── Content ── */}
       <div className="container relative z-10">
@@ -61,23 +62,10 @@ export function PartnersSection() {
         >
           <div className="flex items-center gap-3 mb-6">
             <div className="section-line" />
-            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
-              Partners
-            </span>
+            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Partners</span>
           </div>
-          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>
-            TRUSTED BY
-          </h2>
-          <h2
-            className="font-display leading-none"
-            style={{
-              fontSize: 'clamp(48px, 8vw, 110px)',
-              background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
+          <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>TRUSTED BY</h2>
+          <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             THE BEST
           </h2>
         </div>
@@ -92,20 +80,13 @@ export function PartnersSection() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {titlePartners.map((partner, i) => (
-              <a
-                key={i}
-                href={partner.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
                 className="group p-8 rounded-sm card-hover flex flex-col items-center text-center"
-                style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}
-              >
+                style={{ background: 'rgba(8,9,14,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}>
                 <div className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.9)' }}>
                   {partner.logoText}
                 </div>
-                <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>
-                  {partner.description}
-                </p>
+                <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>{partner.description}</p>
                 <div className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16" style={{ background: '#0EA5E9' }} />
               </a>
             ))}
@@ -122,20 +103,14 @@ export function PartnersSection() {
           </h3>
           <div className="flex flex-wrap gap-3">
             {officialPartners.map((partner, i) => (
-              <a
-                key={i}
-                href={partner.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
                 className="group flex items-center gap-3 px-5 py-3 rounded-sm transition-all duration-300"
-                style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}
-              >
-                <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}>
+                style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}>
+                <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400"
+                  style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
-                <span className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.4)' }}>
-                  {partner.description}
-                </span>
+                <span className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.4)' }}>{partner.description}</span>
               </a>
             ))}
           </div>
@@ -145,11 +120,9 @@ export function PartnersSection() {
         <div
           className="mt-16 p-8 rounded-sm transition-all duration-700"
           style={{
-            background: 'rgba(0,0,0,0.6)',
-            backdropFilter: 'blur(16px)',
+            background: 'rgba(8,9,14,0.75)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(14,165,233,0.15)',
-            opacity: inView ? 1 : 0,
-            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '600ms',
           }}
         >
@@ -162,9 +135,7 @@ export function PartnersSection() {
                 Sponsorships, brand collaborations, product development and long-term strategic partnerships.
               </p>
             </div>
-            <ShinyButton href="mailto:contact@mathisghio.com">
-              Become a Partner
-            </ShinyButton>
+            <ShinyButton href="mailto:contact@mathisghio.com">Become a Partner</ShinyButton>
           </div>
         </div>
 
