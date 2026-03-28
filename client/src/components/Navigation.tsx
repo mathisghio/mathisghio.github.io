@@ -17,8 +17,8 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-// Increased from 0.58 → 0.82 so the wing floats much higher above the pill
-const WING_VISIBLE = 0.82;
+// 0.95 → 95 % du sprite flotte au-dessus de la pilule (était 0.82)
+const WING_VISIBLE = 0.95;
 
 const NAV_CSS = `
 .mgNav {
@@ -64,13 +64,14 @@ const NAV_CSS = `
   pointer-events: none;
   z-index: 0;
   transition: left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.4s ease;
+  overflow: visible;
 }
 .mgMascot {
   display: block;
   object-fit: contain;
   filter: drop-shadow(0 4px 20px rgba(70,150,255,0.42));
   transform-origin: 50% 85%;
-  transition: width 0.4s ease, height 0.4s ease, filter 0.3s ease;
+  transition: filter 0.3s ease;
 }
 @keyframes mgWingFloat {
   0%,100% { transform: translateY(0) rotate(-1.2deg); }
@@ -146,11 +147,16 @@ export function Navigation() {
   const scrollSpyPaused = useRef(false);
 
   const compact = scrolled;
-  const mascotW    = 110;
-  const mascotH    = 64;
+
+  // ── Mascot dimensions (légèrement réduits) ──────────────────────────
+  const mascotW = 86;   // était 110
+  const mascotH = 50;   // était 64
+
+  // WING_VISIBLE = 0.95 → 95 % du sprite flotte au-dessus de la pilule
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
   const mascotTop    = -visibleAbove;
-  const pillTopPad   = visibleAbove + 8;
+  // +4 au lieu de +8 → header moins haut
+  const pillTopPad   = visibleAbove + 4;
 
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
   const isNonActiveHovered = hoveredTabIdx !== null && hoveredTabIdx !== activeIndex;
@@ -175,7 +181,11 @@ export function Navigation() {
     const pill = pillRef.current, btn = btnRefs.current[activeIndex];
     if (!pill || !btn) return;
     const pr = pill.getBoundingClientRect(), br = btn.getBoundingClientRect();
-    setMascotLeft(br.left - pr.left + br.width / 2);
+    const center = br.left - pr.left + br.width / 2;
+    // Clamp : empêche la mascotte de déborder sur les bords (fix onglet Contact)
+    const minLeft = mascotW / 2;
+    const maxLeft = pr.width - mascotW / 2;
+    setMascotLeft(Math.max(minLeft, Math.min(maxLeft, center)));
   }, [activeIndex, compact]);
 
   useEffect(() => {
@@ -207,7 +217,8 @@ export function Navigation() {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{ background:scrolled?"rgba(8,9,14,0.92)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(14,165,233,0.1)":"none" }}>
-        <div className="container flex items-center justify-between py-4">
+        {/* py-3 au lieu de py-4 → header moins haut */}
+        <div className="container flex items-center justify-between py-3">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-sm flex items-center justify-center"
               style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}>
@@ -217,17 +228,25 @@ export function Navigation() {
               style={{ letterSpacing: "0.15em" }}>Mathis Ghio</span>
           </button>
 
-          <div className="hidden lg:block" style={{ paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}>
+          {/* overflow:visible explicite sur le wrapper pour éviter tout clipping */}
+          <div className="hidden lg:block" style={{ paddingTop: pillTopPad, transition: "padding-top 0.4s ease", overflow: "visible" }}>
             <div ref={pillRef} className={`mgNav${compact ? " mgCompact" : ""}`}
               onMouseEnter={() => setPillHovered(true)}
               onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}>
               <div className="mgMascotWrap" style={{ left: mascotLeft, top: mascotTop, bottom: "auto" }} aria-hidden="true">
                 {isActiveHovered && (<div className="mgParticles mgSpray"><span /><span /><span /></div>)}
                 {isNonActiveHovered && (<div className="mgAirStreaks"><span /><span /><span /><span /></div>)}
-                <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png" alt="Mascot" width={mascotW} height={mascotH}
-                  className={mascotClass} draggable={false} decoding="async"
+                <img
+                  src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png"
+                  alt="Mascot"
+                  width={mascotW}
+                  height={mascotH}
+                  className={mascotClass}
+                  draggable={false}
+                  decoding="async"
                   // @ts-expect-error attribut HTML standard
-                  fetchpriority="low" />
+                  fetchpriority="low"
+                />
               </div>
               {NAV_ITEMS.map((item, i) => {
                 const active = i === activeIndex;
