@@ -148,15 +148,20 @@ export function Navigation() {
 
   const compact = scrolled;
 
-  // ── Mascot dimensions (légèrement réduits) ──────────────────────────
-  const mascotW = 86;   // était 110
-  const mascotH = 50;   // était 64
+  // ── Mascot dimensions ────────────────────────────────────────────────
+  const mascotW = 86;
+  const mascotH = 50;
 
   // WING_VISIBLE = 0.95 → 95 % du sprite flotte au-dessus de la pilule
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
-  const mascotTop    = -visibleAbove;
-  // +4 au lieu de +8 → header moins haut
-  const pillTopPad   = visibleAbove + 4;
+
+  // En compact mode la pilule est ~18 px plus courte qu'en mode normal.
+  // On compense en rendant mascotTop moins négatif de 8 px → la wing reste
+  // visuellement à la même hauteur relative quelle que soit la section active.
+  const mascotTop  = compact ? -(visibleAbove - 8) : -visibleAbove;
+
+  // pillTopPad basé sur le mode normal (constant) pour éviter un saut de hauteur du nav.
+  const pillTopPad = visibleAbove + 4;
 
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
   const isNonActiveHovered = hoveredTabIdx !== null && hoveredTabIdx !== activeIndex;
@@ -181,11 +186,7 @@ export function Navigation() {
     const pill = pillRef.current, btn = btnRefs.current[activeIndex];
     if (!pill || !btn) return;
     const pr = pill.getBoundingClientRect(), br = btn.getBoundingClientRect();
-    const center = br.left - pr.left + br.width / 2;
-    // Clamp : empêche la mascotte de déborder sur les bords (fix onglet Contact)
-    const minLeft = mascotW / 2;
-    const maxLeft = pr.width - mascotW / 2;
-    setMascotLeft(Math.max(minLeft, Math.min(maxLeft, center)));
+    setMascotLeft(br.left - pr.left + br.width / 2);
   }, [activeIndex, compact]);
 
   useEffect(() => {
