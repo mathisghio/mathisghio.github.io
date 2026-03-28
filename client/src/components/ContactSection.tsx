@@ -53,7 +53,7 @@ export function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
             className="flex flex-col items-center text-center w-full"
-            style={{ marginTop: '3rem' }}
+            style={{ marginTop: '6rem' }}
           >
             <div className="flex items-center gap-3 mb-6 justify-center">
               <div
