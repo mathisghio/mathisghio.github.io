@@ -832,7 +832,7 @@ export function GlobeSection() {
           <div className="flex flex-col">
             <motion.div initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1}}
               className="flex items-center justify-between mb-4">
-              <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.32)',letterSpacing:'0.2em',textTransform:'uppercase'}}>10 events · 9 countries</p>
+              <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.32)',letterSpacing:'0.2em',textTransform:'uppercase'}}>10 events · 6 countries</p>
               <div className="flex items-center gap-2.5">
                 {(Object.entries(TC) as [CompType,string][]).map(([type,color])=>(
                   <div key={type} style={{width:'6px',height:'6px',borderRadius:'50%',background:color}}/>
