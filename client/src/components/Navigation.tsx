@@ -218,8 +218,10 @@ export function Navigation() {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{ background:scrolled?"rgba(8,9,14,0.92)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(14,165,233,0.1)":"none" }}>
-        {/* py-3 au lieu de py-4 → header moins haut */}
-        <div className="container flex items-center justify-between py-3">
+        {/* container relative → le pill se centre en absolu, logo reste à gauche */}
+        <div className="container relative flex items-center justify-between py-3">
+
+          {/* Logo — gauche */}
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-sm flex items-center justify-center"
               style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}>
@@ -229,8 +231,13 @@ export function Navigation() {
               style={{ letterSpacing: "0.15em" }}>Mathis Ghio</span>
           </button>
 
-          {/* overflow:visible explicite sur le wrapper pour éviter tout clipping */}
-          <div className="hidden lg:block" style={{ paddingTop: pillTopPad, transition: "padding-top 0.4s ease", overflow: "visible" }}>
+          {/* Pill — centré absolument dans le container.
+              Sorti du flux flex → ne peut pas être poussé vers le bord droit.
+              La mascotte reste dans les limites du viewport quel que soit l'onglet actif. */}
+          <div
+            className="hidden lg:block absolute left-1/2 -translate-x-1/2"
+            style={{ top: 0, paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}
+          >
             <div ref={pillRef} className={`mgNav${compact ? " mgCompact" : ""}`}
               onMouseEnter={() => setPillHovered(true)}
               onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}>
@@ -266,6 +273,7 @@ export function Navigation() {
             </div>
           </div>
 
+          {/* Hamburger — droite (mobile only) */}
           <button className="lg:hidden p-2 text-white" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Fermer" : "Menu"}>
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
