@@ -2,7 +2,7 @@
  * Navigation.tsx — Mathis Ghio
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react"; 
 import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
