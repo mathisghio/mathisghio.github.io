@@ -127,7 +127,7 @@ const NAV_CSS = `
 export function Navigation() {
   const [scrolled,      setScrolled]      = useState(false);
   const [menuOpen,      setMenuOpen]      = useState(false);
-  const [activeIndex,   setActiveIndex]   = useState(0);
+  const [activeIndex,   setActiveIndex]   = useState(-1); // aucun onglet présélectionné
   const [pillHovered,   setPillHovered]   = useState(false);
   const [hoveredTabIdx, setHoveredTabIdx] = useState<number | null>(null);
 
@@ -170,19 +170,28 @@ export function Navigation() {
   // Le mascot est rendu en position:fixed → aucun parent ne peut le clipper.
   useEffect(() => {
     const measure = () => {
-      const btn  = btnRefs.current[activeIndex];
       const pill = pillRef.current;
-      if (!btn || !pill) return;
+      if (!pill) return;
+
+      // Pas d'onglet actif → mascotte centrée sur la pilule mais invisible
+      if (activeIndex === -1) {
+        const pr = pill.getBoundingClientRect();
+        setMascotPos({ x: pr.left + pr.width / 2, y: pr.top - visibleAbove });
+        setShowMascot(false);
+        return;
+      }
+
+      const btn = btnRefs.current[activeIndex];
+      if (!btn) return;
       const br = btn.getBoundingClientRect();
       const pr = pill.getBoundingClientRect();
       setMascotPos({
-        x: br.left + br.width / 2,  // centre horizontal du bouton actif
-        y: pr.top  - visibleAbove,  // au-dessus du bord supérieur du pill
+        x: br.left + br.width / 2,
+        y: pr.top  - visibleAbove,
       });
       setShowMascot(true);
     };
     measure();
-    // Re-mesure après la fin des transitions CSS compact (400ms)
     const t = setTimeout(measure, 420);
     return () => clearTimeout(t);
   }, [activeIndex, compact, visibleAbove]);
