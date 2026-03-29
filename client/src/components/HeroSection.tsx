@@ -27,8 +27,17 @@ export function HeroSection() {
     >
       <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
 
-      <div className="absolute inset-0 z-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }} />
+      {/* Gradient bas */}
+      <div
+        className="absolute inset-0 z-20 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }}
+      />
+
+      {/* Gradient haut — masque le texte qui remonterait derrière le nav fixe */}
+      <div
+        className="absolute top-0 left-0 right-0 z-20 pointer-events-none"
+        style={{ height: '130px', background: 'linear-gradient(to bottom, #08090E 0%, rgba(8,9,14,0.7) 50%, transparent 100%)' }}
+      />
 
       <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
         <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.22)" backgroundColor="transparent" pointerSize={0.8} />
