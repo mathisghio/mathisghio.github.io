@@ -142,8 +142,8 @@ export function Navigation() {
   const compact = scrolled;
 
   // ── Dimensions mascot ───────────────────────────────────────────────
-  const mascotW      = 65;
-  const mascotH      = 38;
+  const mascotW      = 86;
+  const mascotH      = 50;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
   const pillTopPad   = visibleAbove + 4;
 
