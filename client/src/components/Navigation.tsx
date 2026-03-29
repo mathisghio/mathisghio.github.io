@@ -250,11 +250,14 @@ export function Navigation() {
           background:    scrolled ? "rgba(8,9,14,0.92)" : "transparent",
           backdropFilter:scrolled ? "blur(20px)"        : "none",
           borderBottom:  scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
+          // Nav assez haut pour que son fond couvre la mascotte + la pilule
+          minHeight: pillTopPad + (compact ? 44 : 52),
         }}
       >
-        <div className="container relative flex items-center justify-between py-3">
+        {/* items-end → logo s'aligne en bas avec la pilule */}
+        <div className="container relative flex items-end justify-between pb-3">
 
-          {/* Logo — gauche */}
+          {/* Logo — gauche, aligné en bas */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-3"
@@ -273,9 +276,10 @@ export function Navigation() {
             </span>
           </button>
 
-          {/* Pill — centré absolument dans le container, verticalement centré */}
+          {/* Pill — centré, poussé vers le bas par pillTopPad pour laisser place à la mascotte */}
           <div
-            className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="hidden lg:block absolute left-1/2 -translate-x-1/2"
+            style={{ top: 0, paddingTop: pillTopPad }}
           >
             <div
               ref={pillRef}
