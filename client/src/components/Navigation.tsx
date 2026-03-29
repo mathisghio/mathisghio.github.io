@@ -209,7 +209,14 @@ export function Navigation() {
     setMenuOpen(false); setActiveIndex(index);
     scrollSpyPaused.current = true;
     setTimeout(() => { scrollSpyPaused.current = false; }, 900);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    // Compense la hauteur du nav fixe + petite marge de confort (8px)
+    const navHeight = pillTopPad + 52;
+    const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - navHeight - 8;
+    window.scrollTo({ top, behavior: "smooth" });
   };
 
   return (
