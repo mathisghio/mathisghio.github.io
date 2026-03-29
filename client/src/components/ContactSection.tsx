@@ -47,7 +47,7 @@ export function ContactSection() {
       <section id="contact" ref={ref} style={{ background: '#08090E' }}>
 
         {/* ── Lamp header ── */}
-        <LampContainer>
+        <LampContainer contentOffset={-160}>
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
