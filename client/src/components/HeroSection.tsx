@@ -25,88 +25,72 @@ export function HeroSection() {
       className="relative w-full overflow-hidden"
       style={{ height: '100svh', minHeight: '600px' }}
     >
-      {/* ── Layer 1 : video / fallback image ── */}
       <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
 
-      {/* ── Layer 2 : bottom gradient only ── */}
-      <div
-        className="absolute inset-0 z-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }}
-      />
+      <div className="absolute inset-0 z-20 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }} />
 
-      {/* ── Layer 3 : interactive waves ── */}
       <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
-        <InteractiveWaves
-          strokeColor="rgba(14, 165, 233, 0.22)"
-          backgroundColor="transparent"
-          pointerSize={0.8}
-        />
+        <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.22)" backgroundColor="transparent" pointerSize={0.8} />
       </div>
 
-      {/* ── Layer 4 : left accent lines ── */}
       <div className="absolute left-0 top-0 bottom-0 z-35 hidden lg:flex flex-col justify-center gap-2 pl-6 pointer-events-none">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="h-px" style={{ width: `${20 + i * 8}px`, background: `rgba(14, 165, 233, ${0.2 + i * 0.08})` }} />
         ))}
       </div>
 
-      {/* ── Layer 5 : hero content ── */}
-      <div className="relative z-40 h-full flex flex-col justify-end pb-24 lg:pb-32">
+      {/* ── Contenu hero — collé en bas ── */}
+      <div className="relative z-40 h-full flex flex-col justify-end pb-20 lg:pb-28">
         <div className="container">
 
-          {/* ── Titre — poussé vers le bas avec margin-top pour ne pas être caché par le nav ── */}
+          {/* Grand titre — taille réduite pour ne pas remonter derrière le nav */}
           <div
             className="transition-all duration-700"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(30px)',
-              transitionDelay: '350ms',
-              // Marge suffisante pour que MATHIS ne remonte pas derrière le nav fixe
-              marginTop: '2rem',
-            }}
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(72px, 14vw, 200px)' }}>MATHIS</h1>
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 11vw, 160px)' }}>MATHIS</h1>
             <h1
               className="font-display leading-none"
-              style={{ fontSize: 'clamp(72px, 14vw, 200px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+              style={{ fontSize: 'clamp(60px, 11vw, 160px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
             >
               GHIO
             </h1>
           </div>
 
-          {/* ── Tagline + badge côte à côte ── */}
+          {/* Badge — entre le titre et la tagline */}
           <div
-            className="mt-6 flex flex-col lg:flex-row lg:items-center gap-5 transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '500ms' }}
+            className="mt-5 transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
           >
-            {/* Tagline */}
-            <p className="font-body text-lg font-light max-w-xl" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
-            </p>
-
-            {/* Badge — à droite de la tagline sur desktop */}
             <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm flex-shrink-0"
+              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
               style={{
-                color:      '#0EA5E9',
+                color: '#0EA5E9',
                 background: 'rgba(14,165,233,0.08)',
-                border:     '1px solid rgba(14,165,233,0.22)',
+                border: '1px solid rgba(14,165,233,0.22)',
                 letterSpacing: '0.2em',
                 backdropFilter: 'blur(8px)',
-                alignSelf: 'flex-start',
               }}
             >
-              <span
-                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
-              />
+              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
               5× World Champion · 41.40 kts Speed Record
             </span>
           </div>
 
+          {/* Tagline */}
+          <div
+            className="mt-5 max-w-xl transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
+          >
+            <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+              I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
+            </p>
+          </div>
+
           {/* CTAs */}
           <div
-            className="mt-10 flex flex-wrap items-center gap-4 transition-all duration-700"
+            className="mt-8 flex flex-wrap items-center gap-4 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -159,3 +143,4 @@ export function HeroSection() {
     </section>
   )
 }
+
