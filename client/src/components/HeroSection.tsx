@@ -54,42 +54,16 @@ export function HeroSection() {
       <div className="relative z-40 h-full flex flex-col justify-end pb-24 lg:pb-32">
         <div className="container">
 
-          {/*
-           * ── Badge — now sits directly above the name ─────────────────
-           * Removed from bottom-right corner, placed inline in the content
-           * flow so it reads as a title label on both mobile and desktop.
-           * Animates in slightly before the name (delay 200ms).
-           */}
-          <div
-            className="mb-5 transition-all duration-700"
-            style={{
-              opacity:   visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(16px)',
-              transitionDelay: '200ms',
-            }}
-          >
-            <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{
-                color:      '#0EA5E9',
-                background: 'rgba(14,165,233,0.08)',
-                border:     '1px solid rgba(14,165,233,0.22)',
-                letterSpacing: '0.2em',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
-              />
-              5× World Champion · 41.40 kts Speed Record
-            </span>
-          </div>
-
-          {/* Name */}
+          {/* ── Titre — poussé vers le bas avec margin-top pour ne pas être caché par le nav ── */}
           <div
             className="transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(30px)',
+              transitionDelay: '350ms',
+              // Marge suffisante pour que MATHIS ne remonte pas derrière le nav fixe
+              marginTop: '2rem',
+            }}
           >
             <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(72px, 14vw, 200px)' }}>MATHIS</h1>
             <h1
@@ -100,14 +74,34 @@ export function HeroSection() {
             </h1>
           </div>
 
-          {/* Tagline */}
+          {/* ── Tagline + badge côte à côte ── */}
           <div
-            className="mt-6 max-w-xl transition-all duration-700"
+            className="mt-6 flex flex-col lg:flex-row lg:items-center gap-5 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '500ms' }}
           >
-            <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+            {/* Tagline */}
+            <p className="font-body text-lg font-light max-w-xl" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
               I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
             </p>
+
+            {/* Badge — à droite de la tagline sur desktop */}
+            <span
+              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm flex-shrink-0"
+              style={{
+                color:      '#0EA5E9',
+                background: 'rgba(14,165,233,0.08)',
+                border:     '1px solid rgba(14,165,233,0.22)',
+                letterSpacing: '0.2em',
+                backdropFilter: 'blur(8px)',
+                alignSelf: 'flex-start',
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }}
+              />
+              5× World Champion · 41.40 kts Speed Record
+            </span>
           </div>
 
           {/* CTAs */}
