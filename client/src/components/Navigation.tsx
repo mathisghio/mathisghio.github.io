@@ -261,7 +261,7 @@ export function Navigation() {
           minHeight: pillTopPad + (compact ? 44 : 52),
         }}
       >
-        <div className="container flex items-end justify-between pb-3">
+        <div className="container flex items-end justify-between pt-3 pb-3">
 
           {/* Logo — gauche, aligné en bas */}
           <button
