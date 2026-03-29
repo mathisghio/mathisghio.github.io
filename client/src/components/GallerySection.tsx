@@ -236,7 +236,7 @@ export function GallerySection() {
 
       {/* ── Lamp header ── */}
       <div className="relative z-10">
-        <LampContainer>
+        <LampContainer contentOffset={-160}>
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
