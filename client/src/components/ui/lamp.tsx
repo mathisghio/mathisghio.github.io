@@ -4,10 +4,12 @@ import { cn } from '@/lib/utils'
 
 export const LampContainer = ({
   children,
-  className, 
+  className,
+  contentOffset,
 }: {
   children: React.ReactNode
   className?: string
+  contentOffset?: number
 }) => {
   return (
     <div
@@ -126,7 +128,7 @@ export const LampContainer = ({
       </div>
 
       {/* ── Contenu ── */}
-      <div className="relative z-50 flex -translate-y-64 flex-col items-center px-5 w-full">
+      <div className="relative z-50 flex flex-col items-center px-5 w-full" style={{ transform: `translateY(${contentOffset ?? -256}px)` }}>
         {children}
       </div>
     </div>
