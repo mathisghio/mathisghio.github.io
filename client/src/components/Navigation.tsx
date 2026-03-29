@@ -261,8 +261,7 @@ export function Navigation() {
           minHeight: pillTopPad + (compact ? 44 : 52),
         }}
       >
-        {/* items-end → logo s'aligne en bas avec la pilule */}
-        <div className="container relative flex items-end justify-between pb-3">
+        <div className="container flex items-end justify-between pb-3">
 
           {/* Logo — gauche, aligné en bas */}
           <button
@@ -283,10 +282,10 @@ export function Navigation() {
             </span>
           </button>
 
-          {/* Pill — centré, poussé vers le bas par pillTopPad pour laisser place à la mascotte */}
+          {/* Pill — droite, dans le flux flex normal */}
           <div
-            className="hidden lg:block absolute left-1/2 -translate-x-1/2"
-            style={{ top: 0, paddingTop: pillTopPad }}
+            className="hidden lg:block"
+            style={{ paddingTop: pillTopPad }}
           >
             <div
               ref={pillRef}
