@@ -50,7 +50,7 @@ export function HeroSection() {
       </div>
 
       {/* ── Contenu hero — paddingTop = hauteur du nav pour que MATHIS ne remonte jamais derrière lui ── */}
-      <div className="relative z-40 h-full flex flex-col justify-end pb-20 lg:pb-28" style={{ paddingTop: '350px' }}>
+      <div className="relative z-40 h-full flex flex-col justify-end pb-20 lg:pb-28" style={{ paddingTop: '500px' }}>
         <div className="container">
 
           {/* Grand titre — taille réduite pour ne pas remonter derrière le nav */}
