@@ -141,11 +141,11 @@ export function Navigation() {
 
   const compact = scrolled;
 
-  // ── Dimensions mascot ───────────────────────────────────────────────
   const mascotW      = 86;
   const mascotH      = 50;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
-  const pillTopPad   = visibleAbove + 4;
+  // Réduit à visibleAbove seul (sans +4) pour coller le haut de la wing au bord du nav
+  const pillTopPad   = visibleAbove;
 
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
   const isNonActiveHovered = hoveredTabIdx !== null && hoveredTabIdx !== activeIndex;
@@ -266,8 +266,8 @@ export function Navigation() {
           background:    scrolled ? "rgba(8,9,14,0.92)" : "transparent",
           backdropFilter:scrolled ? "blur(20px)"        : "none",
           borderBottom:  scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
-          // Nav assez haut pour que son fond couvre la mascotte + la pilule
-          minHeight: pillTopPad + (compact ? 44 : 52),
+          // Nav juste assez haut pour couvrir la mascotte + la pilule
+          minHeight: pillTopPad + (compact ? 36 : 40),
         }}
       >
         <div className="container flex items-center justify-between pt-3 pb-3">
