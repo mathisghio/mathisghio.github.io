@@ -224,7 +224,7 @@ export function Navigation() {
           top:        mascotPos.y,
           transform:  'translateX(-50%)',
           pointerEvents: 'none',
-          zIndex:     49,
+          zIndex:     55,
           opacity:    showMascot ? 1 : 0,
           transition: 'left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease',
         }}
@@ -273,10 +273,9 @@ export function Navigation() {
             </span>
           </button>
 
-          {/* Pill — centré absolument dans le container */}
+          {/* Pill — centré absolument dans le container, verticalement centré */}
           <div
-            className="hidden lg:block absolute left-1/2 -translate-x-1/2"
-            style={{ top: 0, paddingTop: pillTopPad, transition: "padding-top 0.4s ease" }}
+            className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           >
             <div
               ref={pillRef}
