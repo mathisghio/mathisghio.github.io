@@ -142,8 +142,8 @@ export function Navigation() {
   const compact = scrolled;
 
   // ── Dimensions mascot ───────────────────────────────────────────────
-  const mascotW      = 86;
-  const mascotH      = 50;
+  const mascotW      = 65;
+  const mascotH      = 38;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
   const pillTopPad   = visibleAbove + 4;
 
@@ -224,7 +224,7 @@ export function Navigation() {
           top:        mascotPos.y,
           transform:  'translateX(-50%)',
           pointerEvents: 'none',
-          zIndex:     55,
+          zIndex:     49,
           opacity:    showMascot ? 1 : 0,
           transition: 'left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease',
         }}
