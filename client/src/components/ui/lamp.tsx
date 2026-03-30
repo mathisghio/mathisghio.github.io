@@ -6,23 +6,20 @@ export const LampContainer = ({
   children,
   className,
   contentOffset,
+  minHeight,
 }: {
   children: React.ReactNode
   className?: string
   contentOffset?: number
+  minHeight?: string
 }) => {
   return (
-    /*
-     * .lamp-container handles minHeight responsively via CSS:
-     *   mobile  → 52vh  (shorter section = beam closer to text)
-     *   desktop → 80vh  (original look, untouched)
-     */
     <div
       className={cn(
         'relative flex flex-col items-center justify-center overflow-hidden w-full z-0 lamp-container',
         className
       )}
-      style={{ background: '#08090E' }}
+      style={{ background: '#08090E', ...(minHeight ? { minHeight } : {}) }}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
 
@@ -109,18 +106,17 @@ export const LampContainer = ({
         />
 
         {/* ── Ligne "fil de lampe" ── */}
-        {/* ── Ligne "fil de lampe" ── */}
-<motion.div
-  initial={{ width: '10rem', opacity: 0 }}
-  animate={{ width: '32rem', opacity: 1 }}   {/* ← whileInView → animate */}
-  transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-  className="absolute inset-auto z-50 -translate-y-[7rem]"
-  style={{
-    height: '3px',
-    background: 'linear-gradient(90deg, transparent, #38BDF8, #fff, #38BDF8, transparent)',
-    boxShadow: '0 0 12px 3px rgba(56,189,248,0.9), 0 0 28px 6px rgba(14,165,233,0.6)',
-  }}
-/>
+        <motion.div
+          initial={{ width: '10rem', opacity: 0 }}
+          animate={{ width: '32rem', opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
+          className="absolute inset-auto z-50 -translate-y-[7rem]"
+          style={{
+            height: '3px',
+            background: 'linear-gradient(90deg, transparent, #38BDF8, #fff, #38BDF8, transparent)',
+            boxShadow: '0 0 12px 3px rgba(56,189,248,0.9), 0 0 28px 6px rgba(14,165,233,0.6)',
+          }}
+        />
 
         {/* ── Masque bas ── */}
         <div
@@ -129,7 +125,7 @@ export const LampContainer = ({
         />
       </div>
 
-      {/* ── Contenu — translateY fixe -256px sur tous les breakpoints ── */}
+      {/* ── Contenu ── */}
       <div
         className="relative z-50 flex flex-col items-center px-5 w-full"
         style={{ transform: `translateY(${contentOffset ?? -256}px)` }}
