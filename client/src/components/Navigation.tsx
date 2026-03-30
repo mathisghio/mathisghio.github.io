@@ -220,7 +220,7 @@ export function Navigation() {
     const aboveIdx = ids.reduce((best, id, i) => {
       const el = document.getElementById(id);
       if (!el) return best;
-      return el.getBoundingClientRect().bottom < 0 ? i : best;
+        return el.getBoundingClientRect().top < 0 ? i : best;
     }, -1);
     if (aboveIdx !== -1) setActiveIndex(aboveIdx);
   }
