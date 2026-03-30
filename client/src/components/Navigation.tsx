@@ -206,6 +206,9 @@ export function Navigation() {
         if (visible.length > 0) {
           const idx = ids.indexOf(visible[0].target.id);
           if (idx !== -1) setActiveIndex(idx);
+        } else {
+          // Aucune section visible → on est sur la hero, pas d'onglet actif
+          setActiveIndex(-1);
         }
       },
       { rootMargin: "-15% 0px -60% 0px", threshold: 0 }
@@ -274,7 +277,7 @@ export function Navigation() {
 
           {/* Logo — gauche, aligné en bas */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setActiveIndex(-1); }}
             className="flex items-center gap-3"
           >
             <div
