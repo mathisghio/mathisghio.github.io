@@ -312,6 +312,13 @@
   }
 }
 
+  /* ── Lamp: texte moins haut sur mobile ── */
+/* L'inline style (translateY -256px) est écrasé uniquement sur mobile */
+@media (max-width: 1023px) {
+  .lamp-container > div:last-child {
+    transform: translateY(-180px) !important;
+  }
+}
   
   @media (min-width: 1024px) {
     .container {
