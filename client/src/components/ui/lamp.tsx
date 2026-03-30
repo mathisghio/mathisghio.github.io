@@ -131,7 +131,14 @@ export const LampContainer = ({
       </div>
 
       {/* ── Contenu ── */}
-      <div className="relative z-50 flex flex-col items-center px-5 w-full" style={{ transform: `translateY(${contentOffset ?? -256}px)` }}>
+      {/*
+       * contentOffset prop: explicit px value overrides the responsive default.
+       * Without it, .lamp-content-offset applies: -140px on mobile, -256px on desktop.
+       */}
+      <div
+        className={`relative z-50 flex flex-col items-center px-5 w-full${contentOffset === undefined ? ' lamp-content-offset' : ''}`}
+        style={contentOffset !== undefined ? { transform: `translateY(${contentOffset}px)` } : undefined}
+      >
         {children}
       </div>
     </div>
