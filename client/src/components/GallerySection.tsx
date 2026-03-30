@@ -236,8 +236,8 @@ export function GallerySection() {
 
       {/* ── Lamp header ── */}
       <div className="relative z-10">
-        <LampContainer contentOffset={-160}>
-          <motion.div
+      <LampContainer minHeight="45vh">
+      <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
