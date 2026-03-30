@@ -6,10 +6,14 @@ export const LampContainer = ({
   children,
   className,
   contentOffset,
+  minHeight = '70vh',   // ← nouveau prop avec valeur par défaut
+
 }: {
   children: React.ReactNode
   className?: string
   contentOffset?: number
+  minHeight?: string    // ← nouveau
+
 }) => {
   return (
     <div
@@ -17,8 +21,7 @@ export const LampContainer = ({
         'relative flex flex-col items-center justify-center overflow-hidden w-full z-0',
         className
       )}
-      style={{ background: '#08090E', minHeight: '70vh' }}
-    >
+    style={{ background: '#08090E', minHeight }}    >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
 
         {/* ── Cône gauche — plus opaque et plus large ── */}
