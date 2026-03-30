@@ -198,17 +198,25 @@ export function Navigation() {
 
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
+    const visibleSet = new Set<string>();
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (scrollSpyPaused.current) return;
-        const visible = entries.filter(e => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) {
-          const idx = ids.indexOf(visible[0].target.id);
-          if (idx !== -1) setActiveIndex(idx);
-        } else {
-          // Aucune section visible → on est sur la hero, pas d'onglet actif
+
+        // Met à jour le Set des sections actuellement visibles
+        entries.forEach(e => {
+          if (e.isIntersecting) visibleSet.add(e.target.id);
+          else visibleSet.delete(e.target.id);
+        });
+
+        if (visibleSet.size === 0) {
+          // Aucune section visible → zone hero, pas d'onglet actif
           setActiveIndex(-1);
+        } else {
+          // Prend la section la plus haute dans le viewport
+          const sorted = ids.filter(id => visibleSet.has(id));
+          if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
         }
       },
       { rootMargin: "-15% 0px -60% 0px", threshold: 0 }
