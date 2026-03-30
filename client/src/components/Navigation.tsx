@@ -211,15 +211,16 @@ export function Navigation() {
         });
 
         if (visibleSet.size === 0) {
-          // Aucune section visible → zone hero, pas d'onglet actif
-          setActiveIndex(-1);
+          // Ne repasse à -1 que si on est vraiment tout en haut (zone hero)
+          if (window.scrollY < 200) setActiveIndex(-1);
+          // Sinon on garde l'onglet actif précédent (ex: GoatSection entre Career et Season)
         } else {
           // Prend la section la plus haute dans le viewport
           const sorted = ids.filter(id => visibleSet.has(id));
           if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
         }
       },
-      { rootMargin: "-15% 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-10% 0px -30% 0px", threshold: 0 }
     );
     ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
     return () => observer.disconnect();
