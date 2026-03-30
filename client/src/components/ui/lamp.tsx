@@ -6,25 +6,27 @@ export const LampContainer = ({
   children,
   className,
   contentOffset,
-  minHeight = '70vh',   // ← nouveau prop avec valeur par défaut
-
 }: {
   children: React.ReactNode
   className?: string
   contentOffset?: number
-  minHeight?: string    // ← nouveau
-
 }) => {
   return (
+    /*
+     * .lamp-container handles minHeight responsively via CSS:
+     *   mobile  → 52vh  (shorter section = beam closer to text)
+     *   desktop → 80vh  (original look, untouched)
+     */
     <div
       className={cn(
-        'relative flex flex-col items-center justify-center overflow-hidden w-full z-0',
+        'relative flex flex-col items-center justify-center overflow-hidden w-full z-0 lamp-container',
         className
       )}
-    style={{ background: '#08090E', minHeight }}    >
+      style={{ background: '#08090E' }}
+    >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
 
-        {/* ── Cône gauche — plus opaque et plus large ── */}
+        {/* ── Cône gauche ── */}
         <motion.div
           initial={{ opacity: 0.3, width: '10rem' }}
           whileInView={{ opacity: 1, width: '35rem' }}
@@ -35,7 +37,6 @@ export const LampContainer = ({
           }}
           className="absolute inset-auto right-1/2 h-64 overflow-visible w-[35rem]"
         >
-          {/* Masque bas pour couper proprement le bas du cône */}
           <div
             className="absolute w-full left-0 h-44 bottom-0 z-20"
             style={{
@@ -44,7 +45,6 @@ export const LampContainer = ({
               maskImage: 'linear-gradient(to top, white 60%, transparent)',
             }}
           />
-          {/* Masque gauche */}
           <div
             className="absolute w-40 h-full left-0 bottom-0 z-20"
             style={{
@@ -55,7 +55,7 @@ export const LampContainer = ({
           />
         </motion.div>
 
-        {/* ── Cône droit — symétrique ── */}
+        {/* ── Cône droit ── */}
         <motion.div
           initial={{ opacity: 0.3, width: '10rem' }}
           whileInView={{ opacity: 1, width: '35rem' }}
@@ -66,7 +66,6 @@ export const LampContainer = ({
           }}
           className="absolute inset-auto left-1/2 h-64 w-[35rem]"
         >
-          {/* Masque droite */}
           <div
             className="absolute w-40 h-full right-0 bottom-0 z-20"
             style={{
@@ -75,7 +74,6 @@ export const LampContainer = ({
               maskImage: 'linear-gradient(to left, white, transparent)',
             }}
           />
-          {/* Masque bas */}
           <div
             className="absolute w-full right-0 h-44 bottom-0 z-20"
             style={{
@@ -110,7 +108,7 @@ export const LampContainer = ({
           style={{ background: '#0284C7' }}
         />
 
-        {/* ── Ligne horizontale "fil de lampe" — plus épaisse et lumineuse ── */}
+        {/* ── Ligne "fil de lampe" ── */}
         <motion.div
           initial={{ width: '10rem', opacity: 0 }}
           whileInView={{ width: '32rem', opacity: 1 }}
@@ -123,21 +121,17 @@ export const LampContainer = ({
           }}
         />
 
-        {/* ── Masque bas qui cache le bas des cônes ── */}
+        {/* ── Masque bas ── */}
         <div
           className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem]"
           style={{ background: '#08090E' }}
         />
       </div>
 
-      {/* ── Contenu ── */}
-      {/*
-       * contentOffset prop: explicit px value overrides the responsive default.
-       * Without it, .lamp-content-offset applies: -140px on mobile, -256px on desktop.
-       */}
+      {/* ── Contenu — translateY fixe -256px sur tous les breakpoints ── */}
       <div
-        className={`relative z-50 flex flex-col items-center px-5 w-full${contentOffset === undefined ? ' lamp-content-offset' : ''}`}
-        style={contentOffset !== undefined ? { transform: `translateY(${contentOffset}px)` } : undefined}
+        className="relative z-50 flex flex-col items-center px-5 w-full"
+        style={{ transform: `translateY(${contentOffset ?? -256}px)` }}
       >
         {children}
       </div>
