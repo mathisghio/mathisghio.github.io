@@ -220,7 +220,7 @@ export function Navigation() {
           if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
         }
       },
-      { rootMargin: "-5% 0px -80% 0px", threshold: 0 }
+      { rootMargin: "-85% 0px -80% 0px", threshold: 0 }
     );
     ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
     return () => observer.disconnect();
