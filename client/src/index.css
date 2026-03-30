@@ -300,6 +300,19 @@
     }
   }
 
+/* ── Lamp: hauteur responsive de la section ── */
+/* Mobile : 52vh = section plus courte → beam visuellement proche du texte */
+.lamp-container {
+  min-height: 52vh;
+}
+/* Desktop : 80vh = look original, inchangé */
+@media (min-width: 1024px) {
+  .lamp-container {
+    min-height: 80vh;
+  }
+}
+
+  
   @media (min-width: 1024px) {
     .container {
       padding-left: 3rem;
@@ -344,18 +357,6 @@
   }
 }
 
-
-/* ── Lamp: responsive content vertical offset ── */
-/* Mobile first: -140px keeps text close to the lamp beam */
-.lamp-content-offset {
-  transform: translateY(-140px);
-}
-/* Desktop: restore the original -256px offset */
-@media (min-width: 1024px) {
-  .lamp-content-offset {
-    transform: translateY(-256px);
-  }
-}
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
