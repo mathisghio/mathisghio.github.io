@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
 const HERO_VIDEO     = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774426080/bg_pru1bh.mp4'
-const HERO_GENERATED = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg'
+const HERO_GENERATED = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg' 
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)
