@@ -109,17 +109,18 @@ export const LampContainer = ({
         />
 
         {/* ── Ligne "fil de lampe" ── */}
-        <motion.div
-          initial={{ width: '10rem', opacity: 0 }}
-          whileInView={{ width: '32rem', opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-          className="absolute inset-auto z-50 -translate-y-[7rem]"
-          style={{
-            height: '3px',
-            background: 'linear-gradient(90deg, transparent, #38BDF8, #fff, #38BDF8, transparent)',
-            boxShadow: '0 0 12px 3px rgba(56,189,248,0.9), 0 0 28px 6px rgba(14,165,233,0.6)',
-          }}
-        />
+        {/* ── Ligne "fil de lampe" ── */}
+<motion.div
+  initial={{ width: '10rem', opacity: 0 }}
+  animate={{ width: '32rem', opacity: 1 }}   {/* ← whileInView → animate */}
+  transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
+  className="absolute inset-auto z-50 -translate-y-[7rem]"
+  style={{
+    height: '3px',
+    background: 'linear-gradient(90deg, transparent, #38BDF8, #fff, #38BDF8, transparent)',
+    boxShadow: '0 0 12px 3px rgba(56,189,248,0.9), 0 0 28px 6px rgba(14,165,233,0.6)',
+  }}
+/>
 
         {/* ── Masque bas ── */}
         <div
