@@ -210,11 +210,21 @@ export function Navigation() {
           else visibleSet.delete(e.target.id);
         });
 
-        if (visibleSet.size === 0) {
-          // Ne repasse à -1 que si on est vraiment tout en haut (zone hero)
-          if (window.scrollY < 200) setActiveIndex(-1);
-          // Sinon on garde l'onglet actif précédent (ex: GoatSection entre Career et Season)
-        } else {
+       if (visibleSet.size === 0) {
+  if (window.scrollY < 200) {
+    setActiveIndex(-1);
+  } else {
+    // Trouve la dernière section nav dont le bas est sorti au-dessus du viewport.
+    // Fonctionne dans les deux sens : remontée depuis Season ET descente depuis Career
+    // à travers GoatSection (qui n'a pas d'id nav).
+    const aboveIdx = ids.reduce((best, id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return best;
+      return el.getBoundingClientRect().bottom < 0 ? i : best;
+    }, -1);
+    if (aboveIdx !== -1) setActiveIndex(aboveIdx);
+  }
+} else {
           // Prend la section la plus haute dans le viewport
           const sorted = ids.filter(id => visibleSet.has(id));
           if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
