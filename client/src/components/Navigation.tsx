@@ -1,7 +1,7 @@
 /**
  * Navigation.tsx — Mathis Ghio
  *
- * Mascot rendered as position:fixed at viewport level → impossible à clipper 
+ * Mascot rendered as position:fixed at viewport level → impossible à clipper
  * quelle que soit la section active (Contact inclus).
  */
 
@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { label: "Contact",      href: "#contact" },
 ];
 
-const WING_VISIBLE = 0.95; // fraction du sprite visible au-dessus de la pilule
+const WING_VISIBLE = 0.95;
 
 const NAV_CSS = `
 .mgNav {
@@ -127,11 +127,10 @@ const NAV_CSS = `
 export function Navigation() {
   const [scrolled,      setScrolled]      = useState(false);
   const [menuOpen,      setMenuOpen]      = useState(false);
-  const [activeIndex,   setActiveIndex]   = useState(-1); // aucun onglet présélectionné
+  const [activeIndex,   setActiveIndex]   = useState(-1);
   const [pillHovered,   setPillHovered]   = useState(false);
   const [hoveredTabIdx, setHoveredTabIdx] = useState<number | null>(null);
 
-  // Coordonnées VIEWPORT du mascot (position:fixed)
   const [mascotPos,  setMascotPos]  = useState({ x: -200, y: -200 });
   const [showMascot, setShowMascot] = useState(false);
 
@@ -144,7 +143,6 @@ export function Navigation() {
   const mascotW      = 86;
   const mascotH      = 50;
   const visibleAbove = Math.round(mascotH * WING_VISIBLE);
-  // Réduit à visibleAbove seul (sans +4) pour coller le haut de la wing au bord du nav
   const pillTopPad   = visibleAbove;
 
   const isActiveHovered    = pillHovered && hoveredTabIdx === activeIndex;
@@ -166,14 +164,11 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Calcule la position viewport du mascot via getBoundingClientRect.
-  // Le mascot est rendu en position:fixed → aucun parent ne peut le clipper.
   useEffect(() => {
     const measure = () => {
       const pill = pillRef.current;
       if (!pill) return;
 
-      // Pas d'onglet actif → mascotte centrée sur la pilule mais invisible
       if (activeIndex === -1) {
         const pr = pill.getBoundingClientRect();
         setMascotPos({ x: pr.left + pr.width / 2, y: pr.top - visibleAbove });
@@ -200,50 +195,70 @@ export function Navigation() {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
     const visibleSet = new Set<string>();
 
+    /**
+     * Returns true when the user is in the hero area —
+     * i.e. the first nav section (#about) is still entirely below the fold.
+     * This replaces the fragile `scrollY < 200` check: the hero is ~100svh
+     * so scrollY can be 400-800px while still above #about.
+     */
+    const isInHero = () => {
+      const firstEl = document.getElementById(ids[0]);
+      return !firstEl || firstEl.getBoundingClientRect().top > 0;
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (scrollSpyPaused.current) return;
 
-        // Met à jour le Set des sections actuellement visibles
         entries.forEach(e => {
           if (e.isIntersecting) visibleSet.add(e.target.id);
           else visibleSet.delete(e.target.id);
         });
-        // Si GoatSection est visible → forcer Career (index 2)
-if (entries.some(e => e.target.id === "goat" && e.isIntersecting)) {
-  setActiveIndex(2);
-  return;
-}
-if (entries.some(e => e.target.id === "goat" && !e.isIntersecting)) {
-  // laisser le spy normal reprendre
-}
-       if (visibleSet.size === 0) {
-  if (window.scrollY < 200) {
-    setActiveIndex(-1);
-  } else {
-    // Trouve la dernière section nav dont le bas est sorti au-dessus du viewport.
-    // Fonctionne dans les deux sens : remontée depuis Season ET descente depuis Career
-    // à travers GoatSection (qui n'a pas d'id nav).
-    const aboveIdx = ids.reduce((best, id, i) => {
-      const el = document.getElementById(id);
-      if (!el) return best;
-        return el.getBoundingClientRect().top < 0 ? i : best;
-    }, -1);
-    if (aboveIdx !== -1) setActiveIndex(aboveIdx);
-  }
-} else {
-          // Prend la section la plus haute dans le viewport
+
+        // GoatSection (no nav entry) → map to Career tab
+        if (entries.some(e => e.target.id === "goat" && e.isIntersecting)) {
+          setActiveIndex(2);
+          return;
+        }
+
+        // goat is not a nav id — keep visibleSet clean
+        visibleSet.delete("goat");
+
+        if (visibleSet.size === 0) {
+          if (isInHero()) {
+            // We're above every nav section → deactivate
+            setActiveIndex(-1);
+          } else {
+            // Find the last nav section that scrolled above the viewport
+            const aboveIdx = ids.reduce((best, id, i) => {
+              const el = document.getElementById(id);
+              if (!el) return best;
+              return el.getBoundingClientRect().top < 0 ? i : best;
+            }, -1);
+
+            if (aboveIdx !== -1) {
+              setActiveIndex(aboveIdx);
+            } else {
+              // No section above viewport and nothing visible → still in hero
+              setActiveIndex(-1);
+            }
+          }
+        } else {
           const sorted = ids.filter(id => visibleSet.has(id));
           if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
         }
       },
       { rootMargin: "-85% 0px -30% 0px", threshold: 0 }
     );
-    ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
     const goatEl = document.getElementById("goat");
-if (goatEl) {
-  observer.observe(goatEl);
-}
+    if (goatEl) observer.observe(goatEl);
+
     return () => observer.disconnect();
   }, []);
 
@@ -255,7 +270,6 @@ if (goatEl) {
     const target = document.querySelector(href);
     if (!target) return;
 
-    // Compense la hauteur du nav fixe + petite marge de confort (8px)
     const navHeight = pillTopPad + 52;
     const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - navHeight - 8;
     window.scrollTo({ top, behavior: "smooth" });
@@ -278,7 +292,7 @@ if (goatEl) {
           transition: 'left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease',
         }}
       >
-        {isActiveHovered   && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
+        {isActiveHovered    && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
         {isNonActiveHovered && <div className="mgAirStreaks"><span /><span /><span /><span /></div>}
         <img
           src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png"
@@ -299,13 +313,12 @@ if (goatEl) {
           background:    scrolled ? "rgba(8,9,14,0.92)" : "transparent",
           backdropFilter:scrolled ? "blur(20px)"        : "none",
           borderBottom:  scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
-          // Nav juste assez haut pour couvrir la mascotte + la pilule
           minHeight: pillTopPad + (compact ? 36 : 40),
         }}
       >
         <div className="container flex items-center justify-between pt-3 pb-3">
 
-          {/* Logo — gauche, aligné en bas */}
+          {/* Logo */}
           <button
             onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setActiveIndex(-1); }}
             className="flex items-center gap-3"
@@ -324,11 +337,8 @@ if (goatEl) {
             </span>
           </button>
 
-          {/* Pill — droite, dans le flux flex normal */}
-          <div
-            className="hidden lg:block"
-            style={{ paddingTop: pillTopPad }}
-          >
+          {/* Pill */}
+          <div className="hidden lg:block" style={{ paddingTop: pillTopPad }}>
             <div
               ref={pillRef}
               className={`mgNav${compact ? " mgCompact" : ""}`}
@@ -361,7 +371,7 @@ if (goatEl) {
             </div>
           </div>
 
-          {/* Hamburger — droite (mobile only) */}
+          {/* Hamburger */}
           <button
             className="lg:hidden p-2 text-white"
             onClick={() => setMenuOpen(v => !v)}
