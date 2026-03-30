@@ -25,10 +25,10 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="" alt="Optimist picture" className={imgShadow} />
-          <img src="" alt="Beginning windsurfing" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/optimist_sailing_oxryfl.jpg" alt="Optimist picture" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/windsurfing_start_ahixiw.jpg" alt="Beginning windsurfing" className={imgShadow} />
           <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} />
-          <img src="" alt="1st World Title windsurfing" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849232/Junior_World_Champion_vl4ald.jpg" alt="1st World Title windsurfing" className={imgShadow} />
 
         </div>
       </div>
