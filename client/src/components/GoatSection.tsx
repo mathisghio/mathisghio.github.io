@@ -7,7 +7,7 @@ export function GoatSection() {
   const { ref, inView } = useInView(0.1)
 
   return (
-    <section ref={ref} className="relative py-24 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="goat" ref={ref} className="relative py-24 lg:py-40 overflow-hidden" ...>
 
       {/*
        * Background image — CSS backgroundImage ne supporte pas l'attribut alt.
