@@ -1,18 +1,13 @@
 import { useInView } from '@/hooks/useInView'
 
-// ✅ La constante contient uniquement l'URL — pas d'attributs HTML
 const PODIUM_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg'
 
 export function GoatSection() {
   const { ref, inView } = useInView(0.1)
 
   return (
-    <section id="goat" ref={ref} className="relative py-24 lg:py-40 overflow-hidden" ...>
+    <section id="goat" ref={ref} className="relative py-24 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
 
-      {/*
-       * Background image — CSS backgroundImage ne supporte pas l'attribut alt.
-       * On utilise role="img" + aria-label pour l'accessibilité.
-       */}
       <div
         role="img"
         aria-label="5th World Title podium"
@@ -53,10 +48,10 @@ export function GoatSection() {
 
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '450ms' }}>
           {[
-            { num: '5',     label: 'World Championships',  suffix: '×' },
+            { num: '5',     label: 'World Championships',   suffix: '×' },
             { num: '4',     label: 'European Championships', suffix: '×' },
-            { num: '10',    label: 'World Cup Victories',   suffix: '+' },
-            { num: '41.40', label: 'Knots Speed Record',    suffix: ''  },
+            { num: '10',    label: 'World Cup Victories',    suffix: '+' },
+            { num: '41.40', label: 'Knots Speed Record',     suffix: ''  },
           ].map((s, i) => (
             <div key={i} className="text-center">
               <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 40px rgba(245,158,11,0.5)' : '0 0 40px rgba(14,165,233,0.5)', lineHeight: 1 }}>
