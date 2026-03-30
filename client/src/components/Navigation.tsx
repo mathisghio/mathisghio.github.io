@@ -209,7 +209,14 @@ export function Navigation() {
           if (e.isIntersecting) visibleSet.add(e.target.id);
           else visibleSet.delete(e.target.id);
         });
-
+        // Si GoatSection est visible → forcer Career (index 2)
+if (entries.some(e => e.target.id === "goat" && e.isIntersecting)) {
+  setActiveIndex(2);
+  return;
+}
+if (entries.some(e => e.target.id === "goat" && !e.isIntersecting)) {
+  // laisser le spy normal reprendre
+}
        if (visibleSet.size === 0) {
   if (window.scrollY < 200) {
     setActiveIndex(-1);
@@ -233,6 +240,10 @@ export function Navigation() {
       { rootMargin: "-85% 0px -30% 0px", threshold: 0 }
     );
     ids.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+    const goatEl = document.getElementById("goat");
+if (goatEl) {
+  observer.observe(goatEl);
+}
     return () => observer.disconnect();
   }, []);
 
