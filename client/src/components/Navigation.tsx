@@ -1,7 +1,7 @@
 /**
  * Navigation.tsx — Mathis Ghio
  *
- * Mascot rendered as position:fixed at viewport level → impossible à clipper
+ * Mascot rendered as position:fixed at viewport level → impossible à clipper 
  * quelle que soit la section active (Contact inclus).
  */
 
