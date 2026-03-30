@@ -183,8 +183,9 @@ export function PressSection() {
     <section id="press" ref={ref} style={{ background: '#08090E' }}>
 
       {/* ── Lamp header ── */}
-      <LampContainer contentOffset={-160}>
-        <motion.div
+      
+    <LampContainer minHeight="45vh">
+      <motion.div
           initial={{ opacity: 0.5, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
