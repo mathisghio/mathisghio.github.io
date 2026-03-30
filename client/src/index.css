@@ -344,6 +344,19 @@
   }
 }
 
+
+/* ── Lamp: responsive content vertical offset ── */
+/* Mobile first: -140px keeps text close to the lamp beam */
+.lamp-content-offset {
+  transform: translateY(-140px);
+}
+/* Desktop: restore the original -256px offset */
+@media (min-width: 1024px) {
+  .lamp-content-offset {
+    transform: translateY(-256px);
+  }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
