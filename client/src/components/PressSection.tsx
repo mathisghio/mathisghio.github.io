@@ -184,7 +184,7 @@ export function PressSection() {
 
       {/* ── Lamp header ── */}
       
-    <LampContainer minHeight="45vh">
+    <LampContainer minHeight="80vh">
       <motion.div
           initial={{ opacity: 0.5, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
