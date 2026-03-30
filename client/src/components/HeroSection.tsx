@@ -50,7 +50,7 @@ export function HeroSection() {
       </div>
 
       {/* ── Contenu hero ── */}
-<div className="relative z-40 h-full flex flex-col pb-16 lg:pb-40">
+      <div className="relative z-40 h-full flex flex-col pb-16 lg:pb-24">
         {/* Spacer rigide = hauteur du nav. Garantit que le contenu ne remonte JAMAIS derrière lui */}
         <div style={{ minHeight: '90px', flexShrink: 0 }} />
         {/* marginTop: auto colle le contenu en bas */}
