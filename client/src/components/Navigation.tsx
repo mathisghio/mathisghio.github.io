@@ -295,7 +295,7 @@ export function Navigation() {
         {isActiveHovered    && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
         {isNonActiveHovered && <div className="mgAirStreaks"><span /><span /><span /><span /></div>}
         <img
-          src="https://res.cloudinary.com/duacto4ay/image/upload/v1774530426/mascot_1_xfxno0.png"
+          src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774530426/mascot_1_xfxno0.png"
           alt=""
           width={mascotW}
           height={mascotH}
