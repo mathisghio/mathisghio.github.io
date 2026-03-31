@@ -91,7 +91,7 @@ const timelineData = [
         </div>
         <div className="grid grid-cols-2 gap-4">
 
-          <div className={imgZoomWrap}>
+  <div className={imgZoomWrap}>
   <img
     src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
     alt="RS:X windsurfing jump"
@@ -100,7 +100,7 @@ const timelineData = [
     style={{
       transform: 'scale(1.2)',
       transformOrigin: 'center top',
-      objectPosition: '99% center'
+      objectPosition: 'right center'
     }}
   />
 </div>
@@ -163,7 +163,7 @@ const timelineData = [
             alt="Podium 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 30%' }}
+            style={{ objectPosition: 'center 31%' }}
           />
 
         </div>
@@ -203,7 +203,7 @@ const timelineData = [
               alt="Podium 2023"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.5)', transformOrigin: 'center 55%', objectPosition: 'center 45%' }}
+              style={{ transform: 'scale(1.5)', transformOrigin: 'center 55%', objectPosition: 'center 25%' }}
             />
           </div>
 
