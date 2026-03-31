@@ -53,10 +53,15 @@ export function HeroSection() {
 
       {/*
        * ── CONTENU HERO ────────────────────────────────────────────────────
-       * Ancré entre nav (top: 90px) et stats bar (bottom: 88px).
-       * justify-end pousse le contenu vers le bas de cette zone bornée.
-       * Résultat : les boutons restent toujours AU-DESSUS de la stats bar,
-       * quelle que soit la hauteur du viewport (MacBook, 4K, mobile).
+       * Zone bornée : top = sous le nav (90px), bottom = au-dessus stats bar (88px).
+       * justify-end pousse le contenu vers le bas de cette zone → les boutons
+       * ne peuvent jamais chevaucher la stats bar, quelle que soit la hauteur
+       * du viewport.
+       *
+       * Les deux boutons (View My Achievements + My Journey) sont dans le même
+       * bloc flex sur tous les breakpoints. flex-col sur mobile (empilés, même
+       * largeur), flex-row sur sm+ (côte à côte).
+       * Résultat : même taille, même hauteur, zéro chevauchement avec SCROLL.
        */}
       <div
         className="absolute inset-x-0 z-40 flex flex-col justify-end"
@@ -64,16 +69,26 @@ export function HeroSection() {
       >
         <div className="container pb-6 lg:pb-8">
 
-          {/* Titre */}
+          {/* Titre
+           * clamp : min agrandi à 78px (au lieu de 60px) pour mobile.
+           * À 375px : 14vw ≈ 52px → clamp donne 78px.
+           * À 500px : 14vw = 70px → clamp donne 70px (entre min et max).
+           * À 960px+ : 14vw ≈ 134px → monte vers le max 160px.
+           */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 11vw, 160px)' }}>MATHIS</h1>
+            <h1
+              className="font-display text-white leading-none"
+              style={{ fontSize: 'clamp(78px, 14vw, 160px)' }}
+            >
+              MATHIS
+            </h1>
             <h1
               className="font-display leading-none"
               style={{
-                fontSize: 'clamp(60px, 11vw, 160px)',
+                fontSize: 'clamp(78px, 14vw, 160px)',
                 background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -86,7 +101,7 @@ export function HeroSection() {
 
           {/* Badge */}
           <div
-            className="mt-5 transition-all duration-700"
+            className="mt-4 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
           >
             <span
@@ -104,9 +119,9 @@ export function HeroSection() {
             </span>
           </div>
 
-          {/* Tagline */}
+          {/* Tagline — masquée sur très petit écran pour économiser de la place */}
           <div
-            className="mt-5 max-w-xl transition-all duration-700"
+            className="mt-4 max-w-xl transition-all duration-700 hidden sm:block"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
@@ -116,24 +131,24 @@ export function HeroSection() {
 
           {/*
            * ── CTAs ──────────────────────────────────────────────────────
-           * Desktop  : deux boutons côte à côte.
-           * Mobile   : seulement "View My Achievements" ici.
-           *            "My Journey" est repositionné en coin bas droit (FAB).
+           * Mobile  (< sm) : flex-col, chaque bouton pleine largeur → même taille.
+           * Desktop (sm+)  : flex-row, côte à côte.
+           * Les deux boutons sont dans le même conteneur → même hauteur garantie.
            */}
           <div
-            className="mt-8 flex flex-wrap items-center gap-4 transition-all duration-700"
+            className="mt-6 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton
               onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}
+              className="w-full sm:w-auto justify-center"
             >
               View My Achievements
             </ShinyButton>
 
-            {/* My Journey — inline sur desktop uniquement */}
             <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-              className="hidden lg:inline-flex [--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+              className="w-full sm:w-auto justify-center [--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
             >
               My Journey
             </ShinyButton>
@@ -141,31 +156,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/*
-       * ── MY JOURNEY — mobile uniquement, coin bas droit ─────────────────
-       * Réutilise la classe .shiny-cta avec position absolute en inline style
-       * (override le position:relative de .shiny-cta via spécificité inline).
-       * Positionné à droite, au même niveau que le hint SCROLL (bottom: 96px).
-       */}
-      <button
-        onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-        className="lg:hidden shiny-cta [--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
-        style={{
-          position:        'absolute',
-          right:           '20px',
-          bottom:          '96px',
-          zIndex:          40,
-          padding:         '0.55rem 1.25rem',
-          fontSize:        '0.72rem',
-          opacity:         visible ? 1 : 0,
-          transition:      'opacity 0.7s ease',
-          transitionDelay: '650ms',
-        }}
-      >
-        <span>My Journey</span>
-      </button>
-
-      {/* ── Scroll hint — centré, au-dessus de la stats bar ── */}
+      {/* ── Scroll hint — centré, entre contenu et stats bar ── */}
       <button
         onClick={scrollToAbout}
         className="absolute left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
@@ -179,19 +170,19 @@ export function HeroSection() {
       <div
         className="absolute bottom-0 left-0 right-0 z-40 transition-all duration-700"
         style={{
-          opacity:       visible ? 1 : 0,
+          opacity:         visible ? 1 : 0,
           transitionDelay: '800ms',
-          borderTop:     '1px solid rgba(14,165,233,0.1)',
-          background:    'rgba(8,9,14,0.6)',
-          backdropFilter:'blur(10px)',
+          borderTop:       '1px solid rgba(14,165,233,0.1)',
+          background:      'rgba(8,9,14,0.6)',
+          backdropFilter:  'blur(10px)',
         }}
       >
         <div className="container">
           <div className="grid grid-cols-3">
             {[
-              { value: '5×',        label: 'World Champion' },
+              { value: '5×',        label: 'World Champion'    },
               { value: '4×',        label: 'European Champion' },
-              { value: '41.40 kts', label: 'Speed Record' },
+              { value: '41.40 kts', label: 'Speed Record'      },
             ].map((stat, i) => (
               <div
                 key={i}
