@@ -33,7 +33,7 @@ export function HeroSection() {
         style={{ background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(8,9,14,0.65) 100%)' }}
       />
 
-      {/* Gradient haut — masque le texte derrière le nav fixe */}
+      {/* Gradient haut */}
       <div
         className="absolute top-0 left-0 right-0 z-20 pointer-events-none"
         style={{ height: '130px', background: 'linear-gradient(to bottom, #08090E 0%, rgba(8,9,14,0.7) 50%, transparent 100%)' }}
@@ -52,37 +52,23 @@ export function HeroSection() {
       </div>
 
       {/*
-       * ── CONTENU HERO ────────────────────────────────────────────────────
-       * Zone bornée : top = sous le nav (90px), bottom = au-dessus stats bar (88px).
-       * justify-end pousse le contenu vers le bas de cette zone → les boutons
-       * ne peuvent jamais chevaucher la stats bar, quelle que soit la hauteur
-       * du viewport.
-       *
-       * Les deux boutons (View My Achievements + My Journey) sont dans le même
-       * bloc flex sur tous les breakpoints. flex-col sur mobile (empilés, même
-       * largeur), flex-row sur sm+ (côte à côte).
-       * Résultat : même taille, même hauteur, zéro chevauchement avec SCROLL.
+       * ── CONTENU (titre / badge / tagline) ───────────────────────────────
+       * Zone bornée entre le nav (top 90px) et la rangée des boutons (bottom 164px).
+       * justify-end pousse le texte vers le bas de cette zone.
+       * Pas de boutons ici — ils sont dans la rangée dédiée ci-dessous.
        */}
       <div
         className="absolute inset-x-0 z-40 flex flex-col justify-end"
-        style={{ top: '90px', bottom: '88px' }}
+        style={{ top: '90px', bottom: '164px' }}
       >
-        <div className="container pb-6 lg:pb-8">
+        <div className="container">
 
-          {/* Titre
-           * clamp : min agrandi à 78px (au lieu de 60px) pour mobile.
-           * À 375px : 14vw ≈ 52px → clamp donne 78px.
-           * À 500px : 14vw = 70px → clamp donne 70px (entre min et max).
-           * À 960px+ : 14vw ≈ 134px → monte vers le max 160px.
-           */}
+          {/* Titre — clamp agrandi sur mobile (78px → 160px) */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1
-              className="font-display text-white leading-none"
-              style={{ fontSize: 'clamp(78px, 14vw, 160px)' }}
-            >
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(78px, 14vw, 160px)' }}>
               MATHIS
             </h1>
             <h1
@@ -101,7 +87,7 @@ export function HeroSection() {
 
           {/* Badge */}
           <div
-            className="mt-4 transition-all duration-700"
+            className="mt-5 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
           >
             <span
@@ -119,9 +105,9 @@ export function HeroSection() {
             </span>
           </div>
 
-          {/* Tagline — masquée sur très petit écran pour économiser de la place */}
+          {/* Tagline */}
           <div
-            className="mt-4 max-w-xl transition-all duration-700 hidden sm:block"
+            className="mt-5 max-w-xl transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
@@ -129,42 +115,53 @@ export function HeroSection() {
             </p>
           </div>
 
-          {/*
-           * ── CTAs ──────────────────────────────────────────────────────
-           * Mobile  (< sm) : flex-col, chaque bouton pleine largeur → même taille.
-           * Desktop (sm+)  : flex-row, côte à côte.
-           * Les deux boutons sont dans le même conteneur → même hauteur garantie.
-           */}
-          <div
-            className="mt-6 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
-          >
-            <ShinyButton
-              onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full sm:w-auto justify-center"
-            >
-              View My Achievements
-            </ShinyButton>
-
-            <ShinyButton
-              onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full sm:w-auto justify-center [--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
-            >
-              My Journey
-            </ShinyButton>
-          </div>
         </div>
       </div>
 
-      {/* ── Scroll hint — centré, entre contenu et stats bar ── */}
-      <button
-        onClick={scrollToAbout}
-        className="absolute left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
-        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)' }}
+      {/*
+       * ── RANGÉE DU BAS : [View My Achievements]  [SCROLL ↓]  [My Journey] ──
+       *
+       * Une seule div absolue positionnée au-dessus de la stats bar.
+       * justify-between : bouton gauche / scroll centré / bouton droit.
+       * items-center    : les trois éléments sont à la même hauteur.
+       * Même composant ShinyButton pour les deux boutons → taille identique.
+       * container px pour aligner avec le reste du contenu.
+       */}
+      <div
+        className="absolute inset-x-0 z-40 flex items-center justify-between transition-all duration-700"
+        style={{
+          bottom: '100px',        /* 88px stats bar + ~12px d'air */
+          paddingLeft:  'max(1.25rem, env(safe-area-inset-left))',
+          paddingRight: 'max(1.25rem, env(safe-area-inset-right))',
+          opacity: visible ? 1 : 0,
+          transitionDelay: '650ms',
+        }}
       >
-        <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
-        <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
-      </button>
+        {/* Gauche — View My Achievements */}
+        <ShinyButton
+          onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          View My Achievements
+        </ShinyButton>
+
+        {/* Centre — Scroll hint */}
+        <button
+          onClick={scrollToAbout}
+          className="flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
+          style={{ color: 'rgba(241,245,249,0.5)' }}
+        >
+          <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+          <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
+        </button>
+
+        {/* Droite — My Journey */}
+        <ShinyButton
+          onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
+          className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+        >
+          My Journey
+        </ShinyButton>
+      </div>
 
       {/* ── Stats bar ── */}
       <div
