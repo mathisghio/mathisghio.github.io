@@ -100,7 +100,7 @@ const timelineData = [
     style={{
       transform: 'scale(1.2)',
       transformOrigin: '65% top',
-      objectPosition: '65% center'
+      objectPosition: '55% center'
     }}
   />
 </div>
@@ -163,7 +163,7 @@ const timelineData = [
             alt="Podium 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 31%' }}
+            style={{ objectPosition: 'center 25%' }}
           />
 
         </div>
@@ -203,7 +203,7 @@ const timelineData = [
               alt="Podium 2023"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.5)', transformOrigin: 'center 55%', objectPosition: 'center 25%' }}
+              style={{ transform: 'scale(1.5)', transformOrigin: 'center 65%', objectPosition: 'center 25%' }}
             />
           </div>
 
