@@ -1,4 +1,3 @@
-import { InteractiveWaves } from './InteractiveWaves'
 import { Timeline } from '@/components/ui/timeline'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
@@ -25,11 +24,10 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/optimist_sailing_oxryfl.jpg" alt="Optimist picture" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/windsurfing_start_ahixiw.jpg" alt="Beginning windsurfing" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849232/Junior_World_Champion_vl4ald.jpg" alt="1st World Title windsurfing" className={imgShadow} />
-
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/optimist_sailing_oxryfl.jpg" alt="Optimist picture" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849109/windsurfing_start_ahixiw.jpg" alt="Beginning windsurfing" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427172/IMG_3214_Original_q7rood.jpg" alt="Funboard frontloop" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774849232/Junior_World_Champion_vl4ald.jpg" alt="1st World Title windsurfing" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -52,11 +50,10 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X_windsurfing_jump" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774425947/IMG_3046_2030_n9a5eq.jpg" alt="IQFoil jibe" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/Wing_beginnings_gxn5xh.jpg" alt="Wingfoil beginings" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774481055/podium_national_jexlqb.avif" alt="Wingfoil first national win" className={imgShadow} />
-
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774427164/DSC06512_Original_zwialh.jpg" alt="RS:X_windsurfing_jump" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774425947/IMG_3046_2030_n9a5eq.jpg" alt="IQFoil jibe" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/Wing_beginnings_gxn5xh.jpg" alt="Wingfoil beginings" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774481055/podium_national_jexlqb.avif" alt="Wingfoil first national win" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -77,8 +74,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_hsk2f2.jpg" alt="Racing 2022" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_podium_rokru0.jpg" alt="Podium 2022" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_hsk2f2.jpg" alt="Racing 2022" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471308/1st_World_Title_podium_rokru0.jpg" alt="Podium 2022" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -99,8 +96,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471314/2nd_World_Title_a7dlok.jpg" alt="Racing 2 2023" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/2nd_World_Title_Podium_vyonqq.jpg" alt="Podium 2023" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471314/2nd_World_Title_a7dlok.jpg" alt="Racing 2 2023" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/2nd_World_Title_Podium_vyonqq.jpg" alt="Podium 2023" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -121,8 +118,8 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/3rd_World_Title_iqcsfh.jpg" alt="Racing 1 2023" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471498/3rd_World_Title_1_a8drpa.jpg" alt="Racing 2 2023" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471313/3rd_World_Title_iqcsfh.jpg" alt="Racing 1 2023" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471498/3rd_World_Title_1_a8drpa.jpg" alt="Racing 2 2023" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -147,10 +144,10 @@ const timelineData = [
           ))}
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426748/achievements-bg_ncunhu.jpg" alt="Champion 2025" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg" alt="Beach champion 2025" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471309/4th_World_Title_podium_p8fzac.jpg" alt="Podium Jeri 2025" className={imgShadow} />
-          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg" alt="Podium Cagliari 2025" className={imgShadow} />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426748/achievements-bg_ncunhu.jpg" alt="Champion 2025" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426876/podium-1_whf6pe.jpg" alt="Beach champion 2025" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774471309/4th_World_Title_podium_p8fzac.jpg" alt="Podium Jeri 2025" className={imgShadow} loading="lazy" />
+          <img src="https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg" alt="Podium Cagliari 2025" className={imgShadow} loading="lazy" />
         </div>
       </div>
     ),
@@ -166,18 +163,22 @@ export function CareerSection() {
       className="relative"
       style={{ background: '#08090E', isolation: 'isolate' }}
     >
-      {/* Wave background — absolute inset-0 = bounded to this section only */}
+      {/*
+       * Remplacement de InteractiveWaves (coûteux en CPU/GPU) par un
+       * gradient CSS purement déclaratif — zéro JavaScript, zéro RAF.
+       * L'effet reste élégant et la section scrolle sans accroc.
+       */}
       <div
         aria-hidden
-        className="absolute inset-0 z-0"
-        style={{ opacity: 0.6 }}
-      >
-        <InteractiveWaves
-          strokeColor="rgba(14,165,233,0.4)"
-          backgroundColor="transparent"
-          pointerSize={1}
-        />
-      </div>
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: [
+            'radial-gradient(ellipse 80% 50% at 10% 20%, rgba(14,165,233,0.06) 0%, transparent 60%)',
+            'radial-gradient(ellipse 60% 40% at 90% 80%, rgba(14,165,233,0.04) 0%, transparent 60%)',
+            'radial-gradient(ellipse 100% 30% at 50% 50%, rgba(14,165,233,0.025) 0%, transparent 70%)',
+          ].join(', '),
+        }}
+      />
 
       {/* Section header */}
       <div className="container relative z-10 pt-24 lg:pt-36" ref={headerRef}>
@@ -193,7 +194,7 @@ export function CareerSection() {
         </div>
       </div>
 
-      {/* Timeline — transparent background lets waves show through */}
+      {/* Timeline */}
       <div className="relative z-10">
         <Timeline data={timelineData} />
       </div>
