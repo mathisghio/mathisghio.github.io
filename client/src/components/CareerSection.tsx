@@ -96,6 +96,8 @@ const timelineData = [
             alt="RS:X windsurfing jump"
             className={imgShadow}
             loading="lazy"
+            style={{ objectPosition: '30% center' }}      // 30% depuis la gauche
+            style={{ objectPosition: 'center 70%' }}      // tiers inférieur
           />
 
           <img
@@ -111,7 +113,7 @@ const timelineData = [
             alt="Wingfoil beginnings"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center top' }}
+            style={{ objectPosition: 'center 10%' }}
           />
 
           <img
@@ -148,7 +150,7 @@ const timelineData = [
             alt="Racing 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 30%' }}
+            style={{ objectPosition: 'center 25%' }}
           />
 
           <img
@@ -156,7 +158,7 @@ const timelineData = [
             alt="Podium 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 30%' }}
+            style={{ objectPosition: 'center 70%' }}
           />
 
         </div>
@@ -186,7 +188,7 @@ const timelineData = [
             alt="Racing 2023"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 70%' }}
+            style={{ objectPosition: 'center bottom' }}   // bas → pieds
           />
 
           {/* Zoom 1.3× vers le haut */}
