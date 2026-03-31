@@ -126,28 +126,30 @@ function GalleryRainBackground() {
   )
 }
 
-const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/v1774425298/media_1_mknwkz.mp4'
+/* q_auto pour la vidéo → Cloudinary choisit le bitrate optimal */
+const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
 
+/* q_auto,f_auto pour les images → WebP/AVIF selon le navigateur */
 const galleryImages = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg', alt: '4th World Title', span: 'col-span-1 row-span-1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Silvaplana World Cup win', span: 'col-span-1 row-span-1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Wingfoil land portrait', span: 'col-span-1 row-span-2' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426881/podium-5_lurawr.jpg', alt: 'Wingfoil frontflip', span: 'col-span-1 row-span-1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png', alt: 'Istanbul start', span: 'col-span-1 row-span-1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg', alt: 'Shadow start', span: 'col-span-1 row-span-1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg', alt: '5th World title', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426727/index-gallery-2_kvqi4k.jpg', alt: '4th World Title', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Silvaplana World Cup win', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Wingfoil land portrait', span: 'col-span-1 row-span-2' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426881/podium-5_lurawr.jpg', alt: 'Wingfoil frontflip', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774375894/IMG_7060_cdolxq.png', alt: 'Istanbul start', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426858/IMG_7389_2_kzk1do.jpg', alt: 'Shadow start', span: 'col-span-1 row-span-1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774482083/IMG_8195_wortbf.jpg', alt: '5th World title', span: 'col-span-1 row-span-1' },
 ]
 
 const stackedImages: GlassCardImage[] = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Photo 1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426727/index-gallery-2_kvqi4k.jpg', alt: 'Photo 2' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Photo 3' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Photo 4' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426881/podium-5_lurawr.jpg',        alt: 'Photo 5' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Photo 1' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426727/index-gallery-2_kvqi4k.jpg', alt: 'Photo 2' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Photo 3' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Photo 4' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426881/podium-5_lurawr.jpg',        alt: 'Photo 5' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
   { src: 'CLOUDINARY_URL_9',  alt: 'Photo 9'  },
   { src: 'CLOUDINARY_URL_10', alt: 'Photo 10' },
   { src: 'CLOUDINARY_URL_11', alt: 'Photo 11' },
@@ -225,19 +227,16 @@ export function GallerySection() {
       className="relative"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}
     >
-      {/* ── Rain background — slower & lighter than Partners ── */}
       <GalleryRainBackground />
 
-      {/* Edge fades to blend with adjacent sections */}
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }} />
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
-      {/* ── Lamp header ── */}
       <div className="relative z-10">
-      <LampContainer minHeight="80vh">
-      <motion.div
+        <LampContainer minHeight="80vh">
+          <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
@@ -258,7 +257,6 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      {/* ── Image grid ── */}
       <div className="container relative z-10 pb-12 lg:pb-16">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[200px] transition-all duration-700"
@@ -285,12 +283,10 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* ── Scroll-reveal video ── */}
       <div className="container relative z-10">
         <ScrollRevealVideo />
       </div>
 
-      {/* ── Glass stacked cards ── */}
       <div className="relative z-10 py-12">
         <div className="container mb-12">
           <div className="flex items-center gap-3">
@@ -301,7 +297,6 @@ export function GallerySection() {
         <GlassCards images={stackedImages.filter(img => !img.src.startsWith('CLOUDINARY_URL'))} />
       </div>
 
-      {/* ── Social CTA ── */}
       <div
         className="container relative z-10 pb-12 transition-all duration-700"
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
@@ -314,7 +309,6 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* ── Instagram LightWidget ── */}
       <div className="container relative z-10 pb-12 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: '550ms' }}>
         <div className="flex items-center gap-3 mb-6">
           <div className="section-line" />
