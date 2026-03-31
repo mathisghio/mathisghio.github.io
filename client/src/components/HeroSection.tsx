@@ -51,30 +51,30 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/*
-       * ── CONTENU (titre / badge / tagline) ───────────────────────────────
-       * Zone bornée entre le nav (top 90px) et la rangée des boutons (bottom 164px).
-       * justify-end pousse le texte vers le bas de cette zone.
-       * Pas de boutons ici — ils sont dans la rangée dédiée ci-dessous.
-       */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          DESKTOP (lg+)
+          Contenu ancré entre nav (top 90px) et stats bar (bottom 88px).
+          justify-end pousse titre + badge + tagline + boutons vers le bas.
+          Les deux boutons sont côte à côte (flex-row) comme à l'origine.
+          ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 flex flex-col justify-end"
-        style={{ top: '90px', bottom: '164px' }}
+        className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end"
+        style={{ top: '90px', bottom: '88px' }}
       >
-        <div className="container">
+        <div className="container pb-8">
 
-          {/* Titre — clamp agrandi sur mobile (78px → 160px) */}
+          {/* Titre */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(78px, 14vw, 160px)' }}>
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 11vw, 160px)' }}>
               MATHIS
             </h1>
             <h1
               className="font-display leading-none"
               style={{
-                fontSize: 'clamp(78px, 14vw, 160px)',
+                fontSize: 'clamp(60px, 11vw, 160px)',
                 background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -92,13 +92,7 @@ export function HeroSection() {
           >
             <span
               className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{
-                color: '#0EA5E9',
-                background: 'rgba(14,165,233,0.08)',
-                border: '1px solid rgba(14,165,233,0.22)',
-                letterSpacing: '0.2em',
-                backdropFilter: 'blur(8px)',
-              }}
+              style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
             >
               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
               5× World Champion · 41.40 kts Speed Record
@@ -115,46 +109,122 @@ export function HeroSection() {
             </p>
           </div>
 
+          {/* Boutons côte à côte — desktop */}
+          <div
+            className="mt-8 flex items-center gap-4 transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
+          >
+            <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
+              View My Achievements
+            </ShinyButton>
+            <ShinyButton
+              onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
+              className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+            >
+              My Journey
+            </ShinyButton>
+          </div>
+
         </div>
       </div>
 
-      {/*
-       * ── RANGÉE DU BAS : [View My Achievements]  [SCROLL ↓]  [My Journey] ──
-       *
-       * Une seule div absolue positionnée au-dessus de la stats bar.
-       * justify-between : bouton gauche / scroll centré / bouton droit.
-       * items-center    : les trois éléments sont à la même hauteur.
-       * Même composant ShinyButton pour les deux boutons → taille identique.
-       * container px pour aligner avec le reste du contenu.
-       */}
+      {/* SCROLL — desktop uniquement, centré au-dessus de la stats bar */}
+      <button
+        onClick={scrollToAbout}
+        className="absolute left-1/2 -translate-x-1/2 z-40 hidden lg:flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
+        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)' }}
+      >
+        <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+        <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
+      </button>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          MOBILE (< lg)
+          Bloc texte (titre + badge + tagline) ancré en haut de la zone libre.
+          ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 flex items-center justify-between transition-all duration-700"
+        className="absolute inset-x-0 z-40 flex flex-col justify-end lg:hidden"
+        style={{ top: '90px', bottom: '164px' }}
+      >
+        <div className="container pb-4">
+
+          {/* Titre — plus grand sur mobile */}
+          <div
+            className="transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
+          >
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(78px, 14vw, 120px)' }}>
+              MATHIS
+            </h1>
+            <h1
+              className="font-display leading-none"
+              style={{
+                fontSize: 'clamp(78px, 14vw, 120px)',
+                background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              GHIO
+            </h1>
+          </div>
+
+          {/* Badge */}
+          <div
+            className="mt-4 transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
+          >
+            <span
+              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
+              style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
+              5× World Champion · 41.40 kts Speed Record
+            </span>
+          </div>
+
+          {/* Tagline */}
+          <div
+            className="mt-4 max-w-xl transition-all duration-700"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
+          >
+            <p className="font-body text-base font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+              I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── RANGÉE DU BAS — mobile uniquement ──────────────────────────────
+          [View My Achievements]     SCROLL ↓     [My Journey]
+          Une seule div absolue → les trois éléments à la même hauteur.
+          Même composant ShinyButton → taille identique pour les deux boutons.
+          ─────────────────────────────────────────────────────────────────── */}
+      <div
+        className="absolute inset-x-0 z-40 flex lg:hidden items-center justify-between transition-all duration-700"
         style={{
-          bottom: '100px',        /* 88px stats bar + ~12px d'air */
-          paddingLeft:  'max(1.25rem, env(safe-area-inset-left))',
-          paddingRight: 'max(1.25rem, env(safe-area-inset-right))',
-          opacity: visible ? 1 : 0,
+          bottom:       '100px',
+          paddingLeft:  '1.25rem',
+          paddingRight: '1.25rem',
+          opacity:      visible ? 1 : 0,
           transitionDelay: '650ms',
         }}
       >
-        {/* Gauche — View My Achievements */}
-        <ShinyButton
-          onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}
-        >
+        <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
           View My Achievements
         </ShinyButton>
 
-        {/* Centre — Scroll hint */}
         <button
           onClick={scrollToAbout}
-          className="flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
+          className="flex flex-col items-center gap-2 hover:opacity-70 transition-opacity duration-300"
           style={{ color: 'rgba(241,245,249,0.5)' }}
         >
           <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
           <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
         </button>
 
-        {/* Droite — My Journey */}
         <ShinyButton
           onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
           className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
@@ -188,10 +258,7 @@ export function HeroSection() {
               >
                 <span
                   className="font-display text-2xl lg:text-3xl"
-                  style={{
-                    color:      i === 0 ? '#F59E0B' : '#0EA5E9',
-                    textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)',
-                  }}
+                  style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}
                 >
                   {stat.value}
                 </span>
