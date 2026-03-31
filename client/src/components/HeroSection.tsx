@@ -50,13 +50,19 @@ export function HeroSection() {
       </div>
 
       {/* ── Contenu hero ── */}
-      <div className="relative z-40 h-full flex flex-col pb-16 lg:pb-24">
-        {/* Spacer rigide = hauteur du nav. Garantit que le contenu ne remonte JAMAIS derrière lui */}
+      {/*
+       * pb-28 mobile (112px) / lg:pb-32 (128px) : assure ~30px d'air
+       * au-dessus de la stats bar (~88px) quelle que soit la taille d'écran.
+       * Avant : pb-16 (64px) sur mobile → les boutons étaient coupés.
+       */}
+      <div className="relative z-40 h-full flex flex-col pb-28 lg:pb-32">
+        {/* Spacer rigide = hauteur du nav */}
         <div style={{ minHeight: '90px', flexShrink: 0 }} />
-        {/* marginTop: auto colle le contenu en bas */}
+
+        {/* marginTop: auto colle le contenu en bas, au-dessus de la stats bar */}
         <div className="container" style={{ marginTop: 'auto' }}>
 
-          {/* Grand titre — taille réduite pour ne pas remonter derrière le nav */}
+          {/* Grand titre */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
@@ -70,7 +76,7 @@ export function HeroSection() {
             </h1>
           </div>
 
-          {/* Badge — entre le titre et la tagline */}
+          {/* Badge */}
           <div
             className="mt-5 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
@@ -121,7 +127,7 @@ export function HeroSection() {
       {/* ── Scroll hint ── */}
       <button
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
+        className="absolute bottom-24 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
         style={{ color: 'rgba(241,245,249,0.5)' }}
       >
         <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
@@ -155,4 +161,3 @@ export function HeroSection() {
     </section>
   )
 }
-
