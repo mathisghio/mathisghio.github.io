@@ -124,7 +124,11 @@ export function WebGLShader({
       handleResize()
     }
 
+    /* ─── RAF loop — ne tourne QUE si le composant est dans le viewport ─── */
+    let running = false
+
     const animate = () => {
+      if (!running) return
       if (refs.uniforms) refs.uniforms.time.value += speed
       if (refs.renderer && refs.scene && refs.camera) {
         refs.renderer.render(refs.scene, refs.camera)
@@ -140,13 +144,24 @@ export function WebGLShader({
     }
 
     initScene()
-    animate()
+
+    /* IntersectionObserver : démarre / stoppe le RAF selon la visibilité */
+    const visObs = new IntersectionObserver(
+      ([entry]) => {
+        running = entry.isIntersecting
+        if (running) animate()
+      },
+      { threshold: 0 }
+    )
+    visObs.observe(container)
 
     const ro = new ResizeObserver(handleResize)
     ro.observe(container)
 
     return () => {
+      running = false
       if (refs.animationId) cancelAnimationFrame(refs.animationId)
+      visObs.disconnect()
       ro.disconnect()
       if (refs.mesh) {
         refs.scene?.remove(refs.mesh)
