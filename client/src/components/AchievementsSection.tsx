@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Trophy, Star, Zap, Award } from 'lucide-react'
 import { ShaderAnimation } from './ShaderAnimation'
 import { useInView } from '@/hooks/useInView'
@@ -10,9 +10,22 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: num
   const [count, setCount] = useState(0)
   const { ref, inView } = useInView(0.3)
   const started = useRef(false)
+  /*
+   * useReducedMotion() — retourne true si l'utilisateur a activé
+   * "Réduire les animations" (préférence OS / batterie faible).
+   * Dans ce cas on affiche directement la valeur finale sans RAF.
+   */
+  const shouldReduceMotion = useReducedMotion()
+
   useEffect(() => {
     if (!inView || started.current) return
     started.current = true
+
+    if (shouldReduceMotion) {
+      setCount(target)
+      return
+    }
+
     const start = Date.now()
     const animate = () => {
       const elapsed = Date.now() - start
@@ -22,7 +35,8 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: num
       if (progress < 1) requestAnimationFrame(animate)
     }
     requestAnimationFrame(animate)
-  }, [inView, target, duration])
+  }, [inView, target, duration, shouldReduceMotion])
+
   return <span ref={ref}>{typeof target === 'number' && target % 1 !== 0 ? count.toFixed(2) : Math.round(count)}{suffix}</span>
 }
 
@@ -37,6 +51,7 @@ export function AchievementsSection() {
   const { ref, inView } = useInView(0.1)
   const [activeYear, setActiveYear] = useState('2025')
   const activeData = yearData.find(y => y.year === activeYear)!
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section id="achievements" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
@@ -51,7 +66,14 @@ export function AchievementsSection() {
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}>
           {[{ icon: Trophy, value: 5, suffix: '×', label: 'World Titles', gold: true }, { icon: Award, value: 4, suffix: '×', label: 'European Titles', gold: false }, { icon: Star, value: 10, suffix: '+', label: 'World Cup Wins', gold: false }, { icon: Zap, value: 41.40, suffix: ' kts', label: 'Speed Record', gold: false }].map((stat, i) => (
-            <motion.div key={i} className="relative overflow-hidden rounded-sm p-6 card-hover" initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.5, delay: i * 0.1, ease: 'easeOut' }} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${stat.gold ? 'rgba(245, 158, 11, 0.25)' : 'rgba(14, 165, 233, 0.12)'}` }}>
+            <motion.div
+              key={i}
+              className="relative overflow-hidden rounded-sm p-6 card-hover"
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : i * 0.1, ease: 'easeOut' }}
+              style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${stat.gold ? 'rgba(245, 158, 11, 0.25)' : 'rgba(14, 165, 233, 0.12)'}` }}
+            >
               <stat.icon size={20} className="mb-3" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', opacity: 0.7 }} />
               <div className="font-display text-4xl lg:text-5xl" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', textShadow: stat.gold ? '0 0 30px rgba(245, 158, 11, 0.4)' : '0 0 30px rgba(14, 165, 233, 0.4)' }}>
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
