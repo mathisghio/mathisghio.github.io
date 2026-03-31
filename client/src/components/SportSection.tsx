@@ -3,7 +3,7 @@ import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
 
-const FOIL_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774497631/AI_Generated_Foil_ljznrd.png'
+const FOIL_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774497631/AI_Generated_Foil_ljznrd.png'
 
 const sportFacts = [
   { icon: Wind,   title: 'The Wing',      description: 'A handheld inflatable wing that captures wind power. The athlete controls angle and power with both hands, generating lift and speed across the water surface.' },
@@ -22,67 +22,30 @@ export function SportSection() {
       className="relative py-24 lg:py-36 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
-      {/*
-       * Shader — was opacity 0.18, now 0.65 so the sphere animation is clearly
-       * visible instead of barely a hint in the background.
-       */}
       <div className="absolute inset-0 z-0" style={{ opacity: 0.65 }}>
         <ShaderAnimation2 />
       </div>
-
-      {/*
-       * Dark gradient overlay — was rgba(…0.7/0.5/0.7), now 0.35/0.2/0.35
-       * so the shader shows through much more while text stays readable.
-       */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.35) 0%, rgba(8,9,14,0.2) 50%, rgba(8,9,14,0.35) 100%)' }}
-      />
-
-      {/* Subtle glow accent bottom-left */}
-      <div
-        className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }}
-      />
+      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.35) 0%, rgba(8,9,14,0.2) 50%, rgba(8,9,14,0.35) 100%)' }} />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
 
       <div className="container relative z-10">
-
-        {/* Header */}
-        <div
-          className="mb-16 transition-all duration-700"
-          style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
-        >
+        <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <SectionHeader label="The Sport" line1="WHAT IS" line2="WINGFOIL?" />
         </div>
-
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-          {/* Image */}
-          <div
-            className="relative transition-all duration-1000"
-            style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}
-          >
-            <div
-              className="rounded-sm overflow-hidden"
-              style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}
-            >
+          <div className="relative transition-all duration-1000" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}>
+            <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}>
               <img src={FOIL_IMG} alt="Wingfoil action" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
             </div>
-            <div
-              className="absolute -right-4 top-1/2 -translate-y-1/2 p-5 rounded-sm"
-              style={{ background: 'rgba(8,9,14,0.92)', border: '1px solid rgba(14,165,233,0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(14,165,233,0.1)' }}
-            >
+            <div className="absolute -right-4 top-1/2 -translate-y-1/2 p-5 rounded-sm"
+              style={{ background: 'rgba(8,9,14,0.92)', border: '1px solid rgba(14,165,233,0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(14,165,233,0.1)' }}>
               <div className="font-display text-4xl" style={{ color: '#0EA5E9', textShadow: '0 0 20px rgba(14,165,233,0.5)' }}>41.40</div>
               <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148,163,184,0.7)', letterSpacing: '0.1em' }}>knots</div>
               <div className="font-body text-xs mt-1" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
             </div>
           </div>
-
-          {/* Text + facts */}
-          <div
-            className="transition-all duration-700"
-            style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(30px)', transitionDelay: '300ms' }}
-          >
+          <div className="transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(30px)', transitionDelay: '300ms' }}>
             <p className="font-body text-base mb-8" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
               Wingfoil is one of the fastest-growing water sports in the world. Combining a handheld inflatable wing with a hydrofoil board, athletes literally fly above the water surface, reaching extraordinary speeds with minimal equipment.
             </p>
