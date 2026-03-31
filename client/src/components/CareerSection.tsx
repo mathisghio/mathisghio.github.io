@@ -49,7 +49,7 @@ const timelineData = [
               alt="Beginning windsurfing"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.3)', objectPosition: 'center top' }}
+              style={{ transform: 'scale(1.3)', objectPosition: 'center bottom' }}
             />
           </div>
 
@@ -96,8 +96,8 @@ const timelineData = [
             alt="RS:X windsurfing jump"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: '10% center' }}      // 30% depuis la gauche
-            style={{ objectPosition: 'center 95%' }}      // tiers inférieur
+            style={{ objectFit: 'cover', transform: 'scale(1.3)', objectPosition: 'center 95%', objectPosition: '80% center' }}
+
           />
 
           <img
@@ -150,7 +150,7 @@ const timelineData = [
             alt="Racing 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 20%' }}
+            style={{ objectPosition: 'center 10%' }}
           />
 
           <img
@@ -158,7 +158,7 @@ const timelineData = [
             alt="Podium 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center center' }}
+            style={{ objectPosition: 'center 90%' }}
           />
 
         </div>
