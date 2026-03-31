@@ -1,10 +1,10 @@
 import { useInView } from '@/hooks/useInView'
 
-const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774375894/portrait_terre_debgqe.jpg'
-const ABOUT_LAND = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774428254/portrait_eau_ggldfg.jpg'
-const HERO_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/v1774426100/hero-main_zissjo.jpg'
-
-
+/* q_auto,f_auto : Cloudinary choisit le meilleur format (WebP/AVIF)
+   et compresse automatiquement → -40 à -60 % de poids par image */
+const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774375894/portrait_terre_debgqe.jpg'
+const ABOUT_LAND  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774428254/portrait_eau_ggldfg.jpg'
+const HERO_IMG    = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426100/hero-main_zissjo.jpg'
 
 export function AboutSection() {
   const { ref, inView } = useInView(0.15)
@@ -51,7 +51,7 @@ export function AboutSection() {
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(8,9,14,0.6) 100%)' }} />
             </div>
             <div className="absolute -bottom-8 -left-8 w-2/5 rounded-sm overflow-hidden" style={{ border: '2px solid rgba(14, 165, 233, 0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(14, 165, 233, 0.15)', aspectRatio: '3/4' }}>
-              <img src={ABOUT_LAND} alt="Mathis Ghio portrait" className="w-full h-full object-cover" />
+              <img src={ABOUT_LAND} alt="Mathis Ghio portrait" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="absolute -top-4 -right-4 px-4 py-3 rounded-sm" style={{ background: 'rgba(8, 9, 14, 0.9)', border: '1px solid rgba(245, 158, 11, 0.4)', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
               <div className="font-display text-2xl" style={{ color: '#F59E0B' }}>FRA</div>
