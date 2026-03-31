@@ -34,6 +34,11 @@ const GlassCard: React.FC<CardProps> = ({ image, index, totalCards, accentColor 
       start:   'top center',
       end:     'bottom center',
       scrub:   1,
+      /*
+       * lazy: true — GSAP diffère les lectures DOM au prochain tick de rendu.
+       * Évite les layout thrashing sur les appareils lents / connexions limitées.
+       */
+      lazy:    true,
       onUpdate: self => {
         const scale = gsap.utils.interpolate(1, targetScale, self.progress)
         gsap.set(card, { scale: Math.max(scale, targetScale), transformOrigin: 'center top' })
