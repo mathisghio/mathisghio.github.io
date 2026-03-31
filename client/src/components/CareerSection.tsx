@@ -49,7 +49,7 @@ const timelineData = [
               alt="Beginning windsurfing"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.3)', transformOrigin: 'center top', objectPosition: 'center top' }}
+              style={{ transform: 'scale(1.6)', transformOrigin: 'center top', objectPosition: 'center top' }}
             />
           </div>
 
@@ -91,18 +91,19 @@ const timelineData = [
         </div>
         <div className="grid grid-cols-2 gap-4">
 
-          <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
-            alt="RS:X windsurfing jump"
-            className={imgShadow}
-            loading="lazy"
-            style={{
-              objectPosition: '80% center',
-              objectFit: 'cover',
-              transform: 'scale(1.3)',
-              transformOrigin: 'center top',
-            }}
-          />
+          <div className={imgZoomWrap}>
+  <img
+    src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
+    alt="RS:X windsurfing jump"
+    className={imgZoomInner}
+    loading="lazy"
+    style={{
+      objectPosition: '80% center',
+      transform: 'scale(1.3)',
+      transformOrigin: 'center top',
+    }}
+  />
+</div>
 
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774425947/IMG_3046_2030_n9a5eq.jpg"
@@ -162,7 +163,7 @@ const timelineData = [
             alt="Podium 2022"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 18%' }}
+            style={{ objectPosition: 'center 23%' }}
           />
 
         </div>
@@ -202,7 +203,7 @@ const timelineData = [
               alt="Podium 2023"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.5)', transformOrigin: 'center 90%' }}
+              style={{ transform: 'scale(1.5)', transformOrigin: 'center 75%' }}
             />
           </div>
 
