@@ -99,7 +99,7 @@ const timelineData = [
     loading="lazy"
     style={{
       transform: 'scale(1.2)',
-      transformOrigin: '20% 65%',
+      transformOrigin: '20% 20%',
     }}
   />
 </div>
