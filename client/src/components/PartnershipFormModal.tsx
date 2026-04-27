@@ -120,6 +120,8 @@ export function PartnershipFormModal({ trigger }: Props) {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* honeypot anti-spam — Formspree rejette toute soumission qui remplit ce champ */}
+              <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={labelStyle}>Your name *</label>
