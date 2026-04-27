@@ -1,15 +1,30 @@
-import { Wind, Zap, Waves, Target } from 'lucide-react'
 import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
 
 const FOIL_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774497631/AI_Generated_Foil_ljznrd.png'
 
-const sportFacts = [
-  { icon: Wind,   title: 'The Wing',      description: 'A handheld inflatable wing that captures wind power. The athlete controls angle and power with both hands, generating lift and speed across the water surface.' },
-  { icon: Zap,    title: 'The Hydrofoil', description: 'An underwater wing system attached to the board. As speed increases, hydrodynamic lift raises the board completely above the water, reducing drag dramatically.' },
-  { icon: Waves,  title: 'The Board',     description: 'A specially designed board that acts as the platform. Once foiling, the board flies 30–80cm above the water surface, creating a sensation of flying over the ocean.' },
-  { icon: Target, title: 'Racing',        description: 'Wingfoil racing involves buoy courses at high speed, tactical decision-making, and precise control. Top athletes reach speeds exceeding 40 knots (74 km/h).' },
+const partnershipFormats = [
+  {
+    number: '01',
+    title: 'Title Sponsor',
+    description: 'Brand naming rights across competition gear, wetsuit, and board. Maximum visibility in race footage, podium coverage, and media.',
+  },
+  {
+    number: '02',
+    title: 'R&D Collaboration',
+    description: 'Co-develop performance products with a materials engineer who tests them at world-championship level. Real conditions, real feedback.',
+  },
+  {
+    number: '03',
+    title: 'Ambassador',
+    description: 'Sustained brand presence across social channels, events, and content. Authentic reach to an active, international audience.',
+  },
+  {
+    number: '04',
+    title: 'Event & Activation',
+    description: 'Branded presence at 10+ international competitions across 4 continents. On-site visibility where the audience is live and engaged.',
+  },
 ]
 
 export function SportSection() {
@@ -31,12 +46,12 @@ export function SportSection() {
 
       <div className="container relative z-10">
         <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
-          <SectionHeader label="The Sport" line1="WHAT IS" line2="WINGFOIL?" />
+          <SectionHeader label="For Brands" line1="WHY" line2="PARTNER?" />
         </div>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative transition-all duration-1000" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}>
             <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}>
-              <img src={FOIL_IMG} alt="Wingfoil action" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
+              <img src={FOIL_IMG} alt="Mathis Ghio racing at world championship speed" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
             </div>
             <div className="absolute -right-4 top-1/2 -translate-y-1/2 p-5 rounded-sm"
               style={{ background: 'rgba(8,9,14,0.92)', border: '1px solid rgba(14,165,233,0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(14,165,233,0.1)' }}>
@@ -46,18 +61,35 @@ export function SportSection() {
             </div>
           </div>
           <div className="transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(30px)', transitionDelay: '300ms' }}>
-            <p className="font-body text-base mb-8" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
-              Wingfoil is one of the fastest-growing water sports in the world. Combining a handheld inflatable wing with a hydrofoil board, athletes literally fly above the water surface, reaching extraordinary speeds with minimal equipment.
+            <p className="font-body text-base mb-4" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
+              Wingfoil racing reaches an international audience of performance-oriented, tech-savvy adults aged 18–40. Active lifestyle, high disposable income, early adopters.
             </p>
             <p className="font-body text-base mb-10" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
-              The sport demands exceptional balance, wind reading ability, and physical conditioning. Racing involves tactical buoy courses where split-second decisions determine the winner.
+              Eleven countries on the 2025 circuit. Five world titles and a speed record. An engineering degree that makes co-branding credible. Four formats to match your objectives.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {sportFacts.map((fact, i) => (
-                <div key={i} className="p-5 rounded-sm card-hover" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(14,165,233,0.1)' }}>
-                  <fact.icon size={18} className="mb-3" style={{ color: '#0EA5E9' }} />
-                  <h4 className="font-heading font-bold text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.1rem' }}>{fact.title}</h4>
-                  <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.6 }}>{fact.description}</p>
+            <div className="flex flex-col gap-0">
+              {partnershipFormats.map((format, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-6 py-5"
+                  style={{
+                    borderTop: '1px solid rgba(255,255,255,0.05)',
+                  }}
+                >
+                  <span
+                    className="font-display text-xs flex-shrink-0 mt-1"
+                    style={{ color: 'rgba(14,165,233,0.5)', letterSpacing: '0.1em', minWidth: '2rem' }}
+                  >
+                    {format.number}
+                  </span>
+                  <div>
+                    <h4 className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.05rem' }}>
+                      {format.title}
+                    </h4>
+                    <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.6 }}>
+                      {format.description}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

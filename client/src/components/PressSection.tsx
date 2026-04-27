@@ -214,10 +214,7 @@ export function PressSection() {
             className="font-display leading-none"
             style={{
               fontSize: 'clamp(48px, 8vw, 110px)',
-              background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              color: '#0EA5E9',
             }}
           >
             & RESOURCES

@@ -1,44 +1,8 @@
 import { motion } from 'framer-motion'
-import { Mail, Instagram, Facebook, Linkedin, ExternalLink } from 'lucide-react'
+import { Instagram, Linkedin } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { trackEmailClick } from '@/lib/analytics'
-
-
-const contactCards = [
-  {
-    icon: Mail,
-    title: 'Management & Partnerships',
-    description: 'Sponsorships, brand collaborations, product development and long-term strategic partnerships.',
-    action: 'contact@mathisghio.com',
-    href: 'mailto:contact@mathisghio.com',
-    type: 'email',
-  },
-  {
-    icon: Instagram,
-    title: 'Instagram',
-    description: 'Follow race updates, performance insights and behind-the-scenes content.',
-    action: '@mathisghio',
-    href: 'https://instagram.com/mathisghio',
-    type: 'social',
-  },
-  {
-    icon: Facebook,
-    title: 'Facebook',
-    description: 'Official Facebook page with news, events and competition updates.',
-    action: 'Mathis Ghio – WingFoil',
-    href: 'https://www.facebook.com/MathisGhioWing',
-    type: 'social',
-  },
-  {
-    icon: Linkedin,
-    title: 'LinkedIn',
-    description: 'Professional profile and career updates.',
-    action: 'Mathis Ghio',
-    href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',
-    type: 'social',
-  },
-]
 
 export function ContactSection() {
   const { ref, inView } = useInView(0.1)
@@ -78,10 +42,7 @@ export function ContactSection() {
               className="font-display leading-none"
               style={{
                 fontSize: 'clamp(48px, 8vw, 110px)',
-                background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                color: '#0EA5E9',
               }}
             >
               TOUCH
@@ -89,95 +50,65 @@ export function ContactSection() {
           </motion.div>
         </LampContainer>
 
-        <div className="container relative z-10 pt-8 pb-0">
-        <p
-              className="font-body text-base mt-4 max-w-lg mx-auto text-center"
-              style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7 }}
-            >
-              For partnerships, media inquiries, professional opportunities and collaboration.
-              Open to brand collaborations, media features and performance-driven projects.
-            </p>
-          </div>
-
-        
-        {/* ── Cartes contact ── */}
+        {/* ── Primary CTA : email ── */}
         <div className="container relative z-10 pb-24 lg:pb-36">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {contactCards.map((card, i) => (
-              <a
-                key={i}
-                href={card.href}
-                target={card.type === 'social' ? '_blank' : undefined}
-                rel={card.type === 'social' ? 'noopener noreferrer' : undefined}
-                onClick={card.type === 'email' ? trackEmailClick : undefined}
-                className="group p-6 rounded-sm card-hover flex flex-col"
-                style={{
-                  background: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(14, 165, 233, 0.1)',
-                  textDecoration: 'none',
-                  transitionDelay: `${i * 80}ms`,
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? 'translateY(0)' : 'translateY(20px)',
-                  transition: 'opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-                }}
-              >
-                <div
-                  className="w-10 h-10 rounded-sm flex items-center justify-center mb-4"
-                  style={{
-                    background: 'rgba(14, 165, 233, 0.1)',
-                    border: '1px solid rgba(14, 165, 233, 0.2)',
-                  }}
-                >
-                  <card.icon size={18} style={{ color: '#0EA5E9' }} />
-                </div>
-                <h3
-                  className="font-heading font-bold text-white mb-2"
-                  style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.1rem' }}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  className="font-body text-xs mb-4 flex-1"
-                  style={{ color: 'rgba(148, 163, 184, 0.6)', lineHeight: 1.6 }}
-                >
-                  {card.description}
-                </p>
-                <div
-                  className="flex items-center gap-2 font-body text-sm font-medium"
-                  style={{ color: 'rgba(14, 165, 233, 0.8)' }}
-                >
-                  <span className="truncate">{card.action}</span>
-                  <ExternalLink size={12} className="flex-shrink-0" />
-                </div>
-              </a>
-            ))}
-          </div>
-
           <div
-            className="mt-16 text-center transition-all duration-700"
+            className="text-center transition-all duration-700"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(20px)',
-              transitionDelay: '500ms',
             }}
           >
             <p
-              className="font-body text-sm mb-4"
-              style={{ color: 'rgba(148, 163, 184, 0.5)' }}
+              className="font-body text-xs uppercase tracking-widest mb-6"
+              style={{ color: 'rgba(148, 163, 184, 0.4)', letterSpacing: '0.2em' }}
             >
-              Preferred contact
+              Partnerships &amp; Media
             </p>
             <a
               href="mailto:contact@mathisghio.com"
               onClick={trackEmailClick}
-              className="font-display text-white transition-all duration-300 hover:text-cyan-400"
+              className="font-display text-white transition-colors duration-300 hover:text-cyan-400 block"
               style={{
-                fontSize: 'clamp(24px, 4vw, 48px)',
+                fontSize: 'clamp(28px, 5vw, 64px)',
                 textDecoration: 'none',
                 letterSpacing: '0.02em',
               }}
             >
               contact@mathisghio.com
+            </a>
+          </div>
+
+          {/* ── Secondary channels ── */}
+          <div
+            className="mt-16 flex items-center justify-center gap-12 transition-all duration-700"
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? 'translateY(0)' : 'translateY(16px)',
+              transitionDelay: '200ms',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              paddingTop: '2rem',
+            }}
+          >
+            <a
+              href="https://instagram.com/mathisghio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 transition-colors duration-200 hover:text-white"
+              style={{ color: 'rgba(148, 163, 184, 0.5)', textDecoration: 'none' }}
+            >
+              <Instagram size={16} />
+              <span className="font-body text-sm">@mathisghio</span>
+            </a>
+            <a
+              href="https://fr.linkedin.com/in/mathis-ghio-93075515a"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 transition-colors duration-200 hover:text-white"
+              style={{ color: 'rgba(148, 163, 184, 0.5)', textDecoration: 'none' }}
+            >
+              <Linkedin size={16} />
+              <span className="font-body text-sm">Mathis Ghio</span>
             </a>
           </div>
         </div>

@@ -77,10 +77,7 @@ export function HeroSection() {
               className="font-display leading-none"
               style={{
                 fontSize: 'clamp(60px, 11vw, 160px)',
-                background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                color: '#0EA5E9',
               }}
             >
               GHIO
@@ -107,7 +104,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
+              Five world titles. A speed record. An engineering degree. The sport's most credible athlete for brands that demand performance.
             </p>
           </div>
 
@@ -169,10 +166,7 @@ export function HeroSection() {
               className="font-display leading-none"
               style={{
                 fontSize: 'clamp(78px, 14vw, 120px)',
-                background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                color: '#0EA5E9',
               }}
             >
               GHIO
@@ -199,7 +193,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-base font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              I'm a professional wingfoil athlete, racing at the edge of what's possible. Passionate about pushing the sport forward.
+              Five world titles. A speed record. An engineering degree. The sport's most credible athlete for brands that demand performance.
             </p>
           </div>
 

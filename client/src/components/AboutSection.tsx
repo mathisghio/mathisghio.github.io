@@ -22,22 +22,22 @@ export function AboutSection() {
             </div>
             <div className="transition-all duration-700 relative z-10" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '200ms' }}>
               <h2 className="font-display text-white leading-none mb-2" style={{ fontSize: 'clamp(48px, 7vw, 96px)' }}>THE ATHLETE</h2>
-              <h2 className="font-display leading-none mb-8" style={{ fontSize: 'clamp(48px, 7vw, 96px)', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>BEHIND THE WING</h2>
+              <h2 className="font-display leading-none mb-8" style={{ fontSize: 'clamp(48px, 7vw, 96px)', color: '#0EA5E9' }}>BEHIND THE WING</h2>
             </div>
             {[
-              { text: "I\'m a French professional wingfoil and sailing athlete, competing internationally since childhood. I\'m a multiple-time World and European Champion in Wingfoil, competing at the highest international level.", delay: '300ms' },
-              { text: "I\'m a member of the French Elite Athlete list (2017–2026), combining international competition with Materials Engineering studies at INSA Lyon in the Sport-Study program.", delay: '400ms' },
-              { text: "I apply my engineering knowledge to product development and on-water testing through R&D collaborations with Ozone, Levitaz Hydrofoils, and Forward Wip. Weekly training: 4 on-water + 3 indoor/outdoor sessions. Focused on performance, innovation, and sharing wingfoil expertise globally.", delay: '500ms' },
+              { text: "French professional wingfoil athlete. Five World Championships, four European titles, 41.40 knots speed record. International competition since age seven.", delay: '300ms' },
+              { text: "Member of the French Elite Athlete list since 2017. Materials Engineering at INSA Lyon, Sport-Study track. Engineering applied directly to performance.", delay: '400ms' },
+              { text: "R&D partnerships with Ozone, Levitaz Hydrofoils, and Forward Wip. Four on-water sessions weekly, three indoor. Every detail optimized.", delay: '500ms' },
             ].map((p, i) => (
               <p key={i} className="font-body mb-5 transition-all duration-700" style={{ color: 'rgba(148, 163, 184, 0.9)', lineHeight: 1.8, fontSize: '1rem', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(15px)', transitionDelay: p.delay }}>{p.text}</p>
             ))}
-            <div className="mt-8 pl-5 transition-all duration-700" style={{ borderLeft: '3px solid #0EA5E9', opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-10px)', transitionDelay: '600ms' }}>
-              <blockquote className="font-syne font-semibold text-lg italic" style={{ color: 'rgba(241, 245, 249, 0.9)' }}>
+            <div className="mt-8 py-5 px-5 transition-all duration-700" style={{ background: 'rgba(14,165,233,0.04)', borderTop: '1px solid rgba(14,165,233,0.18)', borderBottom: '1px solid rgba(14,165,233,0.18)', opacity: inView ? 1 : 0, transitionDelay: '600ms' }}>
+              <blockquote className="font-heading font-semibold text-lg italic" style={{ fontFamily: 'Barlow Condensed, sans-serif', color: 'rgba(241, 245, 249, 0.85)', letterSpacing: '0.01em' }}>
                 "Performance is built in silence. Results speak on the water."
               </blockquote>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-4 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '700ms' }}>
-              {[{ value: '5×', label: 'World Champion', gold: true }, { value: '4×', label: 'European Champion', gold: false }, { value: '77 km/h', label: 'Speed Record', gold: false }].map((stat, i) => (
+              {[{ value: '5×', label: 'World Champion', gold: true }, { value: '4×', label: 'European Champion', gold: false }, { value: '41.40 kts', label: 'Speed Record', gold: false }].map((stat, i) => (
                 <div key={i} className="p-4 rounded-sm text-center card-hover" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${stat.gold ? 'rgba(245, 158, 11, 0.3)' : 'rgba(14, 165, 233, 0.15)'}` }}>
                   <div className="font-display text-3xl" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', textShadow: stat.gold ? '0 0 20px rgba(245, 158, 11, 0.4)' : '0 0 20px rgba(14, 165, 233, 0.4)' }}>{stat.value}</div>
                   <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>

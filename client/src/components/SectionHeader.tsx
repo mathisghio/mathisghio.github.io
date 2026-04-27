@@ -19,12 +19,7 @@ export function SectionHeader({ label, line1, line2, lightColor, goldGradient, c
       <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>{line1}</h2>
       <h2 className={`font-display leading-none ${className}`} style={{
         fontSize: 'clamp(48px, 8vw, 110px)',
-        background: goldGradient
-          ? 'linear-gradient(135deg, #F59E0B, #FCD34D)'
-          : 'linear-gradient(135deg, #0EA5E9, #38BDF8)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text'
+        color: goldGradient ? '#F59E0B' : '#0EA5E9',
       }}>{line2}</h2>
     </>
   )

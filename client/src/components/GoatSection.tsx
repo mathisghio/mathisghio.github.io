@@ -25,12 +25,12 @@ export function GoatSection() {
         </div>
         <div className="transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '150ms' }}>
           <h2 className="font-display text-white leading-none mb-4" style={{ fontSize: 'clamp(56px, 10vw, 140px)' }}>NO ONE HAS</h2>
-          <h2 className="font-display leading-none mb-4" style={{ fontSize: 'clamp(56px, 10vw, 140px)', background: 'linear-gradient(135deg, #F59E0B, #FCD34D)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>EVER DONE IT</h2>
+          <h2 className="font-display leading-none mb-4" style={{ fontSize: 'clamp(56px, 10vw, 140px)', color: '#F59E0B' }}>EVER DONE IT</h2>
           <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(56px, 10vw, 140px)' }}>LIKE THIS</h2>
         </div>
-        <div className="mt-12 max-w-3xl mx-auto transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '300ms' }}>
-          <p className="font-body text-lg" style={{ color: 'rgba(148, 163, 184, 0.85)', lineHeight: 1.8 }}>
-            I'm incredibly grateful for what I've been able to achieve in wingfoil racing. Five World Championships, four European titles, and a speed record of 41.40 knots represent years of dedication, hard work, and support from my team and sponsors.
+        <div className="mt-12 max-w-2xl mx-auto transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '300ms' }}>
+          <p className="font-body text-lg" style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7, letterSpacing: '0.01em' }}>
+            Five consecutive world titles. No one has come close.
           </p>
         </div>
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '450ms' }}>
