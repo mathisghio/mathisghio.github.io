@@ -27,3 +27,11 @@ export function trackSponsorsPageView() {
 export function trackFormStart() {
   window.gtag?.('event', 'form_start', { event_category: 'partnership_form' })
 }
+
+export function trackEmailClick() {
+  window.gtag?.('event', 'click', {
+    event_category: 'contact',
+    event_label: 'email_click',
+  })
+  window.fbq?.('trackCustom', 'EmailClick', { content_name: 'contact@mathisghio.com' })
+}

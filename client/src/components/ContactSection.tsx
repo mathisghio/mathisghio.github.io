@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Mail, Instagram, Facebook, Linkedin, ExternalLink } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
+import { trackEmailClick } from '@/lib/analytics'
 
 
 const contactCards = [
@@ -108,6 +109,7 @@ export function ContactSection() {
                 href={card.href}
                 target={card.type === 'social' ? '_blank' : undefined}
                 rel={card.type === 'social' ? 'noopener noreferrer' : undefined}
+                onClick={card.type === 'email' ? trackEmailClick : undefined}
                 className="group p-6 rounded-sm card-hover flex flex-col"
                 style={{
                   background: 'rgba(255,255,255,0.02)',
@@ -167,6 +169,7 @@ export function ContactSection() {
             </p>
             <a
               href="mailto:contact@mathisghio.com"
+              onClick={trackEmailClick}
               className="font-display text-white transition-all duration-300 hover:text-cyan-400"
               style={{
                 fontSize: 'clamp(24px, 4vw, 48px)',
