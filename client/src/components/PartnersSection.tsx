@@ -1,6 +1,6 @@
-import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
 import { WebGLShader } from '@/components/ui/web-gl-shader'
+import { PartnershipFormModal } from './PartnershipFormModal'
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer — R&D partner',   logoText: 'OZONE'       },
@@ -135,7 +135,7 @@ export function PartnersSection() {
                 Sponsorships, brand collaborations, product development and long-term strategic partnerships.
               </p>
             </div>
-            <ShinyButton href="mailto:contact@mathisghio.com">Become a Partner</ShinyButton>
+            <PartnershipFormModal />
           </div>
         </div>
 

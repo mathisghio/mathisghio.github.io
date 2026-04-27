@@ -3,6 +3,7 @@ import { InteractiveWaves } from './InteractiveWaves'
 import { VideoBackground } from './VideoBackground'
 import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
+import { PartnershipFormModal } from './PartnershipFormModal'
 
 const HERO_VIDEO     = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774426080/bg_pru1bh.mp4'
 const HERO_GENERATED = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg'
@@ -123,6 +124,13 @@ export function HeroSection() {
             >
               My Journey
             </ShinyButton>
+            <PartnershipFormModal
+              trigger={
+                <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
+                  Partner with Me
+                </ShinyButton>
+              }
+            />
           </div>
 
         </div>

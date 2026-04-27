@@ -20,7 +20,7 @@ const COMPS: Comp[] = [
   { id:0, name:'IWSA World Cup N°1',                        location:'Hong Kong, China',        flag:'🇭🇰', date:'Feb 4–8',       month:'FEB', lat:22.30, lng:114.20, type:'world_cup'   },
   { id:1, name:'IWSA Formula Wing European Championship',   location:'Naples, Italy',           flag:'🇮🇹', date:'Apr 8–12',      month:'APR', lat:40.85, lng:14.27,  type:'european'    },
   { id:2, name:'Défi Wing',                                 location:'Gruissan, France',        flag:'🇫🇷', date:'May 11–13',     month:'MAY', lat:43.11, lng:3.09,   type:'national'    },
-  { id:3, name:'IWSA World Cup N°2',                        location:'Urla, Türkiye',           flag:🇹🇷',  date:'May 19–23',     month:'MAY', lat:38.32, lng:26.76,   type:'world_cup'   },
+  { id:3, name:'IWSA World Cup N°2',                        location:'Urla, Türkiye',           flag:'🇹🇷', date:'May 19–23',     month:'MAY', lat:38.32, lng:26.76,   type:'world_cup'   },
   { id:4, name:'IWSA World Cup N°3',                        location:'Silvaplana, Switzerland', flag:'🇨🇭', date:'Jun 16–20',     month:'JUN', lat:46.47, lng:9.80,   type:'world_cup'   },
   { id:5, name:'IWSA World Cup N°4',                        location:'Gizzeria, Italy',         flag:'🇮🇹', date:'Jul 8–12',      month:'JUL', lat:38.97, lng:16.18,  type:'world_cup'   },
   { id:6, name:'IWSA Formula Wing World Championship',      location:'Istanbul, Türkiye',       flag:'🇹🇷', date:'Aug 11–15',     month:'AUG', lat:41.01, lng:28.98,  type:'world_champ' },
