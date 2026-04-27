@@ -5,8 +5,9 @@ import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { PartnershipFormModal } from './PartnershipFormModal'
 
-const HERO_VIDEO     = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774426080/bg_pru1bh.mp4'
-const HERO_GENERATED = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg'
+const HERO_VIDEO      = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_1920/v1774426080/bg_pru1bh.mp4'
+const HERO_VIDEO_WEBM = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_1920/v1774426080/bg_pru1bh.webm'
+const HERO_GENERATED  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg'
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)
@@ -26,7 +27,7 @@ export function HeroSection() {
       className="relative w-full overflow-hidden"
       style={{ height: '100svh', minHeight: '600px' }}
     >
-      <VideoBackground videoSrc={HERO_VIDEO} fallbackImageSrc={HERO_GENERATED} />
+      <VideoBackground videoSrc={HERO_VIDEO} videoSrcWebm={HERO_VIDEO_WEBM} fallbackImageSrc={HERO_GENERATED} />
 
       {/* Gradient bas */}
       <div
