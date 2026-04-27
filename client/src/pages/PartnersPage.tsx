@@ -1,6 +1,92 @@
 import { useEffect } from 'react'
 import { PartnershipFormModal } from '@/components/PartnershipFormModal'
 import { trackSponsorsPageView } from '@/lib/analytics'
+import { useMeta } from '@/lib/meta'
+
+const PARTNERS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://mathisghio.com/#person',
+      name: 'Mathis Ghio',
+      jobTitle: 'Professional Wingfoil Racing Athlete',
+      url: 'https://mathisghio.com',
+      email: 'contact@mathisghio.com',
+      image: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Marseille',
+        addressRegion: 'Bouches-du-Rhône',
+        addressCountry: 'FR',
+      },
+      sameAs: [
+        'https://instagram.com/mathisghio',
+        'https://www.facebook.com/MathisGhioWing',
+        'https://fr.linkedin.com/in/mathis-ghio-93075515a',
+        'https://ozonekites.com/team/mathis-ghio/',
+        'https://levitaz.com/team-rider/mathis-ghio/',
+      ],
+      description: '5× Wingfoil Racing World Champion, 4× European Champion. Speed record holder at 41.40 knots. Based in Marseille, France.',
+      award: ['5× Wingfoil Racing World Champion', '4× Formula Wing European Champion', '41.40 kts Speed Record'],
+      affiliation: [
+        { '@type': 'Organization', name: 'Ozone', url: 'https://ozonekites.com' },
+        { '@type': 'Organization', name: 'Levitaz', url: 'https://levitaz.com' },
+        { '@type': 'Organization', name: 'Forward WIP' },
+        { '@type': 'Organization', name: 'FFVoile' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      url: 'https://mathisghio.com/partners',
+      name: 'Partner with Mathis Ghio — Wingfoil World Champion Sponsorship',
+      description: 'Sponsorship opportunities with Mathis Ghio, 5× Wingfoil Racing World Champion. Title, Official and Media partner formats from €500 to €20,000/year.',
+      about: { '@id': 'https://mathisghio.com/#person' },
+    },
+    {
+      '@type': 'Offer',
+      name: 'Title Partner',
+      offeredBy: { '@id': 'https://mathisghio.com/#person' },
+      description: 'Jersey and equipment logo placement, content creation, event presence, R&D access, media kit.',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: '5000',
+        maxPrice: '20000',
+        priceCurrency: 'EUR',
+        description: 'per year',
+      },
+      url: 'https://mathisghio.com/partners',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Official Partner',
+      offeredBy: { '@id': 'https://mathisghio.com/#person' },
+      description: 'Logo on racing equipment, dedicated social posts, endorsement rights, event access.',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: '1000',
+        maxPrice: '5000',
+        priceCurrency: 'EUR',
+        description: 'per year',
+      },
+      url: 'https://mathisghio.com/partners',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Media Partner',
+      offeredBy: { '@id': 'https://mathisghio.com/#person' },
+      description: 'Co-branded content, race coverage, social cross-promotion.',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: '500',
+        maxPrice: '1000',
+        priceCurrency: 'EUR',
+        description: 'per collaboration',
+      },
+      url: 'https://mathisghio.com/partners',
+    },
+  ],
+}
 
 const titlePartners = [
   { name: 'Ozone',       description: 'Wing & kite manufacturer — R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
@@ -36,6 +122,13 @@ const formats = [
 ]
 
 export default function PartnersPage() {
+  useMeta({
+    title: 'Partner with Mathis Ghio — 5× Wingfoil World Champion',
+    description: 'Sponsorship opportunities with Mathis Ghio, 5× Wingfoil Racing World Champion based in Marseille. Title Partner from €5,000/year, Official Partner from €1,000/year.',
+    url: 'https://mathisghio.com/partners',
+    schema: PARTNERS_SCHEMA,
+  })
+
   useEffect(() => {
     trackSponsorsPageView()
     window.scrollTo(0, 0)
