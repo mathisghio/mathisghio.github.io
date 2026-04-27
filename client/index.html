@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>Mathis Ghio — 5× Wingfoil World Champion</title>
     <meta name="description" content="Mathis Ghio — Professional Wingfoil Athlete. 5× World Champion, 4× European Champion, 41.40 kts Speed Record. The greatest wingfoiler to ever step foot on the board." />
-
-    <!-- Security headers (GitHub Pages ne supporte pas les HTTP headers custom) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://res.cloudinary.com https://www.facebook.com https://raw.githubusercontent.com; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://raw.githubusercontent.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; upgrade-insecure-requests;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Open Graph / Twitter Card (valeurs par défaut, surchargées par useMeta côté React) -->
@@ -36,32 +33,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet" />
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         TRACKING — remplace les TODO: par tes IDs réels avant de lancer des pubs
-         GA4        → https://analytics.google.com  (créer propriété → Measurement ID)
-         Meta Pixel → https://business.facebook.com (Events Manager → Pixels)
-         LinkedIn   → https://linkedin.com/campaignmanager (Account Assets → Insight Tag)
-         ═══════════════════════════════════════════════════════════════ -->
-
-    <!-- Google Analytics 4 -->
+    <!-- Google Analytics 4 — init externalisé pour CSP sans unsafe-inline -->
+    <script src="/gtag-init.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZPW2R3LD9"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-3ZPW2R3LD9', { send_page_view: true });
-    </script>
 
-    <!-- Meta Pixel — TODO: remplace 205630872940964 par ton Pixel ID (chiffres) -->
-    <script>
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-      (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '205630872940964');
-      fbq('track', 'PageView');
-    </script>
+    <!-- Meta Pixel — init externalisé pour CSP sans unsafe-inline -->
+    <script src="/meta-pixel-init.js"></script>
     <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=205630872940964&ev=PageView&noscript=1"/></noscript>
 
