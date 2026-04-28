@@ -407,12 +407,11 @@ export function Navigation() {
       </div>
 
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[60px] lg:min-h-[87px]"
         style={{
           background:     scrolled ? "rgba(8,9,14,0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)"        : "none",
           borderBottom:   scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
-          minHeight:      pillTopPad + (compact ? 36 : 40),
         }}
       >
         <div className="container flex items-center justify-between pt-3 pb-3">
@@ -486,7 +485,7 @@ export function Navigation() {
 
           {/* ── Hamburger ── */}
           <button
-            className="lg:hidden p-2 text-white"
+            className="lg:hidden p-3 -mr-1 text-white rounded-sm touch-manipulation"
             onClick={() => setMenuOpen(v => !v)}
             aria-label={menuOpen ? "Fermer" : "Menu"}
           >
@@ -498,8 +497,8 @@ export function Navigation() {
       {/* ── Mobile menu (intact) ── */}
       <style>{`
         .mgMobileMenu { position:fixed;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;background:rgba(5,6,10,0.80);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:opacity 0.26s ease; }
-        .mgMobileInner { position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;min-width:224px;max-width:272px;width:72vw;transition:transform 0.36s cubic-bezier(.34,1.56,.64,1),opacity 0.24s ease; }
-        .mgMobileBtn { position:relative;width:100%;cursor:pointer;outline:none;border:none;border-radius:11px;background:linear-gradient(180deg,rgba(24,27,58,0.72) 0%,rgba(13,14,30,0.85) 100%);padding:13px 22px;display:flex;align-items:center;gap:12px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:14.5px;font-weight:700;letter-spacing:0.13em;text-align:left;text-transform:uppercase;color:rgba(255,255,255,0.42);user-select:none;-webkit-tap-highlight-color:transparent;transition:color 0.22s ease,background 0.22s ease;overflow:hidden; }
+        .mgMobileInner { position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;min-width:224px;max-width:272px;width:72vw;transition:transform 0.36s cubic-bezier(0.22,1,0.36,1),opacity 0.28s ease; }
+        .mgMobileBtn { position:relative;width:100%;cursor:pointer;outline:none;border:none;border-radius:11px;background:linear-gradient(180deg,rgba(24,27,58,0.72) 0%,rgba(13,14,30,0.85) 100%);padding:13px 22px;display:flex;align-items:center;gap:12px;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:14.5px;font-weight:700;letter-spacing:0.13em;text-align:left;text-transform:uppercase;color:rgba(255,255,255,0.42);user-select:none;-webkit-tap-highlight-color:transparent;transition:color 0.22s ease,background 0.22s ease,transform 0.32s cubic-bezier(0.22,1,0.36,1),opacity 0.28s ease;overflow:hidden; }
         .mgMobileBtn::before { content:'';position:absolute;inset:0;border-radius:11px;padding:1px;background:conic-gradient(from 180deg at 50% 50%,rgba(255,255,255,0.08) 0deg,rgba(255,255,255,0.04) 60deg,rgba(255,255,255,0.02) 120deg,rgba(255,255,255,0.00) 180deg,rgba(255,255,255,0.02) 240deg,rgba(255,255,255,0.04) 300deg,rgba(255,255,255,0.08) 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:background 0.24s ease,opacity 0.24s ease; }
         .mgMobileBtn::after { content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);transform:skewX(-15deg);pointer-events:none;transition:left 0.5s ease; }
         .mgMobileBtn:hover { color:rgba(255,255,255,0.88);background:linear-gradient(180deg,rgba(14,165,233,0.10) 0%,rgba(14,165,233,0.04) 100%); }
@@ -527,8 +526,8 @@ export function Navigation() {
                 onClick={() => handleNav(item.href, i)}
                 className={`mgMobileBtn${active ? " mgMobileBtnActive" : ""}`}
                 style={{
-                  transitionDelay: menuOpen ? `${i * 30}ms` : "0ms",
-                  transform:       menuOpen ? "translateX(0) scale(1)" : "translateX(-8px) scale(0.97)",
+                  transitionDelay: menuOpen ? `${i * 30}ms` : `${(NAV_ITEMS.length - 1 - i) * 16}ms`,
+                  transform:       menuOpen ? "translateX(0) scale(1)" : "translateX(-12px) scale(0.96)",
                   opacity:         menuOpen ? 1 : 0,
                 }}
               >

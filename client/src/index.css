@@ -124,6 +124,7 @@
     color: #F1F5F9;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: contain;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
