@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Instagram, Linkedin } from 'lucide-react'
+import { Instagram, Facebook, Linkedin } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { trackEmailClick } from '@/lib/analytics'
