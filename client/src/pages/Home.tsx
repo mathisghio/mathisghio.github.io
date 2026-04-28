@@ -1,6 +1,7 @@
 import { Navigation } from '@/components/Navigation'
 import { HeroSection } from '@/components/HeroSection'
 import { StatsBanner } from '@/components/StatsBanner'
+import { AudienceSection } from '@/components/AudienceSection'
 import { AboutSection } from '@/components/AboutSection'
 import { AchievementsSection } from '@/components/AchievementsSection'
 import { CareerSection } from '@/components/CareerSection'
@@ -63,6 +64,7 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <StatsBanner />
+      <AudienceSection />
       <AboutSection />
       <AchievementsSection />
       <CareerSection />
