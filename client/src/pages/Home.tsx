@@ -59,6 +59,7 @@ export default function Home() {
       className="min-h-screen"
       style={{ background: '#08090E', color: '#F1F5F9' }}
     >
+      <div className="mgProgressBar" aria-hidden="true" />
       <Navigation />
       <HeroSection />
       <StatsBanner />

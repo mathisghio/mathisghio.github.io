@@ -417,3 +417,34 @@
   background: rgba(14, 165, 233, 0.3);
   color: #F1F5F9;
 }
+
+/* ── Scroll progress bar (CSS scroll-driven) ── */
+.mgProgressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #0EA5E9, #38BDF8 60%, #0EA5E9);
+  transform-origin: left center;
+  transform: scaleX(0);
+  z-index: 9998;
+  pointer-events: none;
+  animation: mgProgressFill linear both;
+  animation-timeline: scroll();
+}
+
+@keyframes mgProgressFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ── Prefers reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .mgProgressBar { display: none; }
+}

@@ -1,6 +1,17 @@
+import { motion } from 'framer-motion'
 import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
+
+const formatContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.11, delayChildren: 0.55 } },
+}
+
+const formatLine = {
+  hidden: { opacity: 0, x: 24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+}
 
 const FOIL_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774497631/AI_Generated_Foil_ljznrd.png'
 
@@ -60,21 +71,29 @@ export function SportSection() {
               <div className="font-body text-xs mt-1" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
             </div>
           </div>
-          <div className="transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(30px)', transitionDelay: '300ms' }}>
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
             <p className="font-body text-base mb-4" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
               Wingfoil racing reaches an international audience of performance-oriented, tech-savvy adults aged 18–40. Active lifestyle, high disposable income, early adopters.
             </p>
             <p className="font-body text-base mb-10" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
               Eleven countries on the 2025 circuit. Five world titles and a speed record. An engineering degree that makes co-branding credible. Four formats to match your objectives.
             </p>
-            <div className="flex flex-col gap-0">
+            <motion.div
+              variants={formatContainer}
+              initial="hidden"
+              animate={inView ? 'visible' : 'hidden'}
+              className="flex flex-col gap-0"
+            >
               {partnershipFormats.map((format, i) => (
-                <div
+                <motion.div
                   key={i}
+                  variants={formatLine}
                   className="flex items-start gap-6 py-5"
-                  style={{
-                    borderTop: '1px solid rgba(255,255,255,0.05)',
-                  }}
+                  style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
                 >
                   <span
                     className="font-display text-xs flex-shrink-0 mt-1"
@@ -90,10 +109,10 @@ export function SportSection() {
                       {format.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
