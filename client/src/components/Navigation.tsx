@@ -3,9 +3,13 @@
  *
  * Mascot rendered as position:fixed at viewport level → impossible à clipper
  * quelle que soit la section active (Contact inclus).
+ *
+ * Overdrive B+C :
+ *   B — Scan line cinématique au chargement, lettre par lettre sur le logo
+ *   C — Indicateur ligne précise (2px, slide) au lieu du background glow
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, CSSProperties } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -13,16 +17,19 @@ const NAV_ITEMS = [
   { label: "Achievements", href: "#achievements" },
   { label: "Career",       href: "#career" },
   { label: "Season",       href: "#season" },
-  { label: "The Sport",    href: "#sport" },
+  { label: "For Brands",   href: "#sport" },
   { label: "Gallery",      href: "#gallery" },
   { label: "Partners",     href: "#partners" },
   { label: "Press",        href: "#press" },
   { label: "Contact",      href: "#contact" },
 ];
 
+const LOGO_CHARS = "MATHIS GHIO".split("");
+
 const WING_VISIBLE = 0.95;
 
 const NAV_CSS = `
+/* ── Base pill ── */
 .mgNav {
   position: relative;
   display: inline-flex;
@@ -57,6 +64,8 @@ const NAV_CSS = `
   z-index: 1;
   pointer-events: none;
 }
+
+/* ── Wing / mascot (intact) ── */
 .mgMascot {
   display: block;
   object-fit: contain;
@@ -98,6 +107,8 @@ const NAV_CSS = `
 @keyframes mgAir2{0%{transform:translateX(-35px);opacity:0}30%{opacity:.7}100%{transform:translateX(65px);opacity:0}}
 @keyframes mgAir3{0%{transform:translateX(-45px);opacity:0}30%{opacity:.75}100%{transform:translateX(68px);opacity:0}}
 @keyframes mgAir4{0%{transform:translateX(-30px);opacity:0}30%{opacity:.55}100%{transform:translateX(55px);opacity:0}}
+
+/* ── Tab buttons ── */
 .mgTab {
   position: relative; z-index: 2;
   cursor: pointer; letter-spacing: .028em;
@@ -112,15 +123,73 @@ const NAV_CSS = `
 .mgTab:hover:not(.mgTabActive) { background: rgba(255,255,255,.06); color: rgba(255,255,255,.72); }
 .mgTabActive { color: rgba(255,255,255,1); }
 .mgTabLabel  { position: relative; z-index: 1; }
-.mgTabGlow   { position: absolute; inset: 0; border-radius: 9999px; overflow: hidden; }
-.mgGlowInner { position:absolute;inset:0;background:rgba(50,125,255,.2);border-radius:9999px;filter:blur(3px);animation:mgGlowPulse 2.4s ease-in-out infinite }
-.mgGlowOuter { position:absolute;inset:-9px;background:rgba(35,105,255,.12);border-radius:9999px;filter:blur(16px);animation:mgGlowPulse 2.4s ease-in-out infinite }
-.mgGlowShimmer { position:absolute;inset:0;border-radius:9999px;background:linear-gradient(90deg,transparent,rgba(115,185,255,.18),transparent);animation:mgShimmer 3.2s ease-in-out infinite }
-@keyframes mgGlowPulse { 0%,100%{opacity:.18}50%{opacity:.44} }
-@keyframes mgShimmer   { 0%,100%{transform:translateX(-120%)}50%{transform:translateX(120%)} }
+
+/* ── B : Scan line cinématique ── */
+@keyframes mgScan {
+  0%   { transform: translateX(0);      opacity: 1; }
+  82%  { opacity: 1; }
+  100% { transform: translateX(100vw);  opacity: 0; }
+}
+.mgScanLine {
+  position: fixed;
+  top: 0; left: 0;
+  width: 2px; height: 80px;
+  background: linear-gradient(180deg,
+    rgba(14,165,233,0)   0%,
+    rgba(14,165,233,1)  22%,
+    rgba(56,189,248,1)  50%,
+    rgba(14,165,233,1)  78%,
+    rgba(14,165,233,0) 100%
+  );
+  box-shadow: 0 0 18px rgba(14,165,233,0.85), 0 0 48px rgba(14,165,233,0.35);
+  animation: mgScan 0.82s cubic-bezier(0.4, 0, 0.55, 1) forwards;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* ── B : Logo lettre par lettre ── */
+@keyframes mgLetterIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mgLetter {
+  display: inline-block;
+  opacity: 0;
+  animation: mgLetterIn 0.18s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+/* ── B : Nav items reveal ── */
+@keyframes mgTabIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mgTabReveal {
+  opacity: 0;
+  animation: mgTabIn 0.22s ease-out forwards;
+}
+
+/* ── C : Indicateur ligne précise ── */
+.mgSlider {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 1px;
+  height: 2px;
+  background: #0EA5E9;
+  border-radius: 2px;
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.25, 0, 0, 1), opacity 0.22s ease;
+  box-shadow: 0 0 8px rgba(14,165,233,0.95), 0 0 22px rgba(14,165,233,0.5);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .mgMascot, .mgGlowInner, .mgGlowOuter, .mgGlowShimmer,
-  .mgParticles span, .mgAirStreaks span { animation: none !important; }
+  .mgMascot, .mgParticles span, .mgAirStreaks span { animation: none !important; }
+  .mgScanLine  { display: none; }
+  .mgLetter    { opacity: 1 !important; animation: none !important; }
+  .mgTabReveal { opacity: 1 !important; animation: none !important; }
 }
 `;
 
@@ -133,6 +202,17 @@ export function Navigation() {
 
   const [mascotPos,  setMascotPos]  = useState({ x: -200, y: -200 });
   const [showMascot, setShowMascot] = useState(false);
+
+  /* ── Overdrive B : scan line ── */
+  const [showScan, setShowScan] = useState(
+    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+
+  /* ── Overdrive C : sliding indicator ── */
+  const [sliderStyle, setSliderStyle] = useState<CSSProperties>({
+    opacity: 0,
+    transform: "translateX(0px) scaleX(1)",
+  });
 
   const pillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -151,6 +231,7 @@ export function Navigation() {
                     : isNonActiveHovered ? "mgMascot mgWingTilt"
                     :                      "mgMascot mgWingFloat";
 
+  /* ── Inject CSS ── */
   useEffect(() => {
     if (document.getElementById("mg-nav-css")) return;
     const s = document.createElement("style");
@@ -158,12 +239,21 @@ export function Navigation() {
     document.head.appendChild(s);
   }, []);
 
+  /* ── Scan line : hide after animation completes ── */
+  useEffect(() => {
+    if (!showScan) return;
+    const t = setTimeout(() => setShowScan(false), 980);
+    return () => clearTimeout(t);
+  }, [showScan]);
+
+  /* ── Scroll detection ── */
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  /* ── Mascot position ── */
   useEffect(() => {
     const measure = () => {
       const pill = pillRef.current;
@@ -191,16 +281,33 @@ export function Navigation() {
     return () => clearTimeout(t);
   }, [activeIndex, compact, visibleAbove]);
 
+  /* ── Overdrive C : slider position ── */
+  useEffect(() => {
+    const updateSlider = () => {
+      if (activeIndex === -1) {
+        setSliderStyle(s => ({ ...s, opacity: 0 }));
+        return;
+      }
+      const btn  = btnRefs.current[activeIndex];
+      const pill = pillRef.current;
+      if (!btn || !pill) return;
+      const btnRect  = btn.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      const x = btnRect.left - pillRect.left;
+      const w = btnRect.width;
+      setSliderStyle({ opacity: 1, transform: `translateX(${x}px) scaleX(${w})` });
+    };
+
+    const t = setTimeout(updateSlider, 80);
+    window.addEventListener("resize", updateSlider);
+    return () => { clearTimeout(t); window.removeEventListener("resize", updateSlider); };
+  }, [activeIndex, compact]);
+
+  /* ── Scroll spy ── */
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
     const visibleSet = new Set<string>();
 
-    /**
-     * Returns true when the user is in the hero area —
-     * i.e. the first nav section (#about) is still entirely below the fold.
-     * This replaces the fragile `scrollY < 200` check: the hero is ~100svh
-     * so scrollY can be 400-800px while still above #about.
-     */
     const isInHero = () => {
       const firstEl = document.getElementById(ids[0]);
       return !firstEl || firstEl.getBoundingClientRect().top > 0;
@@ -215,33 +322,23 @@ export function Navigation() {
           else visibleSet.delete(e.target.id);
         });
 
-        // GoatSection (no nav entry) → map to Career tab
         if (entries.some(e => e.target.id === "goat" && e.isIntersecting)) {
           setActiveIndex(2);
           return;
         }
-
-        // goat is not a nav id — keep visibleSet clean
         visibleSet.delete("goat");
 
         if (visibleSet.size === 0) {
           if (isInHero()) {
-            // We're above every nav section → deactivate
             setActiveIndex(-1);
           } else {
-            // Find the last nav section that scrolled above the viewport
             const aboveIdx = ids.reduce((best, id, i) => {
               const el = document.getElementById(id);
               if (!el) return best;
               return el.getBoundingClientRect().top < 0 ? i : best;
             }, -1);
-
-            if (aboveIdx !== -1) {
-              setActiveIndex(aboveIdx);
-            } else {
-              // No section above viewport and nothing visible → still in hero
-              setActiveIndex(-1);
-            }
+            if (aboveIdx !== -1) setActiveIndex(aboveIdx);
+            else setActiveIndex(-1);
           }
         } else {
           const sorted = ids.filter(id => visibleSet.has(id));
@@ -255,7 +352,6 @@ export function Navigation() {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
-
     const goatEl = document.getElementById("goat");
     if (goatEl) observer.observe(goatEl);
 
@@ -277,19 +373,22 @@ export function Navigation() {
 
   return (
     <>
+      {/* ── Overdrive B : scan line ── */}
+      {showScan && <div className="mgScanLine" aria-hidden="true" />}
+
       {/* ── Mascot — position:fixed, hors de tout contexte de clipping ── */}
       <div
         aria-hidden="true"
         className="hidden lg:block"
         style={{
-          position:   'fixed',
-          left:       mascotPos.x,
-          top:        mascotPos.y,
-          transform:  'translateX(-50%)',
-          pointerEvents: 'none',
-          zIndex:     55,
-          opacity:    showMascot ? 1 : 0,
-          transition: 'left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease',
+          position:      "fixed",
+          left:          mascotPos.x,
+          top:           mascotPos.y,
+          transform:     "translateX(-50%)",
+          pointerEvents: "none",
+          zIndex:        55,
+          opacity:       showMascot ? 1 : 0,
+          transition:    "left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease",
         }}
       >
         {isActiveHovered    && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
@@ -310,34 +409,51 @@ export function Navigation() {
       <nav
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background:    scrolled ? "rgba(8,9,14,0.92)" : "transparent",
-          backdropFilter:scrolled ? "blur(20px)"        : "none",
-          borderBottom:  scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
-          minHeight: pillTopPad + (compact ? 36 : 40),
+          background:     scrolled ? "rgba(8,9,14,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(20px)"        : "none",
+          borderBottom:   scrolled ? "1px solid rgba(14,165,233,0.1)" : "none",
+          minHeight:      pillTopPad + (compact ? 36 : 40),
         }}
       >
         <div className="container flex items-center justify-between pt-3 pb-3">
 
-          {/* Logo */}
+          {/* ── Logo ── */}
           <button
             onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setActiveIndex(-1); }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 group"
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
           >
+            {/* Monogramme MG */}
             <div
-              className="w-8 h-8 rounded-sm flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg,#0EA5E9,#0284C7)", boxShadow: "0 0 15px rgba(14,165,233,0.4)" }}
+              className="w-8 h-8 rounded-sm flex items-center justify-center flex-shrink-0"
+              style={{
+                background:  "#0EA5E9",
+                boxShadow:   "0 0 14px rgba(14,165,233,0.5), 0 0 0 1px rgba(14,165,233,0.25)",
+                transition:  "box-shadow 0.3s ease",
+              }}
             >
-              <span className="font-display text-white text-sm leading-none">MG</span>
+              <span className="font-display text-white leading-none" style={{ fontSize: "0.9rem" }}>MG</span>
             </div>
+
+            {/* Nom lettre par lettre */}
             <span
-              className="hidden sm:block font-heading font-bold text-white text-lg tracking-wider uppercase"
-              style={{ letterSpacing: "0.15em" }}
+              className="hidden sm:block font-heading font-bold uppercase"
+              style={{ letterSpacing: "0.16em", fontSize: "1.05rem", color: "rgba(241,245,249,0.92)" }}
+              aria-label="Mathis Ghio"
             >
-              Mathis Ghio
+              {LOGO_CHARS.map((char, i) => (
+                <span
+                  key={i}
+                  className="mgLetter"
+                  style={{ animationDelay: `${110 + i * 30}ms` }}
+                >
+                  {char}
+                </span>
+              ))}
             </span>
           </button>
 
-          {/* Pill */}
+          {/* ── Pill desktop ── */}
           <div className="hidden lg:block" style={{ paddingTop: pillTopPad }}>
             <div
               ref={pillRef}
@@ -345,25 +461,22 @@ export function Navigation() {
               onMouseEnter={() => setPillHovered(true)}
               onMouseLeave={() => { setPillHovered(false); setHoveredTabIdx(null); }}
             >
+              {/* ── Overdrive C : sliding indicator ── */}
+              <div className="mgSlider" aria-hidden="true" style={sliderStyle} />
+
               {NAV_ITEMS.map((item, i) => {
                 const active = i === activeIndex;
                 return (
                   <button
                     key={item.href}
                     ref={el => { btnRefs.current[i] = el; }}
-                    className={`mgTab${active ? " mgTabActive" : ""}`}
+                    className={`mgTab mgTabReveal${active ? " mgTabActive" : ""}`}
+                    style={{ animationDelay: `${390 + i * 32}ms` }}
                     onClick={() => handleNav(item.href, i)}
                     onMouseEnter={() => setHoveredTabIdx(i)}
                     onMouseLeave={() => setHoveredTabIdx(null)}
                     aria-current={active ? "page" : undefined}
                   >
-                    {active && (
-                      <span className="mgTabGlow" aria-hidden="true">
-                        <span className="mgGlowInner" />
-                        <span className="mgGlowOuter" />
-                        <span className="mgGlowShimmer" />
-                      </span>
-                    )}
                     <span className="mgTabLabel">{item.label}</span>
                   </button>
                 );
@@ -371,7 +484,7 @@ export function Navigation() {
             </div>
           </div>
 
-          {/* Hamburger */}
+          {/* ── Hamburger ── */}
           <button
             className="lg:hidden p-2 text-white"
             onClick={() => setMenuOpen(v => !v)}
@@ -382,6 +495,7 @@ export function Navigation() {
         </div>
       </nav>
 
+      {/* ── Mobile menu (intact) ── */}
       <style>{`
         .mgMobileMenu { position:fixed;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;background:rgba(5,6,10,0.80);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:opacity 0.26s ease; }
         .mgMobileInner { position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;min-width:224px;max-width:272px;width:72vw;transition:transform 0.36s cubic-bezier(.34,1.56,.64,1),opacity 0.24s ease; }
