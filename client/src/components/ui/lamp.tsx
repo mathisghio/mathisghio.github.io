@@ -127,8 +127,8 @@ export const LampContainer = ({
 
       {/* ── Contenu ── */}
       <div
-        className="relative z-50 flex flex-col items-center px-5 w-full"
-        style={{ transform: `translateY(${contentOffset ?? -256}px)` }}
+        className="relative z-50 flex flex-col items-center px-5 w-full -translate-y-[210px] lg:-translate-y-[300px]"
+        style={contentOffset !== undefined ? { transform: `translateY(${contentOffset}px)` } : undefined}
       >
         {children}
       </div>

@@ -240,7 +240,7 @@ export function GallerySection() {
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-            className="flex flex-col items-center text-center w-full mt-0 sm:mt-12 lg:mt-24"
+            className="flex flex-col items-center text-center w-full"
           >
             <div className="flex items-center gap-3 mb-6 justify-center">
               <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
