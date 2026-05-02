@@ -78,7 +78,7 @@ function DocCard({
           }}
         />
 
-        <div className="relative p-8 lg:p-10">
+        <div className="relative p-5 sm:p-8 lg:p-10">
           {/* Header row */}
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">

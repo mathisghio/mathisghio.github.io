@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useInView } from '@/hooks/useInView'
 
 const rows = [
@@ -33,6 +34,7 @@ const rows = [
 
 export function AudienceSection() {
   const { ref, inView } = useInView(0.08)
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
 
   return (
     <section
@@ -73,56 +75,106 @@ export function AudienceSection() {
         </div>
 
         <div>
-          {rows.map((row, i) => (
-            <div
-              key={i}
-              className="transition-all duration-700"
-              style={{
-                borderTop: '1px solid rgba(255,255,255,0.05)',
-                opacity: inView ? 1 : 0,
-                transform: inView ? 'translateY(0)' : 'translateY(24px)',
-                transitionDelay: `${140 + i * 90}ms`,
-                transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)',
-              }}
-            >
-              <div className="grid lg:grid-cols-[180px_1fr_2fr] gap-x-10 gap-y-1 py-5 lg:py-7 items-baseline">
-
-                <span
-                  className="font-body text-xs uppercase tracking-widest self-center lg:self-auto"
-                  style={{ color: 'rgba(148,163,184,0.45)', letterSpacing: '0.15em' }}
+          {rows.map((row, i) => {
+            const isHovered = hoveredRow === i
+            return (
+              <div
+                key={i}
+                className="transition-all duration-700 cursor-default"
+                style={{
+                  borderTop: '1px solid rgba(255,255,255,0.05)',
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? 'translateY(0)' : 'translateY(24px)',
+                  transitionDelay: `${140 + i * 90}ms`,
+                  transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)',
+                }}
+                onMouseEnter={() => setHoveredRow(i)}
+                onMouseLeave={() => setHoveredRow(null)}
+              >
+                <div
+                  className="transition-colors duration-300 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 rounded-sm"
+                  style={{ background: isHovered ? 'rgba(14,165,233,0.025)' : 'transparent' }}
                 >
-                  {row.label}
-                </span>
+                  {/* Mobile: label + number on one line */}
+                  <div className="flex items-baseline justify-between pt-5 pb-2 lg:hidden">
+                    <span
+                      className="font-body text-xs uppercase tracking-widest"
+                      style={{ color: 'rgba(148,163,184,0.45)', letterSpacing: '0.15em' }}
+                    >
+                      {row.label}
+                    </span>
+                    <div className="flex items-baseline gap-2 ml-4">
+                      <span
+                        className="font-display leading-none transition-all duration-300"
+                        style={{
+                          fontSize: row.hero ? '1.9rem' : '1.45rem',
+                          color: row.hero
+                            ? '#0EA5E9'
+                            : isHovered ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.9)',
+                          textShadow: row.hero
+                            ? `0 0 ${isHovered ? '40px' : '24px'} rgba(14,165,233,${isHovered ? 0.45 : 0.25})`
+                            : 'none',
+                        }}
+                      >
+                        {row.value}
+                      </span>
+                      <span
+                        className="font-body text-xs uppercase tracking-wider"
+                        style={{ color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
+                      >
+                        {row.unit}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Mobile: detail below */}
+                  <p
+                    className="font-body text-xs pb-4 lg:hidden"
+                    style={{ color: 'rgba(148,163,184,0.55)', lineHeight: 1.65 }}
+                  >
+                    {row.detail}
+                  </p>
 
-                <div className="flex items-baseline gap-2.5">
-                  <span
-                    className="font-display leading-none"
-                    style={{
-                      fontSize: row.hero ? 'clamp(2.4rem, 5vw, 3.8rem)' : 'clamp(1.6rem, 3.5vw, 2.4rem)',
-                      color: row.hero ? '#0EA5E9' : 'rgba(241,245,249,0.9)',
-                      textShadow: row.hero ? '0 0 32px rgba(14,165,233,0.3)' : 'none',
-                    }}
-                  >
-                    {row.value}
-                  </span>
-                  <span
-                    className="font-body text-xs uppercase tracking-wider"
-                    style={{ color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
-                  >
-                    {row.unit}
-                  </span>
+                  {/* Desktop: 3-column grid */}
+                  <div className="hidden lg:grid lg:grid-cols-[180px_1fr_2fr] lg:gap-x-10 lg:items-baseline lg:py-7">
+                    <span
+                      className="font-body text-xs uppercase tracking-widest"
+                      style={{ color: 'rgba(148,163,184,0.45)', letterSpacing: '0.15em' }}
+                    >
+                      {row.label}
+                    </span>
+                    <div className="flex items-baseline gap-2.5">
+                      <span
+                        className="font-display leading-none transition-all duration-300"
+                        style={{
+                          fontSize: row.hero ? 'clamp(2.4rem, 5vw, 3.8rem)' : 'clamp(1.6rem, 3.5vw, 2.4rem)',
+                          color: row.hero
+                            ? '#0EA5E9'
+                            : isHovered ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.9)',
+                          textShadow: row.hero
+                            ? `0 0 ${isHovered ? '48px' : '32px'} rgba(14,165,233,${isHovered ? 0.45 : 0.3})`
+                            : 'none',
+                        }}
+                      >
+                        {row.value}
+                      </span>
+                      <span
+                        className="font-body text-xs uppercase tracking-wider"
+                        style={{ color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
+                      >
+                        {row.unit}
+                      </span>
+                    </div>
+                    <p
+                      className="font-body text-sm"
+                      style={{ color: isHovered ? 'rgba(148,163,184,0.8)' : 'rgba(148,163,184,0.6)', lineHeight: 1.65, transition: 'color 0.3s ease' }}
+                    >
+                      {row.detail}
+                    </p>
+                  </div>
                 </div>
-
-                <p
-                  className="font-body text-sm col-start-1 lg:col-start-auto mt-1 lg:mt-0"
-                  style={{ color: 'rgba(148,163,184,0.6)', lineHeight: 1.65 }}
-                >
-                  {row.detail}
-                </p>
-
               </div>
-            </div>
-          ))}
+            )
+          })}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }} />
         </div>
 

@@ -95,7 +95,13 @@ export function GoatSection() {
           className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto"
         >
           {STATS.map((s, i) => (
-            <motion.div key={i} variants={statItem} className="text-center">
+            <motion.div
+              key={i}
+              variants={statItem}
+              whileHover={{ scale: 1.06, y: -4 }}
+              transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.22 }}
+              className="text-center cursor-default"
+            >
               <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 40px rgba(245,158,11,0.5)' : '0 0 40px rgba(14,165,233,0.5)', lineHeight: 1 }}>
                 {s.num}{s.suffix}
               </div>

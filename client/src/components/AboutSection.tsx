@@ -50,10 +50,10 @@ export function AboutSection() {
               <img src={ABOUT_WATER} alt="Mathis Ghio wingfoiling on water" className="w-full h-full object-cover" style={{ filter: 'saturate(1.1) contrast(1.05)', objectPosition: 'center 20%' }} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(8,9,14,0.6) 100%)' }} />
             </div>
-            <div className="absolute -bottom-8 -left-8 w-2/5 rounded-sm overflow-hidden" style={{ border: '2px solid rgba(14, 165, 233, 0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(14, 165, 233, 0.15)', aspectRatio: '3/4' }}>
+            <div className="absolute -bottom-8 -left-8 w-2/5 rounded-sm overflow-hidden hidden lg:block" style={{ border: '2px solid rgba(14, 165, 233, 0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(14, 165, 233, 0.15)', aspectRatio: '3/4' }}>
               <img src={ABOUT_LAND} alt="Mathis Ghio portrait" className="w-full h-full object-cover" loading="lazy" style={{ objectPosition: 'center top' }} />
             </div>
-            <div className="absolute -top-4 -right-4 px-4 py-3 rounded-sm" style={{ background: 'rgba(8, 9, 14, 0.9)', border: '1px solid rgba(245, 158, 11, 0.4)', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
+            <div className="absolute -top-4 -right-4 px-4 py-3 rounded-sm hidden lg:block" style={{ background: 'rgba(8, 9, 14, 0.9)', border: '1px solid rgba(245, 158, 11, 0.4)', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
               <div className="font-display text-2xl" style={{ color: '#F59E0B' }}>FRA</div>
               <div className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>France</div>
             </div>

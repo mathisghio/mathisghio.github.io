@@ -820,7 +820,7 @@ export function GlobeSection() {
         <div className="grid lg:grid-cols-[1fr_380px] gap-8 lg:gap-10 items-start">
 
           {/* Globe / Map container */}
-          <div className="relative rounded-sm overflow-hidden" style={{height:520,border:'1px solid rgba(14,165,233,0.12)',background:'#020510',boxShadow:'0 0 80px rgba(14,165,233,0.05),inset 0 0 80px rgba(14,165,233,0.03)'}}>
+          <div className="relative rounded-sm overflow-hidden h-[300px] sm:h-[420px] lg:h-[520px]" style={{border:'1px solid rgba(14,165,233,0.12)',background:'#020510',boxShadow:'0 0 80px rgba(14,165,233,0.05),inset 0 0 80px rgba(14,165,233,0.03)'}}>
             <Map2DFlat  visible={mode==='2d'} hoveredId={hoveredId} onHover={handleCanvasHover}/>
             <Globe3DD3  visible={mode==='3d'} hoveredId={hoveredId} onHover={handleCanvasHover}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
