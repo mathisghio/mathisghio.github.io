@@ -2,31 +2,31 @@ import { useInView } from '@/hooks/useInView'
 
 const rows = [
   {
-    label: 'Reach mensuel',
-    value: '1 000 000',
+    label: 'Monthly Reach',
+    value: '1,000,000',
     unit: 'impressions',
-    detail: 'en période de compétition · 400K hors saison · 18 000 abonnés Instagram · engagement 2–4× supérieur au secteur lifestyle',
+    detail: 'peak during competition season · 400K off-season · 18,000 Instagram followers · engagement 2–4× above lifestyle influencer average',
     hero: true,
   },
   {
-    label: 'Audience terrain',
+    label: 'Live Audience',
     value: '150–200K',
-    unit: 'spectateurs',
-    detail: '6–8 étapes mondiales IWSA · 20+ pays au calendrier 2025 · villages officiels et finales sur plage',
+    unit: 'spectators',
+    detail: '6–8 IWSA World Cup events · 20+ countries on the 2025 circuit · official race villages and beach finals',
     hero: false,
   },
   {
-    label: 'Retombées presse',
+    label: 'Media Coverage',
     value: '200+',
-    unit: 'parutions',
-    detail: "L'Équipe · Eurosport · Stade 2 · Wind Mag · Voiles et Voiliers · Ouest France · Le Télégramme · plusieurs millions de foyers via JT",
+    unit: 'features',
+    detail: "L'Équipe · Eurosport · Stade 2 · Wind Mag · Voiles et Voiliers · Ouest France · Le Télégramme · millions of households via sports broadcasts",
     hero: false,
   },
   {
-    label: 'Profil audience',
-    value: '25–44 ans',
-    unit: 'CSP+',
-    detail: '75% hommes · France · Italie · Espagne · Brésil — pratiquants engagés, fort pouvoir d\'achat, early adopters outdoor',
+    label: 'Audience Profile',
+    value: '25–44',
+    unit: 'years old',
+    detail: '75% male · high disposable income · France · Italy · Spain · Brazil — active practitioners, early adopters, performance-oriented',
     hero: false,
   },
 ]
@@ -68,7 +68,7 @@ export function AudienceSection() {
             className="font-body text-xs uppercase tracking-widest"
             style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}
           >
-            Audience & Reach
+            Audience &amp; Reach
           </span>
         </div>
 
