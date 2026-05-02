@@ -12,7 +12,7 @@ export function ContactSection() {
       <section id="contact" ref={ref} style={{ background: '#08090E' }}>
 
         {/* ── Lamp header ── */}
-          <LampContainer className="min-h-[42vh] sm:min-h-[55vh] lg:min-h-[80vh]">
+          <LampContainer className="min-h-[32vh] lg:min-h-[75vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}

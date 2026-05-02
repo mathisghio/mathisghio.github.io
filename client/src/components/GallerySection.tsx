@@ -235,7 +235,7 @@ export function GallerySection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       <div className="relative z-10">
-        <LampContainer className="min-h-[42vh] sm:min-h-[55vh] lg:min-h-[80vh]">
+        <LampContainer className="min-h-[32vh] lg:min-h-[75vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
