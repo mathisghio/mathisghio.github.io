@@ -184,7 +184,7 @@ export function PressSection() {
 
       {/* ── Lamp header ── */}
       
-    <LampContainer className="min-h-[65vh]">
+    <LampContainer className="min-h-[80vh]">
       <motion.div
           initial={{ opacity: 0.5, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -222,7 +222,7 @@ export function PressSection() {
       </LampContainer>
 
       {/* ── Content ── */}
-      <div className="container relative z-10 pb-24 lg:pb-36">
+      <div className="container relative z-10 pb-24 lg:pb-36 -mt-[150px] lg:-mt-[200px]">
 
         {/* Intro text */}
         <div

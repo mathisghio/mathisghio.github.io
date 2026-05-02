@@ -235,7 +235,7 @@ export function GallerySection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       <div className="relative z-10">
-        <LampContainer className="min-h-[65vh]">
+        <LampContainer className="min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -256,7 +256,7 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-12 lg:pb-16">
+      <div className="container relative z-10 pb-12 lg:pb-16 -mt-[150px] lg:-mt-[200px]">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}

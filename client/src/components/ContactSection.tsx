@@ -12,7 +12,7 @@ export function ContactSection() {
       <section id="contact" ref={ref} style={{ background: '#08090E' }}>
 
         {/* ── Lamp header ── */}
-          <LampContainer className="min-h-[65vh]">
+          <LampContainer className="min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -50,7 +50,7 @@ export function ContactSection() {
         </LampContainer>
 
         {/* ── Primary CTA : email ── */}
-        <div className="container relative z-10 pb-24 lg:pb-36">
+        <div className="container relative z-10 pb-24 lg:pb-36 -mt-[150px] lg:-mt-[200px]">
           <div
             className="text-center transition-all duration-700"
             style={{
