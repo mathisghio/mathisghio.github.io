@@ -235,13 +235,12 @@ export function GallerySection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       <div className="relative z-10">
-        <LampContainer className="min-h-[32vh] lg:min-h-[75vh]">
+        <LampContainer minHeight="80vh">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-            className="flex flex-col items-center text-center w-full"
-            style={{ marginTop: 'clamp(1rem, 4vh, 6rem)' }}
+            className="flex flex-col items-center text-center w-full mt-0 sm:mt-12 lg:mt-24"
           >
             <div className="flex items-center gap-3 mb-6 justify-center">
               <div className="section-line" style={{ background: 'linear-gradient(90deg, rgba(241,245,249,0.4), transparent)' }} />
