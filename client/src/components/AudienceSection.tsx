@@ -13,7 +13,7 @@ const rows = [
     label: 'Live Audience',
     value: '150–200K',
     unit: 'spectators',
-    detail: '6–8 IWSA World Cup events · 20+ countries on the 2025 circuit · official race villages and beach finals',
+    detail: '6–8 IWSA World Cup events · 10+ countries on the 2026 circuit · official race villages and beach finals',
     hero: false,
   },
   {
