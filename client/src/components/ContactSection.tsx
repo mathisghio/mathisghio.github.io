@@ -12,13 +12,13 @@ export function ContactSection() {
       <section id="contact" ref={ref} style={{ background: '#08090E' }}>
 
         {/* ── Lamp header ── */}
-          <LampContainer minHeight="80vh">
+          <LampContainer className="min-h-[42vh] sm:min-h-[55vh] lg:min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
             className="flex flex-col items-center text-center w-full"
-            style={{ marginTop: '6rem' }}
+            style={{ marginTop: 'clamp(1rem, 4vh, 6rem)' }}
           >
             <div className="flex items-center gap-3 mb-6 justify-center">
               <div

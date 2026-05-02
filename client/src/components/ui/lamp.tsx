@@ -19,7 +19,7 @@ export const LampContainer = ({
         'relative flex flex-col items-center justify-center overflow-hidden w-full z-0 lamp-container',
         className
       )}
-      style={{ background: '#08090E', ...(minHeight ? { minHeight } : {}) }}
+      style={{ background: '#08090E', ...(minHeight && !className?.includes('min-h') ? { minHeight } : {}) }}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
 
