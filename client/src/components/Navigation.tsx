@@ -156,20 +156,15 @@ export function Navigation() {
         visibleSet.delete("goat");
 
         if (visibleSet.size === 0) {
-          if (isInHero()) {
-            setActiveIndex(-1);
-          } else {
-            // Threshold accounts for nav height: section top lands at ~pillTopPad+52px
-            // after handleNav scrolls to it, so top < 0 would miss it.
-            const threshold = pillTopPad + 60;
-            const aboveIdx = ids.reduce((best, id, i) => {
-              const el = document.getElementById(id);
-              if (!el) return best;
-              return el.getBoundingClientRect().top < threshold ? i : best;
-            }, -1);
-            if (aboveIdx !== -1) setActiveIndex(aboveIdx);
-            else setActiveIndex(-1);
-          }
+          // threshold = nav height + scroll offset used by handleNav (+65 gives buffer).
+          // aboveIdx returns -1 when no section has crossed the threshold (= hero state).
+          const threshold = pillTopPad + 65;
+          const aboveIdx = ids.reduce((best, id, i) => {
+            const el = document.getElementById(id);
+            if (!el) return best;
+            return el.getBoundingClientRect().top < threshold ? i : best;
+          }, -1);
+          setActiveIndex(aboveIdx);
         } else {
           const sorted = ids.filter(id => visibleSet.has(id));
           if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
@@ -190,14 +185,13 @@ export function Navigation() {
     // The visibleSet guard is intentionally omitted — we override any premature IntersectionObserver result.
     const seedFromScroll = () => {
       if (scrollSpyPaused.current) return;
-      if (isInHero()) { setActiveIndex(-1); return; }
-      const threshold = pillTopPad + 60;
+      const threshold = pillTopPad + 65;
       const aboveIdx = ids.reduce((best, id, i) => {
         const el = document.getElementById(id);
         if (!el) return best;
         return el.getBoundingClientRect().top < threshold ? i : best;
       }, -1);
-      setActiveIndex(aboveIdx !== -1 ? aboveIdx : -1);
+      setActiveIndex(aboveIdx);
     };
 
     window.addEventListener('scrollend', seedFromScroll, { once: true, passive: true });
