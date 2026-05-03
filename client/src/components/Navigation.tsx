@@ -159,10 +159,13 @@ export function Navigation() {
           if (isInHero()) {
             setActiveIndex(-1);
           } else {
+            // Threshold accounts for nav height: section top lands at ~pillTopPad+52px
+            // after handleNav scrolls to it, so top < 0 would miss it.
+            const threshold = pillTopPad + 60;
             const aboveIdx = ids.reduce((best, id, i) => {
               const el = document.getElementById(id);
               if (!el) return best;
-              return el.getBoundingClientRect().top < 0 ? i : best;
+              return el.getBoundingClientRect().top < threshold ? i : best;
             }, -1);
             if (aboveIdx !== -1) setActiveIndex(aboveIdx);
             else setActiveIndex(-1);
@@ -188,10 +191,11 @@ export function Navigation() {
     const seedFromScroll = () => {
       if (scrollSpyPaused.current) return;
       if (isInHero()) { setActiveIndex(-1); return; }
+      const threshold = pillTopPad + 60;
       const aboveIdx = ids.reduce((best, id, i) => {
         const el = document.getElementById(id);
         if (!el) return best;
-        return el.getBoundingClientRect().top < 0 ? i : best;
+        return el.getBoundingClientRect().top < threshold ? i : best;
       }, -1);
       setActiveIndex(aboveIdx !== -1 ? aboveIdx : -1);
     };
