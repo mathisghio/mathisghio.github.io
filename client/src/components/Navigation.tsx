@@ -182,7 +182,28 @@ export function Navigation() {
     const goatEl = document.getElementById("goat");
     if (goatEl) observer.observe(goatEl);
 
-    return () => observer.disconnect();
+    // Seed initial activeIndex from real scroll position.
+    // Double rAF waits for browser scroll restoration to complete before reading rects.
+    let r2 = 0;
+    const r1 = requestAnimationFrame(() => {
+      r2 = requestAnimationFrame(() => {
+        if (scrollSpyPaused.current) return;
+        if (visibleSet.size > 0) return; // IntersectionObserver already handled it
+        if (isInHero()) { setActiveIndex(-1); return; }
+        const aboveIdx = ids.reduce((best, id, i) => {
+          const el = document.getElementById(id);
+          if (!el) return best;
+          return el.getBoundingClientRect().top < 0 ? i : best;
+        }, -1);
+        setActiveIndex(aboveIdx !== -1 ? aboveIdx : -1);
+      });
+    });
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(r1);
+      cancelAnimationFrame(r2);
+    };
   }, []);
 
   const handleNav = (href: string, index: number) => {
