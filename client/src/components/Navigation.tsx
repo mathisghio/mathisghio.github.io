@@ -182,27 +182,28 @@ export function Navigation() {
     const goatEl = document.getElementById("goat");
     if (goatEl) observer.observe(goatEl);
 
-    // Seed initial activeIndex from real scroll position.
-    // Double rAF waits for browser scroll restoration to complete before reading rects.
-    let r2 = 0;
-    const r1 = requestAnimationFrame(() => {
-      r2 = requestAnimationFrame(() => {
-        if (scrollSpyPaused.current) return;
-        if (visibleSet.size > 0) return; // IntersectionObserver already handled it
-        if (isInHero()) { setActiveIndex(-1); return; }
-        const aboveIdx = ids.reduce((best, id, i) => {
-          const el = document.getElementById(id);
-          if (!el) return best;
-          return el.getBoundingClientRect().top < 0 ? i : best;
-        }, -1);
-        setActiveIndex(aboveIdx !== -1 ? aboveIdx : -1);
-      });
-    });
+    // Seed activeIndex after scroll restoration is fully complete.
+    // scrollend fires when the browser finishes restoring scroll position (images/layout settled).
+    // The visibleSet guard is intentionally omitted — we override any premature IntersectionObserver result.
+    const seedFromScroll = () => {
+      if (scrollSpyPaused.current) return;
+      if (isInHero()) { setActiveIndex(-1); return; }
+      const aboveIdx = ids.reduce((best, id, i) => {
+        const el = document.getElementById(id);
+        if (!el) return best;
+        return el.getBoundingClientRect().top < 0 ? i : best;
+      }, -1);
+      setActiveIndex(aboveIdx !== -1 ? aboveIdx : -1);
+    };
+
+    window.addEventListener('scrollend', seedFromScroll, { once: true, passive: true });
+    // Fallback for browsers without scrollend, and for pages loaded at scroll position 0.
+    const t = setTimeout(seedFromScroll, 600);
 
     return () => {
       observer.disconnect();
-      cancelAnimationFrame(r1);
-      cancelAnimationFrame(r2);
+      window.removeEventListener('scrollend', seedFromScroll);
+      clearTimeout(t);
     };
   }, []);
 
