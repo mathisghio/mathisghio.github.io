@@ -79,7 +79,7 @@ function ScrollRevealVideo() {
         </motion.div>
         <motion.div style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }} className="overflow-hidden">
           {revealed ? (
-            <VideoPlayerPro src={MEDIA_VIDEO} poster="/video-cover.jpg" sound={false} />
+            <VideoPlayerPro src={MEDIA_VIDEO} poster="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1777807705/Cover-video_njzjgn.jpg" sound={false} />
           ) : (
             <div style={{ aspectRatio: '16/9', background: '#000' }} />
           )}
