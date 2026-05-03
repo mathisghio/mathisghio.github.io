@@ -101,7 +101,9 @@ export function Navigation() {
         x: br.left + br.width / 2,
         y: pr.top  - visibleAbove,
       });
-      setShowMascot(true);
+      // Reveal in next frame: position is painted (no position transition since
+      // showMascot is still false) before opacity fades in at the correct spot.
+      requestAnimationFrame(() => setShowMascot(true));
     };
     measure();
     const t = setTimeout(measure, 420);
@@ -235,7 +237,9 @@ export function Navigation() {
           pointerEvents: "none",
           zIndex:        55,
           opacity:       showMascot ? 1 : 0,
-          transition:    "left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease",
+          transition:    showMascot
+            ? "left 0.26s cubic-bezier(.34,1.56,.64,1), top 0.26s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease"
+            : "opacity 0.2s ease",
         }}
       >
         {isActiveHovered    && <div className="mgParticles mgSpray"><span /><span /><span /></div>}
