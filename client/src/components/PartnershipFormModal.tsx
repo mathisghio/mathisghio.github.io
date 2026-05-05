@@ -42,7 +42,7 @@ export function PartnershipFormModal({ trigger }: Props) {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, _subject: `Partnership inquiry — ${form.company}` }),
+        body: JSON.stringify({ ...form, _subject: `Partnership inquiry: ${form.company}` }),
       })
       if (res.ok) {
         setStatus('success')

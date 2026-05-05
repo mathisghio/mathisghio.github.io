@@ -89,8 +89,8 @@ const PARTNERS_SCHEMA = {
 }
 
 const titlePartners = [
-  { name: 'Ozone',       description: 'Wing & kite manufacturer — R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
-  { name: 'Levitaz',     description: 'Hydrofoil manufacturer — R&D partner',     url: 'https://levitaz.com/team-rider/mathis-ghio/' },
+  { name: 'Ozone',       description: 'Wing & kite manufacturer and R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
+  { name: 'Levitaz',     description: 'Hydrofoil manufacturer and R&D partner',     url: 'https://levitaz.com/team-rider/mathis-ghio/' },
   { name: 'Forward WIP', description: 'Protection & accessories partner',         url: 'https://www.forward-wip.com/fr/team/mathis-ghio/' },
 ]
 
@@ -164,7 +164,7 @@ export default function PartnersPage() {
             MATHIS GHIO
           </h1>
           <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '17px', color: 'rgba(241,245,249,0.7)', maxWidth: '560px', lineHeight: 1.7, marginBottom: '36px' }}>
-            Mathis Ghio is the most decorated wingfoil racing athlete in history — 5× World Champion, speed record holder, and a growing media presence across Europe and beyond. Partner with him to reach an engaged, performance-driven audience.
+            Mathis Ghio is the most decorated wingfoil racing athlete in history: 5× World Champion, speed record holder, and a growing media presence across Europe and beyond. Partner with him to reach an engaged, performance-driven audience.
           </p>
           <PartnershipFormModal
             trigger={
@@ -198,7 +198,7 @@ export default function PartnersPage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
             {[
-              { icon: '🏆', title: 'Elite Performance', body: 'Top-ranked athlete on the international wingfoil circuit. Results that speak for themselves — brands associate with a winner.' },
+              { icon: '🏆', title: 'Elite Performance', body: 'Top-ranked athlete on the international wingfoil circuit. Results that speak for themselves, as brands associate with a winner.' },
               { icon: '📱', title: 'Engaged Audience', body: 'Growing community of watersport enthusiasts, athletes, and outdoor lifestyle followers across Instagram, YouTube, and TikTok.' },
               { icon: '🌍', title: 'European Reach', body: '15+ events per year across France, Italy, Spain, and beyond. On-site brand visibility at every major wingfoil championship.' },
               { icon: '🔬', title: 'R&D Credibility', body: 'Materials science engineering student (INSA Lyon) + world-class athleticism = a credible voice for performance brands. Real product testing, real feedback.' },

@@ -79,10 +79,10 @@ const timelineData = [
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
           I launched my Olympic windsurfing campaign in 2018 on the RS:X, winning the French national title<br />
           and finishing in the top 10 at Youth World and European Championships.<br />
-          As the discipline shifted to the iQFoil, I competed at the highest junior level —<br />
+          As the discipline shifted to the iQFoil, I competed at the highest junior level:<br />
           Vice European Champion, runner-up at the International Games, and third at the U21 Europeans.<br />
-          Alongside my iQFoil career, I started wingfoiling just for fun —<br />
-          drawn to the rising competitive scene, I eventually made the switch, won the national title,<br />
+          Alongside my iQFoil career, I started wingfoiling purely for fun.<br />
+          Drawn to the rising competitive scene, I eventually made the switch, won the national title,<br />
           and claimed my first GWA World Cup victory.
         </p>
         <div className="mb-8">

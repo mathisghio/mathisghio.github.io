@@ -3,8 +3,8 @@ import { WebGLShader } from '@/components/ui/web-gl-shader'
 import { PartnershipFormModal } from './PartnershipFormModal'
 
 const titlePartners = [
-  { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer — R&D partner',   logoText: 'OZONE'       },
-  { name: 'Levitaz',     url: 'https://levitaz.com/team-rider/mathis-ghio/',       description: 'Hydrofoil manufacturer — R&D partner',     logoText: 'LEVITAZ'     },
+  { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer and R&D partner',   logoText: 'OZONE'       },
+  { name: 'Levitaz',     url: 'https://levitaz.com/team-rider/mathis-ghio/',       description: 'Hydrofoil manufacturer and R&D partner',     logoText: 'LEVITAZ'     },
   { name: 'Forward WIP', url: 'https://www.forward-wip.com/fr/team/mathis-ghio/',  description: 'Protection & accessories partner',         logoText: 'FORWARD WIP' },
 ]
 

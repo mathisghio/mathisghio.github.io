@@ -27,7 +27,7 @@ const rows = [
     label: 'Audience Profile',
     value: '25–44',
     unit: 'years old',
-    detail: '75% male · high disposable income · France · Italy · Spain · Brazil — active practitioners, early adopters, performance-oriented',
+    detail: '75% male · high disposable income · France · Italy · Spain · Brazil · active practitioners, early adopters, performance-oriented',
     hero: false,
   },
 ]

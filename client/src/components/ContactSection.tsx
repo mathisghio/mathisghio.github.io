@@ -142,7 +142,7 @@ export function ContactSection() {
               className="font-body text-xs text-center"
               style={{ color: 'rgba(148, 163, 184, 0.4)' }}
             >
-              © 2025 Mathis Ghio — Wingfoil Racing
+              © 2025 Mathis Ghio · Wingfoil Racing
             </p>
             <div className="flex items-center gap-4">
               {[
