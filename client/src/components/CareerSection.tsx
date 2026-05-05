@@ -83,7 +83,7 @@ const timelineData = [
           while starting R&D collaborations with my sponsors.
         </p>
         <div className="mb-8">
-          {['National wingfoil circuit — top results', 'European debut — immediate podiums', 'R&D partnerships with Levitaz and Forward Wip kicks off'].map((item, i) => (
+          {['Top results on the national wingfoil circuit', 'European debut with immediate podiums', 'R&D partnerships with Levitaz and Forward Wip kicks off', '1st place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
@@ -140,7 +140,7 @@ const timelineData = [
           marking an important step in my progression.
         </p>
         <div className="mb-8">
-          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', '1st place — GWA World Cup'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', '1st place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -178,7 +178,7 @@ const timelineData = [
           Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
         </p>
         <div className="mb-8">
-          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
+          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', '1st place at GWA World Cup', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
