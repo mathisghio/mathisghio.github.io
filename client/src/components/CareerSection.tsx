@@ -86,7 +86,7 @@ const timelineData = [
           and claimed my first GWA World Cup victory.
         </p>
         <div className="mb-8">
-          {['🥇 French National Champion RS:X', 'Top 10 at Youth RS:X European and World Championships', 'U19 Vice European Champion in IQFoil', 'Second place at the U19 IQFoil International Games', 'Third place at the U21 IQFoil European Championship', '🥇 French National Wingfoil Champion', 'First place at GWA World Cup'].map((item, i) => (
+          {['🥇 French National Champion RS:X', '🥈 U19 Vice European Champion in IQFoil', 'Second place at the U19 IQFoil International Games', '🥇 French National Wingfoil Champion', 'First place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
