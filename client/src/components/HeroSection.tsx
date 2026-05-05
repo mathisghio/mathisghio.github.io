@@ -104,7 +104,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. An engineering degree. The sport's most credible athlete for brands that demand performance.
+              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
             </p>
           </div>
 
@@ -193,7 +193,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-base font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. An engineering degree. The sport's most credible athlete for brands that demand performance.
+              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
             </p>
           </div>
 

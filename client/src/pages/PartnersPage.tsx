@@ -201,7 +201,7 @@ export default function PartnersPage() {
               { icon: '🏆', title: 'Elite Performance', body: 'Top-ranked athlete on the international wingfoil circuit. Results that speak for themselves — brands associate with a winner.' },
               { icon: '📱', title: 'Engaged Audience', body: 'Growing community of watersport enthusiasts, athletes, and outdoor lifestyle followers across Instagram, YouTube, and TikTok.' },
               { icon: '🌍', title: 'European Reach', body: '15+ events per year across France, Italy, Spain, and beyond. On-site brand visibility at every major wingfoil championship.' },
-              { icon: '🔬', title: 'R&D Credibility', body: 'Engineering background (INSA Lyon) + world-class athleticism = a credible voice for performance brands. Real product testing, real feedback.' },
+              { icon: '🔬', title: 'R&D Credibility', body: 'Materials science engineering student (INSA Lyon) + world-class athleticism = a credible voice for performance brands. Real product testing, real feedback.' },
             ].map((card, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(14,165,233,0.1)', borderRadius: '6px', padding: '24px' }}>
                 <div style={{ fontSize: '24px', marginBottom: '12px' }}>{card.icon}</div>
