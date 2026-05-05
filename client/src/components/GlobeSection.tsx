@@ -204,8 +204,9 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   const scaleRef       = useRef(1)
   const targetScaleRef = useRef(1)
   const isDragging     = useRef(false)
-  const lockedIdRef3D  = useRef<number|null>(null)
-  const lockTimerRef3D = useRef<ReturnType<typeof setTimeout>|null>(null)
+  const lockedIdRef3D       = useRef<number|null>(null)
+  const lockTimerRef3D      = useRef<ReturnType<typeof setTimeout>|null>(null)
+  const releasePending3DRef = useRef(false)
   const [isLoading, setIsLoading] = useState(true)
   const [loadError,  setLoadError]  = useState(false)
 
@@ -214,21 +215,33 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 
   useEffect(()=>{
     if (hoveredId===null) {
-      if (lockedIdRef3D.current===null) targetRotRef.current=null
+      if (releasePending3DRef.current) {
+        releasePending3DRef.current=false
+        lockedIdRef3D.current=null
+        targetRotRef.current=null
+        targetScaleRef.current=1
+      }
       return
     }
     if (lockedIdRef3D.current===hoveredId) return
     if (lockTimerRef3D.current) { clearTimeout(lockTimerRef3D.current); lockTimerRef3D.current=null }
+    releasePending3DRef.current=false
     const comp=COMPS.find(c=>c.id===hoveredId)
     if (!comp) return
     lockedIdRef3D.current=hoveredId
     targetRotRef.current=[-comp.lng, Math.max(-70,Math.min(70,-comp.lat))]
     targetScaleRef.current=1.7
     lockTimerRef3D.current=setTimeout(()=>{
-      targetRotRef.current=null
-      targetScaleRef.current=1
-      lockedIdRef3D.current=null
       lockTimerRef3D.current=null
+      if (hoveredIdRef.current===lockedIdRef3D.current) {
+        // Mouse still on marker → stay zoomed, zoom out on next mouse-leave
+        releasePending3DRef.current=true
+      } else {
+        // Mouse already left → zoom out now
+        lockedIdRef3D.current=null
+        targetRotRef.current=null
+        targetScaleRef.current=1
+      }
     },3000)
   },[hoveredId])
 
@@ -462,8 +475,9 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   const hoveredIdRef = useRef<number|null>(null)
   const viewRef           = useRef<ViewTransform>({k:1,tx:0,ty:0})
   const targetViewRef     = useRef<ViewTransform|null>(null)
-  const lockedIdRef  = useRef<number|null>(null)
-  const lockTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null)
+  const lockedIdRef       = useRef<number|null>(null)
+  const lockTimerRef      = useRef<ReturnType<typeof setTimeout>|null>(null)
+  const releasePendingRef = useRef(false)
   const [bundle, setBundle] = useState<GeoBundle|null>(null)
   const [dims, setDims]     = useState({w:0,h:0})
   const dimsRef    = useRef({w:0,h:0})
@@ -474,15 +488,20 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   useEffect(()=>{
     const {w,h}=dimsRef.current
     if (w===0) return
-    // Mouse left — zoom out only if nothing is locked
     if (hoveredId===null) {
-      if (lockedIdRef.current===null) targetViewRef.current={k:1,tx:0,ty:0}
+      // Mouse left — zoom out only if 3s already elapsed (releasePending) or not locked at all
+      if (releasePendingRef.current) {
+        releasePendingRef.current=false
+        lockedIdRef.current=null
+        targetViewRef.current={k:1,tx:0,ty:0}
+      }
+      // else: still within the 3s lock — timer will decide
       return
     }
-    // Same comp already locked — ignore
     if (lockedIdRef.current===hoveredId) return
-    // New comp (first hover OR switching during lock) — cancel previous timer and re-lock
+    // New comp: cancel previous timer and re-lock
     if (lockTimerRef.current) { clearTimeout(lockTimerRef.current); lockTimerRef.current=null }
+    releasePendingRef.current=false
     const comp=COMPS.find(c=>c.id===hoveredId)
     if (!comp) return
     const baseScale=w/(2*Math.PI)
@@ -493,9 +512,15 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
     const K=3.5
     targetViewRef.current={k:K, tx:w/2-pt[0]*K, ty:h/2-pt[1]*K}
     lockTimerRef.current=setTimeout(()=>{
-      targetViewRef.current={k:1,tx:0,ty:0}
-      lockedIdRef.current=null
       lockTimerRef.current=null
+      if (hoveredIdRef.current===lockedIdRef.current) {
+        // Mouse still on marker after 3s → stay zoomed, zoom out on next mouse-leave
+        releasePendingRef.current=true
+      } else {
+        // Mouse already left → zoom out now
+        lockedIdRef.current=null
+        targetViewRef.current={k:1,tx:0,ty:0}
+      }
     },3000)
   },[hoveredId])
 
