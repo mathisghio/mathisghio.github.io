@@ -23,18 +23,18 @@ const galleryImages = [
 ]
 
 const stackedImages: GlassCardImage[] = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_1_ks3r0q.jpg',  alt: 'More moments 1'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_2_pfp3ie.jpg',  alt: 'More moments 2'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: 'More moments 3'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_4_bcbi2t.jpg',  alt: 'More moments 4'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: 'More moments 5'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'More moments 6'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'More moments 7'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_8_tzqwts.jpg',  alt: 'More moments 8'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_9_ejotal.jpg',  alt: 'More moments 9'  },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_10_xd4mim.jpg', alt: 'More moments 10' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_11_ofnfl1.jpg', alt: 'More moments 11' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016161/More_photos_12_qqr8zh.jpg', alt: 'More moments 12' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_1_ks3r0q.jpg',  alt: '2025 Défi Wing winner' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_2_pfp3ie.jpg',  alt: '2025 Formula Wing World Champion' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Raley above Marseille's calanques", objectPosition: 'center top' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_4_bcbi2t.jpg',  alt: '2025 Formula Wing European Champion' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: '2025 Formula Wing European Champion' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'Downwind mark rounding at 2025 World Cup in Morocco' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'Focused before taking first place at 2025 World Cup in Silvaplana' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_8_tzqwts.jpg',  alt: '2025 Morocco World Cup winner' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_9_ejotal.jpg',  alt: '2025 Brazil World Cup' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_10_xd4mim.jpg', alt: 'Foil slide at 2025 China World Cup' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_11_ofnfl1.jpg', alt: 'Freestyle foil slide in Marseille' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016161/More_photos_12_qqr8zh.jpg', alt: 'Focused approaching next mark at 2025 Formula Wing World Championship' },
 ]
 
 function ScrollRevealVideo() {
