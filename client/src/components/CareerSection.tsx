@@ -143,7 +143,7 @@ const timelineData = [
           marking an important step in my progression.
         </p>
         <div className="mb-8">
-          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', 'First place at GWA World Cup'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', 'First place at GWA World Cup', 'First place at Wingfoil Racing World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>

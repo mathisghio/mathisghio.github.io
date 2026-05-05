@@ -80,7 +80,7 @@ export function SportSection() {
               Wingfoil racing reaches an international audience of performance-oriented, tech-savvy adults aged 18–40. Active lifestyle, high disposable income, early adopters.
             </p>
             <p className="font-body text-base mb-10" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
-              Eleven countries on the 2025 circuit. Five world titles and a speed record. Materials science engineering studies that make co-branding credible. Four formats to match your objectives.
+              A worldwide circuit spanning five continents. Five world titles and a speed record. Materials science engineering studies that make co-branding credible. Four formats to match your objectives.
             </p>
             <motion.div
               variants={formatContainer}

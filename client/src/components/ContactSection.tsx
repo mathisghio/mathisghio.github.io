@@ -142,7 +142,7 @@ export function ContactSection() {
               className="font-body text-xs text-center"
               style={{ color: 'rgba(148, 163, 184, 0.4)' }}
             >
-              © 2025 Mathis Ghio · Wingfoil Racing
+              © 2026 Mathis Ghio · Wingfoil Racing · Robert Hajduk · Jean Souville · JM. Cornu · Iset Segura
             </p>
             <div className="flex items-center gap-4">
               {[
