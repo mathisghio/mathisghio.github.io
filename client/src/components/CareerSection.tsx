@@ -77,13 +77,14 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I began my Olympic windsurfing campaign in 2018 on the RS:X, which transitioned to the iQFoil in 2020.<br />
-          Alongside iQFoil, I discovered wingfoil to further develop my foiling skills, and quickly felt a strong connection to the discipline.<br />
-          I then chose to fully commit to wingfoil competition, progressing through national and European events <br />
-          while starting R&D collaborations with my sponsors.
+          I launched my Olympic windsurfing campaign in 2018 on the RS:X, winning the French national title<br />
+          and breaking into the top 10 at World and European level. As the discipline shifted to the iQFoil,<br />
+          I won the Youth Windfoil World Championship and finished Vice European Champion.<br />
+          Drawn to the rising wingfoil scene, I made the switch — winning the national title<br />
+          before claiming my first GWA World Cup victory.
         </p>
         <div className="mb-8">
-          {['Top results on the national wingfoil circuit', 'European debut with immediate podiums', 'R&D partnerships with Levitaz and Forward Wip kicks off', '1st place at GWA World Cup'].map((item, i) => (
+          {['🥇 French National Champion RS:X', 'Top 10 World & European ranking', '🏆 Youth Windfoil World Champion (iQFoil)', '🥈 Vice European Champion iQFoil', '🥇 French National Wingfoil Champion', '1st place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
