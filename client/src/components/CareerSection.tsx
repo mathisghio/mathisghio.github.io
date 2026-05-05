@@ -81,7 +81,8 @@ const timelineData = [
           and finishing in the top 10 at Youth World and European Championships.<br />
           As the discipline shifted to the iQFoil, I competed at the highest junior level —<br />
           Vice European Champion, runner-up at the International Games, and third at the U21 Europeans.<br />
-          Drawn to the rising wingfoil scene, I made the switch, won the national title,<br />
+          Alongside my iQFoil career, I started wingfoiling just for fun —<br />
+          drawn to the rising competitive scene, I eventually made the switch, won the national title,<br />
           and claimed my first GWA World Cup victory.
         </p>
         <div className="mb-8">
