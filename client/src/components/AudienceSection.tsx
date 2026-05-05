@@ -6,7 +6,7 @@ const rows = [
     label: 'Monthly Reach',
     value: '1,000,000',
     unit: 'impressions',
-    detail: 'peak during competition season · 400K off-season · 18,000 Instagram followers · engagement 2–4× above lifestyle influencer average',
+    detail: 'peak during competition season · 400K off-season · 19,800 Instagram followers · engagement 2–4× above lifestyle influencer average',
     hero: true,
   },
   {
