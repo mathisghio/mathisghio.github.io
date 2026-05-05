@@ -242,7 +242,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
         targetRotRef.current=null
         targetScaleRef.current=1
       }
-    },3000)
+    },5000)
   },[hoveredId])
 
   useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
@@ -521,7 +521,7 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
         lockedIdRef.current=null
         targetViewRef.current={k:1,tx:0,ty:0}
       }
-    },3000)
+    },5000)
   },[hoveredId])
 
   // Cleanup lock timer on unmount
