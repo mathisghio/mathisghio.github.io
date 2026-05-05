@@ -375,10 +375,17 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
+    const onWheel=(e:WheelEvent)=>{
+      if (!e.ctrlKey) return
+      e.preventDefault()
+      const factor=e.deltaY>0?0.88:1.14
+      scaleRef.current=Math.max(0.6,Math.min(4,scaleRef.current*factor))
+    }
 
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
+    canvas.addEventListener('wheel',     onWheel, {passive:false})
     window.addEventListener('mouseup',   onMouseUp)
 
     return ()=>{
@@ -386,6 +393,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
+      canvas.removeEventListener('wheel',     onWheel)
       window.removeEventListener('mouseup',   onMouseUp)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -436,8 +444,8 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   const hoveredIdRef = useRef<number|null>(null)
   const viewRef           = useRef<ViewTransform>({k:1,tx:0,ty:0})
   const targetViewRef     = useRef<ViewTransform|null>(null)
-  const autoZoomedBackRef = useRef<number|null>(null)
-  const zoomTimerRef      = useRef<ReturnType<typeof setTimeout>|null>(null)
+  const lockedIdRef  = useRef<number|null>(null)
+  const lockTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null)
   const [bundle, setBundle] = useState<GeoBundle|null>(null)
   const [dims, setDims]     = useState({w:0,h:0})
   const dimsRef    = useRef({w:0,h:0})
@@ -448,31 +456,27 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   useEffect(()=>{
     const {w,h}=dimsRef.current
     if (w===0) return
-    if (zoomTimerRef.current) { clearTimeout(zoomTimerRef.current); zoomTimerRef.current=null }
-    if (hoveredId!==null) {
-      // Don't re-zoom if we already auto-zoomed back for this same marker
-      if (autoZoomedBackRef.current===hoveredId) return
-      const comp=COMPS.find(c=>c.id===hoveredId)
-      if (comp) {
-        const baseScale=w/(2*Math.PI)
-        const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
-        const pt=baseProj([comp.lng,comp.lat])
-        if (pt) {
-          const K=4.5
-          targetViewRef.current={k:K, tx:w/2-pt[0]*K, ty:h/2-pt[1]*K}
-          zoomTimerRef.current=setTimeout(()=>{
-            targetViewRef.current={k:1,tx:0,ty:0}
-            autoZoomedBackRef.current=hoveredId
-            zoomTimerRef.current=null
-          },3000)
-        }
-      }
-    } else {
-      autoZoomedBackRef.current=null
+    // If mouse leaves while locked, ignore — the lock timer handles zoom-out
+    // If already locked (another marker briefly entered), ignore too
+    if (hoveredId===null || lockedIdRef.current!==null) return
+    const comp=COMPS.find(c=>c.id===hoveredId)
+    if (!comp) return
+    const baseScale=w/(2*Math.PI)
+    const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
+    const pt=baseProj([comp.lng,comp.lat])
+    if (!pt) return
+    lockedIdRef.current=hoveredId
+    const K=3.5
+    targetViewRef.current={k:K, tx:w/2-pt[0]*K, ty:h/2-pt[1]*K}
+    lockTimerRef.current=setTimeout(()=>{
       targetViewRef.current={k:1,tx:0,ty:0}
-    }
-    return ()=>{ if (zoomTimerRef.current) { clearTimeout(zoomTimerRef.current); zoomTimerRef.current=null } }
+      lockedIdRef.current=null
+      lockTimerRef.current=null
+    },3000)
   },[hoveredId])
+
+  // Cleanup lock timer on unmount
+  useEffect(()=>()=>{ if (lockTimerRef.current) clearTimeout(lockTimerRef.current) },[])
 
   useEffect(()=>{
     if (!containerRef.current) return
@@ -543,7 +547,7 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
       bundle.features.features.forEach(f=>gp(f as any))
       ctx.strokeStyle='rgba(56,189,248,0.52)'; ctx.lineWidth=0.75/k; ctx.stroke()
 
-      const hov=hoveredIdRef.current
+      const hov=lockedIdRef.current??hoveredIdRef.current
       COMPS.forEach((comp,i)=>{
         const pt=baseProj([comp.lng,comp.lat]); if (!pt) return
         const [px,py]=pt
@@ -826,7 +830,7 @@ export function GlobeSection() {
             <Globe3DD3  visible={mode==='3d'} hoveredId={hoveredId} onHover={handleCanvasHover}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
-              {mode==='3d'?'drag · hover markers':'pinch to zoom · drag to pan · hover markers'}
+              {mode==='3d'?'drag · pinch to zoom · hover markers':'pinch to zoom · drag to pan · hover markers'}
             </div>
           </div>
 
