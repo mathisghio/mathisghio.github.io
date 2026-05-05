@@ -201,8 +201,11 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   const hoveredIdRef = useRef<number|null>(null)
   const rotRef       = useRef<[number,number]>([0,-18])
   const targetRotRef = useRef<[number,number]|null>(null)
-  const scaleRef     = useRef(1)
-  const isDragging   = useRef(false)
+  const scaleRef       = useRef(1)
+  const targetScaleRef = useRef(1)
+  const isDragging     = useRef(false)
+  const lockedIdRef3D  = useRef<number|null>(null)
+  const lockTimerRef3D = useRef<ReturnType<typeof setTimeout>|null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [loadError,  setLoadError]  = useState(false)
 
@@ -210,13 +213,26 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
   useEffect(()=>{
-    if (hoveredId!==null) {
-      const comp=COMPS.find(c=>c.id===hoveredId)
-      if (comp) targetRotRef.current=[-comp.lng, Math.max(-70,Math.min(70,-comp.lat))]
-    } else {
-      targetRotRef.current=null
+    if (hoveredId===null) {
+      if (lockedIdRef3D.current===null) targetRotRef.current=null
+      return
     }
+    if (lockedIdRef3D.current===hoveredId) return
+    if (lockTimerRef3D.current) { clearTimeout(lockTimerRef3D.current); lockTimerRef3D.current=null }
+    const comp=COMPS.find(c=>c.id===hoveredId)
+    if (!comp) return
+    lockedIdRef3D.current=hoveredId
+    targetRotRef.current=[-comp.lng, Math.max(-70,Math.min(70,-comp.lat))]
+    targetScaleRef.current=1.7
+    lockTimerRef3D.current=setTimeout(()=>{
+      targetRotRef.current=null
+      targetScaleRef.current=1
+      lockedIdRef3D.current=null
+      lockTimerRef3D.current=null
+    },3000)
   },[hoveredId])
+
+  useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
 
   useEffect(()=>{
     const container=containerRef.current, canvas=canvasRef.current
@@ -285,7 +301,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
         bundle.features.features.forEach(f=>geoPath(f as any))
         ctx.strokeStyle='rgba(56,189,248,0.52)'; ctx.lineWidth=0.75; ctx.stroke()
 
-        const hov=hoveredIdRef.current
+        const hov=lockedIdRef3D.current??hoveredIdRef.current
         COMPS.forEach((comp,i)=>{
           const pt=projection([comp.lng,comp.lat])
           if (!pt) return
@@ -329,6 +345,8 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 
     const AUTO_SPEED=0.10, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
+      const ds=targetScaleRef.current-scaleRef.current
+      if (Math.abs(ds)>0.001) scaleRef.current+=ds*0.055
       if (targetRotRef.current!==null && !isDragging.current) {
         const [tLng,tLat]=targetRotRef.current
         let [cLng,cLat]=rotRef.current
@@ -456,9 +474,15 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   useEffect(()=>{
     const {w,h}=dimsRef.current
     if (w===0) return
-    // If mouse leaves while locked, ignore — the lock timer handles zoom-out
-    // If already locked (another marker briefly entered), ignore too
-    if (hoveredId===null || lockedIdRef.current!==null) return
+    // Mouse left — zoom out only if nothing is locked
+    if (hoveredId===null) {
+      if (lockedIdRef.current===null) targetViewRef.current={k:1,tx:0,ty:0}
+      return
+    }
+    // Same comp already locked — ignore
+    if (lockedIdRef.current===hoveredId) return
+    // New comp (first hover OR switching during lock) — cancel previous timer and re-lock
+    if (lockTimerRef.current) { clearTimeout(lockTimerRef.current); lockTimerRef.current=null }
     const comp=COMPS.find(c=>c.id===hoveredId)
     if (!comp) return
     const baseScale=w/(2*Math.PI)
