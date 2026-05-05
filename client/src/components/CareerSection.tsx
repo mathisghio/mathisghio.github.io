@@ -84,7 +84,7 @@ const timelineData = [
           before claiming my first GWA World Cup victory.
         </p>
         <div className="mb-8">
-          {['🥇 French National Champion RS:X', 'Top 10 at Youth RS:X European and World Championships', 'U19 Vice European Champion in IQFoil', 'Second place at the U19 IQFoil International Games', 'Third place at the U21 IQFoil European Championship', '🥇 French National Wingfoil Champion', '1st place at GWA World Cup'].map((item, i) => (
+          {['🥇 French National Champion RS:X', 'Top 10 at Youth RS:X European and World Championships', 'U19 Vice European Champion in IQFoil', 'Second place at the U19 IQFoil International Games', 'Third place at the U21 IQFoil European Championship', '🥇 French National Wingfoil Champion', 'First place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1" style={{ color: 'rgba(148,163,184,0.85)' }}>
               <span style={{ color: '#0EA5E9' }}>✦</span> {item}
             </div>
@@ -141,7 +141,7 @@ const timelineData = [
           marking an important step in my progression.
         </p>
         <div className="mb-8">
-          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', '1st place at GWA World Cup'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion', '🥇 GWA Race European Champion', 'First place at GWA World Cup'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -179,7 +179,7 @@ const timelineData = [
           Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
         </p>
         <div className="mb-8">
-          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', '1st place at GWA World Cup', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing Superstars'].map((item, i) => (
+          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', 'First place at GWA World Cup', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -220,7 +220,7 @@ const timelineData = [
           Double Formula Wing European Champion, and three additional World Cup victories.
         </p>
         <div className="mb-8">
-          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Défi Wing', 'Start of the R&D partnership with Ozone'].map((item, i) => (
+          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing', 'Start of the R&D partnership with Ozone'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -266,7 +266,7 @@ const timelineData = [
           and support from my team and sponsors made this possible.
         </p>
         <div className="mb-8">
-          {['🏆 Quadruple Wingfoil Racing World Champion', '🏆 Formula Wing World Champion', '🥇 Quadruple European Champion', '2× 1st at Wingfoil Racing World Cups', '1st at Défi Wing'].map((item, i) => (
+          {['🏆 Quadruple Wingfoil Racing World Champion', '🏆 Formula Wing World Champion', '🥇 Quadruple European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-semibold" style={{ color: 'rgba(245,158,11,0.95)' }}>
               {item}
             </div>

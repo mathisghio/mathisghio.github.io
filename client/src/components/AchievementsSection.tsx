@@ -41,10 +41,10 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: num
 }
 
 const yearData = [
-  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: ['Wingfoil Racing World Champion', 'GWA Race European Champion', '1st at GWA World Cup'] },
-  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: ['Double Wingfoil Racing World Champion', 'Formula Wing European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Defi Wing Superstars'] },
-  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: ['Triple Wingfoil Racing World Champion', 'Double Formula Wing European Champion', '3× 1st at Wingfoil Racing World Cups', '1st at Defi Wing'] },
-  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: ['Quadruple Wingfoil Racing World Champion', 'Formula Wing World Champion', 'Triple Formula Wing European Champion', '2× 1st at Wingfoil Racing World Cups', '1st at Defi Wing'] },
+  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: ['Wingfoil Racing World Champion', 'GWA Race European Champion', 'First place at GWA World Cup'] },
+  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: ['Double Wingfoil Racing World Champion', 'Formula Wing European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'] },
+  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: ['Triple Wingfoil Racing World Champion', 'Double Formula Wing European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
+  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: ['Quadruple Wingfoil Racing World Champion', 'Formula Wing World Champion', 'Triple Formula Wing European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
 ]
 
 export function AchievementsSection() {
