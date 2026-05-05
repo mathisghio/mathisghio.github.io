@@ -25,7 +25,7 @@ const galleryImages = [
 const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_1_ks3r0q.jpg',  alt: '2025 Défi Wing winner' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_2_pfp3ie.jpg',  alt: '2025 Formula Wing World Champion' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Raley above Marseille's calanques", objectPosition: 'center top' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Railey above Marseille's calanques", objectPosition: 'center top' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_4_bcbi2t.jpg',  alt: '2025 Formula Wing European Champion' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: '2025 Formula Wing European Champion' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'Downwind mark rounding at 2025 World Cup in Morocco' },
