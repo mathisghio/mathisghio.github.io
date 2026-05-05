@@ -23,26 +23,18 @@ const galleryImages = [
 ]
 
 const stackedImages: GlassCardImage[] = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Photo 1' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426727/index-gallery-2_kvqi4k.jpg', alt: 'Photo 2' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Photo 3' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Photo 4' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426881/podium-5_lurawr.jpg',        alt: 'Photo 5' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774375894/IMG_7060_cdolxq.png',        alt: 'Photo 6' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426858/IMG_7389_2_kzk1do.jpg',      alt: 'Photo 7' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774482083/IMG_8195_wortbf.jpg',        alt: 'Photo 8' },
-  { src: 'CLOUDINARY_URL_9',  alt: 'Photo 9'  },
-  { src: 'CLOUDINARY_URL_10', alt: 'Photo 10' },
-  { src: 'CLOUDINARY_URL_11', alt: 'Photo 11' },
-  { src: 'CLOUDINARY_URL_12', alt: 'Photo 12' },
-  { src: 'CLOUDINARY_URL_13', alt: 'Photo 13' },
-  { src: 'CLOUDINARY_URL_14', alt: 'Photo 14' },
-  { src: 'CLOUDINARY_URL_15', alt: 'Photo 15' },
-  { src: 'CLOUDINARY_URL_16', alt: 'Photo 16' },
-  { src: 'CLOUDINARY_URL_17', alt: 'Photo 17' },
-  { src: 'CLOUDINARY_URL_18', alt: 'Photo 18' },
-  { src: 'CLOUDINARY_URL_19', alt: 'Photo 19' },
-  { src: 'CLOUDINARY_URL_20', alt: 'Photo 20' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_1_ks3r0q.jpg',  alt: 'More moments 1'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_2_pfp3ie.jpg',  alt: 'More moments 2'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: 'More moments 3'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_4_bcbi2t.jpg',  alt: 'More moments 4'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: 'More moments 5'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'More moments 6'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'More moments 7'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_8_tzqwts.jpg',  alt: 'More moments 8'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_9_ejotal.jpg',  alt: 'More moments 9'  },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_10_xd4mim.jpg', alt: 'More moments 10' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_11_ofnfl1.jpg', alt: 'More moments 11' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016161/More_photos_12_qqr8zh.jpg', alt: 'More moments 12' },
 ]
 
 function ScrollRevealVideo() {
@@ -174,7 +166,7 @@ export function GallerySection() {
             <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>More moments</span>
           </div>
         </div>
-        <GlassCards images={stackedImages.filter(img => !img.src.startsWith('CLOUDINARY_URL'))} />
+        <GlassCards images={stackedImages} />
       </div>
 
       <div
