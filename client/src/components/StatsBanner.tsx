@@ -3,8 +3,8 @@ const items = [
   '41.40 KTS SPEED RECORD',
   '4× EUROPEAN CHAMPION',
   '10+ WORLD CUP VICTORIES',
-  'GREATEST WINGFOILER OF ALL TIME',
-  'INSA LYON ENGINEER',
+  'PUSHING WINGFOIL TO ITS LIMITS',
+  'INSA LYON ENGINEER STUDENT',
   'FRENCH ELITE ATHLETE',
 ]
 
@@ -18,7 +18,7 @@ export function StatsBanner() {
         borderBottom: '1px solid rgba(14, 165, 233, 0.12)',
       }}
     >
-      <div className="flex" style={{ animation: 'marquee 30s linear infinite' }}>
+      <div style={{ display: 'flex', width: 'max-content', animation: 'marquee 30s linear infinite', willChange: 'transform' }}>
         {[...items, ...items].map((item, i) => (
           <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
             <span
