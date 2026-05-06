@@ -209,7 +209,7 @@ export function Navigation() {
         {isNonActiveHovered && <div className="mgAirStreaks"><span /><span /><span /><span /></div>}
         <img
           src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774530426/mascot_1_xfxno0.png"
-          alt=""
+          alt="Wing mascot"
           width={mascotW}
           height={mascotH}
           className={mascotClass}

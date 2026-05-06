@@ -41,10 +41,32 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: num
 }
 
 const yearData = [
-  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: ['Wingfoil Racing World Champion', 'GWA Race European Champion', 'First place at GWA World Cup', 'First place at Wingfoil Racing World Cup'] },
-  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: ['Double Wingfoil Racing World Champion', 'Double European Champion', 'First place at GWA World Cup', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'] },
-  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: ['Triple Wingfoil Racing World Champion', 'Triple European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
-  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: ['Quadruple Wingfoil Racing World Champion', 'Formula Wing World Champion', 'Quadruple European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
+  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: [
+    'Wingfoil Racing World Champion — 1st title',
+    'GWA Race European Champion — 1st European title',
+    'First place at GWA World Cup',
+    'First place at Wingfoil Racing World Cup',
+  ]},
+  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: [
+    'Wingfoil Racing World Champion — 2nd consecutive title',
+    'Formula Wing European Champion — 2nd consecutive European title',
+    'First place at GWA World Cup',
+    '3× First place at Wingfoil Racing World Cups',
+    'First place at Défi Wing Superstars',
+  ]},
+  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: [
+    'Wingfoil Racing World Champion — 3rd consecutive title',
+    'Formula Wing European Champion — 3rd consecutive European title',
+    '3× First place at Wingfoil Racing World Cups',
+    'First place at Défi Wing',
+  ]},
+  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: [
+    'Wingfoil Racing World Champion — 4th consecutive title',
+    'Formula Wing World Champion',
+    'Formula Wing European Champion — 4th consecutive European title',
+    '2× First place at Wingfoil Racing World Cups',
+    'First place at Défi Wing',
+  ]},
 ]
 
 export function AchievementsSection() {

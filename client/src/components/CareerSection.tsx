@@ -177,11 +177,10 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          I continued to build consistency at the top level, defending my titles and earning <br />
-          Double Wingfoil Racing World Champion, Formula Wing European Champion, along with three World Cup wins.
+          I defended my Wingfoil Racing World title for a 2nd consecutive year and won the Formula Wing European Championship for the first time, along with four World Cup wins.
         </p>
         <div className="mb-8">
-          {['🏆 Double Wingfoil Racing World Champion', '🥇 Double European Champion', 'First place at GWA World Cup', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion — 2nd consecutive title', '🥇 Formula Wing European Champion — 2nd consecutive European title', 'First place at GWA World Cup', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -218,11 +217,10 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          A standout season, with a Triple Wingfoil Racing World Champion title, <br />
-          Double Formula Wing European Champion, and three additional World Cup victories.
+          A standout season defending my Wingfoil Racing World title for a 3rd consecutive year, earning a 3rd consecutive European title, and three additional World Cup victories.
         </p>
         <div className="mb-8">
-          {['🏆 Triple Wingfoil Racing World Champion', '🥇 Triple European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing', 'Start of the R&D partnership with Ozone'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion — 3rd consecutive title', '🥇 Formula Wing European Champion — 3rd consecutive European title', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing', 'Start of the R&D partnership with Ozone'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-medium" style={{ color: 'rgba(14,165,233,0.9)' }}>
               {item}
             </div>
@@ -260,15 +258,14 @@ const timelineData = [
     content: (
       <div>
         <p className="font-body text-xs md:text-sm font-normal mb-3" style={{ color: 'rgba(241,245,249,0.75)' }}>
-          My strongest season to date, marking four World Champion titles, <br />
-          a Formula Wing World title, and four European titles.
+          My strongest season to date: a 4th consecutive Wingfoil Racing World title, a first-ever Formula Wing World Championship, and a 4th consecutive European title.
         </p>
         <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(148,163,184,0.7)' }}>
-          I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work, <br />
+          I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work,
           and support from my team and sponsors made this possible.
         </p>
         <div className="mb-8">
-          {['🏆 Quadruple Wingfoil Racing World Champion', '🏆 Formula Wing World Champion', '🥇 Quadruple European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'].map((item, i) => (
+          {['🏆 Wingfoil Racing World Champion — 4th consecutive title', '🏆 Formula Wing World Champion', '🥇 Formula Wing European Champion — 4th consecutive European title', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'].map((item, i) => (
             <div key={i} className="flex gap-2 items-center text-xs md:text-sm mb-1 font-semibold" style={{ color: 'rgba(245,158,11,0.95)' }}>
               {item}
             </div>
