@@ -7,11 +7,13 @@ export const LampContainer = ({
   className,
   contentOffset,
   minHeight,
+  bgColor = '#08090E',
 }: {
   children: React.ReactNode
   className?: string
   contentOffset?: number
   minHeight?: string
+  bgColor?: string
 }) => {
   return (
     <div
@@ -19,7 +21,7 @@ export const LampContainer = ({
         'relative flex flex-col items-center justify-center overflow-hidden w-full z-0 lamp-container',
         className
       )}
-      style={{ background: '#08090E', ...(minHeight ? { minHeight } : {}) }}
+      style={{ background: bgColor, ...(minHeight ? { minHeight } : {}) }}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
 
@@ -37,7 +39,7 @@ export const LampContainer = ({
           <div
             className="absolute w-full left-0 h-44 bottom-0 z-20"
             style={{
-              background: '#08090E',
+              background: bgColor,
               WebkitMaskImage: 'linear-gradient(to top, white 60%, transparent)',
               maskImage: 'linear-gradient(to top, white 60%, transparent)',
             }}
@@ -45,7 +47,7 @@ export const LampContainer = ({
           <div
             className="absolute w-40 h-full left-0 bottom-0 z-20"
             style={{
-              background: '#08090E',
+              background: bgColor,
               WebkitMaskImage: 'linear-gradient(to right, white, transparent)',
               maskImage: 'linear-gradient(to right, white, transparent)',
             }}
@@ -66,7 +68,7 @@ export const LampContainer = ({
           <div
             className="absolute w-40 h-full right-0 bottom-0 z-20"
             style={{
-              background: '#08090E',
+              background: bgColor,
               WebkitMaskImage: 'linear-gradient(to left, white, transparent)',
               maskImage: 'linear-gradient(to left, white, transparent)',
             }}
@@ -74,7 +76,7 @@ export const LampContainer = ({
           <div
             className="absolute w-full right-0 h-44 bottom-0 z-20"
             style={{
-              background: '#08090E',
+              background: bgColor,
               WebkitMaskImage: 'linear-gradient(to top, white 60%, transparent)',
               maskImage: 'linear-gradient(to top, white 60%, transparent)',
             }}
@@ -84,7 +86,7 @@ export const LampContainer = ({
         {/* ── Blur de fond bas ── */}
         <div
           className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 blur-2xl"
-          style={{ background: '#08090E' }}
+          style={{ background: bgColor }}
         />
 
         {/* ── Backdrop blur overlay ── */}
@@ -121,7 +123,7 @@ export const LampContainer = ({
         {/* ── Masque bas ── */}
         <div
           className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem]"
-          style={{ background: '#08090E' }}
+          style={{ background: bgColor }}
         />
       </div>
 
