@@ -23,7 +23,7 @@ export function ShaderAnimation2() {
         vec3 color = vec3(0.0);
         for(int j = 0; j < 3; j++){
           for(int i=0; i < 5; i++){
-            color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*5.0 - length(uv) + mod(uv.x+uv.y, 0.2));
+            color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*3.0 - length(uv) + mod(uv.x+uv.y, 0.2));
           }
         }
         gl_FragColor = vec4(color[0],color[1],color[2],1.0);
@@ -60,7 +60,7 @@ export function ShaderAnimation2() {
     const animate = () => {
       if (!running) return
       rafId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.18
+      uniforms.time.value += 0.26
       renderer.render(scene, camera)
     }
 

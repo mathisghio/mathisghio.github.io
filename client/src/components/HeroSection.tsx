@@ -43,7 +43,7 @@ export function HeroSection() {
 
       {/* Waves — desktop uniquement */}
       <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
-        <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.22)" backgroundColor="transparent" pointerSize={0.8} />
+        <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.22)" backgroundColor="transparent" pointerSize={0.8} interactive={false} />
       </div>
 
       {/* Lignes accent gauche — desktop */}

@@ -15,6 +15,7 @@ interface InteractiveWavesProps {
   strokeColor?: string
   backgroundColor?: string
   pointerSize?: number
+  interactive?: boolean
 }
 
 export function InteractiveWaves({
@@ -22,6 +23,7 @@ export function InteractiveWaves({
   strokeColor = 'rgba(14, 165, 233, 0.4)',
   backgroundColor = 'transparent',
   pointerSize = 1,
+  interactive = true,
 }: InteractiveWavesProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const svgRef       = useRef<SVGSVGElement>(null)
@@ -47,8 +49,10 @@ export function InteractiveWaves({
     setSize()
     setLines()
     window.addEventListener('resize', onResize)
-    window.addEventListener('mousemove', onMouseMove)
-    containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false })
+    if (interactive) {
+      window.addEventListener('mousemove', onMouseMove)
+      containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false })
+    }
     rafRef.current = requestAnimationFrame(tick)
 
     return () => {
@@ -264,24 +268,26 @@ export function InteractiveWaves({
        * --mx/--my follow the raw mouse instantly (no lag)
        * so the dot feels directly attached to the cursor.
        */}
-      <div
-        ref={dotRef}
-        aria-hidden
-        style={{
-          position:      'absolute',
-          top:    0,
-          left:   0,
-          width:  `${pointerSize}rem`,
-          height: `${pointerSize}rem`,
-          borderRadius:  '50%',
-          background:    strokeColor,
-          boxShadow:     `0 0 ${pointerSize * 8}px 2px ${strokeColor}, 0 0 ${pointerSize * 20}px 4px rgba(14,165,233,0.3)`,
-          transform:     'translate3d(calc(var(--mx) - 50%), calc(var(--my) - 50%), 0)',
-          willChange:    'transform',
-          pointerEvents: 'none',
-          transition:    'opacity 0.2s ease',
-        }}
-      />
+      {interactive && (
+        <div
+          ref={dotRef}
+          aria-hidden
+          style={{
+            position:      'absolute',
+            top:    0,
+            left:   0,
+            width:  `${pointerSize}rem`,
+            height: `${pointerSize}rem`,
+            borderRadius:  '50%',
+            background:    strokeColor,
+            boxShadow:     `0 0 ${pointerSize * 8}px 2px ${strokeColor}, 0 0 ${pointerSize * 20}px 4px rgba(14,165,233,0.3)`,
+            transform:     'translate3d(calc(var(--mx) - 50%), calc(var(--my) - 50%), 0)',
+            willChange:    'transform',
+            pointerEvents: 'none',
+            transition:    'opacity 0.2s ease',
+          }}
+        />
+      )}
     </div>
   )
 }
