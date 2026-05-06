@@ -36,14 +36,15 @@ export function PartnersSection() {
         xScale={1.2}
         yScale={0.35}
         distortion={0.06}
-        speed={0.006}
-        opacity={0.18}
+        speed={0.022}
+        opacity={0.32}
+        yOffset={0.45}
       />
 
       {/* Dark overlay so text stays legible over the shader */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: 'rgba(8,9,14,0.72)' }}
+        style={{ background: 'rgba(8,9,14,0.50)' }}
       />
 
       {/* Edge fades */}

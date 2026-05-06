@@ -9,6 +9,7 @@ interface WebGLShaderProps {
   distortion?: number
   speed?: number
   opacity?: number
+  yOffset?: number
 }
 
 export function WebGLShader({
@@ -17,6 +18,7 @@ export function WebGLShader({
   distortion = 0.05,
   speed = 0.01,
   opacity = 1,
+  yOffset = 0.0,
 }: WebGLShaderProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -58,10 +60,12 @@ export function WebGLShader({
       uniform float xScale;
       uniform float yScale;
       uniform float distortion;
+      uniform float yOffset;
 
       void main() {
         vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
-        
+        p.y -= yOffset;
+
         float d = length(p) * distortion;
         
         float rx = p.x * (1.0 + d);
@@ -96,6 +100,7 @@ export function WebGLShader({
         xScale: { value: xScale },
         yScale: { value: yScale },
         distortion: { value: distortion },
+        yOffset: { value: yOffset },
       }
 
       const position = [
