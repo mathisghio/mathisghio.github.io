@@ -8,7 +8,8 @@ import { VideoPlayerPro } from '@/components/VideoPlayerPro'
 import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 
 /* q_auto pour la vidéo → Cloudinary choisit le bitrate optimal */
-const MEDIA_VIDEO = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
+const MEDIA_VIDEO        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
+const MEDIA_VIDEO_POSTER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1777807705/Cover-video_njzjgn.jpg'
 
 /* q_auto,f_auto pour les images → WebP/AVIF selon le navigateur */
 const galleryImages = [
@@ -71,9 +72,9 @@ function ScrollRevealVideo() {
         </motion.div>
         <motion.div style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }} className="overflow-hidden">
           {revealed ? (
-            <VideoPlayerPro src={MEDIA_VIDEO} poster="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1777807705/Cover-video_njzjgn.jpg" sound={false} />
+            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} />
           ) : (
-            <div style={{ aspectRatio: '16/9', background: '#000' }} />
+            <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
           )}
         </motion.div>
       </div>
