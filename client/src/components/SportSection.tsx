@@ -51,7 +51,7 @@ export function SportSection() {
       <div className="absolute inset-0 z-0" style={{ opacity: 0.65 }}>
         <ShaderAnimation2 />
       </div>
-      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.35) 0%, rgba(8,9,14,0.2) 50%, rgba(8,9,14,0.35) 100%)' }} />
+      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.60) 0%, rgba(8,9,14,0.48) 50%, rgba(8,9,14,0.60) 100%)' }} />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
 
@@ -76,10 +76,10 @@ export function SportSection() {
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="font-body text-base mb-4" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
+            <p className="font-body text-base mb-4" style={{ color: 'rgba(241,245,249,0.92)', lineHeight: 1.8 }}>
               Wingfoil racing reaches an international audience of performance-oriented, tech-savvy adults aged 18–40. Active lifestyle, high disposable income, early adopters.
             </p>
-            <p className="font-body text-base mb-10" style={{ color: 'rgba(148,163,184,0.85)', lineHeight: 1.8 }}>
+            <p className="font-body text-base mb-10" style={{ color: 'rgba(241,245,249,0.85)', lineHeight: 1.8 }}>
               A worldwide circuit spanning five continents. Five world titles and a speed record. Materials science engineering studies that make co-branding credible. Four formats to match your objectives.
             </p>
             <motion.div
@@ -97,7 +97,7 @@ export function SportSection() {
                 >
                   <span
                     className="font-display text-xs flex-shrink-0 mt-1"
-                    style={{ color: 'rgba(14,165,233,0.5)', letterSpacing: '0.1em', minWidth: '2rem' }}
+                    style={{ color: 'rgba(14,165,233,0.9)', letterSpacing: '0.1em', minWidth: '2rem' }}
                   >
                     {format.number}
                   </span>
@@ -105,7 +105,7 @@ export function SportSection() {
                     <h4 className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.05rem' }}>
                       {format.title}
                     </h4>
-                    <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.6 }}>
+                    <p className="font-body text-sm" style={{ color: 'rgba(241,245,249,0.78)', lineHeight: 1.6 }}>
                       {format.description}
                     </p>
                   </div>

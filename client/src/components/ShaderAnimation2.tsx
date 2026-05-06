@@ -60,7 +60,7 @@ export function ShaderAnimation2() {
     const animate = () => {
       if (!running) return
       rafId = requestAnimationFrame(animate)
-      uniforms.time.value += 0.26
+      uniforms.time.value += 0.16
       renderer.render(scene, camera)
     }
 

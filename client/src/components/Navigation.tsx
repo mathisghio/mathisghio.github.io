@@ -135,82 +135,40 @@ export function Navigation() {
   /* ── Scroll spy ── */
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
-    const visibleSet = new Set<string>();
+    // Sections in the DOM that have no nav entry but should map to a nav index:
+    // #goat → career (index 2). We handle this naturally because goat falls
+    // between career and sport; when goat is past the threshold but sport is not,
+    // bestIdx stays at career.
+    const threshold = pillTopPad + 80;
 
-    const isInHero = () => {
-      const firstEl = document.getElementById(ids[0]);
-      return !firstEl || firstEl.getBoundingClientRect().top > 0;
-    };
+    let rafId = -1;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (scrollSpyPaused.current) return;
-
-        entries.forEach(e => {
-          if (e.isIntersecting) visibleSet.add(e.target.id);
-          else visibleSet.delete(e.target.id);
-        });
-
-        if (entries.some(e => e.target.id === "goat" && e.isIntersecting)) {
-          setActiveIndex(2);
-          return;
-        }
-        visibleSet.delete("goat");
-
-        if (visibleSet.size === 0) {
-          // threshold = nav height + scroll offset used by handleNav (+65 gives buffer).
-          // aboveIdx returns -1 when no section has crossed the threshold (= hero state).
-          const threshold = pillTopPad + 65;
-          const aboveIdx = ids.reduce((best, id, i) => {
-            const el = document.getElementById(id);
-            if (!el) return best;
-            return el.getBoundingClientRect().top < threshold ? i : best;
-          }, -1);
-          setActiveIndex(aboveIdx);
-        } else {
-          const sorted = ids.filter(id => visibleSet.has(id));
-          if (sorted.length > 0) setActiveIndex(ids.indexOf(sorted[0]));
-        }
-      },
-      { rootMargin: "-85% 0px -30% 0px", threshold: 0 }
-    );
-
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    const goatEl = document.getElementById("goat");
-    if (goatEl) observer.observe(goatEl);
-
-    // Seed activeIndex after scroll restoration is fully complete.
-    // scrollend fires when the browser finishes restoring scroll position (images/layout settled).
-    // The visibleSet guard is intentionally omitted — we override any premature IntersectionObserver result.
-    const seedFromScroll = () => {
+    const compute = () => {
       if (scrollSpyPaused.current) return;
-      const threshold = pillTopPad + 65;
-      const aboveIdx = ids.reduce((best, id, i) => {
+      let bestIdx = -1;
+      ids.forEach((id, i) => {
         const el = document.getElementById(id);
-        if (!el) return best;
-        return el.getBoundingClientRect().top < threshold ? i : best;
-      }, -1);
-      setActiveIndex(aboveIdx);
+        if (!el) return;
+        if (el.getBoundingClientRect().top < threshold) bestIdx = i;
+      });
+      setActiveIndex(bestIdx);
     };
 
-    window.addEventListener('scrollend', seedFromScroll, { once: true, passive: true });
-    // Fallback for browsers without scrollend, and for pages loaded at scroll position 0.
-    // Multiple timeouts handle slow scroll restoration (images, lazy sections settling).
-    const t1 = setTimeout(seedFromScroll, 600);
-    const t2 = setTimeout(seedFromScroll, 1000);
-    const t3 = setTimeout(seedFromScroll, 1800);
+    const onScroll = () => {
+      if (rafId !== -1) return;
+      rafId = requestAnimationFrame(() => { rafId = -1; compute(); });
+    };
+
+    compute(); // Seed immediately (covers page reload at a scrolled position)
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', compute, { passive: true });
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener('scrollend', seedFromScroll);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', compute);
+      if (rafId !== -1) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [pillTopPad]);
 
   const handleNav = (href: string, index: number) => {
     setMenuOpen(false); setActiveIndex(index);
