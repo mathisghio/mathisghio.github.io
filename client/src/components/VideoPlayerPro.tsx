@@ -426,14 +426,15 @@ export function VideoPlayerPro({
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
 
-  /* ── Pause when scrolled out of view ── */
+  /* ── Pause when scrolled out of view (skip if PiP is active) ── */
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
-          videoRef.current.pause();
+        const v = videoRef.current;
+        if (!entry.isIntersecting && v && !v.paused && document.pictureInPictureElement !== v) {
+          v.pause();
         }
       },
       { threshold: 0.2 },
