@@ -37,8 +37,8 @@ export function PartnersSection() {
         yScale={0.35}
         distortion={0.06}
         speed={0.022}
-        opacity={0.38}
-        yOffset={0.82}
+        opacity={0.58}
+        yOffset={0.90}
       />
 
       {/* Dark overlay so text stays legible over the shader */}

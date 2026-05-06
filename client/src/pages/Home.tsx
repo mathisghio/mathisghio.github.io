@@ -64,7 +64,6 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <StatsBanner />
-      <AudienceSection />
       <AboutSection />
       <AchievementsSection />
       <CareerSection />
@@ -72,6 +71,7 @@ export default function Home() {
       <GlobeSection />
       <SportSection />
       <GallerySection />
+      <AudienceSection />
       <PartnersSection />
       <PressSection />
       <ContactSection />
