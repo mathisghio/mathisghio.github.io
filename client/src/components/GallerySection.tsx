@@ -52,14 +52,23 @@ function ScrollRevealVideo() {
   const radius   = useTransform(scrollYProgress, [0, 0.85], [32, 6])
   const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`
 
-  const labelOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1])
-  const labelY       = useTransform(scrollYProgress, [0, 0.35], [24, 0])
+  const labelOpacity    = useTransform(scrollYProgress, [0, 0.35], [0, 1])
+  const labelY          = useTransform(scrollYProgress, [0, 0.35], [24, 0])
+  const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
   useEffect(() => {
     return scrollYProgress.on('change', v => {
       if (v >= 0.84 && !revealed) setRevealed(true)
     })
   }, [scrollYProgress, revealed])
+
+  /* Lock scroll for 1.5s when the video reveals so the user sees it start */
+  useEffect(() => {
+    if (!revealed) return
+    document.body.style.overflow = 'hidden'
+    const t = setTimeout(() => { document.body.style.overflow = '' }, 1500)
+    return () => { clearTimeout(t); document.body.style.overflow = '' }
+  }, [revealed])
 
   return (
     <div ref={scrollRef} className="relative min-h-[220vh] w-full">
@@ -76,6 +85,25 @@ function ScrollRevealVideo() {
           ) : (
             <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
           )}
+        </motion.div>
+
+        {/* Scroll hint — visible during the reveal animation, gone once video starts */}
+        <motion.div
+          style={{ opacity: scrollHintOpacity }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none select-none"
+        >
+          <span className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.45)', letterSpacing: '0.2em' }}>
+            Scroll to reveal
+          </span>
+          <motion.svg
+            width="20" height="20" viewBox="0 0 20 20" fill="none"
+            stroke="rgba(255,255,255,0.35)" strokeWidth="1.5"
+            strokeLinecap="round" strokeLinejoin="round"
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <path d="M5 8l5 5 5-5" />
+          </motion.svg>
         </motion.div>
       </div>
     </div>

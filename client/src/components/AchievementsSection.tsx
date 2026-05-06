@@ -41,15 +41,17 @@ function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: num
 }
 
 const yearData = [
-  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: ['Wingfoil Racing World Champion', 'GWA Race European Champion', 'First place at GWA World Cup'] },
-  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: ['Double Wingfoil Racing World Champion', 'Formula Wing European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'] },
-  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: ['Triple Wingfoil Racing World Champion', 'Double Formula Wing European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
-  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: ['Quadruple Wingfoil Racing World Champion', 'Formula Wing World Champion', 'Triple Formula Wing European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
+  { year: '2022', label: 'Breakthrough', color: '#0EA5E9', results: ['Wingfoil Racing World Champion', 'GWA Race European Champion', 'First place at GWA World Cup', 'First place at Wingfoil Racing World Cup'] },
+  { year: '2023', label: 'Dominance Begins', color: '#0EA5E9', results: ['Double Wingfoil Racing World Champion', 'Double European Champion', 'First place at GWA World Cup', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing Superstars'] },
+  { year: '2024', label: 'Triple Crown', color: '#0EA5E9', results: ['Triple Wingfoil Racing World Champion', 'Triple European Champion', '3× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
+  { year: '2025', label: 'Absolute Dominance', color: '#F59E0B', results: ['Quadruple Wingfoil Racing World Champion', 'Formula Wing World Champion', 'Quadruple European Champion', '2× First place at Wingfoil Racing World Cups', 'First place at Défi Wing'] },
 ]
 
 export function AchievementsSection() {
   const { ref, inView } = useInView(0.1)
   const [activeYear, setActiveYear] = useState('2025')
+  const [hoveredYear, setHoveredYear] = useState<string | null>(null)
+  const [hoveredResult, setHoveredResult] = useState<number | null>(null)
   const activeData = yearData.find(y => y.year === activeYear)!
   const shouldReduceMotion = useReducedMotion()
 
@@ -86,15 +88,38 @@ export function AchievementsSection() {
           <div className="lg:col-span-2 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-20px)', transitionDelay: '400ms' }}>
             <h3 className="font-body text-xs uppercase tracking-widest mb-6" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.2em' }}>Season</h3>
             <div className="flex flex-col gap-2">
-              {yearData.map((y) => (
-                <button key={y.year} onClick={() => setActiveYear(y.year)} className="flex items-center gap-4 p-4 rounded-sm text-left transition-all duration-300" style={{ background: activeYear === y.year ? 'rgba(14, 165, 233, 0.08)' : 'rgba(255,255,255,0.02)', border: `1px solid ${activeYear === y.year ? y.color + '40' : 'rgba(255,255,255,0.05)'}` }}>
-                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: activeYear === y.year ? y.color : 'rgba(148, 163, 184, 0.3)', boxShadow: activeYear === y.year ? `0 0 8px ${y.color}` : 'none' }} />
-                  <div>
-                    <div className="font-display text-2xl" style={{ color: activeYear === y.year ? y.color : 'rgba(241, 245, 249, 0.6)' }}>{y.year}</div>
-                    <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148, 163, 184, 0.5)', letterSpacing: '0.1em' }}>{y.label}</div>
-                  </div>
-                </button>
-              ))}
+              {yearData.map((y) => {
+                const isActive = activeYear === y.year
+                const isHovered = hoveredYear === y.year
+                return (
+                  <button
+                    key={y.year}
+                    onClick={() => { setActiveYear(y.year); setHoveredResult(null) }}
+                    onMouseEnter={() => setHoveredYear(y.year)}
+                    onMouseLeave={() => setHoveredYear(null)}
+                    className="flex items-center gap-4 p-4 rounded-sm text-left"
+                    style={{
+                      background: isActive ? 'rgba(14, 165, 233, 0.08)' : isHovered ? 'rgba(14, 165, 233, 0.04)' : 'rgba(255,255,255,0.02)',
+                      border: `1px solid ${isActive ? y.color + '40' : isHovered ? y.color + '28' : 'rgba(255,255,255,0.05)'}`,
+                      transform: !isActive && isHovered ? 'translateX(5px)' : 'translateX(0)',
+                      transition: 'all 0.25s ease',
+                    }}
+                  >
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{
+                      background: isActive ? y.color : isHovered ? y.color + 'aa' : 'rgba(148, 163, 184, 0.3)',
+                      boxShadow: isActive ? `0 0 8px ${y.color}` : isHovered ? `0 0 5px ${y.color}60` : 'none',
+                      transition: 'all 0.25s ease',
+                    }} />
+                    <div>
+                      <div className="font-display text-2xl" style={{
+                        color: isActive ? y.color : isHovered ? 'rgba(241, 245, 249, 0.85)' : 'rgba(241, 245, 249, 0.6)',
+                        transition: 'color 0.25s ease',
+                      }}>{y.year}</div>
+                      <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148, 163, 184, 0.5)', letterSpacing: '0.1em' }}>{y.label}</div>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
           </div>
           <div className="lg:col-span-3 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(20px)', transitionDelay: '500ms' }}>
@@ -107,12 +132,33 @@ export function AchievementsSection() {
                 <Trophy size={32} style={{ color: activeData.color, opacity: 0.5 }} />
               </div>
               <div className="flex flex-col gap-3">
-                {activeData.results.map((result, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-sm" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: activeData.color }} />
-                    <span className="font-body text-sm font-medium" style={{ color: 'rgba(241, 245, 249, 0.85)' }}>{result}</span>
-                  </div>
-                ))}
+                {activeData.results.map((result, i) => {
+                  const isHov = hoveredResult === i
+                  return (
+                    <div
+                      key={i}
+                      onMouseEnter={() => setHoveredResult(i)}
+                      onMouseLeave={() => setHoveredResult(null)}
+                      className="flex items-center gap-3 p-3 rounded-sm cursor-default"
+                      style={{
+                        background: isHov ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
+                        border: `1px solid ${isHov ? activeData.color + '35' : 'rgba(255,255,255,0.04)'}`,
+                        transform: isHov ? 'translateX(4px)' : 'translateX(0)',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{
+                        background: activeData.color,
+                        boxShadow: isHov ? `0 0 6px ${activeData.color}` : 'none',
+                        transition: 'box-shadow 0.2s ease',
+                      }} />
+                      <span className="font-body text-sm font-medium" style={{
+                        color: isHov ? 'rgba(241, 245, 249, 1)' : 'rgba(241, 245, 249, 0.85)',
+                        transition: 'color 0.2s ease',
+                      }}>{result}</span>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
