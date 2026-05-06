@@ -198,12 +198,17 @@ export function Navigation() {
 
     window.addEventListener('scrollend', seedFromScroll, { once: true, passive: true });
     // Fallback for browsers without scrollend, and for pages loaded at scroll position 0.
-    const t = setTimeout(seedFromScroll, 600);
+    // Multiple timeouts handle slow scroll restoration (images, lazy sections settling).
+    const t1 = setTimeout(seedFromScroll, 600);
+    const t2 = setTimeout(seedFromScroll, 1000);
+    const t3 = setTimeout(seedFromScroll, 1800);
 
     return () => {
       observer.disconnect();
       window.removeEventListener('scrollend', seedFromScroll);
-      clearTimeout(t);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, []);
 

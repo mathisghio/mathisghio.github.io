@@ -184,6 +184,37 @@ function IcoFull({ size = 16 }: { size?: number }) {
   );
 }
 
+function IcoExitFull({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 5.5h3.5V2" />
+      <path d="M14 5.5h-3.5V2" />
+      <path d="M2 10.5h3.5V14" />
+      <path d="M14 10.5h-3.5V14" />
+    </svg>
+  );
+}
+
+function IcoPiP({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+      <rect x="7.5" y="7.5" width="5.5" height="3.5" rx="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IcoLoop({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 10V6a4 4 0 0 1 4-4h5" />
+      <path d="M14 6v4a4 4 0 0 1-4 4H5" />
+      <path d="M9 2l2 2-2 2" />
+      <path d="M7 14l-2-2 2-2" />
+    </svg>
+  );
+}
+
 /* ── Constants ── */
 
 const SPEEDS = [0.5, 1, 1.5, 2] as const;
@@ -215,10 +246,14 @@ export function VideoPlayerPro({
   const lastVol = useRef(1);
   const lastSnd = useRef(0);
   const hideTimer = useRef<ReturnType<typeof setTimeout>>();
+  const lastTap      = useRef<{ side: "left" | "right"; time: number } | null>(null);
+  const doubleTapTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const [playing, setPlaying] = useState(false);
   const [ended, setEnded] = useState(false);
-  const [vol, setVol] = useState(1);
+  const [vol, setVol] = useState(() => {
+    try { return parseFloat(localStorage.getItem("vp-vol") ?? "1") || 1; } catch { return 1; }
+  });
   const [muted, setMuted] = useState(false);
   const [prog, setProg] = useState(0);
   const [time, setTime] = useState(0);
@@ -230,6 +265,11 @@ export function VideoPlayerPro({
   const [barHover, setBarHover] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
   const [hoverProg, setHoverProg] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [buffered,     setBuffered]     = useState(0);
+  const [buffering,    setBuffering]    = useState(false);
+  const [seekFlash,    setSeekFlash]    = useState<"left" | "right" | null>(null);
+  const [looping,      setLooping]      = useState(false);
 
   /* ── Reset on src change ── */
   useEffect(() => {
@@ -379,6 +419,13 @@ export function VideoPlayerPro({
     return () => clearTimeout(t);
   }, [showNudge]);
 
+  /* ── Fullscreen state sync ── */
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
   /* ── Pause when scrolled out of view ── */
   useEffect(() => {
     const el = containerRef.current;
@@ -405,7 +452,11 @@ export function VideoPlayerPro({
     const m = c === 0;
     setMuted(m);
     vid.muted = m;
-    if (!m) { lastVol.current = c; setShowNudge(false); }
+    if (!m) {
+      lastVol.current = c;
+      setShowNudge(false);
+      try { localStorage.setItem("vp-vol", String(c)); } catch {}
+    }
   }, []);
 
   const toggleMute = () => {
@@ -436,6 +487,25 @@ export function VideoPlayerPro({
     }
   };
 
+  /* ── Picture-in-Picture ── */
+  const pictureInPicture = async () => {
+    const v = videoRef.current;
+    if (!v) return;
+    try {
+      if (document.pictureInPictureElement) await document.exitPictureInPicture();
+      else await v.requestPictureInPicture();
+    } catch {}
+  };
+
+  /* ── Loop ── */
+  const toggleLoop = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    const next = !looping;
+    v.loop = next;
+    setLooping(next);
+  };
+
   const VolIco =
     muted || vol === 0 ? IcoVolMute : vol > 0.5 ? IcoVolHi : IcoVolLo;
 
@@ -451,6 +521,28 @@ export function VideoPlayerPro({
           if (!scrubbing) setShow(false);
         }}
         onTouchStart={resetHide}
+        onTouchEnd={(e) => {
+          const rect = containerRef.current?.getBoundingClientRect();
+          if (!rect) return;
+          const x = e.changedTouches[0].clientX - rect.left;
+          const side = x < rect.width / 3 ? "left" : x > (rect.width * 2) / 3 ? "right" : null;
+          if (!side) return;
+          const now = Date.now();
+          const last = lastTap.current;
+          if (last && last.side === side && now - last.time < 350) {
+            clearTimeout(doubleTapTimer.current);
+            lastTap.current = null;
+            const v = videoRef.current;
+            if (!v) return;
+            v.currentTime = side === "left"
+              ? Math.max(0, v.currentTime - 10)
+              : Math.min(v.duration || 0, v.currentTime + 10);
+            setSeekFlash(side);
+            setTimeout(() => setSeekFlash(null), 700);
+          } else {
+            lastTap.current = { side, time: now };
+          }
+        }}
         onKeyDown={(e) => {
           const v = videoRef.current;
           switch (e.key) {
@@ -489,8 +581,16 @@ export function VideoPlayerPro({
           onPlay={() => {
             setPlaying(true);
             setErr(null);
+            setBuffering(false);
           }}
           onPause={() => setPlaying(false)}
+          onWaiting={() => setBuffering(true)}
+          onCanPlay={() => setBuffering(false)}
+          onProgress={() => {
+            const v = videoRef.current;
+            if (!v || v.buffered.length === 0 || !v.duration) return;
+            setBuffered((v.buffered.end(v.buffered.length - 1) / v.duration) * 100);
+          }}
           onEnded={() => {
             setEnded(true);
             setPlaying(false);
@@ -627,42 +727,87 @@ export function VideoPlayerPro({
           )}
         </AnimatePresence>
 
-        {/* Sound nudge — shown on autoplay muted start */}
+        {/* Sound nudge — centered, prominent */}
         <AnimatePresence>
           {showNudge && (
             <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              onClick={() => { toggleMute(); }}
+              onClick={toggleMute}
               style={{
                 position: "absolute",
-                bottom: 72,
-                left: "50%",
-                transform: "translateX(-50%)",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                background: "rgba(0,0,0,0.65)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                borderRadius: 24,
-                padding: "9px 18px",
+                top: "50%", left: "50%",
+                transform: "translate(-50%, -50%)",
+                display: "flex", flexDirection: "column",
+                alignItems: "center", gap: 10,
+                background: "rgba(0,0,0,0.72)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                borderRadius: 20,
+                padding: "22px 32px",
                 cursor: "pointer",
-                zIndex: 25,
+                zIndex: 26,
                 color: "#fff",
-                fontSize: 13,
-                fontWeight: 500,
                 userSelect: "none",
-                whiteSpace: "nowrap",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+                textAlign: "center",
+                minWidth: 180,
               }}
             >
-              <IcoVolMute size={15} />
-              <span>Sound off — click to hear the action</span>
-              <span style={{ opacity: 0.45, fontSize: 12, marginLeft: 2 }}>✕</span>
+              <IcoVolMute size={28} />
+              <span style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3 }}>Sound off</span>
+              <span style={{ fontSize: 12, opacity: 0.6, lineHeight: 1.5, maxWidth: 180 }}>
+                Tap to hear the action
+              </span>
+              <div style={{
+                marginTop: 4, fontSize: 11, fontWeight: 600,
+                background: "rgba(255,255,255,0.13)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 12, padding: "5px 16px",
+              }}>
+                🔊 Unmute
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Buffering spinner */}
+        {buffering && (
+          <div style={{
+            position: "absolute", inset: 0,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 15, pointerEvents: "none",
+          }}>
+            <div className="animate-spin" style={{
+              width: 36, height: 36, borderRadius: "50%",
+              border: "3px solid rgba(255,255,255,0.15)",
+              borderTopColor: "rgba(255,255,255,0.85)",
+            }} />
+          </div>
+        )}
+
+        {/* Double-tap seek flash */}
+        <AnimatePresence>
+          {seekFlash && (
+            <motion.div
+              key={seekFlash}
+              initial={{ opacity: 1, scale: 0.8 }}
+              animate={{ opacity: 0, scale: 1.1, y: -16 }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                top: "50%", transform: "translateY(-50%)",
+                [seekFlash === "left" ? "left" : "right"]: "12%",
+                background: "rgba(0,0,0,0.55)",
+                backdropFilter: "blur(8px)",
+                color: "#fff", fontSize: 13, fontWeight: 700,
+                padding: "8px 16px", borderRadius: 20,
+                pointerEvents: "none", zIndex: 20, whiteSpace: "nowrap",
+              }}
+            >
+              {seekFlash === "left" ? "← −10s" : "+10s →"}
             </motion.div>
           )}
         </AnimatePresence>
@@ -676,6 +821,7 @@ export function VideoPlayerPro({
               exit={{ y: 16, opacity: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
               style={{
                 position: "absolute",
                 bottom: 12,
@@ -717,6 +863,15 @@ export function VideoPlayerPro({
                   transition: "height 0.12s",
                 }}
               >
+                {/* Buffered range */}
+                <div style={{
+                  position: "absolute", top: 0, left: 0, height: "100%",
+                  width: `${buffered}%`,
+                  background: "rgba(255,255,255,0.22)",
+                  borderRadius: 3,
+                  transition: "width 0.8s ease",
+                  pointerEvents: "none",
+                }} />
                 <div
                   style={{
                     position: "absolute",
@@ -935,6 +1090,34 @@ export function VideoPlayerPro({
                     ))}
                   </div>
 
+                  {/* Loop */}
+                  <button
+                    onClick={toggleLoop}
+                    title="Loop"
+                    style={{
+                      ...BTN,
+                      color: looping ? "#38BDF8" : "rgba(255,255,255,0.45)",
+                      background: looping ? "rgba(56,189,248,0.12)" : "transparent",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.9)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.45)"; }}
+                  >
+                    <IcoLoop />
+                  </button>
+
+                  {/* Picture-in-Picture */}
+                  {"pictureInPictureEnabled" in document && (
+                    <button
+                      onClick={pictureInPicture}
+                      title="Picture in Picture"
+                      style={{ ...BTN, color: "rgba(255,255,255,0.45)" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
+                    >
+                      <IcoPiP />
+                    </button>
+                  )}
+
                   {/* Fullscreen */}
                   <button
                     onClick={fullscreen}
@@ -949,7 +1132,7 @@ export function VideoPlayerPro({
                       e.currentTarget.style.color = "rgba(255,255,255,0.45)";
                     }}
                   >
-                    <IcoFull />
+                    {isFullscreen ? <IcoExitFull /> : <IcoFull />}
                   </button>
                 </div>
               </div>
