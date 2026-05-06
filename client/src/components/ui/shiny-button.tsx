@@ -5,12 +5,14 @@ interface ShinyButtonProps {
   children: React.ReactNode
   onClick?: () => void
   className?: string
-  href?: string          // pour les liens
+  href?: string
   target?: string
   rel?: string
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
 }
 
-export function ShinyButton({ children, onClick, className = "", href, target, rel }: ShinyButtonProps) {
+export function ShinyButton({ children, onClick, className = "", href, target, rel, type = 'button', disabled }: ShinyButtonProps) {
   if (href) {
     return (
       <a href={href} target={target} rel={rel} className={`shiny-cta ${className}`}>
@@ -19,7 +21,8 @@ export function ShinyButton({ children, onClick, className = "", href, target, r
     )
   }
   return (
-    <button className={`shiny-cta ${className}`} onClick={onClick}>
+    <button className={`shiny-cta ${className}`} onClick={onClick} type={type} disabled={disabled}
+      style={disabled ? { opacity: 0.45, cursor: 'not-allowed', pointerEvents: 'none' } : undefined}>
       <span>{children}</span>
     </button>
   )

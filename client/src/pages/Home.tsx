@@ -9,6 +9,7 @@ import { GoatSection } from '@/components/GoatSection'
 import { GlobeSection } from '@/components/GlobeSection'
 import { SportSection } from '@/components/SportSection'
 import { GallerySection } from '@/components/GallerySection'
+import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 import { PartnersSection } from '@/components/PartnersSection'
 import { PressSection } from '@/components/PressSection'
 import { ContactSection } from '@/components/ContactSection'
@@ -70,8 +71,17 @@ export default function Home() {
       <GoatSection />
       <GlobeSection />
       <SportSection />
-      <GallerySection />
-      <AudienceSection />
+      {/* Gallery + Audience share one continuous rain — no seam */}
+      <div className="relative" style={{ background: '#08090E' }}>
+        <GalleryRainBackground />
+        {/* Fade rain out before Partners */}
+        <div
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{ height: '220px', background: 'linear-gradient(180deg, transparent, #08090E)', zIndex: 3 }}
+        />
+        <GallerySection />
+        <AudienceSection />
+      </div>
       <PartnersSection />
       <PressSection />
       <ContactSection />

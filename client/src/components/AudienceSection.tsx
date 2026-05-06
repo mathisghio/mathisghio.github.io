@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useInView } from '@/hooks/useInView'
-import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 
 const rows = [
   {
@@ -41,19 +40,9 @@ export function AudienceSection() {
     <section
       ref={ref}
       className="relative py-14 lg:py-20 overflow-hidden"
-      style={{
-        background: '#08090E',
-        borderTop:    '1px solid rgba(255,255,255,0.04)',
-      }}
+      style={{ background: 'transparent' }}
     >
-      <GalleryRainBackground />
-
-      {/* Fade out into Partners */}
-      <div
-        className="absolute bottom-0 left-0 right-0 pointer-events-none z-[3]"
-        style={{ height: '200px', background: 'linear-gradient(180deg, transparent, #08090E)' }}
-      />
-
+      {/* Subtle right glow */}
       <div
         className="absolute top-0 right-0 pointer-events-none"
         style={{
@@ -82,7 +71,7 @@ export function AudienceSection() {
           </span>
         </div>
 
-        <div>
+        <div className="flex flex-col gap-3">
           {rows.map((row, i) => {
             const isHovered = hoveredRow === i
             return (
@@ -90,24 +79,32 @@ export function AudienceSection() {
                 key={i}
                 className="transition-all duration-700 cursor-default"
                 style={{
-                  borderTop: '1px solid rgba(255,255,255,0.05)',
                   opacity: inView ? 1 : 0,
                   transform: inView ? 'translateY(0)' : 'translateY(24px)',
-                  transitionDelay: `${140 + i * 90}ms`,
+                  transitionDelay: `${120 + i * 80}ms`,
                   transitionTimingFunction: 'cubic-bezier(0.16,1,0.3,1)',
                 }}
                 onMouseEnter={() => setHoveredRow(i)}
                 onMouseLeave={() => setHoveredRow(null)}
               >
                 <div
-                  className="transition-colors duration-300 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 rounded-sm"
-                  style={{ background: isHovered ? 'rgba(14,165,233,0.025)' : 'transparent' }}
+                  className="rounded-sm"
+                  style={{
+                    background: isHovered
+                      ? row.hero ? 'rgba(14,165,233,0.08)' : 'rgba(14,165,233,0.05)'
+                      : row.hero ? 'rgba(14,165,233,0.04)' : 'rgba(255,255,255,0.025)',
+                    border: `1px solid ${isHovered
+                      ? row.hero ? 'rgba(14,165,233,0.32)' : 'rgba(14,165,233,0.18)'
+                      : row.hero ? 'rgba(14,165,233,0.18)' : 'rgba(255,255,255,0.06)'}`,
+                    transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
+                    transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
+                  }}
                 >
                   {/* Mobile: label + number on one line */}
-                  <div className="flex items-baseline justify-between pt-5 pb-2 lg:hidden">
+                  <div className="flex items-baseline justify-between pt-5 pb-2 px-5 lg:hidden">
                     <span
                       className="font-body text-xs uppercase tracking-widest"
-                      style={{ color: 'rgba(148,163,184,0.45)', letterSpacing: '0.15em' }}
+                      style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.15em' }}
                     >
                       {row.label}
                     </span>
@@ -120,7 +117,7 @@ export function AudienceSection() {
                             ? '#0EA5E9'
                             : isHovered ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.9)',
                           textShadow: row.hero
-                            ? `0 0 ${isHovered ? '40px' : '24px'} rgba(14,165,233,${isHovered ? 0.45 : 0.25})`
+                            ? `0 0 ${isHovered ? '40px' : '24px'} rgba(14,165,233,${isHovered ? 0.5 : 0.3})`
                             : 'none',
                         }}
                       >
@@ -128,7 +125,7 @@ export function AudienceSection() {
                       </span>
                       <span
                         className="font-body text-xs uppercase tracking-wider"
-                        style={{ color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
+                        style={{ color: row.hero ? 'rgba(14,165,233,0.6)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
                       >
                         {row.unit}
                       </span>
@@ -136,17 +133,17 @@ export function AudienceSection() {
                   </div>
                   {/* Mobile: detail below */}
                   <p
-                    className="font-body text-xs pb-4 lg:hidden"
+                    className="font-body text-xs pb-4 px-5 lg:hidden"
                     style={{ color: 'rgba(148,163,184,0.55)', lineHeight: 1.65 }}
                   >
                     {row.detail}
                   </p>
 
                   {/* Desktop: 3-column grid */}
-                  <div className="hidden lg:grid lg:grid-cols-[180px_1fr_2fr] lg:gap-x-10 lg:items-baseline lg:py-7">
+                  <div className="hidden lg:grid lg:grid-cols-[180px_1fr_2fr] lg:gap-x-10 lg:items-baseline lg:py-6 px-6">
                     <span
                       className="font-body text-xs uppercase tracking-widest"
-                      style={{ color: 'rgba(148,163,184,0.45)', letterSpacing: '0.15em' }}
+                      style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.15em' }}
                     >
                       {row.label}
                     </span>
@@ -159,7 +156,7 @@ export function AudienceSection() {
                             ? '#0EA5E9'
                             : isHovered ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.9)',
                           textShadow: row.hero
-                            ? `0 0 ${isHovered ? '48px' : '32px'} rgba(14,165,233,${isHovered ? 0.45 : 0.3})`
+                            ? `0 0 ${isHovered ? '48px' : '32px'} rgba(14,165,233,${isHovered ? 0.5 : 0.3})`
                             : 'none',
                         }}
                       >
@@ -167,14 +164,14 @@ export function AudienceSection() {
                       </span>
                       <span
                         className="font-body text-xs uppercase tracking-wider"
-                        style={{ color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
+                        style={{ color: row.hero ? 'rgba(14,165,233,0.6)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
                       >
                         {row.unit}
                       </span>
                     </div>
                     <p
                       className="font-body text-sm"
-                      style={{ color: isHovered ? 'rgba(148,163,184,0.8)' : 'rgba(148,163,184,0.6)', lineHeight: 1.65, transition: 'color 0.3s ease' }}
+                      style={{ color: isHovered ? 'rgba(148,163,184,0.85)' : 'rgba(148,163,184,0.6)', lineHeight: 1.65, transition: 'color 0.25s ease' }}
                     >
                       {row.detail}
                     </p>
@@ -183,7 +180,6 @@ export function AudienceSection() {
               </div>
             )
           })}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }} />
         </div>
 
       </div>

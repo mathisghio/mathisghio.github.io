@@ -731,46 +731,45 @@ export function VideoPlayerPro({
         {/* Sound nudge — centered, prominent */}
         <AnimatePresence>
           {showNudge && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              onClick={toggleMute}
-              style={{
-                position: "absolute",
-                top: "50%", left: "50%",
-                transform: "translate(-50%, -50%)",
-                display: "flex", flexDirection: "column",
-                alignItems: "center", gap: 10,
-                background: "rgba(0,0,0,0.72)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.18)",
-                borderRadius: 20,
-                padding: "22px 32px",
-                cursor: "pointer",
-                zIndex: 26,
-                color: "#fff",
-                userSelect: "none",
-                textAlign: "center",
-                minWidth: 180,
-              }}
-            >
-              <IcoVolMute size={28} />
-              <span style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3 }}>Sound off</span>
-              <span style={{ fontSize: 12, opacity: 0.6, lineHeight: 1.5, maxWidth: 180 }}>
-                Tap to hear the action
-              </span>
-              <div style={{
-                marginTop: 4, fontSize: 11, fontWeight: 600,
-                background: "rgba(255,255,255,0.13)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 12, padding: "5px 16px",
-              }}>
-                🔊 Unmute
-              </div>
-            </motion.div>
+            /* Wrapper handles centering; motion.div handles scale animation only */
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 26 }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                onClick={toggleMute}
+                style={{
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", gap: 10,
+                  background: "rgba(0,0,0,0.72)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  borderRadius: 20,
+                  padding: "22px 32px",
+                  cursor: "pointer",
+                  color: "#fff",
+                  userSelect: "none",
+                  textAlign: "center",
+                  minWidth: 180,
+                }}
+              >
+                <IcoVolMute size={28} />
+                <span style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3 }}>Sound off</span>
+                <span style={{ fontSize: 12, opacity: 0.6, lineHeight: 1.5, maxWidth: 180 }}>
+                  Tap to hear the action
+                </span>
+                <div style={{
+                  marginTop: 4, fontSize: 11, fontWeight: 600,
+                  background: "rgba(255,255,255,0.13)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 12, padding: "5px 16px",
+                }}>
+                  🔊 Unmute
+                </div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
 

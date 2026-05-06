@@ -5,7 +5,6 @@ import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button' 
 import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
 import { VideoPlayerPro } from '@/components/VideoPlayerPro'
-import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 
 /* q_auto pour la vidéo → Cloudinary choisit le bitrate optimal */
 const MEDIA_VIDEO        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
@@ -130,9 +129,8 @@ export function GallerySection() {
       id="gallery"
       ref={ref}
       className="relative"
-      style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}
+      style={{ background: 'transparent' }}
     >
-      <GalleryRainBackground />
 
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 15%)' }} />
