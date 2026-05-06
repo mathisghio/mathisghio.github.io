@@ -62,11 +62,11 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress, revealed])
 
-  /* Lock scroll for 1.5s when the video reveals so the user sees it start */
+  /* Lock scroll for 3s when the video reveals so the user sees it start */
   useEffect(() => {
     if (!revealed) return
     document.body.style.overflow = 'hidden'
-    const t = setTimeout(() => { document.body.style.overflow = '' }, 1500)
+    const t = setTimeout(() => { document.body.style.overflow = '' }, 3000)
     return () => { clearTimeout(t); document.body.style.overflow = '' }
   }, [revealed])
 
@@ -79,32 +79,35 @@ function ScrollRevealVideo() {
             Race Highlights
           </span>
         </motion.div>
-        <motion.div style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }} className="overflow-hidden">
-          {revealed ? (
-            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay />
-          ) : (
-            <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
-          )}
-        </motion.div>
+        {/* Wrapper — gives the scroll hint a reference box matching the video */}
+        <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 1200px)' }}>
+          <motion.div style={{ clipPath }} className="overflow-hidden">
+            {revealed ? (
+              <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay />
+            ) : (
+              <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
+            )}
+          </motion.div>
 
-        {/* Scroll hint — visible during the reveal animation, gone once video starts */}
-        <motion.div
-          style={{ opacity: scrollHintOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none select-none"
-        >
-          <span className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.45)', letterSpacing: '0.2em' }}>
-            Scroll to reveal
-          </span>
-          <motion.svg
-            width="20" height="20" viewBox="0 0 20 20" fill="none"
-            stroke="rgba(255,255,255,0.35)" strokeWidth="1.5"
-            strokeLinecap="round" strokeLinejoin="round"
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          {/* Scroll hint — centered over the video frame, outside the clip-path */}
+          <motion.div
+            style={{ opacity: scrollHintOpacity }}
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none select-none"
           >
-            <path d="M5 8l5 5 5-5" />
-          </motion.svg>
-        </motion.div>
+            <span className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.65)', letterSpacing: '0.2em', textShadow: '0 1px 10px rgba(0,0,0,0.9)' }}>
+              Scroll to reveal
+            </span>
+            <motion.svg
+              width="20" height="20" viewBox="0 0 20 20" fill="none"
+              stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"
+              strokeLinecap="round" strokeLinejoin="round"
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <path d="M5 8l5 5 5-5" />
+            </motion.svg>
+          </motion.div>
+        </div>
       </div>
     </div>
   )
