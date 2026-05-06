@@ -339,6 +339,35 @@ export function VideoPlayerPro({
     };
   }, [scrubbing, scrubFrom]);
 
+  /* ── Touch scrub ── */
+  useEffect(() => {
+    if (!scrubbing) return;
+    const move = (e: TouchEvent) => { e.preventDefault(); scrubFrom(e.touches[0].clientX); };
+    const end = () => setScrubbing(false);
+    window.addEventListener("touchmove", move, { passive: false });
+    window.addEventListener("touchend", end);
+    return () => {
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", end);
+    };
+  }, [scrubbing, scrubFrom]);
+
+  /* ── Pause when scrolled out of view ── */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
+          videoRef.current.pause();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   /* ── Volume ── */
   const setVideoVol = useCallback((v: number) => {
     const vid = videoRef.current;
@@ -387,12 +416,23 @@ export function VideoPlayerPro({
       <div
         className="vp"
         ref={containerRef}
+        tabIndex={0}
         onMouseMove={resetHide}
         onMouseEnter={resetHide}
         onMouseLeave={() => {
           if (!scrubbing) setShow(false);
         }}
         onTouchStart={resetHide}
+        onKeyDown={(e) => {
+          const v = videoRef.current;
+          switch (e.key) {
+            case " ": case "k": e.preventDefault(); toggle(); break;
+            case "ArrowLeft":   e.preventDefault(); if (v) v.currentTime = Math.max(0, v.currentTime - 5); break;
+            case "ArrowRight":  e.preventDefault(); if (v) v.currentTime = Math.min(v.duration || 0, v.currentTime + 5); break;
+            case "m": case "M": e.preventDefault(); toggleMute(); break;
+            case "f": case "F": e.preventDefault(); fullscreen(); break;
+          }
+        }}
         style={{
           position: "relative",
           width: "100%",
@@ -588,12 +628,10 @@ export function VideoPlayerPro({
               {/* Progress bar */}
               <div
                 ref={progressRef}
-                onMouseDown={(e) => {
-                  setScrubbing(true);
-                  scrubFrom(e.clientX);
-                }}
+                onMouseDown={(e) => { setScrubbing(true); scrubFrom(e.clientX); }}
                 onMouseEnter={() => setBarHover(true)}
                 onMouseLeave={() => setBarHover(false)}
+                onTouchStart={(e) => { setScrubbing(true); scrubFrom(e.touches[0].clientX); }}
                 style={{
                   position: "relative",
                   width: "100%",
@@ -621,7 +659,7 @@ export function VideoPlayerPro({
                     style={{
                       position: "absolute",
                       top: "50%",
-                      left: `${prog}%`,
+                      left: `clamp(6px, ${prog}%, calc(100% - 6px))`,
                       transform: "translate(-50%, -50%)",
                       width: 12,
                       height: 12,
