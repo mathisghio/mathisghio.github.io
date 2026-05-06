@@ -133,7 +133,7 @@ export function PartnersSection() {
                 Interested in a Partnership?
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Sponsorships, brand collaborations, product development and long-term strategic partnerships.
+                Sponsorships, R&D collaborations, and long-term strategic partnerships — backed by a global circuit across 5 continents, 5 world titles, and Materials Science Engineering expertise.
               </p>
             </div>
             <PartnershipFormModal />

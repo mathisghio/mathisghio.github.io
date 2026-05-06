@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Globe, Trophy, Zap, Target } from 'lucide-react'
 import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
@@ -76,12 +77,49 @@ export function SportSection() {
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="font-body text-base mb-4" style={{ color: 'rgba(241,245,249,0.92)', lineHeight: 1.8 }}>
-              Wingfoil racing reaches an international audience of performance-oriented, tech-savvy adults aged 18–40. Active lifestyle, high disposable income, early adopters.
-            </p>
-            <p className="font-body text-base mb-10" style={{ color: 'rgba(241,245,249,0.85)', lineHeight: 1.8 }}>
-              A worldwide circuit spanning five continents. Five world titles and a speed record. Materials science engineering studies that make co-branding credible. Four formats to match your objectives.
-            </p>
+            {/* ── Block 1 ── */}
+            <div className="mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <Target size={13} style={{ color: '#0EA5E9', flexShrink: 0 }} />
+                <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.18em' }}>
+                  Targeting a High-Performance Audience
+                </span>
+              </div>
+              <p className="font-body text-base" style={{ color: 'rgba(241,245,249,0.92)', lineHeight: 1.85 }}>
+                Wingfoil racing connects with{' '}
+                <strong style={{ color: '#fff', fontWeight: 700 }}>tech-savvy achievers</strong>{' '}
+                aged 18–40. This audience values an active lifestyle and high-end innovation.
+              </p>
+            </div>
+
+            {/* ── Block 2 ── */}
+            <div className="mb-10">
+              <div className="flex items-center gap-2 mb-3">
+                <Globe size={13} style={{ color: '#0EA5E9', flexShrink: 0 }} />
+                <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.18em' }}>
+                  Global Reach &amp; Technical Expertise
+                </span>
+              </div>
+              <p className="font-body text-base" style={{ color: 'rgba(241,245,249,0.85)', lineHeight: 1.85 }}>
+                The world circuit spans{' '}
+                <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(14,165,233,0.14)', border: '1px solid rgba(14,165,233,0.32)', borderRadius: 6, padding: '1px 8px', color: '#38BDF8', fontSize: '0.88em' }}>
+                  <Globe size={11} />5 continents
+                </span>{' '}
+                to ensure a truly global presence. My track record includes{' '}
+                <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.32)', borderRadius: 6, padding: '1px 8px', color: '#F59E0B', fontSize: '0.88em' }}>
+                  <Trophy size={11} />5 world titles
+                </span>{' '}
+                and a{' '}
+                <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 6, padding: '1px 8px', color: '#FBB740', fontSize: '0.88em' }}>
+                  <Zap size={11} />speed record
+                </span>.{' '}
+                My background in{' '}
+                <strong style={{ color: '#fff', fontWeight: 700 }}>Materials Science Engineering</strong>{' '}
+                brings deep technical credibility to every partnership. Four distinct competition formats allow us to{' '}
+                <strong style={{ color: '#fff', fontWeight: 700 }}>tailor</strong> our strategy to your specific{' '}
+                <strong style={{ color: '#fff', fontWeight: 700 }}>brand objectives</strong>.
+              </p>
+            </div>
             <motion.div
               variants={formatContainer}
               initial="hidden"
