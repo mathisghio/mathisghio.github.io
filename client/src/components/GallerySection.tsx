@@ -135,7 +135,7 @@ export function GallerySection() {
       <GalleryRainBackground />
 
       <div className="absolute inset-0 z-[2] pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }} />
+        style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 15%)' }} />
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 

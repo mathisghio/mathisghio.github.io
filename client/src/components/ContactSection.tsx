@@ -4,6 +4,13 @@ import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { trackEmailClick } from '@/lib/analytics'
 
+const SOCIAL_CHANNELS = [
+  { href: 'https://instagram.com/mathisghio',                               Icon: Instagram, label: '@mathisghio'     },
+  { href: 'https://www.facebook.com/MathisGhioWing/',                       Icon: Facebook,  label: 'MathisGhioWing' },
+  { href: 'https://www.facebook.com/profile.php?id=100004821571602',        Icon: Facebook,  label: 'Facebook perso' },
+  { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',               Icon: Linkedin,  label: 'Mathis Ghio'   },
+]
+
 export function ContactSection() {
   const { ref, inView } = useInView(0.1)
 
@@ -80,7 +87,7 @@ export function ContactSection() {
 
           {/* ── Secondary channels ── */}
           <div
-            className="mt-16 flex items-center justify-center gap-12 transition-all duration-700"
+            className="mt-16 flex flex-wrap items-center justify-center gap-8 transition-all duration-700"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(16px)',
@@ -89,26 +96,19 @@ export function ContactSection() {
               paddingTop: '2rem',
             }}
           >
-            <a
-              href="https://instagram.com/mathisghio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 transition-colors duration-200 hover:text-white"
-              style={{ color: 'rgba(148, 163, 184, 0.5)', textDecoration: 'none' }}
-            >
-              <Instagram size={16} />
-              <span className="font-body text-sm">@mathisghio</span>
-            </a>
-            <a
-              href="https://fr.linkedin.com/in/mathis-ghio-93075515a"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 transition-colors duration-200 hover:text-white"
-              style={{ color: 'rgba(148, 163, 184, 0.5)', textDecoration: 'none' }}
-            >
-              <Linkedin size={16} />
-              <span className="font-body text-sm">Mathis Ghio</span>
-            </a>
+            {SOCIAL_CHANNELS.map(({ href, Icon, label }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors duration-200 hover:text-white"
+                style={{ color: 'rgba(148, 163, 184, 0.5)', textDecoration: 'none' }}
+              >
+                <Icon size={16} />
+                <span className="font-body text-sm">{label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

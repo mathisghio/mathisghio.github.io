@@ -35,7 +35,7 @@ const partnershipFormats = [
   {
     number: '04',
     title: 'Event & Activation',
-    description: 'Branded presence at 10+ international competitions across 4 continents. On-site visibility where the audience is live and engaged.',
+    description: 'Branded presence at 11 international competitions across 5 continents. On-site visibility where the audience is live and engaged.',
   },
 ]
 

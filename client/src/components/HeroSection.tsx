@@ -18,7 +18,11 @@ export function HeroSection() {
   }, [])
 
   const scrollToAbout = () => {
-    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })
+    const el = document.getElementById('about')
+    if (!el) return
+    const navHeight = 87 + 8
+    const top = el.getBoundingClientRect().top + window.scrollY - navHeight
+    window.scrollTo({ top, behavior: 'smooth' })
   }
 
   return (

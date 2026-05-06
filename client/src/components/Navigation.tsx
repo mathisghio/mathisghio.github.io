@@ -135,16 +135,12 @@ export function Navigation() {
   /* ── Scroll spy ── */
   useEffect(() => {
     const ids = NAV_ITEMS.map(item => item.href.slice(1));
-    // Sections in the DOM that have no nav entry but should map to a nav index:
-    // #goat → career (index 2). We handle this naturally because goat falls
-    // between career and sport; when goat is past the threshold but sport is not,
-    // bestIdx stays at career.
-    const threshold = pillTopPad + 80;
 
     let rafId = -1;
 
     const compute = () => {
       if (scrollSpyPaused.current) return;
+      const threshold = pillTopPad + Math.round(window.innerHeight * 0.45);
       let bestIdx = -1;
       ids.forEach((id, i) => {
         const el = document.getElementById(id);

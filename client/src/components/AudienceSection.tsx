@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useInView } from '@/hooks/useInView'
+import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 
 const rows = [
   {
@@ -13,7 +14,7 @@ const rows = [
     label: 'Live Audience',
     value: '150–200K',
     unit: 'spectators',
-    detail: '6–8 IWSA World Cup events · 10+ countries on the 2026 circuit · official race villages and beach finals',
+    detail: '7 IWSA World Cups on the 2026 circuit · 10+ countries · official race villages and beach finals',
     hero: false,
   },
   {
@@ -41,11 +42,18 @@ export function AudienceSection() {
       ref={ref}
       className="relative py-14 lg:py-20 overflow-hidden"
       style={{
-        background: '#070B12',
+        background: '#08090E',
         borderTop:    '1px solid rgba(255,255,255,0.04)',
-        borderBottom: '1px solid rgba(255,255,255,0.04)',
       }}
     >
+      <GalleryRainBackground />
+
+      {/* Fade out into Partners */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-[3]"
+        style={{ height: '200px', background: 'linear-gradient(180deg, transparent, #08090E)' }}
+      />
+
       <div
         className="absolute top-0 right-0 pointer-events-none"
         style={{
