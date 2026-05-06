@@ -113,9 +113,9 @@ export function SportSection() {
                 <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: 6, padding: '1px 8px', color: '#FBB740', fontSize: '0.88em' }}>
                   <Zap size={11} />speed record
                 </span>.{' '}
-                My background in{' '}
-                <strong style={{ color: '#fff', fontWeight: 700 }}>Materials Science Engineering</strong>{' '}
-                brings deep technical credibility to every partnership. Four distinct competition formats allow us to{' '}
+                As a{' '}
+                <strong style={{ color: '#fff', fontWeight: 700 }}>Materials Science Engineering student</strong>{' '}
+                at INSA Lyon, I bring hands-on technical credibility to every partnership. Four distinct competition formats allow us to{' '}
                 <strong style={{ color: '#fff', fontWeight: 700 }}>tailor</strong> our strategy to your specific{' '}
                 <strong style={{ color: '#fff', fontWeight: 700 }}>brand objectives</strong>.
               </p>
