@@ -102,6 +102,15 @@ export function GallerySection() {
     >
       <GalleryRainBackground />
 
+      {/* Rain overlay above LampContainer — screen blend makes black transparent,
+          so the rain streaks are visible over the lamp without blocking its light */}
+      <div
+        className="absolute top-0 left-0 right-0 z-[11] pointer-events-none overflow-hidden"
+        style={{ height: '80vh', mixBlendMode: 'screen', opacity: 0.85 }}
+      >
+        <GalleryRainBackground />
+      </div>
+
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(180deg, #08090E 0%, transparent 10%, transparent 90%, #08090E 100%)' }} />
       <div className="absolute inset-0 z-[2] pointer-events-none"
