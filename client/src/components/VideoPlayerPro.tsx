@@ -19,6 +19,7 @@ export interface VideoPlayerProProps {
   src: string;
   poster?: string;
   sound?: boolean;
+  autoplay?: boolean;
 }
 
 /* ── Audio ── */
@@ -206,6 +207,7 @@ export function VideoPlayerPro({
   src,
   poster,
   sound = true,
+  autoplay = false,
 }: VideoPlayerProProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -226,6 +228,8 @@ export function VideoPlayerPro({
   const [err, setErr] = useState<string | null>(null);
   const [scrubbing, setScrubbing] = useState(false);
   const [barHover, setBarHover] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
+  const [hoverProg, setHoverProg] = useState(0);
 
   /* ── Reset on src change ── */
   useEffect(() => {
@@ -352,6 +356,29 @@ export function VideoPlayerPro({
     };
   }, [scrubbing, scrubFrom]);
 
+  /* ── Autoplay muted + sound nudge ── */
+  useEffect(() => {
+    if (!autoplay) return;
+    const v = videoRef.current;
+    if (!v) return;
+    const doPlay = () => {
+      v.muted = true;
+      setMuted(true);
+      setVol(0);
+      v.play().then(() => setShowNudge(true)).catch(() => {});
+    };
+    if (v.readyState >= 3) doPlay();
+    else v.addEventListener("canplay", doPlay, { once: true });
+    return () => v.removeEventListener("canplay", doPlay);
+  }, [autoplay]);
+
+  /* ── Auto-dismiss nudge after 6s ── */
+  useEffect(() => {
+    if (!showNudge) return;
+    const t = setTimeout(() => setShowNudge(false), 6000);
+    return () => clearTimeout(t);
+  }, [showNudge]);
+
   /* ── Pause when scrolled out of view ── */
   useEffect(() => {
     const el = containerRef.current;
@@ -378,7 +405,7 @@ export function VideoPlayerPro({
     const m = c === 0;
     setMuted(m);
     vid.muted = m;
-    if (!m) lastVol.current = c;
+    if (!m) { lastVol.current = c; setShowNudge(false); }
   }, []);
 
   const toggleMute = () => {
@@ -387,6 +414,7 @@ export function VideoPlayerPro({
     if (v.muted || vol === 0) {
       v.muted = false;
       setVideoVol(lastVol.current > 0 ? lastVol.current : 1);
+      setShowNudge(false);
     } else {
       lastVol.current = vol;
       v.muted = true;
@@ -451,7 +479,7 @@ export function VideoPlayerPro({
         <video
           ref={videoRef}
           poster={poster}
-          preload="metadata"
+          preload={autoplay ? "auto" : "metadata"}
           playsInline
           crossOrigin="anonymous"
           onClick={toggle}
@@ -599,6 +627,46 @@ export function VideoPlayerPro({
           )}
         </AnimatePresence>
 
+        {/* Sound nudge — shown on autoplay muted start */}
+        <AnimatePresence>
+          {showNudge && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              onClick={() => { toggleMute(); }}
+              style={{
+                position: "absolute",
+                bottom: 72,
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(0,0,0,0.65)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "1px solid rgba(255,255,255,0.14)",
+                borderRadius: 24,
+                padding: "9px 18px",
+                cursor: "pointer",
+                zIndex: 25,
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 500,
+                userSelect: "none",
+                whiteSpace: "nowrap",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+              }}
+            >
+              <IcoVolMute size={15} />
+              <span>Sound off — click to hear the action</span>
+              <span style={{ opacity: 0.45, fontSize: 12, marginLeft: 2 }}>✕</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Glass control bar */}
         <AnimatePresence>
           {show && !err && (
@@ -630,7 +698,14 @@ export function VideoPlayerPro({
                 ref={progressRef}
                 onMouseDown={(e) => { setScrubbing(true); scrubFrom(e.clientX); }}
                 onMouseEnter={() => setBarHover(true)}
-                onMouseLeave={() => setBarHover(false)}
+                onMouseLeave={() => { setBarHover(false); }}
+                onMouseMove={(e) => {
+                  const bar = progressRef.current;
+                  if (!bar) return;
+                  const rect = bar.getBoundingClientRect();
+                  const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+                  setHoverProg((x / rect.width) * 100);
+                }}
                 onTouchStart={(e) => { setScrubbing(true); scrubFrom(e.touches[0].clientX); }}
                 style={{
                   position: "relative",
@@ -669,6 +744,26 @@ export function VideoPlayerPro({
                       transition: scrubbing ? "none" : "left 0.1s",
                     }}
                   />
+                )}
+                {barHover && dur > 0 && (
+                  <div style={{
+                    position: "absolute",
+                    bottom: "calc(100% + 6px)",
+                    left: `clamp(20px, ${hoverProg}%, calc(100% - 20px))`,
+                    transform: "translateX(-50%)",
+                    background: "rgba(0,0,0,0.75)",
+                    backdropFilter: "blur(8px)",
+                    color: "#fff",
+                    fontSize: 11,
+                    fontWeight: 500,
+                    padding: "2px 7px",
+                    borderRadius: 5,
+                    pointerEvents: "none",
+                    whiteSpace: "nowrap",
+                    fontVariantNumeric: "tabular-nums",
+                  }}>
+                    {fmt((hoverProg / 100) * dur)}
+                  </div>
                 )}
               </div>
 

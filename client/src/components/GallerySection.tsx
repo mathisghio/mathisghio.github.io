@@ -57,7 +57,7 @@ function ScrollRevealVideo() {
 
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      if (v > 0.3 && !revealed) setRevealed(true)
+      if (v >= 0.84 && !revealed) setRevealed(true)
     })
   }, [scrollYProgress, revealed])
 
@@ -72,7 +72,7 @@ function ScrollRevealVideo() {
         </motion.div>
         <motion.div style={{ clipPath, width: '100%', maxWidth: 'min(96vw, 1200px)' }} className="overflow-hidden">
           {revealed ? (
-            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} />
+            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay />
           ) : (
             <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
           )}
