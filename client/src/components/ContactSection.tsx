@@ -99,11 +99,18 @@ function ContactForm() {
       const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, _subject: `Message from ${form.name}` }),
+        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
       })
       if (res.ok) { setStatus('success'); trackLead('contact_form'); setForm(INITIAL) }
-      else setStatus('error')
-    } catch { setStatus('error') }
+      else {
+        const body = await res.json().catch(() => ({}))
+        console.error('[Formspree]', res.status, body)
+        setStatus('error')
+      }
+    } catch (err) {
+      console.error('[Formspree] network error', err)
+      setStatus('error')
+    }
   }
 
   const fieldStyle = (name: string): React.CSSProperties => ({
