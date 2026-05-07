@@ -118,7 +118,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-              View My Achievements
+              My Achievements
             </ShinyButton>
             <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
@@ -199,18 +199,25 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-base font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
+              Five world titles.<br />
+              A speed record.<br />
+              A materials science<br />
+              engineering student.<br />
+              The sport's most<br />
+              credible athlete for<br />
+              brands that demand<br />
+              performance.
             </p>
           </div>
 
         </div>
       </div>
 
-      {/* ── RANGÉE DU BAS — mobile uniquement ── */}
+      {/* ── BOUTONS — mobile uniquement ── */}
       <div
         className="absolute inset-x-0 z-40 flex lg:hidden flex-col items-center gap-3 transition-all duration-700"
         style={{
-          bottom:       '108px',
+          bottom:       '120px',
           paddingLeft:  '1.25rem',
           paddingRight: '1.25rem',
           opacity:      visible ? 1 : 0,
@@ -228,16 +235,29 @@ export function HeroSection() {
             My Journey
           </ShinyButton>
         </div>
-
-        <button
-          onClick={scrollToAbout}
-          className="flex flex-col items-center gap-1.5 hover:opacity-70 transition-opacity duration-300"
-          style={{ color: 'rgba(241,245,249,0.5)' }}
-        >
-          <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
-          <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
-        </button>
+        <PartnershipFormModal
+          trigger={
+            <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
+              Partner with Me
+            </ShinyButton>
+          }
+        />
       </div>
+
+      {/* ── SCROLL — mobile uniquement, proche du bandeau stats ── */}
+      <button
+        onClick={scrollToAbout}
+        className="absolute left-1/2 -translate-x-1/2 z-40 flex lg:hidden flex-col items-center gap-1.5 hover:opacity-70 transition-all duration-700"
+        style={{
+          bottom: '68px',
+          color: 'rgba(241,245,249,0.5)',
+          opacity: visible ? 1 : 0,
+          transitionDelay: '800ms',
+        }}
+      >
+        <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+        <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
+      </button>
 
       {/* ── Stats bar ── */}
       <div
