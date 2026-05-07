@@ -39,7 +39,7 @@ export function AudienceSection() {
   return (
     <section
       ref={ref}
-      className="relative py-14 lg:py-20 overflow-hidden"
+      className="relative py-8 lg:py-12 overflow-hidden"
       style={{ background: 'transparent' }}
     >
       {/* Side edge fades — matches GallerySection */}

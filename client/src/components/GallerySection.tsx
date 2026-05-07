@@ -57,9 +57,10 @@ function ScrollRevealVideo() {
 
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      if (v >= 0.84 && !revealed) setRevealed(true)
+      if (v >= 0.84) setRevealed(true)
+      else if (v < 0.5) setRevealed(false)
     })
-  }, [scrollYProgress, revealed])
+  }, [scrollYProgress])
 
   /* Lock scroll for 3s when the video reveals so the user sees it start */
   useEffect(() => {
@@ -225,7 +226,7 @@ export function GallerySection() {
         />
       </div>
 
-      <div className="pb-12 lg:pb-24" />
+      <div className="pb-4 lg:pb-6" />
     </section>
   )
 }
