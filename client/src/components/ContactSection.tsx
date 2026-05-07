@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Instagram, Facebook, Linkedin, Send, Mail, MapPin, Clock } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
@@ -84,6 +84,12 @@ function ContactForm() {
   const [focused, setFocused] = useState<string | null>(null)
   const [touched, setTouched] = useState(false)
 
+  /* Restore saved sender info so the user never has to re-type their details */
+  const saved = useRef<Record<string, string>>({})
+  useEffect(() => {
+    try { saved.current = JSON.parse(localStorage.getItem('mg-contact') || '{}') } catch { /* noop */ }
+  }, [])
+
   const handleInput = () => { if (!touched) { setTouched(true); trackFormStart() } }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -103,6 +109,14 @@ function ContactForm() {
         body: JSON.stringify(payload),
       })
       if (res.ok) {
+        /* Save sender details for next visit */
+        try {
+          localStorage.setItem('mg-contact', JSON.stringify({
+            firstName: payload.firstName,
+            lastName:  payload.lastName,
+            email:     payload.email,
+          }))
+        } catch { /* noop */ }
         setStatus('success'); trackLead('contact_form')
         formRef.current?.reset()
         setTimeout(() => setStatus('idle'), 6000)
@@ -157,6 +171,7 @@ function ContactForm() {
           <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
           <input
             id="firstName" name="firstName" required
+            defaultValue={saved.current.firstName || ''}
             onFocus={() => setFocused('firstName')} onBlur={() => setFocused(null)}
             onInput={handleInput}
             placeholder="Marie" autoComplete="given-name"
@@ -167,6 +182,7 @@ function ContactForm() {
           <label htmlFor="lastName" style={labelStyle}>Nom *</label>
           <input
             id="lastName" name="lastName" required
+            defaultValue={saved.current.lastName || ''}
             onFocus={() => setFocused('lastName')} onBlur={() => setFocused(null)}
             onInput={handleInput}
             placeholder="Dupont" autoComplete="family-name"
@@ -179,6 +195,7 @@ function ContactForm() {
         <label htmlFor="email" style={labelStyle}>Email *</label>
         <input
           id="email" name="email" type="email" required
+          defaultValue={saved.current.email || ''}
           onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
           onInput={handleInput}
           placeholder="marie@brand.com" autoComplete="email"
