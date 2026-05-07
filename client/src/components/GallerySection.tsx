@@ -148,13 +148,26 @@ function ScrollRevealVideo() {
 export function GallerySection() {
   const { ref, inView } = useInView(0.05)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+  const [igVisible,  setIgVisible]  = useState(false)
+  const igRef = useRef<HTMLDivElement>(null)
 
+  /* Load LightWidget script + iframe only when section is ~400px away */
   useEffect(() => {
-    if (document.querySelector('script[src*="lightwidget"]')) return
-    const s = document.createElement('script')
-    s.src = 'https://cdn.lightwidget.com/widgets/lightwidget.js'
-    s.async = true
-    document.body.appendChild(s)
+    const el = igRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      obs.disconnect()
+      setIgVisible(true)
+      if (!document.querySelector('script[src*="lightwidget"]')) {
+        const s = document.createElement('script')
+        s.src = 'https://cdn.lightwidget.com/widgets/lightwidget.js'
+        s.async = true
+        document.body.appendChild(s)
+      }
+    }, { rootMargin: '400px' })
+    obs.observe(el)
+    return () => obs.disconnect()
   }, [])
 
   return (
@@ -244,18 +257,20 @@ export function GallerySection() {
         </div>
       </div>
 
-      <div className="container relative z-10 pb-12 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: '550ms' }}>
+      <div ref={igRef} className="container relative z-10 pb-12 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: '550ms' }}>
         <div className="flex items-center gap-3 mb-6">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Latest on Instagram</span>
         </div>
-        <iframe
-          src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
-          scrolling="no"
-          allowTransparency={true}
-          className="lightwidget-widget"
-          style={{ width: '100%', border: 0, overflow: 'hidden', display: 'block', borderRadius: '4px' }}
-        />
+        {igVisible && (
+          <iframe
+            src="https://cdn.lightwidget.com/widgets/c150e04bd5dd5121bfcdce8fb511ff30.html"
+            scrolling="no"
+            allowTransparency={true}
+            className="lightwidget-widget"
+            style={{ width: '100%', border: 0, overflow: 'hidden', display: 'block', borderRadius: '4px' }}
+          />
+        )}
       </div>
 
       <div className="pb-4 lg:pb-6" />
