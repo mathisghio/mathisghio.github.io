@@ -194,8 +194,7 @@ export function HeroSection() {
           >
             <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
               Five world titles. A speed record.<br />
-              A materials science<br />
-              engineering student.<br />
+              A materials science engineering student.<br />
               The sport's most credible athlete<br />
               for brands that demand performance.
             </p>
