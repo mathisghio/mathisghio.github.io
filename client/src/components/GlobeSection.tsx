@@ -408,7 +408,6 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
     const onWheel=(e:WheelEvent)=>{
       if (!e.ctrlKey) return
-      e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
       scaleRef.current=Math.max(0.6,Math.min(4,scaleRef.current*factor))
     }
@@ -416,7 +415,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel, {passive:false})
+    canvas.addEventListener('wheel',     onWheel, {passive:true})
     window.addEventListener('mouseup',   onMouseUp)
 
     return ()=>{
@@ -682,7 +681,6 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
 
     const onWheel=(e:WheelEvent)=>{
       if (!e.ctrlKey) return
-      e.preventDefault()
       const {x,y}=getPos(e)
       const factor=e.deltaY>0?0.85:1.18
       const cur=viewRef.current
@@ -717,7 +715,7 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
 
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel,{passive:false})
+    canvas.addEventListener('wheel',     onWheel,{passive:true})
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseDrag)
     window.addEventListener('mouseup',   onMouseUp2)

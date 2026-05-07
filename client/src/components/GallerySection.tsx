@@ -41,6 +41,7 @@ function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
   const prevVRef = useRef(0)
+  const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -56,6 +57,17 @@ function ScrollRevealVideo() {
   const labelY            = useTransform(scrollYProgress, [0, 0.35], [24, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
+  /* Cache bounding rect — updated on mount and resize to avoid forced reflow on every scroll tick */
+  useEffect(() => {
+    const update = () => {
+      const r = scrollRef.current?.getBoundingClientRect()
+      if (r) rectRef.current = { top: r.top + window.scrollY, bottom: r.bottom + window.scrollY }
+    }
+    update()
+    window.addEventListener('resize', update, { passive: true })
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
   /* Reset when section leaves viewport entirely */
   useEffect(() => {
     const el = scrollRef.current
@@ -67,19 +79,14 @@ function ScrollRevealVideo() {
     return () => obs.disconnect()
   }, [])
 
-  /* Direction-aware reveal:
-     - scrolling DOWN past 0.84 → reveal
-     - scrolling UP past 0.95  → reveal (sticky video is fully on screen)
-     - section not in viewport  → skip (prevents false-trigger on page jumps) */
+  /* Direction-aware reveal — uses cached rect to avoid forced reflow on every scroll tick */
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      const el = scrollRef.current
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
-        prevVRef.current = v
-        return
-      }
+      const rect = rectRef.current
+      if (!rect) return
+      const scrollY = window.scrollY
+      const inView = scrollY + window.innerHeight > rect.top && scrollY < rect.bottom
+      if (!inView) { prevVRef.current = v; return }
       const goingDown = v > prevVRef.current
       prevVRef.current = v
       if (goingDown && v >= 0.84) setRevealed(true)
