@@ -153,10 +153,10 @@ export function HeroSection() {
           Bloc texte (titre + badge + tagline) ancré en haut de la zone libre.
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 flex flex-col justify-end lg:hidden"
+        className="absolute inset-x-0 z-40 flex flex-col justify-start lg:hidden"
         style={{ top: '90px', bottom: '164px' }}
       >
-        <div className="container pb-4">
+        <div className="container pt-3">
 
           {/* Titre — plus grand sur mobile */}
           <div
@@ -179,16 +179,18 @@ export function HeroSection() {
 
           {/* Badge */}
           <div
-            className="mt-4 transition-all duration-700"
+            className="mt-3 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
           >
-            <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
-              5× World Champion · 41.40 kts Speed Record
-            </span>
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-2 font-body text-xs font-medium uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
+                5× World Champion
+              </span>
+              <span className="font-body text-xs font-medium uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em', paddingLeft: '18px' }}>
+                41.40 kts Speed Record
+              </span>
+            </div>
           </div>
 
           {/* Tagline */}
@@ -251,24 +253,24 @@ export function HeroSection() {
         <div className="container">
           <div className="grid grid-cols-3">
             {[
-              { value: '5×',        label: 'World Champion'    },
-              { value: '4×',        label: 'European Champion' },
-              { value: '41.40 kts', label: 'Speed Record'      },
+              { value: '5×',       label: 'World Champion'    },
+              { value: '4×',       label: 'European Champion' },
+              { value: '41.4 kts', label: 'Speed Record'      },
             ].map((stat, i) => (
               <div
                 key={i}
-                className="py-4 px-6 flex flex-col items-center"
+                className="py-2 lg:py-4 px-1 lg:px-6 flex flex-col items-center"
                 style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}
               >
                 <span
-                  className="font-display text-2xl lg:text-3xl"
+                  className="font-display text-xl lg:text-3xl whitespace-nowrap"
                   style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}
                 >
                   {stat.value}
                 </span>
                 <span
-                  className="font-body text-xs uppercase tracking-widest mt-1"
-                  style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.1em' }}
+                  className="font-body text-[0.6rem] lg:text-xs uppercase tracking-widest mt-0.5 lg:mt-1 text-center leading-tight"
+                  style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}
                 >
                   {stat.label}
                 </span>
