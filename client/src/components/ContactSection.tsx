@@ -101,7 +101,10 @@ function ContactForm() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
       })
-      if (res.ok) { setStatus('success'); trackLead('contact_form'); setForm(INITIAL) }
+      if (res.ok) {
+        setStatus('success'); trackLead('contact_form'); setForm(INITIAL)
+        setTimeout(() => setStatus('idle'), 6000)
+      }
       else {
         const body = await res.json().catch(() => ({}))
         console.error('[Formspree]', res.status, body)
@@ -138,7 +141,11 @@ function ContactForm() {
     transition: 'color 0.2s ease',
   }
 
-  if (status === 'success') return <SuccessState />
+  if (status === 'success') return (
+    <AnimatePresence>
+      <SuccessState key="success" />
+    </AnimatePresence>
+  )
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -150,7 +157,7 @@ function ContactForm() {
           <input
             name="name" required value={form.name} onChange={handleChange}
             onFocus={() => setFocused('name')} onBlur={() => setFocused(null)}
-            placeholder="Marie Dupont"
+            placeholder="Marie Dupont" autoComplete="name"
             style={fieldStyle('name')}
           />
         </div>
@@ -159,7 +166,7 @@ function ContactForm() {
           <input
             name="email" type="email" required value={form.email} onChange={handleChange}
             onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
-            placeholder="marie@brand.com"
+            placeholder="marie@brand.com" autoComplete="email"
             style={fieldStyle('email')}
           />
         </div>
