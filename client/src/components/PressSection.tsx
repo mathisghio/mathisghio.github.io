@@ -121,11 +121,12 @@ function DocCard({
 
             {/* External link indicator */}
             <div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm opacity-60 group-hover:opacity-100 transition-opacity duration-300 text-[0.75rem] sm:text-[0.7rem]"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm opacity-60 group-hover:opacity-100 transition-opacity duration-300"
               style={{
                 background: `${doc.color}0e`,
                 border: `1px solid ${doc.color}25`,
                 color: doc.color,
+                fontSize: '0.7rem',
                 fontFamily: 'Barlow Condensed, sans-serif',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
