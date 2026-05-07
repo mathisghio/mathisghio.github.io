@@ -163,7 +163,7 @@ function ContactForm() {
   )
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+    <form ref={formRef} onSubmit={handleSubmit} autoComplete="on" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
