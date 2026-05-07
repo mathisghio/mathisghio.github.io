@@ -40,6 +40,7 @@ const stackedImages: GlassCardImage[] = [
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
+  const prevVRef = useRef(0)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -51,14 +52,38 @@ function ScrollRevealVideo() {
   const radius   = useTransform(scrollYProgress, [0, 0.85], [32, 6])
   const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`
 
-  const labelOpacity    = useTransform(scrollYProgress, [0, 0.35], [0, 1])
-  const labelY          = useTransform(scrollYProgress, [0, 0.35], [24, 0])
+  const labelOpacity      = useTransform(scrollYProgress, [0, 0.35], [0, 1])
+  const labelY            = useTransform(scrollYProgress, [0, 0.35], [24, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
+  /* Reset when section leaves viewport entirely */
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) setRevealed(false)
+    }, { threshold: 0 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  /* Direction-aware reveal:
+     - scrolling DOWN past 0.84 → reveal
+     - scrolling UP past 0.95  → reveal (sticky video is fully on screen)
+     - section not in viewport  → skip (prevents false-trigger on page jumps) */
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      if (v >= 0.84) setRevealed(true)
-      else if (v < 0.5) setRevealed(false)
+      const el = scrollRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+        prevVRef.current = v
+        return
+      }
+      const goingDown = v > prevVRef.current
+      prevVRef.current = v
+      if (goingDown && v >= 0.84) setRevealed(true)
+      else if (!goingDown && v <= 0.95) setRevealed(true)
     })
   }, [scrollYProgress])
 
