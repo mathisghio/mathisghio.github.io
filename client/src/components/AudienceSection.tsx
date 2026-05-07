@@ -58,7 +58,7 @@ export function AudienceSection() {
       <div className="container relative z-10">
 
         <div
-          className="flex items-center gap-3 mb-10 transition-all duration-700"
+          className="flex items-center gap-3 mb-6 lg:mb-10 transition-all duration-700"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(16px)',
@@ -75,7 +75,7 @@ export function AudienceSection() {
           </span>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2 lg:gap-3">
           {rows.map((row, i) => {
             const isHovered = hoveredRow === i
             return (
@@ -105,10 +105,10 @@ export function AudienceSection() {
                   }}
                 >
                   {/* Mobile: label + number on one line */}
-                  <div className="flex items-baseline justify-between pt-5 pb-2 px-5 lg:hidden">
+                  <div className="flex items-baseline justify-between pt-3 pb-1 px-4 lg:hidden">
                     <span
                       className="font-body text-xs uppercase tracking-widest"
-                      style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.15em' }}
+                      style={{ color: 'rgba(148,163,184,0.68)', letterSpacing: '0.15em' }}
                     >
                       {row.label}
                     </span>
@@ -137,8 +137,8 @@ export function AudienceSection() {
                   </div>
                   {/* Mobile: detail below */}
                   <p
-                    className="font-body text-xs pb-4 px-5 lg:hidden"
-                    style={{ color: 'rgba(148,163,184,0.55)', lineHeight: 1.65 }}
+                    className="font-body text-xs pb-3 px-4 lg:hidden"
+                    style={{ color: 'rgba(148,163,184,0.8)', lineHeight: 1.6 }}
                   >
                     {row.detail}
                   </p>

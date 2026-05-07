@@ -210,7 +210,7 @@ export function HeroSection() {
           Même composant ShinyButton → taille identique pour les deux boutons.
           ─────────────────────────────────────────────────────────────────── */}
       <div
-        className="absolute inset-x-0 z-40 flex lg:hidden items-center justify-between transition-all duration-700"
+        className="absolute inset-x-0 z-40 flex lg:hidden flex-col items-center gap-3 transition-all duration-700"
         style={{
           bottom:       '100px',
           paddingLeft:  '1.25rem',
@@ -219,25 +219,26 @@ export function HeroSection() {
           transitionDelay: '650ms',
         }}
       >
-        <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-          View My Achievements
-        </ShinyButton>
+        <div className="flex gap-3 w-full justify-center">
+          <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
+            Achievements
+          </ShinyButton>
+          <ShinyButton
+            onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
+            className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+          >
+            My Journey
+          </ShinyButton>
+        </div>
 
         <button
           onClick={scrollToAbout}
-          className="flex flex-col items-center gap-2 hover:opacity-70 transition-opacity duration-300"
+          className="flex flex-col items-center gap-1.5 hover:opacity-70 transition-opacity duration-300"
           style={{ color: 'rgba(241,245,249,0.5)' }}
         >
           <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
           <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
         </button>
-
-        <ShinyButton
-          onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-          className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
-        >
-          My Journey
-        </ShinyButton>
       </div>
 
       {/* ── Stats bar ── */}

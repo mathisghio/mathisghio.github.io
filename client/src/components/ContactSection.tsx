@@ -383,7 +383,7 @@ function ContactForm() {
 
       {/* Submit */}
       <div>
-        <ShinyButton type="submit" disabled={status === 'sending'}>
+        <ShinyButton type="submit" disabled={status === 'sending'} className="w-full sm:w-auto justify-center">
           <span className="flex items-center gap-2">
             {status === 'sending' ? (
               <>
@@ -444,7 +444,7 @@ export function ContactSection() {
 
             {/* Left: info panel */}
             <div
-              className="rounded-sm p-8 flex flex-col justify-between"
+              className="rounded-sm p-5 lg:p-8 flex flex-col justify-between"
               style={{
                 background: 'rgba(14,165,233,0.04)',
                 border: '1px solid rgba(14,165,233,0.12)',
@@ -459,18 +459,18 @@ export function ContactSection() {
               }} />
 
               <div>
-                <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center gap-3 mb-5 lg:mb-8">
                   <div className="section-line" />
                   <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
                     Reach out
                   </span>
                 </div>
 
-                <p className="font-body text-sm mb-8" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
+                <p className="font-body text-sm mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
                   Looking for a partnership, a media request, or just want to connect? I read every message personally.
                 </p>
 
-                <div className="flex flex-col gap-2 mb-8">
+                <div className="flex flex-col gap-2 mb-5 lg:mb-8">
                   <InfoRow
                     icon={Mail} sublabel="Email" value="contact@mathisghio.com"
                     href="mailto:contact@mathisghio.com" onClick={trackEmailClick}
@@ -493,7 +493,7 @@ export function ContactSection() {
 
             {/* Right: form card */}
             <div
-              className="rounded-sm p-8"
+              className="rounded-sm p-5 lg:p-8"
               style={{
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(14,165,233,0.12)',
