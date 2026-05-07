@@ -103,7 +103,7 @@ function ScrollRevealVideo() {
   }, [revealed])
 
   return (
-    <div ref={scrollRef} className="relative min-h-[220vh] w-full">
+    <div ref={scrollRef} className="relative min-h-[120vh] lg:min-h-[220vh] w-full">
       <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
         <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-8">
           <div className="section-line" />
