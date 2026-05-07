@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import type React from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Instagram, Facebook, Linkedin, Send, Mail, MapPin, Clock } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
@@ -16,8 +15,6 @@ const SOCIAL_CHANNELS = [
   { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',               Icon: Linkedin,  label: 'Mathis Ghio'   },
 ]
 
-interface FormState { firstName: string; lastName: string; email: string; message: string }
-const INITIAL: FormState = { firstName: '', lastName: '', email: '', message: '' }
 
 function SuccessState() {
   return (
@@ -82,30 +79,34 @@ function SuccessState() {
 }
 
 function ContactForm() {
-  const [form,    setForm]    = useState<FormState>(INITIAL)
+  const formRef = useRef<HTMLFormElement>(null)
   const [status,  setStatus]  = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [focused, setFocused] = useState<string | null>(null)
   const [touched, setTouched] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (!touched) { setTouched(true); trackFormStart() }
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
+  const handleInput = () => { if (!touched) { setTouched(true); trackFormStart() } }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setStatus('sending')
+    const data = new FormData(e.currentTarget)
+    const payload = {
+      firstName: data.get('firstName') as string,
+      lastName:  data.get('lastName')  as string,
+      email:     data.get('email')     as string,
+      message:   data.get('message')   as string,
+    }
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ firstName: form.firstName, lastName: form.lastName, email: form.email, message: form.message }),
+        body: JSON.stringify(payload),
       })
       if (res.ok) {
-        setStatus('success'); trackLead('contact_form'); setForm(INITIAL)
+        setStatus('success'); trackLead('contact_form')
+        formRef.current?.reset()
         setTimeout(() => setStatus('idle'), 6000)
-      }
-      else {
+      } else {
         const body = await res.json().catch(() => ({}))
         console.error('[Formspree]', res.status, body)
         setStatus('error')
@@ -148,15 +149,16 @@ function ContactForm() {
   )
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+    <form ref={formRef} onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
           <input
-            id="firstName" name="firstName" required value={form.firstName} onChange={handleChange}
+            id="firstName" name="firstName" required
             onFocus={() => setFocused('firstName')} onBlur={() => setFocused(null)}
+            onInput={handleInput}
             placeholder="Marie" autoComplete="given-name"
             style={fieldStyle('firstName')}
           />
@@ -164,8 +166,9 @@ function ContactForm() {
         <div>
           <label htmlFor="lastName" style={labelStyle}>Nom *</label>
           <input
-            id="lastName" name="lastName" required value={form.lastName} onChange={handleChange}
+            id="lastName" name="lastName" required
             onFocus={() => setFocused('lastName')} onBlur={() => setFocused(null)}
+            onInput={handleInput}
             placeholder="Dupont" autoComplete="family-name"
             style={fieldStyle('lastName')}
           />
@@ -175,8 +178,9 @@ function ContactForm() {
       <div>
         <label htmlFor="email" style={labelStyle}>Email *</label>
         <input
-          id="email" name="email" type="email" required value={form.email} onChange={handleChange}
+          id="email" name="email" type="email" required
           onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
+          onInput={handleInput}
           placeholder="marie@brand.com" autoComplete="email"
           style={fieldStyle('email')}
         />
@@ -185,8 +189,9 @@ function ContactForm() {
       <div>
         <label htmlFor="message" style={labelStyle}>Message *</label>
         <textarea
-          id="message" name="message" required rows={5} value={form.message} onChange={handleChange}
+          id="message" name="message" required rows={5}
           onFocus={() => setFocused('message')} onBlur={() => setFocused(null)}
+          onInput={handleInput}
           placeholder="Tell me about your brand, your project, or your question…"
           style={{ ...fieldStyle('message'), resize: 'vertical', minHeight: 120 }}
         />
