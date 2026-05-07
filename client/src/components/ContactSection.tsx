@@ -153,18 +153,18 @@ function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label style={labelStyle}>Prénom *</label>
+          <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
           <input
-            name="firstName" required value={form.firstName} onChange={handleChange}
+            id="firstName" name="firstName" required value={form.firstName} onChange={handleChange}
             onFocus={() => setFocused('firstName')} onBlur={() => setFocused(null)}
             placeholder="Marie" autoComplete="given-name"
             style={fieldStyle('firstName')}
           />
         </div>
         <div>
-          <label style={labelStyle}>Nom *</label>
+          <label htmlFor="lastName" style={labelStyle}>Nom *</label>
           <input
-            name="lastName" required value={form.lastName} onChange={handleChange}
+            id="lastName" name="lastName" required value={form.lastName} onChange={handleChange}
             onFocus={() => setFocused('lastName')} onBlur={() => setFocused(null)}
             placeholder="Dupont" autoComplete="family-name"
             style={fieldStyle('lastName')}
@@ -173,9 +173,9 @@ function ContactForm() {
       </div>
 
       <div>
-        <label style={labelStyle}>Email *</label>
+        <label htmlFor="email" style={labelStyle}>Email *</label>
         <input
-          name="email" type="email" required value={form.email} onChange={handleChange}
+          id="email" name="email" type="email" required value={form.email} onChange={handleChange}
           onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
           placeholder="marie@brand.com" autoComplete="email"
           style={fieldStyle('email')}
@@ -183,9 +183,9 @@ function ContactForm() {
       </div>
 
       <div>
-        <label style={labelStyle}>Message *</label>
+        <label htmlFor="message" style={labelStyle}>Message *</label>
         <textarea
-          name="message" required rows={5} value={form.message} onChange={handleChange}
+          id="message" name="message" required rows={5} value={form.message} onChange={handleChange}
           onFocus={() => setFocused('message')} onBlur={() => setFocused(null)}
           placeholder="Tell me about your brand, your project, or your question…"
           style={{ ...fieldStyle('message'), resize: 'vertical', minHeight: 120 }}
