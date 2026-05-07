@@ -149,16 +149,15 @@ export function HeroSection() {
       </button>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          MOBILE (< lg) — un seul flex-col de la nav jusqu'au bandeau stats.
-          Le spacer flex-1 absorbe l'espace libre, rien ne se chevauche.
+          MOBILE (< lg) — justify-between : titre en haut, boutons+stats
+          collés en bas. La stats bar est dans le flux, toujours visible.
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 flex lg:hidden flex-col transition-all duration-700"
-        style={{ top: '90px', bottom: '58px', opacity: visible ? 1 : 0 }}
+        className="absolute inset-x-0 z-40 flex lg:hidden flex-col justify-between transition-all duration-700"
+        style={{ top: '90px', bottom: '0', opacity: visible ? 1 : 0 }}
       >
-        <div className="container flex flex-col h-full pt-3 pb-3">
-
-          {/* Titre */}
+        {/* ── Haut : titre + badge + tagline ── */}
+        <div className="container pt-3">
           <div
             className="transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
@@ -171,7 +170,6 @@ export function HeroSection() {
             </h1>
           </div>
 
-          {/* Badge */}
           <div
             className="mt-2 transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
@@ -187,7 +185,6 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Tagline */}
           <div
             className="mt-3 transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
@@ -199,15 +196,15 @@ export function HeroSection() {
               for brands that demand performance.
             </p>
           </div>
+        </div>
 
-          {/* Spacer élastique — capé pour éviter un grand vide sur grands écrans */}
-          <div className="flex-1 min-h-2 max-h-10" />
-
+        {/* ── Bas : boutons + scroll + stats bar ── */}
+        <div
+          className="transition-all duration-700"
+          style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
+        >
           {/* Boutons */}
-          <div
-            className="flex flex-col items-center gap-3 transition-all duration-700"
-            style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
-          >
+          <div className="container pb-3 flex flex-col items-center gap-3">
             <div className="flex gap-3 w-full justify-center">
               <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
                 Achievements
@@ -231,25 +228,46 @@ export function HeroSection() {
           {/* Scroll indicator */}
           <button
             onClick={scrollToAbout}
-            className="mt-3 flex flex-col items-center gap-1.5 self-center hover:opacity-70 transition-opacity duration-300"
+            className="mb-3 flex flex-col items-center gap-1.5 w-full hover:opacity-70 transition-opacity duration-300"
             style={{ color: 'rgba(241,245,249,0.5)' }}
           >
             <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
             <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
           </button>
 
+          {/* Stats bar — intégrée dans le flux mobile */}
+          <div style={{ borderTop: '1px solid rgba(14,165,233,0.15)', background: 'rgba(8,9,14,0.25)', backdropFilter: 'blur(16px)' }}>
+            <div className="container">
+              <div className="grid grid-cols-3">
+                {[
+                  { value: '5×',       label: 'World Champion'    },
+                  { value: '4×',       label: 'European Champion' },
+                  { value: '41.4 kts', label: 'Speed Record'      },
+                ].map((stat, i) => (
+                  <div key={i} className="py-2 px-1 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}>
+                    <span className="font-display text-xl whitespace-nowrap" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
+                      {stat.value}
+                    </span>
+                    <span className="font-body text-[0.6rem] uppercase tracking-widest mt-0.5 text-center leading-tight" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}>
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ── Stats bar ── */}
+      {/* ── Stats bar — DESKTOP uniquement ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-40 transition-all duration-700"
+        className="absolute bottom-0 left-0 right-0 z-40 hidden lg:block transition-all duration-700"
         style={{
           opacity:         visible ? 1 : 0,
           transitionDelay: '800ms',
-          borderTop:       '1px solid rgba(14,165,233,0.15)',
-          background:      'rgba(8,9,14,0.25)',
-          backdropFilter:  'blur(16px)',
+          borderTop:       '1px solid rgba(14,165,233,0.1)',
+          background:      'rgba(8,9,14,0.6)',
+          backdropFilter:  'blur(10px)',
         }}
       >
         <div className="container">
@@ -259,21 +277,11 @@ export function HeroSection() {
               { value: '4×',       label: 'European Champion' },
               { value: '41.4 kts', label: 'Speed Record'      },
             ].map((stat, i) => (
-              <div
-                key={i}
-                className="py-2 lg:py-4 px-1 lg:px-6 flex flex-col items-center"
-                style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}
-              >
-                <span
-                  className="font-display text-xl lg:text-3xl whitespace-nowrap"
-                  style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}
-                >
+              <div key={i} className="py-4 px-6 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}>
+                <span className="font-display text-3xl" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
                   {stat.value}
                 </span>
-                <span
-                  className="font-body text-[0.6rem] lg:text-xs uppercase tracking-widest mt-0.5 lg:mt-1 text-center leading-tight"
-                  style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}
-                >
+                <span className="font-body text-xs uppercase tracking-widest mt-1 text-center" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.1em' }}>
                   {stat.label}
                 </span>
               </div>
