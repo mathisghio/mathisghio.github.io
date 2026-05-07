@@ -16,8 +16,8 @@ const SOCIAL_CHANNELS = [
   { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',               Icon: Linkedin,  label: 'Mathis Ghio'   },
 ]
 
-interface FormState { name: string; email: string; message: string }
-const INITIAL: FormState = { name: '', email: '', message: '' }
+interface FormState { firstName: string; lastName: string; email: string; message: string }
+const INITIAL: FormState = { firstName: '', lastName: '', email: '', message: '' }
 
 function SuccessState() {
   return (
@@ -99,7 +99,7 @@ function ContactForm() {
       const res = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name: form.name, email: form.email, message: form.message }),
+        body: JSON.stringify({ firstName: form.firstName, lastName: form.lastName, email: form.email, message: form.message }),
       })
       if (res.ok) {
         setStatus('success'); trackLead('contact_form'); setForm(INITIAL)
@@ -153,23 +153,33 @@ function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label style={labelStyle}>Name *</label>
+          <label style={labelStyle}>Prénom *</label>
           <input
-            name="name" required value={form.name} onChange={handleChange}
-            onFocus={() => setFocused('name')} onBlur={() => setFocused(null)}
-            placeholder="Marie Dupont" autoComplete="name"
-            style={fieldStyle('name')}
+            name="firstName" required value={form.firstName} onChange={handleChange}
+            onFocus={() => setFocused('firstName')} onBlur={() => setFocused(null)}
+            placeholder="Marie" autoComplete="given-name"
+            style={fieldStyle('firstName')}
           />
         </div>
         <div>
-          <label style={labelStyle}>Email *</label>
+          <label style={labelStyle}>Nom *</label>
           <input
-            name="email" type="email" required value={form.email} onChange={handleChange}
-            onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
-            placeholder="marie@brand.com" autoComplete="email"
-            style={fieldStyle('email')}
+            name="lastName" required value={form.lastName} onChange={handleChange}
+            onFocus={() => setFocused('lastName')} onBlur={() => setFocused(null)}
+            placeholder="Dupont" autoComplete="family-name"
+            style={fieldStyle('lastName')}
           />
         </div>
+      </div>
+
+      <div>
+        <label style={labelStyle}>Email *</label>
+        <input
+          name="email" type="email" required value={form.email} onChange={handleChange}
+          onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
+          placeholder="marie@brand.com" autoComplete="email"
+          style={fieldStyle('email')}
+        />
       </div>
 
       <div>
