@@ -200,8 +200,8 @@ export function HeroSection() {
             </p>
           </div>
 
-          {/* Spacer élastique */}
-          <div className="flex-1 min-h-3" />
+          {/* Spacer élastique — capé pour éviter un grand vide sur grands écrans */}
+          <div className="flex-1 min-h-2 max-h-10" />
 
           {/* Boutons */}
           <div
@@ -247,9 +247,9 @@ export function HeroSection() {
         style={{
           opacity:         visible ? 1 : 0,
           transitionDelay: '800ms',
-          borderTop:       '1px solid rgba(14,165,233,0.1)',
-          background:      'rgba(8,9,14,0.6)',
-          backdropFilter:  'blur(10px)',
+          borderTop:       '1px solid rgba(14,165,233,0.15)',
+          background:      'rgba(8,9,14,0.25)',
+          backdropFilter:  'blur(16px)',
         }}
       >
         <div className="container">
