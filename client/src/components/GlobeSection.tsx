@@ -191,13 +191,15 @@ function drawInfoPanel(
 /* ═══════════════════════════════════════════════════════════════════════════
    GLOBE 3D
 ═══════════════════════════════════════════════════════════════════════════ */
-function Globe3DD3({ visible, hoveredId, onHover }: {
+function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
   visible:boolean; hoveredId:number|null
   onHover:(comp:Comp|null,x:number,y:number)=>void
+  onTap?:(comp:Comp)=>void
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef    = useRef<HTMLCanvasElement>(null)
   const onHoverRef   = useRef(onHover)
+  const onTapRef     = useRef(onTap)
   const hoveredIdRef = useRef<number|null>(null)
   const rotRef       = useRef<[number,number]>([0,-18])
   const targetRotRef = useRef<[number,number]|null>(null)
@@ -211,6 +213,7 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
   const [loadError,  setLoadError]  = useState(false)
 
   useEffect(()=>{ onHoverRef.current=onHover },[onHover])
+  useEffect(()=>{ onTapRef.current=onTap },[onTap])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
   useEffect(()=>{
@@ -418,6 +421,26 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
     canvas.addEventListener('wheel',     onWheel, {passive:true})
     window.addEventListener('mouseup',   onMouseUp)
 
+    let touchStart3D={x:0,y:0}
+    const onTouchStart3D=(e:TouchEvent)=>{
+      const t=e.touches[0]; touchStart3D={x:t.clientX,y:t.clientY}
+    }
+    const onTouchEnd3D=(e:TouchEvent)=>{
+      const t=e.changedTouches[0]
+      if (Math.hypot(t.clientX-touchStart3D.x,t.clientY-touchStart3D.y)>14) return
+      const rect=canvas.getBoundingClientRect()
+      const x=t.clientX-rect.left, y=t.clientY-rect.top
+      let closest:Comp|null=null, closestD=48
+      for (const comp of COMPS) {
+        const pt=projection([comp.lng,comp.lat]); if (!pt) continue
+        const dist=Math.hypot(pt[0]-x,pt[1]-y)
+        if (dist<closestD){closestD=dist;closest=comp}
+      }
+      if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef.current?.(closest)}
+    }
+    canvas.addEventListener('touchstart',onTouchStart3D,{passive:true})
+    canvas.addEventListener('touchend',onTouchEnd3D,{passive:true})
+
     return ()=>{
       timer.stop()
       canvas.removeEventListener('mousedown', onMouseDown)
@@ -425,6 +448,8 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
       canvas.removeEventListener('mouseleave',onMouseLeave)
       canvas.removeEventListener('wheel',     onWheel)
       window.removeEventListener('mouseup',   onMouseUp)
+      canvas.removeEventListener('touchstart',onTouchStart3D)
+      canvas.removeEventListener('touchend',onTouchEnd3D)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
@@ -464,13 +489,15 @@ function Globe3DD3({ visible, hoveredId, onHover }: {
 ═══════════════════════════════════════════════════════════════════════════ */
 interface ViewTransform { k:number; tx:number; ty:number }
 
-function Map2DFlat({ visible, hoveredId, onHover }: {
+function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
   visible:boolean; hoveredId:number|null
   onHover:(comp:Comp|null,x:number,y:number)=>void
+  onTap?:(comp:Comp)=>void
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef    = useRef<HTMLCanvasElement>(null)
   const onHoverRef   = useRef(onHover)
+  const onTapRef2D   = useRef(onTap)
   const hoveredIdRef = useRef<number|null>(null)
   const viewRef           = useRef<ViewTransform>({k:1,tx:0,ty:0})
   const targetViewRef     = useRef<ViewTransform|null>(null)
@@ -482,6 +509,7 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
   const dimsRef    = useRef({w:0,h:0})
 
   useEffect(()=>{ onHoverRef.current=onHover },[onHover])
+  useEffect(()=>{ onTapRef2D.current=onTap },[onTap])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
   useEffect(()=>{
@@ -720,6 +748,28 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
     canvas.addEventListener('mousemove', onMouseDrag)
     window.addEventListener('mouseup',   onMouseUp2)
 
+    let touchStart2D={x:0,y:0}
+    const onTouchStart2D=(e:TouchEvent)=>{
+      const t=e.touches[0]; touchStart2D={x:t.clientX,y:t.clientY}
+    }
+    const onTouchEnd2D=(e:TouchEvent)=>{
+      const t=e.changedTouches[0]
+      if (Math.hypot(t.clientX-touchStart2D.x,t.clientY-touchStart2D.y)>14) return
+      const rect=canvas.getBoundingClientRect()
+      const x=t.clientX-rect.left, y=t.clientY-rect.top
+      const {k,tx,ty}=viewRef.current
+      const bx=(x-tx)/k, by=(y-ty)/k
+      let closest:Comp|null=null, closestD=48/k
+      for (const comp of COMPS) {
+        const pt=baseProj([comp.lng,comp.lat]); if (!pt) continue
+        const dist=Math.hypot(pt[0]-bx,pt[1]-by)
+        if (dist<closestD){closestD=dist;closest=comp}
+      }
+      if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef2D.current?.(closest)}
+    }
+    canvas.addEventListener('touchstart',onTouchStart2D,{passive:true})
+    canvas.addEventListener('touchend',onTouchEnd2D,{passive:true})
+
     return ()=>{
       cancelAnimationFrame(raf)
       canvas.removeEventListener('mousemove', onMouseMove)
@@ -728,6 +778,8 @@ function Map2DFlat({ visible, hoveredId, onHover }: {
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseDrag)
       window.removeEventListener('mouseup',   onMouseUp2)
+      canvas.removeEventListener('touchstart',onTouchStart2D)
+      canvas.removeEventListener('touchend',onTouchEnd2D)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[bundle,dims])
@@ -771,16 +823,16 @@ function ViewToggle({mode,onToggle}:{mode:'2d'|'3d';onToggle:()=>void}) {
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPETITION CARD
 ═══════════════════════════════════════════════════════════════════════════ */
-function CompCard({comp,isActive,onEnter,onLeave}:{comp:Comp;isActive:boolean;onEnter:()=>void;onLeave:()=>void}) {
+function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef}:{comp:Comp;isActive:boolean;onEnter:()=>void;onLeave:()=>void;onClick?:()=>void;domRef?:(el:HTMLDivElement|null)=>void}) {
   const color=TC[comp.type]
   return (
-    <div onMouseEnter={onEnter} onMouseLeave={onLeave} style={{
+    <div ref={domRef} onMouseEnter={onEnter} onMouseLeave={onLeave} onClick={onClick} style={{
       display:'flex',alignItems:'stretch',borderRadius:'6px',overflow:'hidden',
       background:isActive?`${color}0e`:'rgba(255,255,255,0.02)',
       border:`1px solid ${isActive?color+'48':'rgba(255,255,255,0.05)'}`,
       boxShadow:isActive?`0 0 28px ${color}14,inset 0 0 16px ${color}06`:'none',
       transform:isActive?'translateX(-5px)':'none',
-      transition:'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',cursor:'default',flexShrink:0,
+      transition:'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',cursor:'pointer',flexShrink:0,
     }}>
       <div style={{width:'3px',background:isActive?`linear-gradient(to bottom,${color},${color}55)`:`${color}28`,flexShrink:0,transition:'background 0.25s'}}/>
       <div style={{padding:'9px 11px',borderRight:'1px solid rgba(255,255,255,0.04)',minWidth:'52px',flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
@@ -811,6 +863,10 @@ export function GlobeSection() {
   const {ref:sectionRef,inView}=useInView(0.1)
   const [mode,setMode]=useState<'2d'|'3d'>('3d')
   const [hoveredId,setHoveredId]=useState<number|null>(null)
+  const [pinnedId,setPinnedId]=useState<number|null>(null)
+  const globeContainerRef=useRef<HTMLDivElement>(null)
+  const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
+  const effectiveId=pinnedId??hoveredId
 
   const handleMapHover=useCallback((comp:Comp|null)=>{
     setHoveredId(comp?.id??null)
@@ -821,6 +877,19 @@ export function GlobeSection() {
 
   const handleCanvasHover=useCallback((comp:Comp|null, _x:number, _y:number)=>{
     setHoveredId(comp?.id??null)
+  },[])
+
+  const handleGlobeTap=useCallback((comp:Comp)=>{
+    if (window.innerWidth>=1024) return
+    setPinnedId(comp.id)
+    const el=cardRefs.current[comp.id]
+    if (el) el.scrollIntoView({behavior:'smooth',block:'center'})
+  },[])
+
+  const handleCardClick=useCallback((id:number)=>{
+    if (window.innerWidth>=1024) return
+    setPinnedId(id)
+    globeContainerRef.current?.scrollIntoView({behavior:'smooth',block:'start'})
   },[])
 
   return (
@@ -872,12 +941,13 @@ export function GlobeSection() {
         <div className="grid lg:grid-cols-[1fr_380px] gap-8 lg:gap-10 items-start">
 
           {/* Globe / Map container */}
-          <div className="relative rounded-sm overflow-hidden h-[300px] sm:h-[420px] lg:h-[520px]" style={{border:'1px solid rgba(14,165,233,0.12)',background:'#020510',boxShadow:'0 0 80px rgba(14,165,233,0.05),inset 0 0 80px rgba(14,165,233,0.03)'}}>
-            <Map2DFlat  visible={mode==='2d'} hoveredId={hoveredId} onHover={handleCanvasHover}/>
-            <Globe3DD3  visible={mode==='3d'} hoveredId={hoveredId} onHover={handleCanvasHover}/>
+          <div ref={globeContainerRef} className="relative rounded-sm overflow-hidden h-[300px] sm:h-[420px] lg:h-[520px]" style={{border:'1px solid rgba(14,165,233,0.12)',background:'#020510',boxShadow:'0 0 80px rgba(14,165,233,0.05),inset 0 0 80px rgba(14,165,233,0.03)'}}>
+            <Map2DFlat  visible={mode==='2d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
+            <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
-              {mode==='3d'?'drag · pinch to zoom · hover markers':'pinch to zoom · drag to pan · hover markers'}
+              <span className="hidden lg:inline">{mode==='3d'?'drag · hover markers':'drag to pan · hover markers'}</span>
+              <span className="lg:hidden">{mode==='3d'?'drag to rotate · tap markers':'drag to pan · tap markers'}</span>
             </div>
           </div>
 
@@ -896,8 +966,10 @@ export function GlobeSection() {
             <div className="flex flex-col gap-1.5">
               {COMPS.map((comp,i)=>(
                 <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
-                  <CompCard comp={comp} isActive={hoveredId===comp.id}
-                    onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}/>
+                  <CompCard comp={comp} isActive={effectiveId===comp.id}
+                    onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
+                    onClick={()=>handleCardClick(comp.id)}
+                    domRef={el=>{cardRefs.current[comp.id]=el}}/>
                 </motion.div>
               ))}
             </div>
