@@ -42,6 +42,10 @@ export function AudienceSection() {
       className="relative py-14 lg:py-20 overflow-hidden"
       style={{ background: 'transparent' }}
     >
+      {/* Side edge fades — matches GallerySection */}
+      <div className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
+
       {/* Subtle right glow */}
       <div
         className="absolute top-0 right-0 pointer-events-none"
