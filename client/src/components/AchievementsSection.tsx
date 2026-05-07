@@ -78,21 +78,21 @@ export function AchievementsSection() {
   const shouldReduceMotion = useReducedMotion()
 
   return (
-    <section id="achievements" ref={ref} className="relative py-24 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="achievements" ref={ref} className="relative py-14 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
      <div className="absolute inset-0 z-0" style={{ opacity: 0.4 }}>
         <ShaderAnimation />
       </div>
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.85) 0%, rgba(8,9,14,0.7) 50%, rgba(8,9,14,0.85) 100%)' }} />
       <div className="absolute right-0 top-1/2 -translate-y-1/2 font-display select-none pointer-events-none z-0" style={{ fontSize: 'clamp(200px, 30vw, 400px)', color: 'rgba(14, 165, 233, 0.03)', lineHeight: 1, right: '-2%' }}>5×</div>
       <div className="container relative z-10">
-        <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
+        <div className="mb-10 lg:mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <SectionHeader label="Achievements" line1="MY WORLD TITLES" line2="& PERSONAL RECORDS" goldGradient />
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-20 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-10 lg:mb-20 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}>
           {[{ icon: Trophy, value: 5, suffix: '×', label: 'World Titles', gold: true }, { icon: Award, value: 4, suffix: '×', label: 'European Titles', gold: false }, { icon: Star, value: 10, suffix: '+', label: 'World Cup Wins', gold: false }, { icon: Zap, value: 41.40, suffix: ' kts', label: 'Speed Record', gold: false }].map((stat, i) => (
             <motion.div
               key={i}
-              className="relative overflow-hidden rounded-sm p-6 card-hover"
+              className="relative overflow-hidden rounded-sm p-4 lg:p-6 card-hover"
               initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : i * 0.1, ease: 'easeOut' }}
@@ -106,9 +106,9 @@ export function AchievementsSection() {
             </motion.div>
           ))}
         </div>
-        <div className="grid lg:grid-cols-5 gap-8">
+        <div className="grid lg:grid-cols-5 gap-5 lg:gap-8">
           <div className="lg:col-span-2 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-20px)', transitionDelay: '400ms' }}>
-            <h3 className="font-body text-xs uppercase tracking-widest mb-6" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.2em' }}>Season</h3>
+            <h3 className="font-body text-xs uppercase tracking-widest mb-3 lg:mb-6" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.2em' }}>Season</h3>
             <div className="flex flex-col gap-2">
               {yearData.map((y) => {
                 const isActive = activeYear === y.year
@@ -119,7 +119,7 @@ export function AchievementsSection() {
                     onClick={() => { setActiveYear(y.year); setHoveredResult(null) }}
                     onMouseEnter={() => setHoveredYear(y.year)}
                     onMouseLeave={() => setHoveredYear(null)}
-                    className="flex items-center gap-4 p-4 rounded-sm text-left"
+                    className="flex items-center gap-4 p-3 lg:p-4 rounded-sm text-left"
                     style={{
                       background: isActive ? 'rgba(14, 165, 233, 0.08)' : isHovered ? 'rgba(14, 165, 233, 0.04)' : 'rgba(255,255,255,0.02)',
                       border: `1px solid ${isActive ? y.color + '40' : isHovered ? y.color + '28' : 'rgba(255,255,255,0.05)'}`,
@@ -145,10 +145,10 @@ export function AchievementsSection() {
             </div>
           </div>
           <div className="lg:col-span-3 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(20px)', transitionDelay: '500ms' }}>
-            <div className="p-8 rounded-sm h-full" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${activeData.color}25`, minHeight: '300px' }}>
-              <div className="flex items-start justify-between mb-8">
+            <div className="p-5 lg:p-8 rounded-sm h-full" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${activeData.color}25`, minHeight: '280px' }}>
+              <div className="flex items-start justify-between mb-5 lg:mb-8">
                 <div>
-                  <div className="font-display text-6xl" style={{ color: activeData.color, textShadow: `0 0 30px ${activeData.color}60` }}>{activeData.year}</div>
+                  <div className="font-display text-4xl lg:text-6xl" style={{ color: activeData.color, textShadow: `0 0 30px ${activeData.color}60` }}>{activeData.year}</div>
                   <div className="font-body text-sm uppercase tracking-widest mt-1" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.15em' }}>{activeData.label}</div>
                 </div>
                 <Trophy size={32} style={{ color: activeData.color, opacity: 0.5 }} />
