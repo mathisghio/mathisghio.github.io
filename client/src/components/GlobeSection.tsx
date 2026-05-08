@@ -411,6 +411,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.style.cursor=onGlobe?'grab':'default'
       let closest:Comp|null=null, closestD=22
       for (const comp of COMPS) {
+        if (!isGlobePointVisible(comp.lng,comp.lat)) continue  // face avant uniquement
         const pt=projection([comp.lng,comp.lat]); if (!pt) continue
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
@@ -472,6 +473,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       const x=t.clientX-rect.left, y=t.clientY-rect.top
       let closest:Comp|null=null, closestD=48
       for (const comp of COMPS) {
+        if (!isGlobePointVisible(comp.lng,comp.lat)) continue  // face avant uniquement
         const pt=projection([comp.lng,comp.lat]); if (!pt) continue
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
