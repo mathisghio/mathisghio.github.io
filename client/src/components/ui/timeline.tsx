@@ -71,16 +71,31 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex gap-6 md:gap-10 pt-8 md:pt-40"
+            className="flex gap-3 md:gap-10 pt-8 md:pt-40"
           >
-            {/* LEFT: sticky date + dot */}
+            {/* LEFT: sticky — date on mobile, dot + year on desktop */}
             <div
-              className="self-start sticky top-40 z-40
+              className="self-start sticky top-24 md:top-40 z-40
                          flex flex-col md:flex-row items-center
-                         max-w-[5rem] md:max-w-xs lg:max-w-sm w-full flex-shrink-0"
+                         w-10 flex-shrink-0
+                         md:w-auto md:max-w-xs lg:max-w-sm"
             >
+              {/* Mobile: year text replaces dot */}
+              <h3
+                className="md:hidden font-display text-center leading-tight"
+                style={{
+                  fontSize: "11px",
+                  color: "rgba(14,165,233,0.72)",
+                  letterSpacing: "0.02em",
+                  wordBreak: "break-all",
+                }}
+              >
+                {item.title}
+              </h3>
+
+              {/* Desktop: dot */}
               <div
-                className="relative h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0"
+                className="hidden md:flex relative h-10 w-10 rounded-full items-center justify-center flex-shrink-0"
                 style={{ background: "transparent" }}
               >
                 <span
@@ -94,6 +109,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
                 />
               </div>
 
+              {/* Desktop: year */}
               <h3
                 className="hidden md:block pl-4 font-display leading-none"
                 style={{
@@ -106,18 +122,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               </h3>
             </div>
 
-            {/* RIGHT: scrollable content */}
+            {/* RIGHT: scrollable content — year heading moved to left column */}
             <div className="flex-1 min-w-0 pb-6">
-              <h3
-                className="md:hidden block mb-4 font-display"
-                style={{
-                  fontSize: "clamp(28px, 6vw, 40px)",
-                  color: "rgba(14,165,233,0.7)",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {item.title}
-              </h3>
               <FadeInBlock>{item.content}</FadeInBlock>
             </div>
           </div>
