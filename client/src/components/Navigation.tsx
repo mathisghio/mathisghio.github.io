@@ -314,17 +314,6 @@ export function Navigation() {
           className="mgMobileInner"
           style={{ transform: menuOpen ? "scale(1) translateY(0)" : "scale(0.94) translateY(14px)", opacity: menuOpen ? 1 : 0 }}
         >
-          {/* Header with close button */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 6px 10px 6px', borderBottom: '1px solid rgba(14,165,233,0.12)', marginBottom: '4px' }}>
-            <span style={{ fontFamily: '"Bebas Neue", sans-serif', color: 'rgba(14,165,233,0.6)', letterSpacing: '0.18em', fontSize: '0.78rem' }}>NAVIGATION</span>
-            <button
-              onClick={() => setMenuOpen(false)}
-              style={{ color: 'rgba(148,163,184,0.55)', background: 'none', border: 'none', cursor: 'pointer', padding: '4px', lineHeight: 0 }}
-              aria-label="Fermer le menu"
-            >
-              <X size={17} />
-            </button>
-          </div>
           {NAV_ITEMS.map((item, i) => {
             const active = i === activeIndex;
             return (
