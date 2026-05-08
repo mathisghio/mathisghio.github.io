@@ -23,7 +23,7 @@ export function PartnersSection() {
     <section
       id="partners"
       ref={ref}
-      className="relative py-24 lg:py-36 overflow-hidden"
+      className="relative py-14 lg:py-36 overflow-hidden"
       style={{ background: '#08090E' }}
     >
       {/*
@@ -58,10 +58,10 @@ export function PartnersSection() {
 
         {/* Header */}
         <div
-          className="mb-16 transition-all duration-700"
+          className="mb-10 lg:mb-16 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-4 lg:mb-6">
             <div className="section-line" />
             <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Partners</span>
           </div>
@@ -73,16 +73,16 @@ export function PartnersSection() {
 
         {/* Title partners */}
         <div
-          className="mb-16 transition-all duration-700"
+          className="mb-10 lg:mb-16 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '200ms' }}
         >
-          <h3 className="font-body text-xs uppercase tracking-widest mb-8" style={{ color: 'rgba(245,158,11,0.7)', letterSpacing: '0.2em' }}>
+          <h3 className="font-body text-xs uppercase tracking-widest mb-5 lg:mb-8" style={{ color: 'rgba(245,158,11,0.7)', letterSpacing: '0.2em' }}>
             Title Partners
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {titlePartners.map((partner, i) => (
               <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
-                className="group p-8 rounded-sm card-hover flex flex-col items-center text-center"
+                className="group p-5 lg:p-8 rounded-sm card-hover flex flex-col items-center text-center"
                 style={{ background: 'rgba(8,9,14,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}>
                 <div className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.9)' }}>
                   {partner.logoText}
@@ -99,7 +99,7 @@ export function PartnersSection() {
           className="transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
         >
-          <h3 className="font-body text-xs uppercase tracking-widest mb-8" style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}>
+          <h3 className="font-body text-xs uppercase tracking-widest mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}>
             Official Partners
           </h3>
           <div className="flex flex-wrap gap-3">
@@ -119,7 +119,7 @@ export function PartnersSection() {
 
         {/* Partnership CTA */}
         <div
-          className="mt-16 p-8 rounded-sm transition-all duration-700"
+          className="mt-10 lg:mt-16 p-5 lg:p-8 rounded-sm transition-all duration-700"
           style={{
             background: 'rgba(8,9,14,0.75)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(14,165,233,0.15)',
