@@ -128,7 +128,7 @@ const timelineData = [
             alt="Wingfoil first national win"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 25%' }}
+            style={{ objectPosition: 'center 10%' }}
           />
 
         </div>
@@ -246,7 +246,7 @@ const timelineData = [
               alt="Trophy 2024"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.1)', transformOrigin: 'center 25%' }}
+              style={{ transform: 'scale(1.1)', transformOrigin: 'center 10%' }}
             />
           </div>
 
