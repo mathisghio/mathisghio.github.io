@@ -97,8 +97,8 @@ export function GoatSection() {
             <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>DONE</span>
           </motion.div>
           {/* IT LIKE ··· THIS */}
-          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none">
-            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>IT LIKE</span>
+          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none mt-4">
+            <span className="font-display text-white" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', lineHeight: 1 }}>IT LIKE</span>
             <span className="font-display text-white" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', lineHeight: 1 }}>THIS</span>
           </motion.div>
         </motion.div>
