@@ -119,7 +119,7 @@ function drawInfoPanel(
   const color  = TC[comp.type]
   const mobile = canvasW < 500
   const PW  = mobile ? 148 : 220
-  const PH  = mobile ? 62  : 84
+  const PH  = mobile ? 50  : 70
   const PAD = mobile ? 9   : 13
   const R   = 5
 
@@ -182,7 +182,7 @@ function drawInfoPanel(
   let nameText = `${comp.flag} ${comp.name}`
   while (ctx.measureText(nameText).width > textW && nameText.length > 4)
     nameText = nameText.slice(0, -2) + '…'
-  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 16 : 22))
+  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 16 : 21))
 
   ctx.fillStyle = 'rgba(148,163,184,0.62)'
   ctx.font = `${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
@@ -190,18 +190,11 @@ function drawInfoPanel(
   let locText = comp.location
   while (ctx.measureText(locText).width > textW && locText.length > 4)
     locText = locText.slice(0, -2) + '…'
-  ctx.fillText(locText, rx + PAD, ry + (mobile ? 29 : 38))
+  ctx.fillText(locText, rx + PAD, ry + (mobile ? 29 : 36))
 
   ctx.fillStyle = color
   ctx.font = `500 ${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 42 : 53))
-
-  ctx.fillStyle = 'rgba(148,163,184,0.30)'
-  ctx.font = `${mobile ? 8 : 9.5}px "DM Sans", system-ui, sans-serif`
-  let typeText = TL[comp.type].toUpperCase()
-  while (ctx.measureText(typeText).width > textW && typeText.length > 4)
-    typeText = typeText.slice(0, -2) + '…'
-  ctx.fillText(typeText, rx + PAD, ry + (mobile ? 54 : 68))
+  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 42 : 52))
 
   ctx.restore()
   ctx.restore()
@@ -440,13 +433,41 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     canvas.addEventListener('wheel',     onWheel, {passive:true})
     window.addEventListener('mouseup',   onMouseUp)
 
-    let touchStart3D={x:0,y:0}
+    let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false
+    let pinchDist3D=0, pinchScale3D=1
+
     const onTouchStart3D=(e:TouchEvent)=>{
-      const t=e.touches[0]; touchStart3D={x:t.clientX,y:t.clientY}
+      if (e.touches.length===1) {
+        const t=e.touches[0]
+        t1Start3D={x:t.clientX,y:t.clientY}
+        t1DragRot=[...rotRef.current]
+        tDragging3D=false
+      } else if (e.touches.length===2) {
+        tDragging3D=true
+        pinchDist3D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
+        pinchScale3D=scaleRef.current
+      }
+    }
+    const onTouchMove3D=(e:TouchEvent)=>{
+      if (e.touches.length===1) {
+        const dx=e.touches[0].clientX-t1Start3D.x, dy=e.touches[0].clientY-t1Start3D.y
+        if (!tDragging3D && Math.hypot(dx,dy)>5) tDragging3D=true
+        if (tDragging3D) {
+          e.preventDefault()
+          rotRef.current=[t1DragRot[0]+dx*0.4, Math.max(-80,Math.min(80,t1DragRot[1]-dy*0.4))]
+          targetRotRef.current=null
+        }
+      } else if (e.touches.length===2) {
+        e.preventDefault()
+        const nd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
+        scaleRef.current=Math.max(0.6,Math.min(4,pinchScale3D*nd/pinchDist3D))
+        targetScaleRef.current=scaleRef.current
+      }
     }
     const onTouchEnd3D=(e:TouchEvent)=>{
+      if (tDragging3D) { if (e.touches.length===0) tDragging3D=false; return }
       const t=e.changedTouches[0]
-      if (Math.hypot(t.clientX-touchStart3D.x,t.clientY-touchStart3D.y)>14) return
+      if (Math.hypot(t.clientX-t1Start3D.x,t.clientY-t1Start3D.y)>14) return
       const rect=canvas.getBoundingClientRect()
       const x=t.clientX-rect.left, y=t.clientY-rect.top
       let closest:Comp|null=null, closestD=48
@@ -458,7 +479,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef.current?.(closest)}
     }
     canvas.addEventListener('touchstart',onTouchStart3D,{passive:true})
-    canvas.addEventListener('touchend',onTouchEnd3D,{passive:true})
+    canvas.addEventListener('touchmove', onTouchMove3D, {passive:false})
+    canvas.addEventListener('touchend',  onTouchEnd3D,  {passive:true})
 
     return ()=>{
       timer.stop()
@@ -468,7 +490,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.removeEventListener('wheel',     onWheel)
       window.removeEventListener('mouseup',   onMouseUp)
       canvas.removeEventListener('touchstart',onTouchStart3D)
-      canvas.removeEventListener('touchend',onTouchEnd3D)
+      canvas.removeEventListener('touchmove', onTouchMove3D)
+      canvas.removeEventListener('touchend',  onTouchEnd3D)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
@@ -767,13 +790,50 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     canvas.addEventListener('mousemove', onMouseDrag)
     window.addEventListener('mouseup',   onMouseUp2)
 
-    let touchStart2D={x:0,y:0}
+    let t1Start2D={x:0,y:0}, tDragStart2D={x:0,y:0}, tDragStartView2D={k:1,tx:0,ty:0}
+    let tDragging2D=false
+    let pinchDist2D=0, pinchScale2D=1, pinchCX2D=0, pinchCY2D=0, pinchStartTx2D=0, pinchStartTy2D=0
+
     const onTouchStart2D=(e:TouchEvent)=>{
-      const t=e.touches[0]; touchStart2D={x:t.clientX,y:t.clientY}
+      if (e.touches.length===1) {
+        const t=e.touches[0]
+        t1Start2D={x:t.clientX,y:t.clientY}
+        tDragStart2D={x:t.clientX,y:t.clientY}
+        tDragStartView2D={...viewRef.current}
+        tDragging2D=false
+      } else if (e.touches.length===2) {
+        tDragging2D=true
+        pinchDist2D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
+        pinchScale2D=viewRef.current.k
+        const rect=canvas.getBoundingClientRect()
+        pinchCX2D=((e.touches[0].clientX+e.touches[1].clientX)/2)-rect.left
+        pinchCY2D=((e.touches[0].clientY+e.touches[1].clientY)/2)-rect.top
+        pinchStartTx2D=viewRef.current.tx
+        pinchStartTy2D=viewRef.current.ty
+      }
+    }
+    const onTouchMove2D=(e:TouchEvent)=>{
+      if (e.touches.length===1) {
+        const dx=e.touches[0].clientX-tDragStart2D.x, dy=e.touches[0].clientY-tDragStart2D.y
+        if (!tDragging2D && Math.hypot(dx,dy)>5) tDragging2D=true
+        if (tDragging2D) {
+          e.preventDefault()
+          viewRef.current={k:tDragStartView2D.k,tx:tDragStartView2D.tx+dx,ty:tDragStartView2D.ty+dy}
+          targetViewRef.current=null
+        }
+      } else if (e.touches.length===2) {
+        e.preventDefault()
+        const nd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
+        const nk=Math.max(0.8,Math.min(10,pinchScale2D*nd/pinchDist2D))
+        const f=nk/pinchScale2D
+        viewRef.current={k:nk,tx:pinchCX2D-f*(pinchCX2D-pinchStartTx2D),ty:pinchCY2D-f*(pinchCY2D-pinchStartTy2D)}
+        targetViewRef.current=null
+      }
     }
     const onTouchEnd2D=(e:TouchEvent)=>{
+      if (tDragging2D) { if (e.touches.length===0) tDragging2D=false; return }
       const t=e.changedTouches[0]
-      if (Math.hypot(t.clientX-touchStart2D.x,t.clientY-touchStart2D.y)>14) return
+      if (Math.hypot(t.clientX-t1Start2D.x,t.clientY-t1Start2D.y)>14) return
       const rect=canvas.getBoundingClientRect()
       const x=t.clientX-rect.left, y=t.clientY-rect.top
       const {k,tx,ty}=viewRef.current
@@ -787,7 +847,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef2D.current?.(closest)}
     }
     canvas.addEventListener('touchstart',onTouchStart2D,{passive:true})
-    canvas.addEventListener('touchend',onTouchEnd2D,{passive:true})
+    canvas.addEventListener('touchmove', onTouchMove2D, {passive:false})
+    canvas.addEventListener('touchend',  onTouchEnd2D,  {passive:true})
 
     return ()=>{
       cancelAnimationFrame(raf)
@@ -798,7 +859,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       canvas.removeEventListener('mousemove', onMouseDrag)
       window.removeEventListener('mouseup',   onMouseUp2)
       canvas.removeEventListener('touchstart',onTouchStart2D)
-      canvas.removeEventListener('touchend',onTouchEnd2D)
+      canvas.removeEventListener('touchmove', onTouchMove2D)
+      canvas.removeEventListener('touchend',  onTouchEnd2D)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[bundle,dims])
@@ -907,7 +969,11 @@ export function GlobeSection() {
   const handleCardClick=useCallback((id:number)=>{
     if (window.innerWidth>=1024) return
     setPinnedId(id)
-    globeContainerRef.current?.scrollIntoView({behavior:'smooth',block:'start'})
+    const el = document.getElementById('season')
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 68
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
   },[])
 
   return (
