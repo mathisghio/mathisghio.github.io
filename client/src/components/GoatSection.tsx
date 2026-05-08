@@ -37,7 +37,7 @@ export function GoatSection() {
   const { ref, inView } = useInView(0.1)
 
   return (
-    <section id="goat" ref={ref} className="relative py-24 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="goat" ref={ref} className="relative py-14 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
       <div role="img" aria-label="5th World Title podium" className="absolute inset-0 z-0"
         style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover', backgroundPosition: 'center 20%', opacity: 0.35, filter: 'saturate(0.6)' }} />
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />
@@ -52,7 +52,7 @@ export function GoatSection() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="inline-block font-body text-xs uppercase tracking-widest mb-8 px-4 py-2 rounded-sm"
+          <span className="inline-block font-body text-xs uppercase tracking-widest mb-5 lg:mb-8 px-4 py-2 rounded-sm"
             style={{ color: '#F59E0B', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.2)', letterSpacing: '0.25em' }}>
             AT THE HIGHEST LEVEL
           </span>
@@ -80,7 +80,7 @@ export function GoatSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 max-w-2xl mx-auto"
+          className="mt-7 lg:mt-12 max-w-2xl mx-auto"
         >
           <p className="font-body text-lg" style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7, letterSpacing: '0.01em' }}>
             Five consecutive world titles. No one has come close.
@@ -92,7 +92,7 @@ export function GoatSection() {
           variants={statContainer}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto"
+          className="mt-10 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto"
         >
           {STATS.map((s, i) => (
             <motion.div
