@@ -46,7 +46,7 @@ export function SportSection() {
     <section
       id="sport"
       ref={ref}
-      className="relative py-24 lg:py-36 overflow-hidden"
+      className="relative py-14 lg:py-36 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
       <div className="absolute inset-0 z-0" style={{ opacity: 0.65 }}>
@@ -57,10 +57,10 @@ export function SportSection() {
         style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
 
       <div className="container relative z-10">
-        <div className="mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
+        <div className="mb-10 lg:mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <SectionHeader label="For Brands" line1="WHY" line2="PARTNER?" />
         </div>
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <div className="relative transition-all duration-1000" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}>
             <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}>
               <img src={FOIL_IMG} alt="Mathis Ghio racing at world championship speed" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
@@ -78,7 +78,7 @@ export function SportSection() {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* ── Block 1 ── */}
-            <div className="mb-8">
+            <div className="mb-5 lg:mb-8">
               <div className="flex items-center gap-2 mb-3">
                 <Target size={13} style={{ color: '#0EA5E9', flexShrink: 0 }} />
                 <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.18em' }}>
@@ -93,7 +93,7 @@ export function SportSection() {
             </div>
 
             {/* ── Block 2 ── */}
-            <div className="mb-10">
+            <div className="mb-6 lg:mb-10">
               <div className="flex items-center gap-2 mb-3">
                 <Globe size={13} style={{ color: '#0EA5E9', flexShrink: 0 }} />
                 <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.18em' }}>
@@ -130,7 +130,7 @@ export function SportSection() {
                 <motion.div
                   key={i}
                   variants={formatLine}
-                  className="flex items-start gap-6 py-5"
+                  className="flex items-start gap-6 py-3 lg:py-5"
                   style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
                 >
                   <span
