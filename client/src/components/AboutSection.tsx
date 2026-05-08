@@ -37,7 +37,7 @@ export function AboutSection() {
               </blockquote>
             </div>
             <div className="mt-6 lg:mt-10 grid grid-cols-3 gap-4 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)', transitionDelay: '700ms', transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
-              {[{ value: '5×', suffix: '', label: 'World Champion', gold: true }, { value: '4×', suffix: '', label: 'European Champion', gold: false }, { value: '41.4', suffix: 'kts', label: 'Speed Record', gold: false }].map((stat, i) => (
+              {[{ value: '5×', suffix: '', label: 'World Champion', gold: true }, { value: '4×', suffix: '', label: 'European Champion', gold: false }, { value: '41.40', suffix: 'kts', label: 'Speed Record', gold: false }].map((stat, i) => (
                 <div key={i} className="p-4 rounded-sm text-center card-hover" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${stat.gold ? 'rgba(245, 158, 11, 0.3)' : 'rgba(14, 165, 233, 0.15)'}` }}>
                   <div className="font-display text-3xl" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', textShadow: stat.gold ? '0 0 20px rgba(245, 158, 11, 0.4)' : '0 0 20px rgba(14, 165, 233, 0.4)' }}>{stat.value}</div>
                   <div className="font-body uppercase mt-1 whitespace-nowrap" style={{ color: 'rgba(148, 163, 184, 0.7)', fontSize: 'clamp(7px, 1.8vw, 10px)', letterSpacing: '0.04em' }}>

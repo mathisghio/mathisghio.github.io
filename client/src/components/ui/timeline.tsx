@@ -136,7 +136,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           style={{
             height: height + "px",
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(14,165,233,0.15) 8%, rgba(14,165,233,0.15) 92%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(14,165,233,0.06) 8%, rgba(14,165,233,0.06) 92%, transparent 100%)",
             WebkitMaskImage:
               "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
             maskImage:

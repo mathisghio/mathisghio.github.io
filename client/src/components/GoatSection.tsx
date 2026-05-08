@@ -7,8 +7,8 @@ import { useInView } from '@/hooks/useInView'
 const PODIUM_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774482083/IMG_8195_wortbf.jpg'
 
 const STATS = [
-  { num: '5',     suffix: '×', label: 'World Championships' },
-  { num: '4',     suffix: '×', label: 'European Championships' },
+  { num: '5',     suffix: '×', label: 'World Titles' },
+  { num: '4',     suffix: '×', label: 'European Titles' },
   { num: '10',    suffix: '+', label: 'World Cup Victories' },
   { num: '41.40', suffix: '',  label: 'Knots Speed Record' },
 ]
@@ -39,7 +39,7 @@ export function GoatSection() {
   return (
     <section id="goat" ref={ref} className="relative py-10 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
       <div role="img" aria-label="5th World Title podium" className="absolute inset-0 z-0"
-        style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover', backgroundPosition: 'center 20%', opacity: 0.35, filter: 'saturate(0.6)' }} />
+        style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover', backgroundPosition: '35% 20%', opacity: 0.50, filter: 'saturate(0.7)' }} />
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />
       {[...Array(6)].map((_, i) => (
         <div key={i} className="absolute pointer-events-none" style={{ top: `${15 + i * 14}%`, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, rgba(14, 165, 233, ${0.03 + i * 0.01}), transparent)` }} />
@@ -94,22 +94,44 @@ export function GoatSection() {
           animate={inView ? 'visible' : 'hidden'}
           className="mt-10 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto"
         >
-          {STATS.map((s, i) => (
-            <motion.div
-              key={i}
-              variants={statItem}
-              whileHover={{ scale: 1.06, y: -4 }}
-              transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.22 }}
-              className="text-center cursor-default"
-            >
-              <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 40px rgba(245,158,11,0.5)' : '0 0 40px rgba(14,165,233,0.5)', lineHeight: 1 }}>
-                {s.num}{s.suffix}
-              </div>
-              <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.6)', letterSpacing: '0.1em' }}>
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
+          {STATS.map((s, i) => {
+            const isGold = i === 0
+            const rgb = isGold ? '245,158,11' : '14,165,233'
+            const hex = isGold ? '#F59E0B' : '#0EA5E9'
+            return (
+              <motion.div
+                key={i}
+                variants={statItem}
+                whileHover={{ scale: 1.04, y: -5 }}
+                transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.22 }}
+                className="relative overflow-hidden rounded-sm text-center cursor-default"
+                style={{
+                  background: `rgba(${rgb},0.06)`,
+                  border: `1px solid rgba(${rgb},0.24)`,
+                  backdropFilter: 'blur(10px)',
+                }}
+              >
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                  style={{ background: `linear-gradient(90deg, transparent, rgba(${rgb},0.7), transparent)` }} />
+                {/* Pulsing inner glow */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  animate={{ opacity: [0, 0.7, 0] }}
+                  transition={{ duration: 2.8 + i * 0.5, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
+                  style={{ background: `radial-gradient(ellipse at 50% 110%, rgba(${rgb},0.18) 0%, transparent 65%)` }}
+                />
+                <div className="relative z-10 p-5 lg:p-6">
+                  <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: hex, textShadow: `0 0 40px rgba(${rgb},0.55)`, lineHeight: 1 }}>
+                    {s.num}{s.suffix}
+                  </div>
+                  <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.65)', letterSpacing: '0.1em' }}>
+                    {s.label}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </section>
