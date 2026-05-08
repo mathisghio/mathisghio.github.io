@@ -118,7 +118,7 @@ function drawInfoPanel(
 
   const color  = TC[comp.type]
   const mobile = canvasW < 500
-  const PW  = mobile ? 148 : 220
+  const PW  = mobile ? 124 : 220
   const PH  = mobile ? 50  : 70
   const PAD = mobile ? 9   : 13
   const R   = 5
@@ -128,8 +128,8 @@ function drawInfoPanel(
   const DY   = mobile ? 16 : 14   // diagonal y-component (upward)
   const HLEN = mobile ? 16 : 16   // horizontal segment length
 
-  // Pick the side with the most room
-  const goRight = markerX + DX + HLEN + PW < canvasW - 8
+  // Always right of the marker; rx clamping keeps it on-screen
+  const goRight = true
 
   const dx    = goRight ? 1 : -1
   const kneeX = markerX + dx * DX
