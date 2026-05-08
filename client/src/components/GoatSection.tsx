@@ -91,14 +91,14 @@ export function GoatSection() {
           <motion.h2 variants={headlineLine} className="font-display text-white leading-none mb-1" style={{ fontSize: 'clamp(36px, 9vw, 52px)' }}>
             NO ONE HAS
           </motion.h2>
-          {/* EVER ··· DONE */}
+          {/* EVER (gauche, or) ··· IT LIKE (droite, blanc) */}
           <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none">
             <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>EVER</span>
-            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>DONE</span>
-          </motion.div>
-          {/* IT LIKE ··· THIS */}
-          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none mt-4">
             <span className="font-display text-white" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', lineHeight: 1 }}>IT LIKE</span>
+          </motion.div>
+          {/* DONE (gauche, or, collé à EVER) ··· THIS (droite, blanc, collé à IT LIKE) */}
+          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none mt-1">
+            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>DONE</span>
             <span className="font-display text-white" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', lineHeight: 1 }}>THIS</span>
           </motion.div>
         </motion.div>
