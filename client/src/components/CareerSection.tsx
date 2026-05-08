@@ -49,7 +49,7 @@ const timelineData = [
               alt="Beginning windsurfing"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.6)', transformOrigin: 'center 35%', objectPosition: 'center 35%' }}
+              style={{ transform: 'scale(1.6)', transformOrigin: 'center 20%', objectPosition: 'center 20%' }}
             />
           </div>
 
@@ -128,7 +128,7 @@ const timelineData = [
             alt="Wingfoil first national win"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 35%' }}
+            style={{ objectPosition: 'center 25%' }}
           />
 
         </div>
@@ -246,7 +246,7 @@ const timelineData = [
               alt="Trophy 2024"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.1)', transformOrigin: 'center 35%' }}
+              style={{ transform: 'scale(1.1)', transformOrigin: 'center 25%' }}
             />
           </div>
 

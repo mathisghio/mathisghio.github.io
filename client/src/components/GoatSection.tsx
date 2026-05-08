@@ -39,7 +39,7 @@ export function GoatSection() {
   return (
     <section id="goat" ref={ref} className="relative py-10 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
       <div role="img" aria-label="5th World Title podium" className="absolute inset-0 z-0"
-        style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover', backgroundPosition: '65% 20%', opacity: 0.50, filter: 'saturate(0.7)' }} />
+        style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover', backgroundPosition: '60% 20%', opacity: 0.50, filter: 'saturate(0.7)' }} />
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />
       {[...Array(6)].map((_, i) => (
         <div key={i} className="absolute pointer-events-none" style={{ top: `${15 + i * 14}%`, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, rgba(14, 165, 233, ${0.03 + i * 0.01}), transparent)` }} />
