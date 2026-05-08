@@ -65,11 +65,23 @@ export function SportSection() {
             <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}>
               <img src={FOIL_IMG} alt="Mathis Ghio racing at world championship speed" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
             </div>
+            {/* Desktop badge — overlapping image */}
             <div className="absolute -right-4 top-1/2 -translate-y-1/2 p-5 rounded-sm hidden lg:block"
               style={{ background: 'rgba(8,9,14,0.92)', border: '1px solid rgba(14,165,233,0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(14,165,233,0.1)' }}>
               <div className="font-display text-4xl" style={{ color: '#0EA5E9', textShadow: '0 0 20px rgba(14,165,233,0.5)' }}>41.40</div>
               <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148,163,184,0.7)', letterSpacing: '0.1em' }}>knots</div>
               <div className="font-body text-xs mt-1" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
+            </div>
+            {/* Mobile badge — below image */}
+            <div className="mt-3 flex justify-center lg:hidden">
+              <div className="flex items-center gap-4 px-5 py-2.5 rounded-sm"
+                style={{ background: 'rgba(8,9,14,0.85)', border: '1px solid rgba(14,165,233,0.25)', boxShadow: '0 0 20px rgba(14,165,233,0.08)' }}>
+                <div className="font-display text-3xl" style={{ color: '#0EA5E9', textShadow: '0 0 16px rgba(14,165,233,0.5)' }}>41.40</div>
+                <div>
+                  <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148,163,184,0.7)', letterSpacing: '0.1em' }}>knots</div>
+                  <div className="font-body text-xs mt-0.5" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
+                </div>
+              </div>
             </div>
           </div>
           <motion.div

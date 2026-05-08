@@ -11,9 +11,15 @@ const HERO_GENERATED  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_aut
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)
+  const [scrollFaded, setScrollFaded] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100)
+    return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    const t = setTimeout(() => setScrollFaded(true), 3500)
     return () => clearTimeout(t)
   }, [])
 
@@ -141,8 +147,8 @@ export function HeroSection() {
       {/* SCROLL — desktop uniquement, centré au-dessus de la stats bar */}
       <button
         onClick={scrollToAbout}
-        className="absolute left-1/2 -translate-x-1/2 z-40 hidden lg:flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
-        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)' }}
+        className="absolute left-1/2 -translate-x-1/2 z-40 hidden lg:flex flex-col items-center gap-2 transition-all duration-1000 hover:opacity-70"
+        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)', opacity: scrollFaded ? 0 : 1, pointerEvents: scrollFaded ? 'none' : 'auto' }}
       >
         <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
         <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
@@ -232,8 +238,8 @@ export function HeroSection() {
         {/* Scroll indicator */}
         <button
           onClick={scrollToAbout}
-          className="mb-1.5 flex flex-col items-center gap-1.5 w-full hover:opacity-70 transition-opacity duration-300"
-          style={{ color: 'rgba(241,245,249,0.5)' }}
+          className="mb-1.5 flex flex-col items-center gap-1.5 w-full hover:opacity-70 transition-all duration-1000"
+          style={{ color: 'rgba(241,245,249,0.5)', opacity: scrollFaded ? 0 : 1, pointerEvents: scrollFaded ? 'none' : 'auto' }}
         >
           <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
           <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
