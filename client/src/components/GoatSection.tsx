@@ -45,6 +45,10 @@ export function GoatSection() {
         <div key={i} className="absolute pointer-events-none" style={{ top: `${15 + i * 14}%`, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, rgba(14, 165, 233, ${0.03 + i * 0.01}), transparent)` }} />
       ))}
 
+      {/* Mobile: horizontal gradient darkens left/right edges behind split title */}
+      <div className="absolute inset-0 z-[5] pointer-events-none lg:hidden"
+        style={{ background: 'linear-gradient(90deg, rgba(8,9,14,0.82) 0%, transparent 36%, transparent 64%, rgba(8,9,14,0.82) 100%)' }} />
+
       <div className="container relative z-10 text-center">
         {/* Badge */}
         <motion.div
@@ -58,11 +62,12 @@ export function GoatSection() {
           </span>
         </motion.div>
 
-        {/* Headlines — each line staggers in */}
+        {/* Headlines — DESKTOP */}
         <motion.div
           variants={headlineContainer}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
+          className="hidden lg:block"
         >
           <motion.h2 variants={headlineLine} className="font-display text-white leading-none mb-4" style={{ fontSize: 'clamp(56px, 10vw, 140px)' }}>
             NO ONE HAS
@@ -73,6 +78,29 @@ export function GoatSection() {
           <motion.h2 variants={headlineLine} className="font-display text-white leading-none" style={{ fontSize: 'clamp(56px, 10vw, 140px)' }}>
             LIKE THIS
           </motion.h2>
+        </motion.div>
+
+        {/* Headlines — MOBILE: split layout frames the face */}
+        <motion.div
+          variants={headlineContainer}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+          className="lg:hidden"
+        >
+          {/* NO ONE HAS — centré */}
+          <motion.h2 variants={headlineLine} className="font-display text-white leading-none mb-1" style={{ fontSize: 'clamp(36px, 9vw, 52px)' }}>
+            NO ONE HAS
+          </motion.h2>
+          {/* EVER ··· DONE */}
+          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none">
+            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>EVER</span>
+            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>DONE</span>
+          </motion.div>
+          {/* IT LIKE ··· THIS */}
+          <motion.div variants={headlineLine} className="flex justify-between items-baseline leading-none">
+            <span className="font-display" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', color: '#F59E0B', lineHeight: 1 }}>IT LIKE</span>
+            <span className="font-display text-white" style={{ fontSize: 'clamp(52px, 13.5vw, 72px)', lineHeight: 1 }}>THIS</span>
+          </motion.div>
         </motion.div>
 
         {/* Body */}
