@@ -118,15 +118,15 @@ function drawInfoPanel(
 
   const color  = TC[comp.type]
   const mobile = canvasW < 500
-  const PW  = mobile ? 188 : 252
-  const PH  = mobile ? 70  : 88
-  const PAD = mobile ? 11  : 14
+  const PW  = mobile ? 148 : 220
+  const PH  = mobile ? 62  : 84
+  const PAD = mobile ? 9   : 13
   const R   = 5
 
   // Leader line: short diagonal (45°) then short horizontal — never covers the dot
-  const DX   = mobile ? 18 : 14   // diagonal x-component
-  const DY   = mobile ? 18 : 14   // diagonal y-component (upward)
-  const HLEN = mobile ? 20 : 16   // horizontal segment length
+  const DX   = mobile ? 16 : 14   // diagonal x-component
+  const DY   = mobile ? 16 : 14   // diagonal y-component (upward)
+  const HLEN = mobile ? 16 : 16   // horizontal segment length
 
   // Pick the side with the most room
   const goRight = markerX + DX + HLEN + PW < canvasW - 8
@@ -182,26 +182,26 @@ function drawInfoPanel(
   let nameText = `${comp.flag} ${comp.name}`
   while (ctx.measureText(nameText).width > textW && nameText.length > 4)
     nameText = nameText.slice(0, -2) + '…'
-  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 18 : 23))
+  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 16 : 22))
 
   ctx.fillStyle = 'rgba(148,163,184,0.62)'
-  ctx.font = `${mobile ? 10 : 11}px "DM Sans", system-ui, sans-serif`
+  ctx.font = `${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
   ctx.letterSpacing = '0'
   let locText = comp.location
   while (ctx.measureText(locText).width > textW && locText.length > 4)
     locText = locText.slice(0, -2) + '…'
-  ctx.fillText(locText, rx + PAD, ry + (mobile ? 32 : 42))
+  ctx.fillText(locText, rx + PAD, ry + (mobile ? 29 : 38))
 
   ctx.fillStyle = color
-  ctx.font = `500 ${mobile ? 10 : 11}px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 47 : 59))
+  ctx.font = `500 ${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
+  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 42 : 53))
 
   ctx.fillStyle = 'rgba(148,163,184,0.30)'
-  ctx.font = `${mobile ? 8.5 : 9.5}px "DM Sans", system-ui, sans-serif`
+  ctx.font = `${mobile ? 8 : 9.5}px "DM Sans", system-ui, sans-serif`
   let typeText = TL[comp.type].toUpperCase()
   while (ctx.measureText(typeText).width > textW && typeText.length > 4)
     typeText = typeText.slice(0, -2) + '…'
-  ctx.fillText(typeText, rx + PAD, ry + (mobile ? 61 : 75))
+  ctx.fillText(typeText, rx + PAD, ry + (mobile ? 54 : 68))
 
   ctx.restore()
   ctx.restore()
@@ -900,9 +900,8 @@ export function GlobeSection() {
 
   const handleGlobeTap=useCallback((comp:Comp)=>{
     if (window.innerWidth>=1024) return
-    setPinnedId(comp.id)
-    const el=cardRefs.current[comp.id]
-    if (el) el.scrollIntoView({behavior:'smooth',block:'center'})
+    setPinnedId(prev => prev===comp.id ? null : comp.id)
+    // No scroll — stay on the map
   },[])
 
   const handleCardClick=useCallback((id:number)=>{
