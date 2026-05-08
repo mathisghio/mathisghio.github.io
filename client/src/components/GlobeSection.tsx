@@ -114,75 +114,94 @@ function drawInfoPanel(
   canvasW: number, canvasH: number,
   visible: boolean
 ) {
-  const color = TC[comp.type]
-  const PW = 252, PH = 88, PAD = 14, R = 6
-  const CONN = 10
+  if (!visible || markerX < 0) return
 
-  let rx = markerX + CONN + 6
-  let ry = markerY - PH / 2
-  if (!visible || rx + PW > canvasW - 8) rx = markerX - CONN - PW - 6
-  if (rx < 8) rx = 8
+  const color  = TC[comp.type]
+  const mobile = canvasW < 500
+  const PW  = mobile ? 188 : 252
+  const PH  = mobile ? 70  : 88
+  const PAD = mobile ? 11  : 14
+  const R   = 5
+
+  // Leader line: short diagonal (45°) then short horizontal — never covers the dot
+  const DX   = mobile ? 18 : 14   // diagonal x-component
+  const DY   = mobile ? 18 : 14   // diagonal y-component (upward)
+  const HLEN = mobile ? 20 : 16   // horizontal segment length
+
+  // Pick the side with the most room
+  const goRight = markerX + DX + HLEN + PW < canvasW - 8
+
+  const dx    = goRight ? 1 : -1
+  const kneeX = markerX + dx * DX
+  const kneeY = markerY - DY
+  const endX  = kneeX + dx * HLEN
+
+  let rx = goRight ? endX : endX - PW
+  let ry = kneeY - PH / 2
+  rx = Math.max(8, Math.min(canvasW - PW - 8, rx))
   ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
 
   const textW = PW - PAD - 12
 
   ctx.save()
 
-  ctx.shadowColor = color; ctx.shadowBlur = 18
+  // Leader line: marker → knee (diagonal) → end (horizontal)
+  ctx.beginPath()
+  ctx.moveTo(markerX, markerY)
+  ctx.lineTo(kneeX, kneeY)
+  ctx.lineTo(endX, kneeY)
+  ctx.strokeStyle = color + '75'; ctx.lineWidth = 1.2; ctx.stroke()
+  // Small anchor dot at marker
+  ctx.beginPath(); ctx.arc(markerX, markerY, 2.5, 0, 2 * Math.PI)
+  ctx.fillStyle = color + '90'; ctx.fill()
+
+  // Panel glow
+  ctx.shadowColor = color; ctx.shadowBlur = 14
   drawRoundRect(ctx, rx, ry, PW, PH, R)
   ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
   ctx.shadowBlur = 0
 
+  // Panel background + border
   drawRoundRect(ctx, rx, ry, PW, PH, R)
   ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
-
   ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
   drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
 
-  drawRoundRect(ctx, rx, ry + 10, 3, PH - 20, 2)
+  // Left accent bar
+  drawRoundRect(ctx, rx, ry + 8, 3, PH - 16, 2)
   ctx.fillStyle = color; ctx.fill()
 
-  if (visible && markerX >= 0) {
-    const lineX1 = markerX + (rx > markerX ? 4 : -4)
-    const lineX2 = rx > markerX ? rx : rx + PW
-    ctx.beginPath(); ctx.moveTo(lineX1, markerY); ctx.lineTo(lineX2, markerY)
-    ctx.strokeStyle = color + '45'; ctx.lineWidth = 1; ctx.stroke()
-    ctx.beginPath(); ctx.arc(lineX1, markerY, 2, 0, 2*Math.PI)
-    ctx.fillStyle = color + '80'; ctx.fill()
-  }
-
+  // Text
   ctx.save()
-  drawRoundRect(ctx, rx + 5, ry, PW - 5, PH, 0); ctx.clip()
+  drawRoundRect(ctx, rx + 4, ry, PW - 4, PH, 0); ctx.clip()
 
+  const fs = mobile ? 11 : 12.5
   ctx.fillStyle = 'rgba(241,245,249,0.95)'
-  ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
+  ctx.font = `bold ${fs}px "Barlow Condensed", "Arial Narrow", sans-serif`
   ctx.letterSpacing = '0.03em'
   let nameText = `${comp.flag} ${comp.name}`
-  while (ctx.measureText(nameText).width > textW && nameText.length > 4) {
+  while (ctx.measureText(nameText).width > textW && nameText.length > 4)
     nameText = nameText.slice(0, -2) + '…'
-  }
-  ctx.fillText(nameText, rx + PAD, ry + 23)
+  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 18 : 23))
 
   ctx.fillStyle = 'rgba(148,163,184,0.62)'
-  ctx.font = `11px "DM Sans", system-ui, sans-serif`
+  ctx.font = `${mobile ? 10 : 11}px "DM Sans", system-ui, sans-serif`
   ctx.letterSpacing = '0'
   let locText = comp.location
-  while (ctx.measureText(locText).width > textW && locText.length > 4) {
+  while (ctx.measureText(locText).width > textW && locText.length > 4)
     locText = locText.slice(0, -2) + '…'
-  }
-  ctx.fillText(locText, rx + PAD, ry + 42)
+  ctx.fillText(locText, rx + PAD, ry + (mobile ? 32 : 42))
 
   ctx.fillStyle = color
-  ctx.font = `500 11px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(comp.date, rx + PAD, ry + 59)
+  ctx.font = `500 ${mobile ? 10 : 11}px "DM Sans", system-ui, sans-serif`
+  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 47 : 59))
 
   ctx.fillStyle = 'rgba(148,163,184,0.30)'
-  ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
+  ctx.font = `${mobile ? 8.5 : 9.5}px "DM Sans", system-ui, sans-serif`
   let typeText = TL[comp.type].toUpperCase()
-  while (ctx.measureText(typeText).width > textW && typeText.length > 4) {
+  while (ctx.measureText(typeText).width > textW && typeText.length > 4)
     typeText = typeText.slice(0, -2) + '…'
-  }
-  ctx.fillText(typeText, rx + PAD, ry + 75)
+  ctx.fillText(typeText, rx + PAD, ry + (mobile ? 61 : 75))
 
   ctx.restore()
   ctx.restore()
