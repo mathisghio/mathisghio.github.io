@@ -246,7 +246,7 @@ const timelineData = [
               alt="Trophy 2024"
               className={imgZoomInner}
               loading="lazy"
-              style={{ transform: 'scale(1.1)', transformOrigin: 'center 10%' }}
+              style={{ transform: 'scale(1.1)', transformOrigin: 'center 0%' }}
             />
           </div>
 
