@@ -47,9 +47,9 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849109/windsurfing_start_ahixiw.jpg"
               alt="Beginning windsurfing"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-img-windsurf`}
               loading="lazy"
-              style={{ transform: 'scale(1.6)', transformOrigin: 'center 20%', objectPosition: 'center 20%' }}
+              style={{ transform: 'scale(1.6)' }}
             />
           </div>
 
@@ -126,9 +126,8 @@ const timelineData = [
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774481055/podium_national_jexlqb.avif"
             alt="Wingfoil first national win"
-            className={imgShadow}
+            className={`${imgShadow} career-img-podium-nat`}
             loading="lazy"
-            style={{ objectPosition: 'center 10%' }}
           />
 
         </div>
@@ -244,9 +243,9 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471498/3rd_World_Title_1_a8drpa.jpg"
               alt="Trophy 2024"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-img-3wt1`}
               loading="lazy"
-              style={{ transform: 'scale(1.1)', transformOrigin: 'center 0%' }}
+              style={{ transform: 'scale(1.1)' }}
             />
           </div>
 

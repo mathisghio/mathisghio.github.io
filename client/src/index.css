@@ -590,6 +590,18 @@
 .mgMobileBtn.mgMobileBtnActive { color:rgba(255,255,255,1);background:rgba(14,165,233,0.10);border-color:rgba(14,165,233,0.40);box-shadow:0 0 18px rgba(14,165,233,0.10),inset 0 0 12px rgba(14,165,233,0.05); }
 .mgMobileDot { width:5px;height:5px;border-radius:50%;flex-shrink:0;transition:background 0.22s ease,box-shadow 0.22s ease; }
 
+/* ── Responsive image & background positioning (desktop default / mobile override) ── */
+.career-img-windsurf     { object-position: center 60%; transform-origin: center 60%; }
+.career-img-podium-nat   { object-position: center 65%; }
+.career-img-3wt1         { transform-origin: center 65%; }
+.goat-podium-bg          { background-position: 35% 20%; }
+@media (max-width: 1023px) {
+  .career-img-windsurf   { object-position: center 20%; transform-origin: center 20%; }
+  .career-img-podium-nat { object-position: center 10%; }
+  .career-img-3wt1       { transform-origin: center 0%; }
+  .goat-podium-bg        { background-position: 55% 20%; }
+}
+
 /* ── Reduced motion (nav) ── */
 @media (prefers-reduced-motion: reduce) {
   .mgMascot, .mgParticles span, .mgAirStreaks span { animation: none !important; }

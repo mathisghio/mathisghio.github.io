@@ -147,8 +147,8 @@ export function HeroSection() {
       {/* SCROLL — desktop uniquement, centré au-dessus de la stats bar */}
       <button
         onClick={scrollToAbout}
-        className="absolute left-1/2 -translate-x-1/2 z-40 hidden lg:flex flex-col items-center gap-2 transition-all duration-1000 hover:opacity-70"
-        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)', opacity: scrollFaded ? 0 : 1, pointerEvents: scrollFaded ? 'none' : 'auto' }}
+        className="absolute left-1/2 -translate-x-1/2 z-40 hidden lg:flex flex-col items-center gap-2 transition-all duration-300 hover:opacity-70"
+        style={{ bottom: '96px', color: 'rgba(241,245,249,0.5)' }}
       >
         <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
         <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />

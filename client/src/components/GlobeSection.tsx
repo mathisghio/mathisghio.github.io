@@ -114,90 +114,141 @@ function drawInfoPanel(
   canvasW: number, canvasH: number,
   visible: boolean
 ) {
-  if (!visible || markerX < 0) return
-
   const color  = TC[comp.type]
   const mobile = canvasW < 500
-  const PW  = mobile ? 124 : 220
-  const PH  = mobile ? 50  : 70
-  const PAD = mobile ? 9   : 13
-  const R   = 5
 
-  // Leader line: short diagonal (45°) then short horizontal — never covers the dot
-  const DX   = mobile ? 16 : 14   // diagonal x-component
-  const DY   = mobile ? 16 : 14   // diagonal y-component (upward)
-  const HLEN = mobile ? 16 : 16   // horizontal segment length
+  if (mobile) {
+    if (!visible || markerX < 0) return
+    const PW = 124, PH = 50, PAD = 9, R = 5
+    const DX = 16, DY = 16, HLEN = 16
+    const kneeX = markerX + DX
+    const kneeY = markerY - DY
+    const endX  = kneeX + HLEN
+    let rx = endX
+    let ry = kneeY - PH / 2
+    rx = Math.max(8, Math.min(canvasW - PW - 8, rx))
+    ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
+    const textW = PW - PAD - 12
 
-  // Always right of the marker; rx clamping keeps it on-screen
-  const goRight = true
+    ctx.save()
+    ctx.beginPath()
+    ctx.moveTo(markerX, markerY)
+    ctx.lineTo(kneeX, kneeY)
+    ctx.lineTo(endX, kneeY)
+    ctx.strokeStyle = color + '75'; ctx.lineWidth = 1.2; ctx.stroke()
+    ctx.beginPath(); ctx.arc(markerX, markerY, 2.5, 0, 2 * Math.PI)
+    ctx.fillStyle = color + '90'; ctx.fill()
 
-  const dx    = goRight ? 1 : -1
-  const kneeX = markerX + dx * DX
-  const kneeY = markerY - DY
-  const endX  = kneeX + dx * HLEN
+    ctx.shadowColor = color; ctx.shadowBlur = 14
+    drawRoundRect(ctx, rx, ry, PW, PH, R)
+    ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
+    ctx.shadowBlur = 0
 
-  let rx = goRight ? endX : endX - PW
-  let ry = kneeY - PH / 2
-  rx = Math.max(8, Math.min(canvasW - PW - 8, rx))
-  ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
+    drawRoundRect(ctx, rx, ry, PW, PH, R)
+    ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
+    ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
+    drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
 
-  const textW = PW - PAD - 12
+    drawRoundRect(ctx, rx, ry + 8, 3, PH - 16, 2)
+    ctx.fillStyle = color; ctx.fill()
 
-  ctx.save()
+    ctx.save()
+    drawRoundRect(ctx, rx + 4, ry, PW - 4, PH, 0); ctx.clip()
 
-  // Leader line: marker → knee (diagonal) → end (horizontal)
-  ctx.beginPath()
-  ctx.moveTo(markerX, markerY)
-  ctx.lineTo(kneeX, kneeY)
-  ctx.lineTo(endX, kneeY)
-  ctx.strokeStyle = color + '75'; ctx.lineWidth = 1.2; ctx.stroke()
-  // Small anchor dot at marker
-  ctx.beginPath(); ctx.arc(markerX, markerY, 2.5, 0, 2 * Math.PI)
-  ctx.fillStyle = color + '90'; ctx.fill()
+    ctx.fillStyle = 'rgba(241,245,249,0.95)'
+    ctx.font = `bold 11px "Barlow Condensed", "Arial Narrow", sans-serif`
+    ctx.letterSpacing = '0.03em'
+    let nameText = `${comp.flag} ${comp.name}`
+    while (ctx.measureText(nameText).width > textW && nameText.length > 4)
+      nameText = nameText.slice(0, -2) + '…'
+    ctx.fillText(nameText, rx + PAD, ry + 16)
 
-  // Panel glow
-  ctx.shadowColor = color; ctx.shadowBlur = 14
-  drawRoundRect(ctx, rx, ry, PW, PH, R)
-  ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
-  ctx.shadowBlur = 0
+    ctx.fillStyle = 'rgba(148,163,184,0.62)'
+    ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
+    ctx.letterSpacing = '0'
+    let locText = comp.location
+    while (ctx.measureText(locText).width > textW && locText.length > 4)
+      locText = locText.slice(0, -2) + '…'
+    ctx.fillText(locText, rx + PAD, ry + 29)
 
-  // Panel background + border
-  drawRoundRect(ctx, rx, ry, PW, PH, R)
-  ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
-  ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
-  drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
+    ctx.fillStyle = color
+    ctx.font = `500 9.5px "DM Sans", system-ui, sans-serif`
+    ctx.fillText(comp.date, rx + PAD, ry + 42)
 
-  // Left accent bar
-  drawRoundRect(ctx, rx, ry + 8, 3, PH - 16, 2)
-  ctx.fillStyle = color; ctx.fill()
+    ctx.restore()
+    ctx.restore()
 
-  // Text
-  ctx.save()
-  drawRoundRect(ctx, rx + 4, ry, PW - 4, PH, 0); ctx.clip()
+  } else {
+    // Desktop: original design — PW=252, horizontal connector, left/right switch, 4 text lines
+    const PW = 252, PH = 88, PAD = 14, R = 6
+    const CONN = 10
 
-  const fs = mobile ? 11 : 12.5
-  ctx.fillStyle = 'rgba(241,245,249,0.95)'
-  ctx.font = `bold ${fs}px "Barlow Condensed", "Arial Narrow", sans-serif`
-  ctx.letterSpacing = '0.03em'
-  let nameText = `${comp.flag} ${comp.name}`
-  while (ctx.measureText(nameText).width > textW && nameText.length > 4)
-    nameText = nameText.slice(0, -2) + '…'
-  ctx.fillText(nameText, rx + PAD, ry + (mobile ? 16 : 21))
+    let rx = markerX + CONN + 6
+    let ry = markerY - PH / 2
+    if (!visible || rx + PW > canvasW - 8) rx = markerX - CONN - PW - 6
+    if (rx < 8) rx = 8
+    ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
 
-  ctx.fillStyle = 'rgba(148,163,184,0.62)'
-  ctx.font = `${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
-  ctx.letterSpacing = '0'
-  let locText = comp.location
-  while (ctx.measureText(locText).width > textW && locText.length > 4)
-    locText = locText.slice(0, -2) + '…'
-  ctx.fillText(locText, rx + PAD, ry + (mobile ? 29 : 36))
+    const textW = PW - PAD - 12
 
-  ctx.fillStyle = color
-  ctx.font = `500 ${mobile ? 9.5 : 11}px "DM Sans", system-ui, sans-serif`
-  ctx.fillText(comp.date, rx + PAD, ry + (mobile ? 42 : 52))
+    ctx.save()
 
-  ctx.restore()
-  ctx.restore()
+    ctx.shadowColor = color; ctx.shadowBlur = 18
+    drawRoundRect(ctx, rx, ry, PW, PH, R)
+    ctx.fillStyle = 'rgba(4,6,14,0.0)'; ctx.fill()
+    ctx.shadowBlur = 0
+
+    drawRoundRect(ctx, rx, ry, PW, PH, R)
+    ctx.fillStyle = 'rgba(4,6,14,0.95)'; ctx.fill()
+
+    ctx.strokeStyle = color + '60'; ctx.lineWidth = 1.2
+    drawRoundRect(ctx, rx, ry, PW, PH, R); ctx.stroke()
+
+    drawRoundRect(ctx, rx, ry + 10, 3, PH - 20, 2)
+    ctx.fillStyle = color; ctx.fill()
+
+    if (visible && markerX >= 0) {
+      const lineX1 = markerX + (rx > markerX ? 4 : -4)
+      const lineX2 = rx > markerX ? rx : rx + PW
+      ctx.beginPath(); ctx.moveTo(lineX1, markerY); ctx.lineTo(lineX2, markerY)
+      ctx.strokeStyle = color + '45'; ctx.lineWidth = 1; ctx.stroke()
+      ctx.beginPath(); ctx.arc(lineX1, markerY, 2, 0, 2*Math.PI)
+      ctx.fillStyle = color + '80'; ctx.fill()
+    }
+
+    ctx.save()
+    drawRoundRect(ctx, rx + 5, ry, PW - 5, PH, 0); ctx.clip()
+
+    ctx.fillStyle = 'rgba(241,245,249,0.95)'
+    ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
+    ctx.letterSpacing = '0.03em'
+    let nameText = `${comp.flag} ${comp.name}`
+    while (ctx.measureText(nameText).width > textW && nameText.length > 4)
+      nameText = nameText.slice(0, -2) + '…'
+    ctx.fillText(nameText, rx + PAD, ry + 23)
+
+    ctx.fillStyle = 'rgba(148,163,184,0.62)'
+    ctx.font = `11px "DM Sans", system-ui, sans-serif`
+    ctx.letterSpacing = '0'
+    let locText = comp.location
+    while (ctx.measureText(locText).width > textW && locText.length > 4)
+      locText = locText.slice(0, -2) + '…'
+    ctx.fillText(locText, rx + PAD, ry + 42)
+
+    ctx.fillStyle = color
+    ctx.font = `500 11px "DM Sans", system-ui, sans-serif`
+    ctx.fillText(comp.date, rx + PAD, ry + 59)
+
+    ctx.fillStyle = 'rgba(148,163,184,0.30)'
+    ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
+    let typeText = TL[comp.type].toUpperCase()
+    while (ctx.measureText(typeText).width > textW && typeText.length > 4)
+      typeText = typeText.slice(0, -2) + '…'
+    ctx.fillText(typeText, rx + PAD, ry + 75)
+
+    ctx.restore()
+    ctx.restore()
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -411,7 +462,6 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.style.cursor=onGlobe?'grab':'default'
       let closest:Comp|null=null, closestD=22
       for (const comp of COMPS) {
-        if (!isGlobePointVisible(comp.lng,comp.lat)) continue  // face avant uniquement
         const pt=projection([comp.lng,comp.lat]); if (!pt) continue
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
