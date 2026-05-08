@@ -893,7 +893,7 @@ export function GlobeSection() {
   },[])
 
   return (
-    <section id="season" ref={sectionRef} className="relative py-24 lg:py-36 overflow-hidden">
+    <section id="season" ref={sectionRef} className="relative py-10 lg:py-36 overflow-hidden">
 
       {/* ── Animated gradient background — dark cinematic palette ── */}
       <AnimatedGradientBackground

@@ -23,7 +23,7 @@ export function PartnersSection() {
     <section
       id="partners"
       ref={ref}
-      className="relative py-14 lg:py-36 overflow-hidden"
+      className="relative py-10 lg:py-36 overflow-hidden"
       style={{ background: '#08090E' }}
     >
       {/*

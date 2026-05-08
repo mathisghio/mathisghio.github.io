@@ -76,9 +76,10 @@ export function AchievementsSection() {
   const [hoveredResult, setHoveredResult] = useState<number | null>(null)
   const activeData = yearData.find(y => y.year === activeYear)!
   const shouldReduceMotion = useReducedMotion()
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   return (
-    <section id="achievements" ref={ref} className="relative py-14 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="achievements" ref={ref} className="relative py-10 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
      <div className="absolute inset-0 z-0" style={{ opacity: 0.4 }}>
         <ShaderAnimation />
       </div>
@@ -116,7 +117,18 @@ export function AchievementsSection() {
                 return (
                   <button
                     key={y.year}
-                    onClick={() => { setActiveYear(y.year); setHoveredResult(null) }}
+                    onClick={() => {
+                      setActiveYear(y.year)
+                      setHoveredResult(null)
+                      if (window.innerWidth < 1024) {
+                        setTimeout(() => {
+                          if (resultsRef.current) {
+                            const top = resultsRef.current.getBoundingClientRect().top + window.scrollY - 100
+                            window.scrollTo({ top, behavior: 'smooth' })
+                          }
+                        }, 50)
+                      }
+                    }}
                     onMouseEnter={() => setHoveredYear(y.year)}
                     onMouseLeave={() => setHoveredYear(null)}
                     className="flex items-center gap-4 p-3 lg:p-4 rounded-sm text-left"
@@ -144,7 +156,7 @@ export function AchievementsSection() {
               })}
             </div>
           </div>
-          <div className="lg:col-span-3 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(20px)', transitionDelay: '500ms' }}>
+          <div ref={resultsRef} className="lg:col-span-3 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(20px)', transitionDelay: '500ms' }}>
             <div className="p-5 lg:p-8 rounded-sm h-full" style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${activeData.color}25`, minHeight: '280px' }}>
               <div className="flex items-start justify-between mb-5 lg:mb-8">
                 <div>

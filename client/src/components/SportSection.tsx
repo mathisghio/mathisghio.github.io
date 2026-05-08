@@ -46,7 +46,7 @@ export function SportSection() {
     <section
       id="sport"
       ref={ref}
-      className="relative py-14 lg:py-36 overflow-hidden"
+      className="relative py-10 lg:py-36 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
       <div className="absolute inset-0 z-0" style={{ opacity: 0.65 }}>

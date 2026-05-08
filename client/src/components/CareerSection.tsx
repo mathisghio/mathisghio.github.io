@@ -335,7 +335,7 @@ export function CareerSection() {
         }}
       />
 
-      <div className="container relative z-10 pt-14 lg:pt-36" ref={headerRef}>
+      <div className="container relative z-10 pt-10 lg:pt-36" ref={headerRef}>
         <div
           className="mb-0 transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
