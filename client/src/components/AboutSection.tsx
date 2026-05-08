@@ -40,8 +40,9 @@ export function AboutSection() {
               {[{ value: '5×', suffix: '', label: 'World Champion', gold: true }, { value: '4×', suffix: '', label: 'European Champion', gold: false }, { value: '41.4', suffix: 'kts', label: 'Speed Record', gold: false }].map((stat, i) => (
                 <div key={i} className="p-4 rounded-sm text-center card-hover" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${stat.gold ? 'rgba(245, 158, 11, 0.3)' : 'rgba(14, 165, 233, 0.15)'}` }}>
                   <div className="font-display text-3xl" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', textShadow: stat.gold ? '0 0 20px rgba(245, 158, 11, 0.4)' : '0 0 20px rgba(14, 165, 233, 0.4)' }}>{stat.value}</div>
-                  {stat.suffix && <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.suffix}</div>}
-                  <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>
+                  <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>
+                    {stat.suffix ? `${stat.suffix} ${stat.label}` : stat.label}
+                  </div>
                 </div>
               ))}
             </div>

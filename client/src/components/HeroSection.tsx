@@ -28,7 +28,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden max-h-[680px] lg:max-h-none"
       style={{ height: '100svh', minHeight: '600px' }}
     >
       <VideoBackground videoSrc={HERO_VIDEO} videoSrcWebm={HERO_VIDEO_WEBM} fallbackImageSrc={HERO_GENERATED} />
