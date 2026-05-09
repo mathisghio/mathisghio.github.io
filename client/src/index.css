@@ -590,16 +590,22 @@
 .mgMobileBtn.mgMobileBtnActive { color:rgba(255,255,255,1);background:rgba(14,165,233,0.10);border-color:rgba(14,165,233,0.40);box-shadow:0 0 18px rgba(14,165,233,0.10),inset 0 0 12px rgba(14,165,233,0.05); }
 .mgMobileDot { width:5px;height:5px;border-radius:50%;flex-shrink:0;transition:background 0.22s ease,box-shadow 0.22s ease; }
 
-/* ── Responsive image & background positioning (desktop default / mobile override) ── */
+/* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
 .career-img-windsurf     { object-position: center 60%; transform-origin: center 60%; }
 .career-img-podium-nat   { object-position: center 65%; }
 .career-img-3wt1         { transform-origin: center 65%; }
-.goat-podium-bg          { background-position: 35% 20%; }
+.goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
+.about-hero-bg           { background-position: center; }
+.about-photo-wrap        { aspect-ratio: 4/5; }
+.about-photo-img         { object-position: center 20%; }
 @media (max-width: 1023px) {
   .career-img-windsurf   { object-position: center 20%; transform-origin: center 20%; }
   .career-img-podium-nat { object-position: center 10%; }
   .career-img-3wt1       { transform-origin: center 0%; }
-  .goat-podium-bg        { background-position: 55% 20%; }
+  .goat-podium-bg        { background-position: 55% 20%; opacity: 0.50; filter: saturate(0.7); }
+  .about-hero-bg         { background-position: 15% center; }
+  .about-photo-wrap      { aspect-ratio: 4/3.5; }
+  .about-photo-img       { object-position: center 45%; }
 }
 
 /* ── Reduced motion (nav) ── */

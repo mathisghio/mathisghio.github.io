@@ -124,7 +124,7 @@ export function HeroSection() {
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-              My Achievements
+              View My Achievements
             </ShinyButton>
             <ShinyButton
               onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
@@ -282,15 +282,15 @@ export function HeroSection() {
         <div className="container">
           <div className="grid grid-cols-3">
             {[
-              { value: '5×',       label: 'World Champion'    },
-              { value: '4×',       label: 'European Champion' },
-              { value: '41.4 kts', label: 'Speed Record'      },
+              { value: '5×',        label: 'World Champion'    },
+              { value: '4×',        label: 'European Champion' },
+              { value: '41.40 kts', label: 'Speed Record'      },
             ].map((stat, i) => (
               <div key={i} className="py-4 px-6 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}>
-                <span className="font-display text-3xl" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
+                <span className="font-display text-2xl lg:text-3xl" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
                   {stat.value}
                 </span>
-                <span className="font-body text-xs uppercase tracking-widest mt-1 text-center" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.1em' }}>
+                <span className="font-body text-xs uppercase tracking-widest mt-1" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.1em' }}>
                   {stat.label}
                 </span>
               </div>
