@@ -179,17 +179,33 @@ function drawInfoPanel(
     ctx.restore()
 
   } else {
-    // Desktop: original design — PW=252, horizontal connector, left/right switch, 4 text lines
-    const PW = 252, PH = 88, PAD = 14, R = 6
-    const CONN = 10
+    // Desktop: auto-width panel sized to longest text line
+    const PAD = 14, R = 6, CONN = 10, PH = 88
+
+    // Measure all text lines to compute the required width
+    ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
+    ctx.letterSpacing = '0.03em'
+    const nameRaw = `${comp.flag} ${comp.name}`
+    const w1 = ctx.measureText(nameRaw).width
+
+    ctx.font = `11px "DM Sans", system-ui, sans-serif`
+    ctx.letterSpacing = '0'
+    const w2 = ctx.measureText(comp.location).width
+
+    ctx.font = `500 11px "DM Sans", system-ui, sans-serif`
+    const w3 = ctx.measureText(comp.date).width
+
+    ctx.font = `9.5px "DM Sans", system-ui, sans-serif`
+    const w4 = ctx.measureText(TL[comp.type].toUpperCase()).width
+
+    const PW = Math.max(110, Math.min(260, Math.ceil(Math.max(w1, w2, w3, w4)) + PAD + 18))
+    const textW = PW - PAD - 12
 
     let rx = markerX + CONN + 6
     let ry = markerY - PH / 2
     if (!visible || rx + PW > canvasW - 8) rx = markerX - CONN - PW - 6
     if (rx < 8) rx = 8
     ry = Math.max(8, Math.min(canvasH - PH - 8, ry))
-
-    const textW = PW - PAD - 12
 
     ctx.save()
 
@@ -222,7 +238,7 @@ function drawInfoPanel(
     ctx.fillStyle = 'rgba(241,245,249,0.95)'
     ctx.font = `bold 12.5px "Barlow Condensed", "Arial Narrow", sans-serif`
     ctx.letterSpacing = '0.03em'
-    let nameText = `${comp.flag} ${comp.name}`
+    let nameText = nameRaw
     while (ctx.measureText(nameText).width > textW && nameText.length > 4)
       nameText = nameText.slice(0, -2) + '…'
     ctx.fillText(nameText, rx + PAD, ry + 23)
@@ -473,6 +489,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
     const onWheel=(e:WheelEvent)=>{
+      if (!e.ctrlKey) return
       e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
       scaleRef.current=Math.max(0.6,Math.min(4,scaleRef.current*factor))
@@ -802,6 +819,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
     const onWheel=(e:WheelEvent)=>{
+      if (!e.ctrlKey) return
       e.preventDefault()
       const {x,y}=getPos(e)
       const factor=e.deltaY>0?0.85:1.18
