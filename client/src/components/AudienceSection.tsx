@@ -39,7 +39,7 @@ export function AudienceSection() {
   return (
     <section
       ref={ref}
-      className="relative py-8 lg:py-12 overflow-hidden"
+      className="relative pt-3 pb-8 lg:py-12 overflow-hidden"
       style={{ background: 'transparent' }}
     >
       {/* Side edge fades — matches GallerySection */}
@@ -104,44 +104,42 @@ export function AudienceSection() {
                     transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
                   }}
                 >
-                  {/* Mobile: label + number on one line */}
-                  <div className="flex items-baseline justify-between pt-3 pb-1 px-4 lg:hidden">
-                    <span
-                      className="font-body text-xs uppercase tracking-widest"
-                      style={{ color: 'rgba(148,163,184,0.68)', letterSpacing: '0.15em' }}
-                    >
-                      {row.label}
-                    </span>
-                    <div className="flex items-baseline gap-2 ml-4">
+                  {/* Mobile: improved card layout with left accent bar */}
+                  <div className={`audience-card-mobile lg:hidden ${row.hero ? 'hero' : 'minor'}`}>
+                    <div className="flex items-center justify-between gap-3 mb-1.5">
                       <span
-                        className="font-display leading-none transition-all duration-300"
-                        style={{
-                          fontSize: row.hero ? '1.9rem' : '1.45rem',
-                          color: row.hero
-                            ? '#0EA5E9'
-                            : isHovered ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.9)',
-                          textShadow: row.hero
-                            ? `0 0 ${isHovered ? '40px' : '24px'} rgba(14,165,233,${isHovered ? 0.5 : 0.3})`
-                            : 'none',
-                        }}
+                        className="font-body uppercase tracking-widest flex-shrink-0"
+                        style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.55)', letterSpacing: '0.18em' }}
                       >
-                        {row.value}
+                        {row.label}
                       </span>
-                      <span
-                        className="font-body text-xs uppercase tracking-wider"
-                        style={{ color: row.hero ? 'rgba(14,165,233,0.6)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
-                      >
-                        {row.unit}
-                      </span>
+                      <div className="flex items-baseline gap-1.5 min-w-0">
+                        <span
+                          className="font-display leading-none"
+                          style={{
+                            fontSize: row.hero ? '1.75rem' : '1.3rem',
+                            color: row.hero ? '#0EA5E9' : 'rgba(241,245,249,0.92)',
+                            textShadow: row.hero ? '0 0 24px rgba(14,165,233,0.45)' : 'none',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {row.value}
+                        </span>
+                        <span
+                          className="font-body uppercase tracking-wider"
+                          style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.38)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}
+                        >
+                          {row.unit}
+                        </span>
+                      </div>
                     </div>
+                    <p
+                      className="font-body"
+                      style={{ fontSize: '0.7rem', color: 'rgba(148,163,184,0.72)', lineHeight: 1.55 }}
+                    >
+                      {row.detail}
+                    </p>
                   </div>
-                  {/* Mobile: detail below */}
-                  <p
-                    className="font-body text-xs pb-3 px-4 lg:hidden"
-                    style={{ color: 'rgba(148,163,184,0.8)', lineHeight: 1.6 }}
-                  >
-                    {row.detail}
-                  </p>
 
                   {/* Desktop: 3-column grid */}
                   <div className="hidden lg:grid lg:grid-cols-[180px_1fr_2fr] lg:gap-x-10 lg:items-baseline lg:py-6 px-6">

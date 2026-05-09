@@ -72,17 +72,6 @@ export function SportSection() {
               <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148,163,184,0.7)', letterSpacing: '0.1em' }}>knots</div>
               <div className="font-body text-xs mt-1" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
             </div>
-            {/* Mobile badge — below image */}
-            <div className="mt-3 flex justify-center lg:hidden">
-              <div className="flex items-center gap-4 px-5 py-2.5 rounded-sm"
-                style={{ background: 'rgba(8,9,14,0.85)', border: '1px solid rgba(14,165,233,0.25)', boxShadow: '0 0 20px rgba(14,165,233,0.08)' }}>
-                <div className="font-display text-3xl" style={{ color: '#0EA5E9', textShadow: '0 0 16px rgba(14,165,233,0.5)' }}>41.40</div>
-                <div>
-                  <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148,163,184,0.7)', letterSpacing: '0.1em' }}>knots</div>
-                  <div className="font-body text-xs mt-0.5" style={{ color: 'rgba(148,163,184,0.5)' }}>World Speed Record</div>
-                </div>
-              </div>
-            </div>
           </div>
           <motion.div
             initial={{ opacity: 0, x: 40 }}
@@ -142,20 +131,19 @@ export function SportSection() {
                 <motion.div
                   key={i}
                   variants={formatLine}
-                  className="flex items-start gap-6 py-3 lg:py-5"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+                  className="sport-format-card flex items-start gap-5"
                 >
                   <span
-                    className="font-display text-xs flex-shrink-0 mt-1"
-                    style={{ color: 'rgba(14,165,233,0.9)', letterSpacing: '0.1em', minWidth: '2rem' }}
+                    className="font-display text-sm flex-shrink-0 mt-0.5"
+                    style={{ color: 'rgba(14,165,233,0.9)', letterSpacing: '0.1em', minWidth: '2rem', textShadow: '0 0 12px rgba(14,165,233,0.4)' }}
                   >
                     {format.number}
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.05rem' }}>
+                    <h4 className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.1rem', letterSpacing: '0.04em' }}>
                       {format.title}
                     </h4>
-                    <p className="font-body text-sm" style={{ color: 'rgba(241,245,249,0.78)', lineHeight: 1.6 }}>
+                    <p className="font-body text-sm" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.65 }}>
                       {format.description}
                     </p>
                   </div>

@@ -103,7 +103,7 @@ function ScrollRevealVideo() {
   }, [revealed])
 
   return (
-    <div ref={scrollRef} className="relative min-h-[120vh] lg:min-h-[220vh] w-full">
+    <div ref={scrollRef} className="relative min-h-[90vh] lg:min-h-[220vh] w-full">
       <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
         <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-8">
           <div className="section-line" />
@@ -184,7 +184,7 @@ export function GallerySection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       <div className="relative z-10">
-        <LampContainer className="min-h-[80vh]" bgColor="transparent">
+        <LampContainer className="min-h-[48vh] lg:min-h-[80vh]" bgColor="transparent">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -205,9 +205,9 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-12 lg:pb-16 -mt-[150px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-4 lg:pb-16 -mt-[50px] lg:-mt-[200px]">
         <div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-[200px] transition-all duration-700"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 auto-rows-[160px] lg:auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}
         >
           {galleryImages.map((img, i) => (
@@ -235,8 +235,8 @@ export function GallerySection() {
         <ScrollRevealVideo />
       </div>
 
-      <div className="relative z-10 py-12">
-        <div className="container mb-4">
+      <div className="relative z-10 py-5 lg:py-12">
+        <div className="container mb-2 lg:mb-4">
           <div className="flex items-center gap-3">
             <div className="section-line" />
             <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>More moments</span>
@@ -246,7 +246,7 @@ export function GallerySection() {
       </div>
 
       <div
-        className="container relative z-10 pb-12 transition-all duration-700"
+        className="container relative z-10 pb-4 lg:pb-12 transition-all duration-700"
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
       >
         <div className="flex flex-wrap gap-4 justify-center">
@@ -257,8 +257,8 @@ export function GallerySection() {
         </div>
       </div>
 
-      <div ref={igRef} className="container relative z-10 pb-12 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: '550ms' }}>
-        <div className="flex items-center gap-3 mb-6">
+      <div ref={igRef} className="container relative z-10 pb-4 lg:pb-12 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transitionDelay: '550ms' }}>
+        <div className="flex items-center gap-3 mb-4 lg:mb-6">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>Latest on Instagram</span>
         </div>
@@ -273,7 +273,7 @@ export function GallerySection() {
         )}
       </div>
 
-      <div className="pb-4 lg:pb-6" />
+      <div className="pb-2 lg:pb-6" />
     </section>
   )
 }

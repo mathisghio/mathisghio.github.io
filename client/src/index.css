@@ -618,7 +618,7 @@
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 20%; transform-origin: center 20%; }
+.career-img-windsurf     { object-position: center 55%; transform-origin: center 55%; }
 .career-img-podium-nat   { object-position: center 5%; }
 .career-img-3wt1         { transform-origin: center 28%; object-position: center 28%; }
 .career-pos-optimist     { object-position: center 50%; }
@@ -644,6 +644,50 @@
   .about-photo-wrap      { aspect-ratio: 4/3.5; }
   .about-photo-img       { object-position: center 45%; }
 }
+
+/* ── SportSection: partnership format cards — mobile glassmorphism ── */
+.sport-format-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  padding: 13px 14px;
+  margin-bottom: 8px;
+  background: rgba(14,165,233,0.04);
+  border: 1px solid rgba(14,165,233,0.14);
+}
+.sport-format-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(14,165,233,0.5), transparent);
+}
+@media (min-width: 1024px) {
+  .sport-format-card {
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-radius: 0;
+    padding: 20px 0;
+    margin-bottom: 0;
+  }
+  .sport-format-card::before { display: none; }
+}
+
+/* ── AudienceSection: mobile card left accent bar ── */
+.audience-card-mobile {
+  position: relative;
+  padding: 13px 14px 13px 18px;
+}
+.audience-card-mobile::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px; bottom: 10px;
+  width: 2px;
+  border-radius: 2px;
+}
+.audience-card-mobile.hero::before  { background: #0EA5E9; box-shadow: 0 0 8px rgba(14,165,233,0.6); }
+.audience-card-mobile.minor::before { background: rgba(14,165,233,0.35); }
 
 /* ── Reduced motion (nav) ── */
 @media (prefers-reduced-motion: reduce) {
