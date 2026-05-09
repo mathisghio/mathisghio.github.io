@@ -317,7 +317,8 @@
 /* L'inline style (translateY -256px) est écrasé uniquement sur mobile */
 @media (max-width: 1023px) {
   .lamp-container > div:last-child {
-    transform: translateY(-180px) !important;
+    translate: 0 20px !important;
+    transform: none !important;
   }
 }
   
@@ -674,6 +675,13 @@
   .sport-format-card::before { display: none; }
 }
 
+/* ── GallerySection: mobile image repositioning ── */
+@media (max-width: 1023px) {
+  .gallery-img-0 { object-position: 0% 30% !important; }
+  .gallery-img-1 { object-position: 20% 20% !important; transform: scale(1.3) !important; }
+  .gallery-img-2 { object-position: 60% center !important; }
+}
+
 /* ── AudienceSection: mobile card left accent bar ── */
 .audience-card-mobile {
   position: relative;
@@ -686,8 +694,8 @@
   width: 2px;
   border-radius: 2px;
 }
-.audience-card-mobile.hero::before  { background: #0EA5E9; box-shadow: 0 0 8px rgba(14,165,233,0.6); }
-.audience-card-mobile.minor::before { background: rgba(14,165,233,0.35); }
+.audience-card-mobile.hero::before  { background: #0EA5E9; box-shadow: 0 0 10px rgba(14,165,233,0.8); }
+.audience-card-mobile.minor::before { background: rgba(14,165,233,0.55); }
 
 /* ── Reduced motion (nav) ── */
 @media (prefers-reduced-motion: reduce) {

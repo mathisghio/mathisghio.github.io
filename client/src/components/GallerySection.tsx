@@ -103,9 +103,9 @@ function ScrollRevealVideo() {
   }, [revealed])
 
   return (
-    <div ref={scrollRef} className="relative min-h-[90vh] lg:min-h-[220vh] w-full">
-      <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-12 px-4">
-        <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-8">
+    <div ref={scrollRef} className="relative min-h-[150vh] lg:min-h-[220vh] w-full">
+      <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-4 lg:py-12 px-4">
+        <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-4 lg:mb-8">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
             Race Highlights
@@ -205,7 +205,7 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-4 lg:pb-16 -mt-[50px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[50px] lg:-mt-[200px]">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 auto-rows-[160px] lg:auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}
@@ -220,7 +220,7 @@ export function GallerySection() {
             >
               <img
                 src={img.src} alt={img.alt}
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover${i < 3 ? ` gallery-img-${i}` : ''}`}
                 style={{ transition: 'transform 0.6s ease, filter 0.4s ease', transform: hoveredIdx === i ? 'scale(1.08)' : 'scale(1)', filter: hoveredIdx === i ? 'saturate(1.3) brightness(1.1)' : 'saturate(1.0) brightness(0.9)', objectPosition: img.pos }}
                 loading="lazy"
               />
@@ -235,8 +235,8 @@ export function GallerySection() {
         <ScrollRevealVideo />
       </div>
 
-      <div className="relative z-10 py-5 lg:py-12">
-        <div className="container mb-2 lg:mb-4">
+      <div className="relative z-10 pt-0 pb-1 lg:py-12">
+        <div className="container mb-1 lg:mb-4">
           <div className="flex items-center gap-3">
             <div className="section-line" />
             <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>More moments</span>

@@ -95,11 +95,11 @@ export function AudienceSection() {
                   className="rounded-sm"
                   style={{
                     background: isHovered
-                      ? row.hero ? 'rgba(14,165,233,0.08)' : 'rgba(14,165,233,0.05)'
-                      : row.hero ? 'rgba(14,165,233,0.04)' : 'rgba(255,255,255,0.025)',
+                      ? row.hero ? 'rgba(14,165,233,0.13)' : 'rgba(14,165,233,0.08)'
+                      : row.hero ? 'rgba(14,165,233,0.08)' : 'rgba(255,255,255,0.055)',
                     border: `1px solid ${isHovered
-                      ? row.hero ? 'rgba(14,165,233,0.32)' : 'rgba(14,165,233,0.18)'
-                      : row.hero ? 'rgba(14,165,233,0.18)' : 'rgba(255,255,255,0.06)'}`,
+                      ? row.hero ? 'rgba(14,165,233,0.45)' : 'rgba(14,165,233,0.28)'
+                      : row.hero ? 'rgba(14,165,233,0.28)' : 'rgba(255,255,255,0.14)'}`,
                     transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
                     transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
                   }}
@@ -109,7 +109,7 @@ export function AudienceSection() {
                     <div className="flex items-center justify-between gap-3 mb-1.5">
                       <span
                         className="font-body uppercase tracking-widest flex-shrink-0"
-                        style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.55)', letterSpacing: '0.18em' }}
+                        style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.9)' : 'rgba(148,163,184,0.8)', letterSpacing: '0.18em' }}
                       >
                         {row.label}
                       </span>
@@ -118,8 +118,8 @@ export function AudienceSection() {
                           className="font-display leading-none"
                           style={{
                             fontSize: row.hero ? '1.75rem' : '1.3rem',
-                            color: row.hero ? '#0EA5E9' : 'rgba(241,245,249,0.92)',
-                            textShadow: row.hero ? '0 0 24px rgba(14,165,233,0.45)' : 'none',
+                            color: row.hero ? '#0EA5E9' : 'rgba(241,245,249,1)',
+                            textShadow: row.hero ? '0 0 24px rgba(14,165,233,0.55)' : 'none',
                             whiteSpace: 'nowrap',
                           }}
                         >
@@ -127,7 +127,7 @@ export function AudienceSection() {
                         </span>
                         <span
                           className="font-body uppercase tracking-wider"
-                          style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.55)' : 'rgba(148,163,184,0.38)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}
+                          style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.8)' : 'rgba(148,163,184,0.65)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}
                         >
                           {row.unit}
                         </span>
@@ -135,7 +135,7 @@ export function AudienceSection() {
                     </div>
                     <p
                       className="font-body"
-                      style={{ fontSize: '0.7rem', color: 'rgba(148,163,184,0.72)', lineHeight: 1.55 }}
+                      style={{ fontSize: '0.7rem', color: 'rgba(203,213,225,0.9)', lineHeight: 1.55 }}
                     >
                       {row.detail}
                     </p>

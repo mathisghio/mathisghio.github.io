@@ -270,6 +270,13 @@ export function VideoPlayerPro({
   const [buffering,    setBuffering]    = useState(false);
   const [seekFlash,    setSeekFlash]    = useState<"left" | "right" | null>(null);
   const [looping,      setLooping]      = useState(false);
+  const [isMobile,    setIsMobile]    = useState(() => window.innerWidth < 1024);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', check, { passive: true });
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   /* ── Reset on src change ── */
   useEffect(() => {
@@ -977,6 +984,7 @@ export function VideoPlayerPro({
                     >
                       <VolIco />
                     </button>
+                    {!isMobile && (
                     <div
                       onMouseDown={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
@@ -1007,6 +1015,7 @@ export function VideoPlayerPro({
                         }}
                       />
                     </div>
+                    )}
                   </div>
 
                   {/* Time */}
@@ -1030,6 +1039,7 @@ export function VideoPlayerPro({
                 {/* Right: speed + fullscreen */}
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   {/* Speed pills */}
+                  {!isMobile && (
                   <div
                     style={{
                       display: "flex",
@@ -1089,8 +1099,10 @@ export function VideoPlayerPro({
                       </button>
                     ))}
                   </div>
+                  )}
 
                   {/* Loop */}
+                  {!isMobile && (
                   <button
                     onClick={toggleLoop}
                     title="Loop"
@@ -1104,9 +1116,10 @@ export function VideoPlayerPro({
                   >
                     <IcoLoop />
                   </button>
+                  )}
 
                   {/* Picture-in-Picture */}
-                  {"pictureInPictureEnabled" in document && (
+                  {!isMobile && "pictureInPictureEnabled" in document && (
                     <button
                       onClick={pictureInPicture}
                       title="Picture in Picture"

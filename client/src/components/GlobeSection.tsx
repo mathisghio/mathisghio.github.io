@@ -442,13 +442,13 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     const timer=d3.timer((elapsed:number)=>{
       const ds=targetScaleRef.current-scaleRef.current
       if (Math.abs(ds)>0.001) scaleRef.current+=ds*0.055
-      if (targetRotRef.current!==null && !isDragging.current) {
+      if (targetRotRef.current!==null && !isDragging.current && !tDragging3D) {
         const [tLng,tLat]=targetRotRef.current
         let [cLng,cLat]=rotRef.current
         let dLng=tLng-cLng
         while(dLng>180)dLng-=360; while(dLng<-180)dLng+=360
         rotRef.current=[cLng+dLng*LERP_K, cLat+(tLat-cLat)*LERP_K]
-      } else if (!isDragging.current) {
+      } else if (!isDragging.current && !tDragging3D) {
         rotRef.current=[rotRef.current[0]+AUTO_SPEED, rotRef.current[1]]
       }
       projection.rotate(rotRef.current)
@@ -512,6 +512,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
         tDragging3D=false
       } else if (e.touches.length===2) {
         tDragging3D=true
+        targetRotRef.current=null
         pinchDist3D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
         pinchScale3D=scaleRef.current
       }
@@ -533,7 +534,16 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       }
     }
     const onTouchEnd3D=(e:TouchEvent)=>{
-      if (tDragging3D) { if (e.touches.length===0) tDragging3D=false; return }
+      if (tDragging3D) {
+        if (e.touches.length===0) tDragging3D=false
+        else if (e.touches.length===1) {
+          const t=e.touches[0]
+          t1Start3D={x:t.clientX,y:t.clientY}
+          t1DragRot=[...rotRef.current]
+          tDragging3D=false
+        }
+        return
+      }
       const t=e.changedTouches[0]
       if (Math.hypot(t.clientX-t1Start3D.x,t.clientY-t1Start3D.y)>14) return
       const rect=canvas.getBoundingClientRect()
@@ -865,6 +875,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     let pinchDist2D=0, pinchScale2D=1, pinchCX2D=0, pinchCY2D=0, pinchStartTx2D=0, pinchStartTy2D=0
 
     const onTouchStart2D=(e:TouchEvent)=>{
+      if (e.touches.length===2) e.preventDefault()
       if (e.touches.length===1) {
         const t=e.touches[0]
         t1Start2D={x:t.clientX,y:t.clientY}
@@ -873,6 +884,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
         tDragging2D=false
       } else if (e.touches.length===2) {
         tDragging2D=true
+        targetViewRef.current=null
         pinchDist2D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
         pinchScale2D=viewRef.current.k
         const rect=canvas.getBoundingClientRect()
@@ -901,7 +913,16 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       }
     }
     const onTouchEnd2D=(e:TouchEvent)=>{
-      if (tDragging2D) { if (e.touches.length===0) tDragging2D=false; return }
+      if (tDragging2D) {
+        if (e.touches.length===0) tDragging2D=false
+        else if (e.touches.length===1) {
+          const t=e.touches[0]
+          tDragStart2D={x:t.clientX,y:t.clientY}
+          tDragStartView2D={...viewRef.current}
+          tDragging2D=false
+        }
+        return
+      }
       const t=e.changedTouches[0]
       if (Math.hypot(t.clientX-t1Start2D.x,t.clientY-t1Start2D.y)>14) return
       const rect=canvas.getBoundingClientRect()
@@ -916,7 +937,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       }
       if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef2D.current?.(closest)}
     }
-    canvas.addEventListener('touchstart',onTouchStart2D,{passive:true})
+    canvas.addEventListener('touchstart',onTouchStart2D,{passive:false})
     canvas.addEventListener('touchmove', onTouchMove2D, {passive:false})
     canvas.addEventListener('touchend',  onTouchEnd2D,  {passive:true})
 
