@@ -97,7 +97,7 @@ const timelineData = [
   <img
     src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
     alt="RS:X windsurfing jump"
-    className={`${imgZoomInner} career-dsk-zoom-1`}
+    className={`${imgZoomInner} career-dsk-zoom-1 career-pos-rsx`}
     loading="lazy"
     style={{
       transform: 'scale(1.2)',

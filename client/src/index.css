@@ -618,13 +618,14 @@
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 40%; transform-origin: center 40%; }
-.career-img-podium-nat   { object-position: center 45%; }
+.career-img-windsurf     { object-position: center 30%; transform-origin: center 30%; }
+.career-img-podium-nat   { object-position: center 20%; }
 .career-img-3wt1         { transform-origin: center 45%; object-position: center 45%; }
 .career-pos-optimist     { object-position: center 50%; }
-.career-pos-wing-begin   { object-position: center 30%; }
+.career-pos-wing-begin   { object-position: center 20%; }
+.career-pos-rsx          { object-position: center 20%; }
 .career-pos-1st-title    { object-position: center 5%; }
-.career-pos-1st-podium   { object-position: center 56%; }
+.career-pos-1st-podium   { object-position: center 25%; }
 .goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
 .about-hero-bg           { background-position: center; }
 .about-photo-wrap        { aspect-ratio: 4/5; }
@@ -635,6 +636,7 @@
   .career-img-3wt1       { transform-origin: center 0%; object-position: center 0%; }
   .career-pos-optimist   { object-position: center 30%; }
   .career-pos-wing-begin { object-position: center 10%; }
+  .career-pos-rsx        { object-position: center 50%; }
   .career-pos-1st-title  { object-position: center 10%; }
   .career-pos-1st-podium { object-position: center 43%; }
   .goat-podium-bg        { background-position: 55% 20%; opacity: 0.50; filter: saturate(0.7); }
