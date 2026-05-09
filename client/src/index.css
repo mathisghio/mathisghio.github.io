@@ -625,7 +625,7 @@
 .career-pos-wing-begin   { object-position: center 13%; }
 .career-pos-rsx          { object-position: center 10%; }
 .career-pos-1st-title    { object-position: center 5%; }
-.career-pos-1st-podium   { object-position: center 30%; }
+.career-pos-1st-podium   { object-position: center 35%; }
 .goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
 .about-hero-bg           { background-position: center; }
 .about-photo-wrap        { aspect-ratio: 4/5; }
@@ -635,7 +635,7 @@
   .career-img-podium-nat { object-position: center 10%; }
   .career-img-3wt1       { transform-origin: center 20%; object-position: center 20%; }
   .career-pos-optimist   { object-position: center 30%; }
-  .career-pos-wing-begin { object-position: center 20%; }
+  .career-pos-wing-begin { object-position: center 15%; }
   .career-pos-rsx        { object-position: center 50%; }
   .career-pos-1st-title  { object-position: center 10%; }
   .career-pos-1st-podium { object-position: center 37%; }
