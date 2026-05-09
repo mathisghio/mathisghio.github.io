@@ -590,6 +590,13 @@
 .mgMobileBtn.mgMobileBtnActive { color:rgba(255,255,255,1);background:rgba(14,165,233,0.10);border-color:rgba(14,165,233,0.40);box-shadow:0 0 18px rgba(14,165,233,0.10),inset 0 0 12px rgba(14,165,233,0.05); }
 .mgMobileDot { width:5px;height:5px;border-radius:50%;flex-shrink:0;transition:background 0.22s ease,box-shadow 0.22s ease; }
 
+/* ── CareerSection: desktop zoom reduction ── */
+@media (min-width: 1024px) {
+  .career-dsk-zoom-0 { transform: scale(1.0)  !important; }
+  .career-dsk-zoom-1 { transform: scale(1.05) !important; }
+  .career-dsk-zoom-2 { transform: scale(1.15) !important; }
+}
+
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
 .career-img-windsurf     { object-position: center 60%; transform-origin: center 60%; }
 .career-img-podium-nat   { object-position: center 65%; }

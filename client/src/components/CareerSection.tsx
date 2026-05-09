@@ -47,7 +47,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849109/windsurfing_start_ahixiw.jpg"
               alt="Beginning windsurfing"
-              className={`${imgZoomInner} career-img-windsurf`}
+              className={`${imgZoomInner} career-img-windsurf career-dsk-zoom-2`}
               loading="lazy"
               style={{ transform: 'scale(1.6)' }}
             />
@@ -98,7 +98,7 @@ const timelineData = [
   <img
     src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
     alt="RS:X windsurfing jump"
-    className={imgZoomInner}
+    className={`${imgZoomInner} career-dsk-zoom-1`}
     loading="lazy"
     style={{
       transform: 'scale(1.2)',
@@ -202,7 +202,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471313/2nd_World_Title_Podium_vyonqq.jpg"
               alt="Podium 2023"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-dsk-zoom-2`}
               loading="lazy"
               style={{ transform: 'scale(1.5)', transformOrigin: 'center 29%', objectPosition: 'center 29%' }}
             />
@@ -233,7 +233,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471313/3rd_World_Title_iqcsfh.jpg"
               alt="Podium 2024"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-dsk-zoom-0`}
               loading="lazy"
               style={{ transform: 'scale(1.1)', transformOrigin: 'center 25%' }}
             />
@@ -243,7 +243,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471498/3rd_World_Title_1_a8drpa.jpg"
               alt="Trophy 2024"
-              className={`${imgZoomInner} career-img-3wt1`}
+              className={`${imgZoomInner} career-img-3wt1 career-dsk-zoom-0`}
               loading="lazy"
               style={{ transform: 'scale(1.1)' }}
             />
@@ -278,7 +278,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426748/achievements-bg_ncunhu.jpg"
               alt="Champion 2025"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-dsk-zoom-1`}
               loading="lazy"
               style={{ transform: 'scale(1.2)', transformOrigin: 'center 20%' }}
             />
@@ -288,7 +288,7 @@ const timelineData = [
             <img
               src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg"
               alt="Beach champion 2025"
-              className={imgZoomInner}
+              className={`${imgZoomInner} career-dsk-zoom-1`}
               loading="lazy"
               style={{ transform: 'scale(1.2)' }}
             />
