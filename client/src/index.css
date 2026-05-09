@@ -618,9 +618,13 @@
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 60%; transform-origin: center 60%; }
-.career-img-podium-nat   { object-position: center 65%; }
-.career-img-3wt1         { transform-origin: center 65%; }
+.career-img-windsurf     { object-position: center 80%; transform-origin: center 80%; }
+.career-img-podium-nat   { object-position: center 85%; }
+.career-img-3wt1         { transform-origin: center 85%; object-position: center 85%; }
+.career-pos-optimist     { object-position: center 10%; }
+.career-pos-wing-begin   { object-position: center 0%; }
+.career-pos-1st-title    { object-position: center 25%; }
+.career-pos-1st-podium   { object-position: center 30%; }
 .goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
 .about-hero-bg           { background-position: center; }
 .about-photo-wrap        { aspect-ratio: 4/5; }
@@ -628,7 +632,11 @@
 @media (max-width: 1023px) {
   .career-img-windsurf   { object-position: center 20%; transform-origin: center 20%; }
   .career-img-podium-nat { object-position: center 10%; }
-  .career-img-3wt1       { transform-origin: center 0%; }
+  .career-img-3wt1       { transform-origin: center 0%; object-position: center 0%; }
+  .career-pos-optimist   { object-position: center 30%; }
+  .career-pos-wing-begin { object-position: center 10%; }
+  .career-pos-1st-title  { object-position: center 10%; }
+  .career-pos-1st-podium { object-position: center 43%; }
   .goat-podium-bg        { background-position: 55% 20%; opacity: 0.50; filter: saturate(0.7); }
   .about-hero-bg         { background-position: 15% center; }
   .about-photo-wrap      { aspect-ratio: 4/3.5; }

@@ -37,9 +37,8 @@ const timelineData = [
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849109/optimist_sailing_oxryfl.jpg"
             alt="Optimist picture"
-            className={imgShadow}
+            className={`${imgShadow} career-pos-optimist`}
             loading="lazy"
-            style={{ objectPosition: 'center 30%' }}
           />
 
           {/* Zoom 1.3× — centré vers le haut pour montrer le visage */}
@@ -118,9 +117,8 @@ const timelineData = [
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/Wing_beginnings_gxn5xh.jpg"
             alt="Wingfoil beginnings"
-            className={imgShadow}
+            className={`${imgShadow} career-pos-wing-begin`}
             loading="lazy"
-            style={{ objectPosition: 'center 10%' }}
           />
 
           <img
@@ -155,17 +153,15 @@ const timelineData = [
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/1st_World_Title_hsk2f2.jpg"
             alt="Racing 2022"
-            className={imgShadow}
+            className={`${imgShadow} career-pos-1st-title`}
             loading="lazy"
-            style={{ objectPosition: 'center 10%' }}
           />
 
           <img
             src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/1st_World_Title_podium_rokru0.jpg"
             alt="Podium 2022"
-            className={imgShadow}
+            className={`${imgShadow} career-pos-1st-podium`}
             loading="lazy"
-            style={{ objectPosition: 'center 43%' }}
           />
 
         </div>
