@@ -618,14 +618,14 @@
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 15%; transform-origin: center 15%; }
+.career-img-windsurf     { object-position: center 0%; transform-origin: center 0%; }
 .career-img-podium-nat   { object-position: center 5%; }
-.career-img-3wt1         { transform-origin: center 35%; object-position: center 35%; }
+.career-img-3wt1         { transform-origin: center 28%; object-position: center 28%; }
 .career-pos-optimist     { object-position: center 50%; }
-.career-pos-wing-begin   { object-position: center 10%; }
+.career-pos-wing-begin   { object-position: center 13%; }
 .career-pos-rsx          { object-position: center 10%; }
 .career-pos-1st-title    { object-position: center 5%; }
-.career-pos-1st-podium   { object-position: center 40%; }
+.career-pos-1st-podium   { object-position: center 30%; }
 .goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
 .about-hero-bg           { background-position: center; }
 .about-photo-wrap        { aspect-ratio: 4/5; }
@@ -633,9 +633,9 @@
 @media (max-width: 1023px) {
   .career-img-windsurf   { object-position: center 20%; transform-origin: center 20%; }
   .career-img-podium-nat { object-position: center 10%; }
-  .career-img-3wt1       { transform-origin: center 9%; object-position: center 9%; }
+  .career-img-3wt1       { transform-origin: center 20%; object-position: center 20%; }
   .career-pos-optimist   { object-position: center 30%; }
-  .career-pos-wing-begin { object-position: center 10%; }
+  .career-pos-wing-begin { object-position: center 20%; }
   .career-pos-rsx        { object-position: center 50%; }
   .career-pos-1st-title  { object-position: center 10%; }
   .career-pos-1st-podium { object-position: center 37%; }
