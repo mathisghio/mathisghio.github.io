@@ -473,7 +473,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
     const onWheel=(e:WheelEvent)=>{
-      if (!e.ctrlKey) return
+      e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
       scaleRef.current=Math.max(0.6,Math.min(4,scaleRef.current*factor))
     }
@@ -481,7 +481,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel, {passive:true})
+    canvas.addEventListener('wheel',     onWheel, {passive:false})
     window.addEventListener('mouseup',   onMouseUp)
 
     let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false
@@ -802,7 +802,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
     const onWheel=(e:WheelEvent)=>{
-      if (!e.ctrlKey) return
+      e.preventDefault()
       const {x,y}=getPos(e)
       const factor=e.deltaY>0?0.85:1.18
       const cur=viewRef.current
@@ -837,7 +837,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
 
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel,{passive:true})
+    canvas.addEventListener('wheel',     onWheel,{passive:false})
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseDrag)
     window.addEventListener('mouseup',   onMouseUp2)
@@ -1029,7 +1029,7 @@ export function GlobeSection() {
   },[])
 
   return (
-    <section id="season" ref={sectionRef} className="relative py-10 lg:py-36 overflow-hidden">
+    <section id="season" ref={sectionRef} className="section-edge-fade relative py-10 lg:py-20 overflow-hidden">
 
       {/* ── Animated gradient background — dark cinematic palette ── */}
       <AnimatedGradientBackground

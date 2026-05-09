@@ -79,7 +79,7 @@ export function AchievementsSection() {
   const resultsRef = useRef<HTMLDivElement>(null)
 
   return (
-    <section id="achievements" ref={ref} className="relative py-10 lg:py-36 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="achievements" ref={ref} className="section-edge-fade relative py-10 lg:py-20 overflow-hidden" style={{ background: '#08090E' }}>
      <div className="absolute inset-0 z-0" style={{ opacity: 0.4 }}>
         <ShaderAnimation />
       </div>

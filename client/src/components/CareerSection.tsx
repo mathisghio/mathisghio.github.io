@@ -320,7 +320,7 @@ export function CareerSection() {
   return (
     <section
       id="career"
-      className="relative"
+      className="section-edge-fade relative"
       style={{ background: '#08090E', isolation: 'isolate' }}
     >
       <div

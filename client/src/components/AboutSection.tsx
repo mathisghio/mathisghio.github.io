@@ -10,7 +10,7 @@ export function AboutSection() {
   const { ref, inView } = useInView(0.15)
 
   return (
-    <section id="about" ref={ref} className="relative py-10 lg:py-36 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}>
+    <section id="about" ref={ref} className="section-edge-fade relative py-10 lg:py-20 overflow-hidden" style={{ background: 'linear-gradient(180deg, #08090E 0%, #0A0F1A 50%, #08090E 100%)' }}>
       <div className="about-hero-bg absolute inset-0 z-0" style={{ backgroundImage: `url(${HERO_IMG})`, backgroundSize: 'cover', opacity: 0.25, filter: 'saturate(0.5)' }} />
       <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none z-0" style={{ background: 'radial-gradient(ellipse at 80% 30%, rgba(14, 165, 233, 0.04) 0%, transparent 60%)' }} />
       <div className="container relative z-10">
@@ -47,10 +47,7 @@ export function AboutSection() {
                   {i === 2 ? (
                     <>
                       <div className="font-body text-xs uppercase tracking-wider mt-1 hidden lg:block" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>
-                      <div className="font-body text-xs uppercase tracking-wider mt-1 lg:hidden" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>
-                        <div>KTS</div>
-                        <div>{stat.label}</div>
-                      </div>
+                      <div className="font-body uppercase tracking-wider mt-1 lg:hidden" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.05em', fontSize: '0.6rem' }}>KTS SPEED RECORD</div>
                     </>
                   ) : (
                     <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>

@@ -37,7 +37,7 @@ export function GoatSection() {
   const { ref, inView } = useInView(0.1)
 
   return (
-    <section id="goat" ref={ref} className="relative py-10 lg:py-40 overflow-hidden" style={{ background: '#08090E' }}>
+    <section id="goat" ref={ref} className="section-edge-fade relative py-10 lg:py-24 overflow-hidden" style={{ background: '#08090E' }}>
       <div role="img" aria-label="5th World Title podium" className="goat-podium-bg absolute inset-0 z-0"
         style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover' }} />
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />

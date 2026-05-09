@@ -592,9 +592,29 @@
 
 /* ── CareerSection: desktop zoom reduction ── */
 @media (min-width: 1024px) {
-  .career-dsk-zoom-0 { transform: scale(1.0)  !important; }
-  .career-dsk-zoom-1 { transform: scale(1.05) !important; }
-  .career-dsk-zoom-2 { transform: scale(1.15) !important; }
+  .career-dsk-zoom-0,
+  .career-dsk-zoom-1,
+  .career-dsk-zoom-2 { transform: scale(1.0) !important; }
+}
+
+/* ── Section edge fades — smooth background transitions between sections ── */
+.section-edge-fade::before,
+.section-edge-fade::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 140px;
+  z-index: 5;
+  pointer-events: none;
+}
+.section-edge-fade::before {
+  top: 0;
+  background: linear-gradient(to bottom, #08090E 0%, transparent 100%);
+}
+.section-edge-fade::after {
+  bottom: 0;
+  background: linear-gradient(to top, #08090E 0%, transparent 100%);
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
