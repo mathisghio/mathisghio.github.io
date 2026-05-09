@@ -271,6 +271,8 @@ export function VideoPlayerPro({
   const [seekFlash,    setSeekFlash]    = useState<"left" | "right" | null>(null);
   const [looping,      setLooping]      = useState(false);
   const [isMobile,    setIsMobile]    = useState(() => window.innerWidth < 1024);
+  const [showLandscapeTip, setShowLandscapeTip] = useState(false);
+  const landscapeTimer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024);
@@ -488,6 +490,12 @@ export function VideoPlayerPro({
   const fullscreen = () => {
     const el = containerRef.current;
     if (!el) return;
+    if (isMobile) {
+      if (landscapeTimer.current) clearTimeout(landscapeTimer.current);
+      setShowLandscapeTip(true);
+      landscapeTimer.current = setTimeout(() => setShowLandscapeTip(false), 4000);
+      return;
+    }
     if (!document.fullscreenElement) {
       el.requestFullscreen().catch(() => {});
     } else {
@@ -777,6 +785,46 @@ export function VideoPlayerPro({
                 </div>
               </motion.div>
             </div>
+          )}
+        </AnimatePresence>
+
+        {/* Landscape tip — shown on mobile when fullscreen button is tapped */}
+        <AnimatePresence>
+          {showLandscapeTip && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              style={{
+                position: 'absolute',
+                bottom: 64,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.78)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: 12,
+                padding: '10px 18px',
+                color: '#fff',
+                fontSize: 13,
+                fontWeight: 500,
+                textAlign: 'center',
+                pointerEvents: 'none',
+                zIndex: 25,
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="1.5" width="12" height="15" rx="2" />
+                <path d="M7 14h4" />
+              </svg>
+              Rotate phone to landscape for best viewing
+            </motion.div>
           )}
         </AnimatePresence>
 

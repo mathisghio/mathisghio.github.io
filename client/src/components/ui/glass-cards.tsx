@@ -20,6 +20,13 @@ interface CardProps {
 const GlassCard: React.FC<CardProps> = ({ image, index, totalCards, accentColor }) => {
   const cardRef      = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = React.useState(() => typeof window !== 'undefined' && window.innerWidth < 1024)
+
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     const card      = cardRef.current
@@ -52,7 +59,7 @@ const GlassCard: React.FC<CardProps> = ({ image, index, totalCards, accentColor 
   return (
     <div
       ref={containerRef}
-      style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0 }}
+      style={{ height: isMobile ? '72vh' : '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0 }}
     >
       <div
         ref={cardRef}

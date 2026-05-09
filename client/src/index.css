@@ -677,8 +677,8 @@
 
 /* ── GallerySection: mobile image repositioning ── */
 @media (max-width: 1023px) {
-  .gallery-img-0 { object-position: 0% 30% !important; }
-  .gallery-img-1 { object-position: 20% 20% !important; transform: scale(1.3) !important; }
+  .gallery-img-0 { object-position: 100% 30% !important; }
+  .gallery-img-1 { object-position: 80% 20% !important; transform: scale(1.3) !important; }
   .gallery-img-2 { object-position: 60% center !important; }
 }
 
