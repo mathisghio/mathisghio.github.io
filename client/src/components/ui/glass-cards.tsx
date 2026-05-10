@@ -8,6 +8,7 @@ export interface GlassCardImage {
   src: string
   alt: string
   objectPosition?: string
+  objectPositionMobile?: string
 }
 
 interface CardProps {
@@ -96,7 +97,7 @@ const GlassCard: React.FC<CardProps> = ({ image, index, totalCards, accentColor 
           <img
             src={image.src}
             alt={image.alt}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: image.objectPosition ?? 'center', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: isMobile ? (image.objectPositionMobile ?? image.objectPosition ?? 'center') : (image.objectPosition ?? 'center'), display: 'block' }}
             loading="lazy"
           />
 
