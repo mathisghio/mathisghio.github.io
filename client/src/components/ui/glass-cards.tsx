@@ -59,14 +59,14 @@ const GlassCard: React.FC<CardProps> = ({ image, index, totalCards, accentColor 
   return (
     <div
       ref={containerRef}
-      style={{ height: isMobile ? '72vh' : '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0 }}
+      style={{ height: isMobile ? '55vh' : '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0 }}
     >
       <div
         ref={cardRef}
         style={{
           position:        'relative',
           width:           'min(80%, 900px)',
-          height:          'clamp(300px, 55vh, 560px)',
+          height:          isMobile ? 'clamp(200px, 42vh, 380px)' : 'clamp(300px, 55vh, 560px)',
           borderRadius:    '20px',
           isolation:       'isolate',
           top:             `calc(-4vh + ${index * 22}px)`,
