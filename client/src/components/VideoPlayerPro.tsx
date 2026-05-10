@@ -271,8 +271,8 @@ export function VideoPlayerPro({
   const [seekFlash,    setSeekFlash]    = useState<"left" | "right" | null>(null);
   const [looping,      setLooping]      = useState(false);
   const [isMobile,    setIsMobile]    = useState(() => window.innerWidth < 1024);
-  const [showLandscapeTip, setShowLandscapeTip] = useState(false);
-  const landscapeTimer = useRef<ReturnType<typeof setTimeout>>();
+  const [showLandscapeFullscreenTip, setShowLandscapeFullscreenTip] = useState(false);
+  const landscapeFullscreenTimer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1024);
@@ -476,6 +476,11 @@ export function VideoPlayerPro({
       v.muted = false;
       setVideoVol(lastVol.current > 0 ? lastVol.current : 1);
       setShowNudge(false);
+      if (isMobile) {
+        if (landscapeFullscreenTimer.current) clearTimeout(landscapeFullscreenTimer.current);
+        setShowLandscapeFullscreenTip(true);
+        landscapeFullscreenTimer.current = setTimeout(() => setShowLandscapeFullscreenTip(false), 6000);
+      }
     } else {
       lastVol.current = vol;
       v.muted = true;
@@ -486,16 +491,26 @@ export function VideoPlayerPro({
     if (sound) tick(lastSnd);
   };
 
+  /* ── Mobile fullscreen via video element (works on iOS Safari) ── */
+  const enterMobileFullscreen = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    const wkv = v as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+    if (wkv.webkitEnterFullscreen) {
+      wkv.webkitEnterFullscreen();
+    } else if (v.requestFullscreen) {
+      v.requestFullscreen().catch(() => {});
+    }
+  };
+
   /* ── Fullscreen ── */
   const fullscreen = () => {
-    const el = containerRef.current;
-    if (!el) return;
     if (isMobile) {
-      if (landscapeTimer.current) clearTimeout(landscapeTimer.current);
-      setShowLandscapeTip(true);
-      landscapeTimer.current = setTimeout(() => setShowLandscapeTip(false), 4000);
+      enterMobileFullscreen();
       return;
     }
+    const el = containerRef.current;
+    if (!el) return;
     if (!document.fullscreenElement) {
       el.requestFullscreen().catch(() => {});
     } else {
@@ -788,43 +803,49 @@ export function VideoPlayerPro({
           )}
         </AnimatePresence>
 
-        {/* Landscape tip — shown on mobile when fullscreen button is tapped */}
+        {/* Landscape fullscreen tip — shown after sound enabled on mobile */}
         <AnimatePresence>
-          {showLandscapeTip && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              style={{
-                position: 'absolute',
-                bottom: 64,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: 'rgba(0,0,0,0.78)',
-                backdropFilter: 'blur(14px)',
-                WebkitBackdropFilter: 'blur(14px)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                borderRadius: 12,
-                padding: '10px 18px',
-                color: '#fff',
-                fontSize: 13,
-                fontWeight: 500,
-                textAlign: 'center',
-                pointerEvents: 'none',
-                zIndex: 25,
-                whiteSpace: 'nowrap',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="1.5" width="12" height="15" rx="2" />
-                <path d="M7 14h4" />
-              </svg>
-              Rotate phone to landscape for best viewing
-            </motion.div>
+          {showLandscapeFullscreenTip && (
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 26 }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                onClick={() => { setShowLandscapeFullscreenTip(false); enterMobileFullscreen(); }}
+                style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+                  background: 'rgba(0,0,0,0.72)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  borderRadius: 20,
+                  padding: '22px 32px',
+                  cursor: 'pointer',
+                  color: '#fff',
+                  userSelect: 'none',
+                  textAlign: 'center',
+                  minWidth: 180,
+                }}
+              >
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect x="3" y="8" width="26" height="16" rx="2.5" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" />
+                  <circle cx="27" cy="16" r="1.5" fill="rgba(255,255,255,0.85)" />
+                </svg>
+                <span style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3 }}>Full experience</span>
+                <span style={{ fontSize: 12, opacity: 0.6, lineHeight: 1.5, maxWidth: 180 }}>
+                  Tap to open in landscape fullscreen
+                </span>
+                <div style={{
+                  marginTop: 4, fontSize: 11, fontWeight: 600,
+                  background: 'rgba(255,255,255,0.13)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: 12, padding: '5px 16px',
+                }}>
+                  ⛶ Go fullscreen
+                </div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
 

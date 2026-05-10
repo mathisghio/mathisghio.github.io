@@ -25,14 +25,14 @@ const galleryImages = [
 const stackedImages: GlassCardImage[] = [
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_1_ks3r0q.jpg',  alt: '2025 Défi Wing winner', objectPosition: 'center 20%' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_2_pfp3ie.jpg',  alt: '2025 Formula Wing World Champion', objectPositionMobile: '25% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Railey above Marseille's calanques", objectPosition: 'center top', objectPositionMobile: '25% top' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Railey above Marseille's calanques", objectPosition: 'center top', objectPositionMobile: '15% top' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_4_bcbi2t.jpg',  alt: '2025 Formula Wing European Champion', objectPositionMobile: '60% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: '2025 Formula Wing European Champion', objectPositionMobile: '40% center' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_5_gipmuv.jpg',  alt: '2025 Formula Wing European Champion', objectPositionMobile: '45% center' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'Downwind mark rounding at 2025 World Cup in Morocco' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'Focused before taking first place at 2025 World Cup in Silvaplana', objectPositionMobile: '20% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_8_tzqwts.jpg',  alt: '2025 Morocco World Cup winner', objectPositionMobile: '20% center' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'Focused before taking first place at 2025 World Cup in Silvaplana', objectPositionMobile: '15% center' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016055/More_photos_8_tzqwts.jpg',  alt: '2025 Morocco World Cup winner', objectPositionMobile: '40% center' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_9_ejotal.jpg',  alt: '2025 Brazil World Cup', objectPositionMobile: '20% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_10_xd4mim.jpg', alt: 'Foil slide at 2025 China World Cup', objectPositionMobile: '100% center' },
+  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_10_xd4mim.jpg', alt: 'Foil slide at 2025 China World Cup', objectPositionMobile: '20% center' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016054/More_photos_11_ofnfl1.jpg', alt: 'Freestyle foil slide in Marseille', objectPositionMobile: '65% center' },
   { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1778016161/More_photos_12_qqr8zh.jpg', alt: 'Focused approaching next mark at 2025 Formula Wing World Championship', objectPositionMobile: '25% center' },
 ]
@@ -40,15 +40,8 @@ const stackedImages: GlassCardImage[] = [
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024)
   const prevVRef = useRef(0)
   const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024)
-    window.addEventListener('resize', check, { passive: true })
-    return () => window.removeEventListener('resize', check)
-  }, [])
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -109,22 +102,7 @@ function ScrollRevealVideo() {
     return () => { clearTimeout(t); document.body.style.overflow = '' }
   }, [revealed])
 
-  /* Mobile: simple inline layout — no scroll animation, no spacing waste */
-  if (isMobile) {
-    return (
-      <div className="py-5 px-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="section-line" />
-          <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
-            Race Highlights
-          </span>
-        </div>
-        <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} />
-      </div>
-    )
-  }
-
-  /* Desktop: scroll-driven reveal animation */
+  /* Scroll-driven reveal animation */
   return (
     <div ref={scrollRef} className="relative min-h-[220vh] w-full">
       <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-4 lg:py-12 px-4">
