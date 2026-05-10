@@ -40,6 +40,14 @@ export function PartnersSection() {
         opacity={0.58}
         yOffset={0.90}
       />
+      <WebGLShader
+        xScale={1.2}
+        yScale={0.35}
+        distortion={0.06}
+        speed={0.022}
+        opacity={0.38}
+        yOffset={0.35}
+      />
 
       {/* Dark overlay so text stays legible over the shader */}
       <div
