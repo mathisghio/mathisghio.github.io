@@ -112,7 +112,7 @@ function ScrollRevealVideo() {
   /* Mobile: simple inline layout — no scroll animation, no spacing waste */
   if (isMobile) {
     return (
-      <div className="py-3 px-4">
+      <div className="py-5 px-4">
         <div className="flex items-center gap-3 mb-3">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
@@ -228,7 +228,7 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[50px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[130px] lg:-mt-[200px]">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 auto-rows-[160px] lg:auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}
@@ -266,10 +266,11 @@ export function GallerySection() {
           </div>
         </div>
         <GlassCards images={stackedImages} />
+        <div className="h-[55vh] lg:h-0" />
       </div>
 
       <div
-        className="container relative z-10 pt-8 lg:pt-0 pb-4 lg:pb-12 transition-all duration-700"
+        className="container relative z-10 pt-4 lg:pt-0 pb-4 lg:pb-12 transition-all duration-700"
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
       >
         <div className="flex flex-wrap gap-4 justify-center">

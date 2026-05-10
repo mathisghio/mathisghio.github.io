@@ -418,7 +418,7 @@ export function ContactSection() {
     <>
       <section id="contact" ref={ref} style={{ background: '#08090E' }}>
 
-        <LampContainer className="min-h-[38vh] lg:min-h-[80vh]">
+        <LampContainer className="min-h-[52vh] lg:min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -436,7 +436,7 @@ export function ContactSection() {
           </motion.div>
         </LampContainer>
 
-        <div className="container relative z-10 pb-10 lg:pb-36 -mt-[60px] lg:-mt-[200px]">
+        <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:-mt-[200px]">
           <div
             className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-6 lg:gap-8 transition-all duration-700"
             style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(24px)' }}
