@@ -619,7 +619,7 @@
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 18%; transform-origin: center 18%; }
+.career-img-windsurf     { object-position: center 5%; transform-origin: center 5%; }
 .career-img-podium-nat   { object-position: center 5%; }
 .career-img-3wt1         { transform-origin: center 28%; object-position: center 28%; }
 .career-pos-optimist     { object-position: center 50%; }
@@ -632,7 +632,7 @@
 .about-photo-wrap        { aspect-ratio: 4/5; }
 .about-photo-img         { object-position: center 20%; }
 @media (max-width: 1023px) {
-  .career-img-windsurf   { object-position: center 20%; transform-origin: center 20%; }
+  .career-img-windsurf   { object-position: center 5%; transform-origin: center 5%; }
   .career-img-podium-nat { object-position: center 10%; }
   .career-img-3wt1       { transform-origin: center 20%; object-position: center 20%; }
   .career-pos-optimist   { object-position: center 30%; }

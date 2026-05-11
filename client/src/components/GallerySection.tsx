@@ -106,8 +106,8 @@ function ScrollRevealVideo() {
 
   /* Scroll-driven reveal animation */
   return (
-    <div ref={scrollRef} className="relative min-h-[120vh] lg:min-h-[220vh] w-full">
-      <div className="sticky top-0 w-full lg:min-h-screen flex flex-col items-center justify-center lg:py-12 px-4 py-8">
+    <div ref={scrollRef} className="relative min-h-[200vh] lg:min-h-[220vh] w-full">
+      <div className="sticky top-0 w-full min-h-screen flex flex-col items-center justify-center lg:py-12 px-4 py-8">
         <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-4 lg:mb-8">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
@@ -115,7 +115,7 @@ function ScrollRevealVideo() {
           </span>
         </motion.div>
         {/* Wrapper — gives the scroll hint a reference box matching the video */}
-        <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 1200px)' }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 900px)', margin: '0 auto' }}>
           <motion.div style={{ clipPath }} className="overflow-hidden">
             {revealed ? (
               <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay />
