@@ -95,29 +95,13 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress])
 
-  /* Lock scroll position on mobile when the video fully reveals */
+  /* Freeze touch-scroll on mobile for 3s when the video fully reveals */
   useEffect(() => {
     if (!revealed || !isMobile) return
-    const lockY = window.scrollY
-    document.body.style.position = 'fixed'
-    document.body.style.top = `-${lockY}px`
-    document.body.style.width = '100%'
-    document.body.style.overflow = 'hidden'
-    const t = setTimeout(() => {
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.width = ''
-      document.body.style.overflow = ''
-      window.scrollTo(0, lockY)
-    }, 3000)
-    return () => {
-      clearTimeout(t)
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.width = ''
-      document.body.style.overflow = ''
-      window.scrollTo(0, lockY)
-    }
+    const prevent = (e: TouchEvent) => { e.preventDefault() }
+    document.addEventListener('touchmove', prevent, { passive: false })
+    const t = setTimeout(() => document.removeEventListener('touchmove', prevent), 3000)
+    return () => { clearTimeout(t); document.removeEventListener('touchmove', prevent) }
   }, [revealed, isMobile])
 
   /* Scroll-driven reveal animation */
