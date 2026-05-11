@@ -32,14 +32,16 @@ export function PartnersSection() {
        * speed 0.006 = slower than default.
        * opacity 0.18 = atmospheric, not overpowering.
        */}
+      {/* Wave 1 — Title Partners level (mobile) / general atmosphere (desktop) */}
       <WebGLShader
         xScale={1.2}
         yScale={0.35}
         distortion={0.06}
         speed={0.022}
         opacity={0.58}
-        yOffset={0.90}
+        yOffset={-2.20}
       />
+      {/* Wave 2 — Official Partners level, mobile-only */}
       <div className="lg:hidden">
         <WebGLShader
           xScale={1.2}
@@ -47,7 +49,7 @@ export function PartnersSection() {
           distortion={0.06}
           speed={0.022}
           opacity={0.38}
-          yOffset={-0.50}
+          yOffset={0.60}
         />
       </div>
 
@@ -92,13 +94,22 @@ export function PartnersSection() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {titlePartners.map((partner, i) => (
               <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
-                className="group p-5 lg:p-8 rounded-sm card-hover flex flex-col items-center text-center"
-                style={{ background: 'rgba(8,9,14,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(245,158,11,0.15)', textDecoration: 'none' }}>
-                <div className="font-display text-3xl mb-3 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.9)' }}>
+                className="group relative p-5 lg:p-8 rounded-sm card-hover flex flex-col items-center text-center overflow-hidden"
+                style={{ background: 'rgba(8,9,14,0.75)', backdropFilter: 'blur(16px)', border: '1px solid rgba(245,158,11,0.22)', textDecoration: 'none' }}>
+                {/* Gold top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(245,158,11,0.7), transparent)' }} />
+                {/* Hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(245,158,11,0.10) 0%, transparent 65%)' }} />
+                <span className="mb-3 font-body text-[0.6rem] uppercase tracking-widest" style={{ color: 'rgba(245,158,11,0.55)', letterSpacing: '0.22em' }}>
+                  Title Partner
+                </span>
+                <div className="font-display text-3xl lg:text-4xl mb-2 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.95)' }}>
                   {partner.logoText}
                 </div>
                 <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>{partner.description}</p>
-                <div className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16" style={{ background: '#0EA5E9' }} />
+                <div className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16" style={{ background: '#F59E0B' }} />
               </a>
             ))}
           </div>
@@ -112,16 +123,16 @@ export function PartnersSection() {
           <h3 className="font-body text-xs uppercase tracking-widest mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}>
             Official Partners
           </h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {officialPartners.map((partner, i) => (
               <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-3 px-5 py-3 rounded-sm transition-all duration-300"
-                style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}>
+                className="group flex flex-col gap-1 px-4 py-3 rounded-sm transition-all duration-300"
+                style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none' }}>
                 <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400"
-                  style={{ color: 'rgba(241,245,249,0.7)', fontFamily: 'Barlow Condensed, sans-serif' }}>
+                  style={{ color: 'rgba(241,245,249,0.8)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
-                <span className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.4)' }}>{partner.description}</span>
+                <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.45)' }}>{partner.description}</span>
               </a>
             ))}
           </div>
