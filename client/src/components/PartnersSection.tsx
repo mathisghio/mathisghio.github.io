@@ -39,7 +39,7 @@ export function PartnersSection() {
         distortion={0.06}
         speed={0.022}
         opacity={0.58}
-        yOffset={-2.20}
+        yOffset={-5.0}
       />
       {/* Wave 2 — Official Partners level, mobile-only */}
       <div className="lg:hidden">
