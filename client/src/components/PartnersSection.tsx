@@ -32,16 +32,31 @@ export function PartnersSection() {
        * speed 0.006 = slower than default.
        * opacity 0.18 = atmospheric, not overpowering.
        */}
-      {/* Wave 1 — Title Partners level (mobile) / general atmosphere (desktop) */}
-      <WebGLShader
-        xScale={1.2}
-        yScale={0.35}
-        distortion={0.06}
-        speed={0.022}
-        opacity={0.58}
-        yOffset={-5.0}
-      />
-      {/* Wave 2 — Official Partners level, mobile-only */}
+      {/* Desktop wave — general atmosphere */}
+      <div className="hidden lg:block">
+        <WebGLShader
+          xScale={1.2}
+          yScale={0.35}
+          distortion={0.06}
+          speed={0.022}
+          opacity={0.58}
+          yOffset={0.90}
+        />
+      </div>
+
+      {/* Mobile wave 1 — Title Partners level */}
+      <div className="lg:hidden">
+        <WebGLShader
+          xScale={1.2}
+          yScale={0.35}
+          distortion={0.06}
+          speed={0.022}
+          opacity={0.58}
+          yOffset={-3.0}
+        />
+      </div>
+
+      {/* Mobile wave 2 — Official Partners level */}
       <div className="lg:hidden">
         <WebGLShader
           xScale={1.2}
