@@ -47,7 +47,7 @@ export function PartnersSection() {
           distortion={0.06}
           speed={0.022}
           opacity={0.38}
-          yOffset={0.35}
+          yOffset={-0.50}
         />
       </div>
 

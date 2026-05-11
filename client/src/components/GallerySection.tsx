@@ -40,6 +40,7 @@ const stackedImages: GlassCardImage[] = [
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
+  const [isMobile] = useState(() => window.innerWidth < 1024)
   const prevVRef = useRef(0)
   const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
 
@@ -53,8 +54,8 @@ function ScrollRevealVideo() {
   const radius   = useTransform(scrollYProgress, [0, 0.85], [32, 6])
   const clipPath = useMotionTemplate`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round ${radius}px)`
 
-  const labelOpacity      = useTransform(scrollYProgress, [0, 0.35], [0, 1])
-  const labelY            = useTransform(scrollYProgress, [0, 0.35], [24, 0])
+  const labelOpacity      = useTransform(scrollYProgress, [0, 0.15], [0, 1])
+  const labelY            = useTransform(scrollYProgress, [0, 0.15], [24, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
   /* Cache bounding rect — updated on mount and resize to avoid forced reflow on every scroll tick */
@@ -89,23 +90,40 @@ function ScrollRevealVideo() {
       if (!inView) { prevVRef.current = v; return }
       const goingDown = v > prevVRef.current
       prevVRef.current = v
-      if (goingDown && v >= 0.84) setRevealed(true)
+      if (goingDown && v >= 0.85) setRevealed(true)
       else if (!goingDown && v <= 0.95) setRevealed(true)
     })
   }, [scrollYProgress])
 
-  /* Lock scroll for 3s when the video reveals so the user sees it start */
+  /* Lock scroll position on mobile when the video fully reveals */
   useEffect(() => {
-    if (!revealed) return
+    if (!revealed || !isMobile) return
+    const lockY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${lockY}px`
+    document.body.style.width = '100%'
     document.body.style.overflow = 'hidden'
-    const t = setTimeout(() => { document.body.style.overflow = '' }, 3000)
-    return () => { clearTimeout(t); document.body.style.overflow = '' }
-  }, [revealed])
+    const t = setTimeout(() => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+      window.scrollTo(0, lockY)
+    }, 3000)
+    return () => {
+      clearTimeout(t)
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.body.style.overflow = ''
+      window.scrollTo(0, lockY)
+    }
+  }, [revealed, isMobile])
 
   /* Scroll-driven reveal animation */
   return (
-    <div ref={scrollRef} className="relative min-h-[160vh] lg:min-h-[220vh] w-full">
-      <div className="sticky top-0 min-h-screen w-full flex flex-col items-center justify-center py-4 lg:py-12 px-4">
+    <div ref={scrollRef} className="relative min-h-[120vh] lg:min-h-[220vh] w-full">
+      <div className="sticky top-0 w-full lg:min-h-screen flex flex-col items-center justify-center lg:py-12 px-4 py-8">
         <motion.div style={{ opacity: labelOpacity, y: labelY }} className="flex items-center gap-3 mb-4 lg:mb-8">
           <div className="section-line" />
           <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
@@ -185,7 +203,7 @@ export function GallerySection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       <div className="relative z-10">
-        <LampContainer className="min-h-[48vh] lg:min-h-[80vh]" bgColor="transparent">
+        <LampContainer className="min-h-[58vh] lg:min-h-[80vh]" bgColor="#08090E">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -206,7 +224,7 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[130px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[200px] lg:-mt-[200px]">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 auto-rows-[160px] lg:auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}

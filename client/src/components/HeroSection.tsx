@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { InteractiveWaves } from './InteractiveWaves'
 import { VideoBackground } from './VideoBackground'
 import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
@@ -50,11 +49,6 @@ export function HeroSection() {
         className="absolute top-0 left-0 right-0 z-20 pointer-events-none"
         style={{ height: '130px', background: 'linear-gradient(to bottom, #08090E 0%, rgba(8,9,14,0.7) 50%, transparent 100%)' }}
       />
-
-      {/* Waves — desktop uniquement */}
-      <div className="absolute inset-0 z-30 hidden lg:block" style={{ opacity: 0.3 }}>
-        <InteractiveWaves strokeColor="rgba(14, 165, 233, 0.22)" backgroundColor="transparent" pointerSize={0.8} interactive={false} />
-      </div>
 
       {/* Lignes accent gauche — desktop */}
       <div className="absolute left-0 top-0 bottom-0 hidden lg:flex flex-col justify-center gap-2 pl-6 pointer-events-none" style={{ zIndex: 35 }}>
