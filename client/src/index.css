@@ -323,10 +323,10 @@ html, body {
   .lamp-lower-desktop {
     overflow: visible !important;
     z-index: 15 !important;
-    min-height: 60vh !important; /* réduit la hauteur → rapproche de la section précédente */
+    min-height: 50vh !important;
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(20px) !important; /* légèrement sous la position naturelle */
+    transform: translateY(80px) !important;
   }
 }
 
