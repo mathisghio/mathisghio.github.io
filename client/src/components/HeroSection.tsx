@@ -74,13 +74,13 @@ export function HeroSection() {
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 11vw, 160px)' }}>
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 8.5vw, 130px)' }}>
               MATHIS
             </h1>
             <h1
               className="font-display leading-none"
               style={{
-                fontSize: 'clamp(60px, 11vw, 160px)',
+                fontSize: 'clamp(60px, 8.5vw, 130px)',
                 color: '#0EA5E9',
               }}
             >
