@@ -382,8 +382,8 @@ function ContactForm() {
       </AnimatePresence>
 
       {/* Submit */}
-      <div>
-        <ShinyButton type="submit" disabled={status === 'sending'} className="w-full sm:w-auto justify-center">
+      <div className="flex justify-center sm:justify-start">
+        <ShinyButton type="submit" disabled={status === 'sending'} className="justify-center">
           <span className="flex items-center gap-2">
             {status === 'sending' ? (
               <>

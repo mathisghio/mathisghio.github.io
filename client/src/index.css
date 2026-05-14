@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html, body {
+  overflow-x: hidden;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -321,7 +325,7 @@
     z-index: 15 !important; /* above the z-10 content that follows (Press, Contact) */
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(-160px) !important;
+    transform: translateY(-80px) !important;
   }
 }
 
