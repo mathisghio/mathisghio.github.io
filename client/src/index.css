@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @theme inline {
@@ -325,7 +325,7 @@ html, body {
     z-index: 15 !important; /* above the z-10 content that follows (Press, Contact) */
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(-80px) !important;
+    transform: translateY(0px) !important;
   }
 }
 
