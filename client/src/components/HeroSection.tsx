@@ -67,20 +67,20 @@ export function HeroSection() {
         className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end overflow-hidden"
         style={{ top: '90px', bottom: '88px' }}
       >
-        <div className="container pb-8">
+        <div className="container pb-4">
 
           {/* Titre */}
           <div
             className="transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 8.5vw, 130px)' }}>
+            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
               MATHIS
             </h1>
             <h1
               className="font-display leading-none"
               style={{
-                fontSize: 'clamp(60px, 8.5vw, 130px)',
+                fontSize: 'clamp(60px, 10vw, 145px)',
                 color: '#0EA5E9',
               }}
             >
@@ -90,7 +90,7 @@ export function HeroSection() {
 
           {/* Badge */}
           <div
-            className="mt-5 transition-all duration-700"
+            className="mt-3 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
           >
             <span
@@ -104,7 +104,7 @@ export function HeroSection() {
 
           {/* Tagline */}
           <div
-            className="mt-5 max-w-xl transition-all duration-700"
+            className="mt-3 max-w-xl transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
@@ -114,7 +114,7 @@ export function HeroSection() {
 
           {/* Boutons côte à côte — desktop */}
           <div
-            className="mt-8 flex items-center gap-4 transition-all duration-700"
+            className="mt-5 flex items-center gap-4 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>

@@ -313,10 +313,14 @@
   }
 }
 
-/* Sections dont le contenu lamp doit descendre sur desktop (Gallery, Press, Contact) */
+/* Sections Gallery/Press/Contact : contenu lamp remonté sur desktop
+   + overflow visible pour ne pas le clipper si la traduction dépasse le bord */
 @media (min-width: 1024px) {
+  .lamp-lower-desktop {
+    overflow: visible !important;
+  }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(-140px) !important;
+    transform: translateY(-350px) !important;
   }
 }
 
