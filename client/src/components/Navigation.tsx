@@ -175,7 +175,13 @@ export function Navigation() {
     if (!target) return;
 
     const navHeight = pillTopPad + 52;
-    const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - navHeight - 8;
+    // Gallery, Press, Contact: LampContainer has min-height 65vh + content div
+    // at translateY(100px), so the visible title sits ~65vh below the section's
+    // DOM start. Add an offset so the nav lands on the title, not the section top.
+    const lampOffset = ['#gallery', '#press', '#contact'].includes(href)
+      ? Math.round(window.innerHeight * 0.65) - 196
+      : 0;
+    const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - navHeight - 8 + lampOffset;
     window.scrollTo({ top, behavior: "smooth" });
   };
 
