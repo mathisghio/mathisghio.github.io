@@ -40,7 +40,6 @@ const stackedImages: GlassCardImage[] = [
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const [isMobile] = useState(() => window.innerWidth < 1024)
   const prevVRef = useRef(0)
   const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
 
@@ -95,14 +94,23 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress])
 
-  /* Freeze touch-scroll on mobile for 3s when the video fully reveals */
+  /* Freeze scroll for 2s (wheel + touch) when the video fully reveals — desktop and mobile */
   useEffect(() => {
-    if (!revealed || !isMobile) return
-    const prevent = (e: TouchEvent) => { e.preventDefault() }
-    document.addEventListener('touchmove', prevent, { passive: false })
-    const t = setTimeout(() => document.removeEventListener('touchmove', prevent), 3000)
-    return () => { clearTimeout(t); document.removeEventListener('touchmove', prevent) }
-  }, [revealed, isMobile])
+    if (!revealed) return
+    const preventWheel = (e: WheelEvent) => { e.preventDefault() }
+    const preventTouch = (e: TouchEvent) => { e.preventDefault() }
+    document.addEventListener('wheel', preventWheel, { passive: false })
+    document.addEventListener('touchmove', preventTouch, { passive: false })
+    const t = setTimeout(() => {
+      document.removeEventListener('wheel', preventWheel)
+      document.removeEventListener('touchmove', preventTouch)
+    }, 2000)
+    return () => {
+      clearTimeout(t)
+      document.removeEventListener('wheel', preventWheel)
+      document.removeEventListener('touchmove', preventTouch)
+    }
+  }, [revealed])
 
   /* Scroll-driven reveal animation */
   return (

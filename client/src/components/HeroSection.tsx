@@ -64,7 +64,7 @@ export function HeroSection() {
           Les deux boutons sont côte à côte (flex-row) comme à l'origine.
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end"
+        className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end overflow-hidden"
         style={{ top: '90px', bottom: '88px' }}
       >
         <div className="container pb-8">
