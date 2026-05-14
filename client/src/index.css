@@ -322,10 +322,11 @@ html, body {
 @media (min-width: 1024px) {
   .lamp-lower-desktop {
     overflow: visible !important;
-    z-index: 15 !important; /* above the z-10 content that follows (Press, Contact) */
+    z-index: 15 !important;
+    min-height: 60vh !important; /* réduit la hauteur → rapproche de la section précédente */
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(0px) !important;
+    transform: translateY(20px) !important; /* légèrement sous la position naturelle */
   }
 }
 
