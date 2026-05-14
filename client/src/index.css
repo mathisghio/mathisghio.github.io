@@ -320,7 +320,7 @@
     overflow: visible !important;
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(-350px) !important;
+    transform: translateY(-240px) !important;
   }
 }
 

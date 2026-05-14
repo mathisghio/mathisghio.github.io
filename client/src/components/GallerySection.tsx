@@ -258,7 +258,7 @@ export function GallerySection() {
       </div>
 
       <div
-        className="container relative z-10 pt-4 lg:pt-0 pb-4 lg:pb-12 transition-all duration-700"
+        className="container relative z-10 pt-4 lg:pt-6 pb-4 lg:pb-12 transition-all duration-700"
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
       >
         <div className="flex flex-wrap gap-4 justify-center">
