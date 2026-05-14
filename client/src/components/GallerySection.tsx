@@ -194,7 +194,7 @@ export function GallerySection() {
       <div className="absolute inset-0 z-[2] pointer-events-none"
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
-      <div className="relative z-10">
+      <div className="relative z-[15]">
         <LampContainer className="min-h-[58vh] lg:min-h-[80vh] lamp-lower-desktop" bgColor="transparent">
           <motion.div
             initial={{ opacity: 0.5, y: 60 }}

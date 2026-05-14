@@ -318,9 +318,10 @@
 @media (min-width: 1024px) {
   .lamp-lower-desktop {
     overflow: visible !important;
+    z-index: 15 !important; /* above the z-10 content that follows (Press, Contact) */
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(-240px) !important;
+    transform: translateY(-160px) !important;
   }
 }
 
