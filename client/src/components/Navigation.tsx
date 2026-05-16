@@ -178,9 +178,16 @@ export function Navigation() {
     // Gallery, Press, Contact: LampContainer has min-height 65vh + content div
     // at translateY(100px), so the visible title sits ~65vh below the section's
     // DOM start. Add an offset so the nav lands on the title, not the section top.
-    const lampOffset = ['#gallery', '#press', '#contact'].includes(href)
-      ? Math.round(window.innerHeight * 0.65) - 196
-      : 0;
+    const lampOffset = (() => {
+      if (!['#gallery', '#press', '#contact'].includes(href)) return 0;
+      const section = document.querySelector(href) as HTMLElement | null;
+      if (!section) return 0;
+      const firstH2 = section.querySelector('h2');
+      if (!firstH2) return 0;
+      // Subtract 60 to target the final post-animation position
+      // (whileInView animates from y:60 → y:0, displacing getBoundingClientRect by +60 before it fires)
+      return firstH2.getBoundingClientRect().top - section.getBoundingClientRect().top - 60;
+    })();
     const top = (target as HTMLElement).getBoundingClientRect().top + window.scrollY - navHeight - 8 + lampOffset;
     window.scrollTo({ top, behavior: "smooth" });
   };

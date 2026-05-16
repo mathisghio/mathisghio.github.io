@@ -326,7 +326,7 @@ html, body {
     min-height: 65vh !important;
   }
   .lamp-lower-desktop > div:last-child {
-    transform: translateY(100px) !important;
+    transform: translateY(60px) !important;
   }
 }
 

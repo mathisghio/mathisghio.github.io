@@ -221,7 +221,7 @@ export function PressSection() {
       </LampContainer>
 
       {/* ── Content ── */}
-      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:mt-[80px]">
 
         {/* Intro text */}
         <div
