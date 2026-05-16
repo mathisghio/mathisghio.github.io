@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect, useRef, CSSProperties } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronUp } from "lucide-react";
 
 const NAV_ITEMS = [
   { label: "About",        href: "#about" },
@@ -30,6 +30,7 @@ const WING_VISIBLE = 0.95;
 
 export function Navigation() {
   const [scrolled,      setScrolled]      = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const [menuOpen,      setMenuOpen]      = useState(false);
   const [activeIndex,   setActiveIndex]   = useState(-1);
   const [pillHovered,   setPillHovered]   = useState(false);
@@ -75,7 +76,10 @@ export function Navigation() {
 
   /* ── Scroll detection ── */
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 80);
+    const fn = () => {
+      setScrolled(window.scrollY > 80);
+      setShowScrollTop(window.scrollY > 400);
+    };
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -316,6 +320,35 @@ export function Navigation() {
           </button>
         </div>
       </nav>
+
+      {/* ── Scroll to top (desktop) ── */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Retour en haut"
+        className="hidden lg:flex"
+        style={{
+          position:       "fixed",
+          bottom:         28,
+          right:          28,
+          zIndex:         50,
+          width:          40,
+          height:         40,
+          borderRadius:   20,
+          alignItems:     "center",
+          justifyContent: "center",
+          background:     "rgba(14,165,233,0.12)",
+          border:         "1px solid rgba(14,165,233,0.3)",
+          color:          "rgba(14,165,233,0.85)",
+          cursor:         "pointer",
+          backdropFilter: "blur(8px)",
+          transition:     "opacity 0.25s ease, transform 0.25s ease",
+          opacity:        showScrollTop ? 1 : 0,
+          transform:      showScrollTop ? "translateY(0)" : "translateY(10px)",
+          pointerEvents:  showScrollTop ? "auto" : "none",
+        }}
+      >
+        <ChevronUp size={18} />
+      </button>
 
       {/* ── Mobile menu ── */}
       <div

@@ -106,7 +106,7 @@ function ScrollRevealVideo() {
     const t = setTimeout(() => {
       document.removeEventListener('wheel', preventWheel)
       document.removeEventListener('touchmove', preventTouch)
-    }, 2000)
+    }, 1000)
     return () => {
       clearTimeout(t)
       document.removeEventListener('wheel', preventWheel)
@@ -163,7 +163,8 @@ export function GallerySection() {
   const [hoveredIdx,   setHoveredIdx]   = useState<number | null>(null)
   const [igVisible,    setIgVisible]    = useState(false)
   const [lightboxIdx,  setLightboxIdx]  = useState<number | null>(null)
-  const igRef = useRef<HTMLDivElement>(null)
+  const igRef        = useRef<HTMLDivElement>(null)
+  const touchStartX  = useRef<number | null>(null)
 
   /* Keyboard navigation + Escape for lightbox */
   useEffect(() => {
@@ -257,7 +258,12 @@ export function GallerySection() {
                 loading="lazy"
               />
               <div className="absolute inset-0 transition-opacity duration-300"
-                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)', opacity: hoveredIdx === i ? 1 : 0 }} />
+                style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(8,9,14,0.7) 100%)', opacity: hoveredIdx === i ? 1 : 0 }}>
+                <p className="hidden lg:block absolute bottom-0 left-0 right-0 px-3 pb-2 text-white/70 leading-tight"
+                  style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '0.7rem', letterSpacing: '0.01em' }}>
+                  {img.alt}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -320,6 +326,14 @@ export function GallerySection() {
             className="fixed inset-0 flex items-center justify-center"
             style={{ zIndex: 300, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
             onClick={() => setLightboxIdx(null)}
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+            onTouchEnd={(e) => {
+              if (touchStartX.current === null) return
+              const dx = e.changedTouches[0].clientX - touchStartX.current
+              touchStartX.current = null
+              if (dx > 50) setLightboxIdx(i => i !== null ? Math.max(0, i - 1) : null)
+              else if (dx < -50) setLightboxIdx(i => i !== null ? Math.min(galleryImages.length - 1, i + 1) : null)
+            }}
           >
             {/* Image */}
             <motion.img
