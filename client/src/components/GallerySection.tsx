@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
-import { ShinyButton } from '@/components/ui/shiny-button' 
+import { ShinyButton } from '@/components/ui/shiny-button'
 import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
 import { VideoPlayerPro } from '@/components/VideoPlayerPro'
+import { trackGalleryClick, trackSocialClick, trackVideoPlay, trackVideoEnd } from '@/lib/analytics'
 
 /* q_auto pour la vidéo → Cloudinary choisit le bitrate optimal */
 const MEDIA_VIDEO        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
@@ -126,7 +128,7 @@ function ScrollRevealVideo() {
         <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 900px)', margin: '0 auto' }}>
           <motion.div style={{ clipPath }} className="overflow-hidden">
             {revealed ? (
-              <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay />
+              <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay onPlayCallback={trackVideoPlay} onEndedCallback={trackVideoEnd} />
             ) : (
               <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
             )}
@@ -158,9 +160,27 @@ function ScrollRevealVideo() {
 
 export function GallerySection() {
   const { ref, inView } = useInView(0.05)
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
-  const [igVisible,  setIgVisible]  = useState(false)
+  const [hoveredIdx,   setHoveredIdx]   = useState<number | null>(null)
+  const [igVisible,    setIgVisible]    = useState(false)
+  const [lightboxIdx,  setLightboxIdx]  = useState<number | null>(null)
   const igRef = useRef<HTMLDivElement>(null)
+
+  /* Keyboard navigation + Escape for lightbox */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxIdx(null)
+      else if (e.key === 'ArrowLeft')  setLightboxIdx(i => i !== null ? Math.max(0, i - 1) : null)
+      else if (e.key === 'ArrowRight') setLightboxIdx(i => i !== null ? Math.min(galleryImages.length - 1, i + 1) : null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  /* Body scroll lock when lightbox is open */
+  useEffect(() => {
+    document.body.style.overflow = lightboxIdx !== null ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [lightboxIdx])
 
   /* Load LightWidget script + iframe only when section is ~400px away */
   useEffect(() => {
@@ -228,6 +248,7 @@ export function GallerySection() {
               style={{ border: '1px solid rgba(14,165,233,0.08)', transition: 'all 0.4s ease', transform: hoveredIdx === i ? 'scale(1.02)' : 'scale(1)', zIndex: hoveredIdx === i ? 10 : 1 }}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
+              onClick={() => { setLightboxIdx(i); trackGalleryClick(img.alt) }}
             >
               <img
                 src={img.src} alt={img.alt}
@@ -262,8 +283,8 @@ export function GallerySection() {
         style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
       >
         <div className="flex flex-wrap gap-4 justify-center">
-          <ShinyButton href="https://instagram.com/mathisghio" target="_blank" rel="noopener noreferrer">@mathisghio</ShinyButton>
-          <ShinyButton href="https://www.facebook.com/MathisGhioWing" target="_blank" rel="noopener noreferrer" className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]">
+          <ShinyButton href="https://instagram.com/mathisghio" target="_blank" rel="noopener noreferrer" onClick={() => trackSocialClick('instagram')}>@mathisghio</ShinyButton>
+          <ShinyButton href="https://www.facebook.com/MathisGhioWing" target="_blank" rel="noopener noreferrer" className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]" onClick={() => trackSocialClick('facebook')}>
             Facebook
           </ShinyButton>
         </div>
@@ -286,6 +307,77 @@ export function GallerySection() {
       </div>
 
       <div className="pb-2 lg:pb-6" />
+
+      {/* ── Lightbox ── */}
+      <AnimatePresence>
+        {lightboxIdx !== null && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 flex items-center justify-center"
+            style={{ zIndex: 300, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
+            onClick={() => setLightboxIdx(null)}
+          >
+            {/* Image */}
+            <motion.img
+              key={lightboxIdx}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.18 }}
+              src={galleryImages[lightboxIdx].src}
+              alt={galleryImages[lightboxIdx].alt}
+              onClick={e => e.stopPropagation()}
+              draggable={false}
+              style={{ maxWidth: '90vw', maxHeight: '82vh', objectFit: 'contain', borderRadius: 6, display: 'block', boxShadow: '0 24px 80px rgba(0,0,0,0.7)' }}
+            />
+
+            {/* Close */}
+            <button
+              onClick={() => setLightboxIdx(null)}
+              aria-label="Fermer"
+              style={{ position: 'fixed', top: 20, right: 20, width: 40, height: 40, borderRadius: 20, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.8)', cursor: 'pointer' }}
+            >
+              <X size={16} />
+            </button>
+
+            {/* Prev */}
+            {lightboxIdx > 0 && (
+              <button
+                onClick={e => { e.stopPropagation(); setLightboxIdx(i => i !== null ? i - 1 : null) }}
+                aria-label="Photo précédente"
+                style={{ position: 'fixed', left: 16, top: '50%', transform: 'translateY(-50%)', width: 44, height: 44, borderRadius: 22, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.8)', cursor: 'pointer' }}
+              >
+                <ChevronLeft size={22} />
+              </button>
+            )}
+
+            {/* Next */}
+            {lightboxIdx < galleryImages.length - 1 && (
+              <button
+                onClick={e => { e.stopPropagation(); setLightboxIdx(i => i !== null ? i + 1 : null) }}
+                aria-label="Photo suivante"
+                style={{ position: 'fixed', right: 16, top: '50%', transform: 'translateY(-50%)', width: 44, height: 44, borderRadius: 22, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.8)', cursor: 'pointer' }}
+              >
+                <ChevronRight size={22} />
+              </button>
+            )}
+
+            {/* Caption + counter */}
+            <div style={{ position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, pointerEvents: 'none' }}>
+              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, fontFamily: 'DM Sans, sans-serif', textAlign: 'center', maxWidth: '80vw', margin: 0 }}>
+                {galleryImages[lightboxIdx].alt}
+              </p>
+              <p style={{ color: 'rgba(255,255,255,0.22)', fontSize: 11, fontFamily: 'DM Sans, sans-serif', letterSpacing: '0.1em', margin: 0 }}>
+                {lightboxIdx + 1} / {galleryImages.length}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

@@ -35,3 +35,29 @@ export function trackEmailClick() {
   })
   window.fbq?.('trackCustom', 'EmailClick', { content_name: 'contact@mathisghio.com' })
 }
+
+export function trackGalleryClick(imageAlt: string) {
+  window.gtag?.('event', 'select_content', {
+    content_type: 'gallery_image',
+    item_id: imageAlt,
+  })
+  window.fbq?.('trackCustom', 'GalleryClick', { content_name: imageAlt })
+}
+
+export function trackSocialClick(platform: string) {
+  window.gtag?.('event', 'click', {
+    event_category: 'social',
+    event_label: platform,
+  })
+  window.fbq?.('trackCustom', 'SocialClick', { platform })
+}
+
+export function trackVideoPlay() {
+  window.gtag?.('event', 'video_start', { event_category: 'media' })
+  window.fbq?.('trackCustom', 'VideoPlay')
+}
+
+export function trackVideoEnd() {
+  window.gtag?.('event', 'video_complete', { event_category: 'media' })
+  window.fbq?.('trackCustom', 'VideoComplete')
+}

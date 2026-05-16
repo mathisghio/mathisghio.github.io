@@ -63,7 +63,7 @@ export function SportSection() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           <div className="relative transition-all duration-1000" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-30px)', transitionDelay: '200ms' }}>
             <div className="rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14,165,233,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)', aspectRatio: '1/1' }}>
-              <img src={FOIL_IMG} alt="Mathis Ghio racing at world championship speed" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} />
+              <img src={FOIL_IMG} alt="Mathis Ghio racing at world championship speed" className="w-full h-full object-cover" style={{ filter: 'saturate(1.2) contrast(1.1)' }} loading="lazy" />
             </div>
             {/* Desktop badge — overlapping image */}
             <div className="absolute -right-4 top-1/2 -translate-y-1/2 p-5 rounded-sm hidden lg:block"

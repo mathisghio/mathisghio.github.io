@@ -20,6 +20,8 @@ export interface VideoPlayerProProps {
   poster?: string;
   sound?: boolean;
   autoplay?: boolean;
+  onPlayCallback?: () => void;
+  onEndedCallback?: () => void;
 }
 
 /* ── Audio ── */
@@ -239,6 +241,8 @@ export function VideoPlayerPro({
   poster,
   sound = true,
   autoplay = false,
+  onPlayCallback,
+  onEndedCallback,
 }: VideoPlayerProProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -613,6 +617,7 @@ export function VideoPlayerPro({
             setPlaying(true);
             setErr(null);
             setBuffering(false);
+            onPlayCallback?.();
           }}
           onPause={() => setPlaying(false)}
           onWaiting={() => setBuffering(true)}
@@ -625,6 +630,7 @@ export function VideoPlayerPro({
           onEnded={() => {
             setEnded(true);
             setPlaying(false);
+            onEndedCallback?.();
           }}
           onError={() => {
             const c = videoRef.current?.error?.code;

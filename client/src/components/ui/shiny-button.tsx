@@ -15,7 +15,7 @@ interface ShinyButtonProps {
 export function ShinyButton({ children, onClick, className = "", href, target, rel, type = 'button', disabled }: ShinyButtonProps) {
   if (href) {
     return (
-      <a href={href} target={target} rel={rel} className={`shiny-cta ${className}`}>
+      <a href={href} target={target} rel={rel} onClick={onClick} className={`shiny-cta ${className}`}>
         <span>{children}</span>
       </a>
     )

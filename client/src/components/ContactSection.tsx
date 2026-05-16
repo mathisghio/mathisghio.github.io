@@ -4,23 +4,24 @@ import { Instagram, Facebook, Linkedin, Send, Mail, MapPin, Clock, ArrowUpRight 
 import { LampContainer } from '@/components/ui/lamp'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
-import { trackEmailClick, trackLead, trackFormStart } from '@/lib/analytics'
+import { trackEmailClick, trackLead, trackFormStart, trackSocialClick } from '@/lib/analytics'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xqezkppz'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const SOCIAL_CHANNELS = [
-  { href: 'https://instagram.com/mathisghio',                         Icon: Instagram, label: '@mathisghio'     },
-  { href: 'https://www.facebook.com/MathisGhioWing/',                 Icon: Facebook,  label: 'MathisGhioWing' },
-  { href: 'https://www.facebook.com/profile.php?id=100004821571602',  Icon: Facebook,  label: 'Facebook perso' },
-  { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',        Icon: Linkedin,  label: 'Mathis Ghio'   },
+  { href: 'https://instagram.com/mathisghio',                         Icon: Instagram, label: '@mathisghio',     platform: 'instagram' },
+  { href: 'https://www.facebook.com/MathisGhioWing/',                 Icon: Facebook,  label: 'MathisGhioWing', platform: 'facebook'  },
+  { href: 'https://www.facebook.com/profile.php?id=100004821571602',  Icon: Facebook,  label: 'Facebook perso', platform: 'facebook'  },
+  { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a',        Icon: Linkedin,  label: 'Mathis Ghio',    platform: 'linkedin'  },
 ]
 
-function SocialPill({ href, Icon, label }: { href: string; Icon: React.ElementType; label: string }) {
+function SocialPill({ href, Icon, label, onClick }: { href: string; Icon: React.ElementType; label: string; onClick?: () => void }) {
   const [hov, setHov] = useState(false)
   return (
     <a
       href={href} target="_blank" rel="noopener noreferrer"
+      onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'flex', alignItems: 'center', gap: 6,
@@ -484,8 +485,8 @@ export function ContactSection() {
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
                 <p className="font-body text-xs uppercase tracking-widest mb-4" style={{ color: 'rgba(148,163,184,0.35)', letterSpacing: '0.18em' }}>Follow</p>
                 <div className="flex flex-wrap gap-2">
-                  {SOCIAL_CHANNELS.map(({ href, Icon, label }) => (
-                    <SocialPill key={href} href={href} Icon={Icon} label={label} />
+                  {SOCIAL_CHANNELS.map(({ href, Icon, label, platform }) => (
+                    <SocialPill key={href} href={href} Icon={Icon} label={label} onClick={() => trackSocialClick(platform)} />
                   ))}
                 </div>
               </div>
@@ -537,11 +538,12 @@ export function ContactSection() {
             </p>
             <div className="flex items-center gap-4">
               {[
-                { href: 'https://instagram.com/mathisghio', icon: Instagram },
-                { href: 'https://www.facebook.com/MathisGhioWing', icon: Facebook },
-                { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a', icon: Linkedin },
+                { href: 'https://instagram.com/mathisghio', icon: Instagram, platform: 'instagram' },
+                { href: 'https://www.facebook.com/MathisGhioWing', icon: Facebook, platform: 'facebook' },
+                { href: 'https://fr.linkedin.com/in/mathis-ghio-93075515a', icon: Linkedin, platform: 'linkedin' },
               ].map((social, i) => (
                 <a key={i} href={social.href} target="_blank" rel="noopener noreferrer"
+                  onClick={() => trackSocialClick(social.platform)}
                   className="transition-all duration-200 hover:text-cyan-400"
                   style={{ color: 'rgba(148,163,184,0.4)' }}>
                   <social.icon size={16} />
