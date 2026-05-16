@@ -13,7 +13,7 @@ const DOCS = [
       'Full press kit including athlete biography, competition results, high-resolution photos, and official statistics for media and press use.',
     icon: FileText,
     color: '#0EA5E9',
-    url: 'https://canva.link/s85g1kf1ihu4mgu',
+    url: 'https://canva.link/zhyha69b76tu16b',
     cta: 'Open Pressbook',
   },
   {
@@ -24,7 +24,7 @@ const DOCS = [
       'Detailed sponsorship proposal including audience reach, brand exposure opportunities, activation formats, and partnership packages.',
     icon: Handshake,
     color: '#F59E0B',
-    url: 'https://canva.link/zhyha69b76tu16b',
+    url: 'https://canva.link/s85g1kf1ihu4mgu',
     cta: 'Open Partnership File',
   },
 ]
