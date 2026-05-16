@@ -178,6 +178,9 @@ html, body {
   --shadow-size: 2px;
   --transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
   isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -323,7 +326,7 @@ html, body {
   .lamp-lower-desktop {
     overflow: visible !important;
     z-index: 15 !important;
-    min-height: 55vh !important;
+    min-height: 65vh !important;
   }
   .lamp-lower-desktop > div:last-child {
     transform: translateY(60px) !important;
