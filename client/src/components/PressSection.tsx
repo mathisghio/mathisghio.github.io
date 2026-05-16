@@ -49,15 +49,11 @@ function DocCard({
         transitionDelay: `${delay}ms`,
       }}
     >
-      <a
-        href={doc.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group block rounded-sm card-hover"
+      <div
+        className="rounded-sm"
         style={{
           background: 'rgba(255,255,255,0.02)',
           border: `1px solid ${doc.color}20`,
-          textDecoration: 'none',
           overflow: 'hidden',
           position: 'relative',
         }}
@@ -65,17 +61,7 @@ function DocCard({
         {/* Top glow edge */}
         <div
           className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${doc.color}60, transparent)`,
-          }}
-        />
-
-        {/* Hover background glow */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(ellipse at 50% 0%, ${doc.color}08 0%, transparent 60%)`,
-          }}
+          style={{ background: `linear-gradient(90deg, transparent, ${doc.color}60, transparent)` }}
         />
 
         <div className="relative p-5 sm:p-8 lg:p-10">
@@ -85,10 +71,7 @@ function DocCard({
               {/* Icon badge */}
               <div
                 className="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0"
-                style={{
-                  background: `${doc.color}10`,
-                  border: `1px solid ${doc.color}30`,
-                }}
+                style={{ background: `${doc.color}10`, border: `1px solid ${doc.color}30` }}
               >
                 <Icon size={22} style={{ color: doc.color }} />
               </div>
@@ -101,12 +84,7 @@ function DocCard({
                 </div>
                 <h3
                   className="font-heading font-bold text-xl uppercase tracking-wider"
-                  style={{
-                    fontFamily: 'Barlow Condensed, sans-serif',
-                    color: doc.color,
-                    letterSpacing: '0.12em',
-                    lineHeight: 1,
-                  }}
+                  style={{ fontFamily: 'Barlow Condensed, sans-serif', color: doc.color, letterSpacing: '0.12em', lineHeight: 1 }}
                 >
                   {doc.label}
                 </h3>
@@ -119,9 +97,9 @@ function DocCard({
               </div>
             </div>
 
-            {/* External link indicator */}
+            {/* Canva badge */}
             <div
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm opacity-60 group-hover:opacity-100 transition-opacity duration-300 text-[0.75rem] sm:text-[0.7rem]"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm flex-shrink-0 text-[0.75rem] sm:text-[0.7rem]"
               style={{
                 background: `${doc.color}0e`,
                 border: `1px solid ${doc.color}25`,
@@ -129,7 +107,6 @@ function DocCard({
                 fontFamily: 'Barlow Condensed, sans-serif',
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                flexShrink: 0,
               }}
             >
               <ExternalLink size={11} />
@@ -145,32 +122,22 @@ function DocCard({
             {doc.description}
           </p>
 
-          {/* CTA row */}
-          <div className="flex items-center justify-between">
-            <div
-              className="flex items-center gap-2 font-heading font-bold uppercase tracking-wider text-sm transition-all duration-300 group-hover:gap-3"
-              style={{
-                fontFamily: 'Barlow Condensed, sans-serif',
-                color: doc.color,
-                letterSpacing: '0.1em',
-              }}
-            >
-              <span>{doc.cta}</span>
-              <ExternalLink
-                size={14}
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </div>
-
-            <p
-              className="font-body text-xs"
-              style={{ color: 'rgba(148,163,184,0.3)', letterSpacing: '0.05em' }}
-            >
-              Powered by Canva
-            </p>
-          </div>
+          {/* CTA button */}
+          <ShinyButton
+            href={doc.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={doc.id === 'partnership'
+              ? '[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]'
+              : ''}
+          >
+            <span className="flex items-center gap-2">
+              <ExternalLink size={13} style={{ flexShrink: 0 }} />
+              {doc.cta}
+            </span>
+          </ShinyButton>
         </div>
-      </a>
+      </div>
     </div>
   )
 }
@@ -221,7 +188,7 @@ export function PressSection() {
       </LampContainer>
 
       {/* ── Content ── */}
-      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:mt-[80px]">
+      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:-mt-[60px]">
 
         {/* Intro text */}
         <div
