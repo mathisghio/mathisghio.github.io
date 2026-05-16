@@ -436,7 +436,7 @@ export function ContactSection() {
           </motion.div>
         </LampContainer>
 
-        <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:-mt-[60px]">
+        <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:mt-[28px]">
           <div
             className="grid grid-cols-1 lg:grid-cols-[1fr_1.7fr] gap-6 lg:gap-8 transition-all duration-700"
             style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(24px)' }}
