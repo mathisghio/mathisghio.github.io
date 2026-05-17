@@ -114,7 +114,7 @@ export function GoatSection() {
           className="mt-7 lg:mt-12 max-w-2xl mx-auto"
         >
           <p className="font-body text-lg" style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7, letterSpacing: '0.01em' }}>
-            Five consecutive world titles. No one has come close.
+            Five consecutive world titles.<br className="lg:hidden" /> No one has come close.
           </p>
         </motion.div>
 
