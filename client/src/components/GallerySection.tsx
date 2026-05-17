@@ -96,26 +96,6 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress])
 
-  /* Freeze scroll for 1s when the video fully reveals.
-     position:fixed + top:-scrollY is the only reliable technique on iOS Safari.
-     overflow:hidden alone does not prevent touch-scroll on iOS. */
-  useEffect(() => {
-    if (!revealed) return
-    const scrollY = window.scrollY
-    const unlock = () => {
-      document.body.style.position = ''
-      document.body.style.top      = ''
-      document.body.style.width    = ''
-      document.body.style.overflow = ''
-      window.scrollTo(0, scrollY)
-    }
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.top      = `-${scrollY}px`
-    document.body.style.width    = '100%'
-    const t = setTimeout(unlock, 1000)
-    return () => { clearTimeout(t); unlock() }
-  }, [revealed])
 
   /* Scroll-driven reveal animation */
   return (

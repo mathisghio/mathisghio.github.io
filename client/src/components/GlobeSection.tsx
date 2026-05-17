@@ -297,12 +297,11 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
 
   useEffect(()=>{
     if (hoveredId===null) {
-      if (releasePending3DRef.current) {
-        releasePending3DRef.current=false
-        lockedIdRef3D.current=null
-        targetRotRef.current=null
-        targetScaleRef.current=1
-      }
+      if (lockTimerRef3D.current) { clearTimeout(lockTimerRef3D.current); lockTimerRef3D.current=null }
+      releasePending3DRef.current=false
+      lockedIdRef3D.current=null
+      targetRotRef.current=null
+      // Keep targetScaleRef as-is so the zoom persists after mouse-leave
       return
     }
     if (lockedIdRef3D.current===hoveredId) return
