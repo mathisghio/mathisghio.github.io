@@ -639,7 +639,7 @@ html, body {
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 15%; transform-origin: center 15%; }
+.career-img-windsurf     { object-position: center 25%; transform-origin: center 25%; }
 .career-img-podium-nat   { object-position: center 5%; }
 .career-img-3wt1         { transform-origin: center 28%; object-position: center 28%; }
 .career-pos-optimist     { object-position: center 50%; }

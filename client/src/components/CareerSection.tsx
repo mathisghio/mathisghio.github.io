@@ -65,7 +65,7 @@ const timelineData = [
             alt="1st World Title windsurfing"
             className={imgShadow}
             loading="lazy"
-            style={{ objectPosition: 'center 10%' }}
+            style={{ objectPosition: 'center 5%' }}
           />
 
         </div>
