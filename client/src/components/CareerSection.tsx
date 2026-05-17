@@ -9,8 +9,8 @@ import { SectionHeader } from '@/components/SectionHeader'
  * imgZoomInner — classe de l'img à l'intérieur du wrapper zoom
  */
 const SHADOW = 'shadow-[0_0_24px_rgba(34,42,53,0.06),_0_1px_1px_rgba(0,0,0,0.05),_0_0_0_1px_rgba(34,42,53,0.04),_0_0_4px_rgba(34,42,53,0.08),_0_16px_68px_rgba(47,48,55,0.05),_0_1px_0_rgba(255,255,255,0.1)_inset]'
-const imgShadow  = `rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full ${SHADOW}`
-const imgZoomWrap  = `rounded-lg overflow-hidden h-20 md:h-44 lg:h-60 w-full ${SHADOW}`
+const imgShadow  = `rounded-sm object-cover h-20 md:h-44 lg:h-60 w-full ${SHADOW}`
+const imgZoomWrap  = `rounded-sm overflow-hidden h-20 md:h-44 lg:h-60 w-full ${SHADOW}`
 const imgZoomInner = 'w-full h-full object-cover'
 
 const timelineData = [

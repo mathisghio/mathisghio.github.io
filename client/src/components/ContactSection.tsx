@@ -534,7 +534,7 @@ export function ContactSection() {
               </span>
             </div>
             <p className="font-body text-xs text-center" style={{ color: 'rgba(148,163,184,0.4)' }}>
-              © 2026 Mathis Ghio · Wingfoil Racing · Robert Hajduk · Jean Souville · JM. Cornu · Iset Segura
+              © 2026 Mathis Ghio · Wingfoil Racing<br className="sm:hidden" /><span className="hidden sm:inline"> · </span>Photos&nbsp;: Robert Hajduk · Jean Souville · JM. Cornu · Iset Segura
             </p>
             <div className="flex items-center gap-4">
               {[
