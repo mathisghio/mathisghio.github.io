@@ -40,7 +40,10 @@ export function GoatSection() {
     <section id="goat" ref={ref} className="section-edge-fade relative py-10 lg:py-24 overflow-hidden" style={{ background: '#08090E' }}>
       <div role="img" aria-label="5th World Title podium" className="goat-podium-bg absolute inset-0 z-0"
         style={{ backgroundImage: `url(${PODIUM_IMG})`, backgroundSize: 'cover' }} />
-      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />
+      {/* Desktop: lighter overlay to let the photo breathe */}
+      <div className="absolute inset-0 z-0 hidden lg:block" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.55), rgba(8,9,14,0.3), rgba(8,9,14,0.7))' }} />
+      {/* Mobile: original darker overlay */}
+      <div className="absolute inset-0 z-0 lg:hidden" style={{ background: 'linear-gradient(to bottom, rgba(8,9,14,0.8), rgba(8,9,14,0.6), rgba(8,9,14,0.9))' }} />
       {[...Array(6)].map((_, i) => (
         <div key={i} className="absolute pointer-events-none" style={{ top: `${15 + i * 14}%`, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent, rgba(14, 165, 233, ${0.03 + i * 0.01}), transparent)` }} />
       ))}
