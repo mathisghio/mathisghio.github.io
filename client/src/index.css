@@ -652,7 +652,7 @@ html, body {
 .about-photo-wrap        { aspect-ratio: 4/5; }
 .about-photo-img         { object-position: center 20%; }
 @media (max-width: 1023px) {
-  .career-img-windsurf   { object-position: center 5%; transform-origin: center 5%; }
+  .career-img-windsurf   { object-position: center 13%; transform-origin: center 13%; }
   .career-img-podium-nat { object-position: center 10%; }
   .career-img-3wt1       { transform-origin: center 20%; object-position: center 20%; }
   .career-pos-optimist   { object-position: center 30%; }

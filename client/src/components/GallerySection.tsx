@@ -96,21 +96,24 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress])
 
-  /* Freeze scroll for 2s (wheel + touch) when the video fully reveals — desktop and mobile */
+  /* Freeze scroll for 1s when the video fully reveals — body overflow for iOS Safari + wheel/touch fallback */
   useEffect(() => {
     if (!revealed) return
     const preventWheel = (e: WheelEvent) => { e.preventDefault() }
     const preventTouch = (e: TouchEvent) => { e.preventDefault() }
     document.addEventListener('wheel', preventWheel, { passive: false })
     document.addEventListener('touchmove', preventTouch, { passive: false })
+    document.body.style.overflow = 'hidden'
     const t = setTimeout(() => {
       document.removeEventListener('wheel', preventWheel)
       document.removeEventListener('touchmove', preventTouch)
+      document.body.style.overflow = ''
     }, 1000)
     return () => {
       clearTimeout(t)
       document.removeEventListener('wheel', preventWheel)
       document.removeEventListener('touchmove', preventTouch)
+      document.body.style.overflow = ''
     }
   }, [revealed])
 
