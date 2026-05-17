@@ -300,8 +300,11 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       if (lockTimerRef3D.current) { clearTimeout(lockTimerRef3D.current); lockTimerRef3D.current=null }
       releasePending3DRef.current=false
       lockedIdRef3D.current=null
-      targetRotRef.current=null
-      // Keep targetScaleRef as-is so the zoom persists after mouse-leave
+      // Keep zoom; finish rotating to marker for 1s then resume auto-rotation
+      lockTimerRef3D.current=setTimeout(()=>{
+        lockTimerRef3D.current=null
+        targetRotRef.current=null
+      }, 1000)
       return
     }
     if (lockedIdRef3D.current===hoveredId) return
@@ -312,18 +315,6 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     lockedIdRef3D.current=hoveredId
     targetRotRef.current=[-comp.lng, Math.max(-70,Math.min(70,-comp.lat))]
     targetScaleRef.current=1.7
-    lockTimerRef3D.current=setTimeout(()=>{
-      lockTimerRef3D.current=null
-      if (hoveredIdRef.current===lockedIdRef3D.current) {
-        // Mouse still on marker → stay zoomed, zoom out on next mouse-leave
-        releasePending3DRef.current=true
-      } else {
-        // Mouse already left → zoom out now
-        lockedIdRef3D.current=null
-        targetRotRef.current=null
-        targetScaleRef.current=1
-      }
-    },5000)
   },[hoveredId])
 
   useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
@@ -491,7 +482,9 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       if (!e.ctrlKey) return
       e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
-      scaleRef.current=Math.max(0.6,Math.min(4,scaleRef.current*factor))
+      const newScale=Math.max(0.6,Math.min(4,targetScaleRef.current*factor))
+      scaleRef.current=newScale
+      targetScaleRef.current=newScale
     }
 
     canvas.addEventListener('mousedown', onMouseDown)
@@ -636,17 +629,12 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     const {w,h}=dimsRef.current
     if (w===0) return
     if (hoveredId===null) {
-      // Mouse left — zoom out only if 3s already elapsed (releasePending) or not locked at all
-      if (releasePendingRef.current) {
-        releasePendingRef.current=false
-        lockedIdRef.current=null
-        targetViewRef.current={k:1,tx:0,ty:0}
-      }
-      // else: still within the 3s lock — timer will decide
+      if (lockTimerRef.current) { clearTimeout(lockTimerRef.current); lockTimerRef.current=null }
+      releasePendingRef.current=false
+      // Keep zoom and position — reset only when user manually pans/zooms or hovers a new marker
       return
     }
     if (lockedIdRef.current===hoveredId) return
-    // New comp: cancel previous timer and re-lock
     if (lockTimerRef.current) { clearTimeout(lockTimerRef.current); lockTimerRef.current=null }
     releasePendingRef.current=false
     const comp=COMPS.find(c=>c.id===hoveredId)
@@ -658,17 +646,6 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     lockedIdRef.current=hoveredId
     const K=3.5
     targetViewRef.current={k:K, tx:w/2-pt[0]*K, ty:h/2-pt[1]*K}
-    lockTimerRef.current=setTimeout(()=>{
-      lockTimerRef.current=null
-      if (hoveredIdRef.current===lockedIdRef.current) {
-        // Mouse still on marker after 3s → stay zoomed, zoom out on next mouse-leave
-        releasePendingRef.current=true
-      } else {
-        // Mouse already left → zoom out now
-        lockedIdRef.current=null
-        targetViewRef.current={k:1,tx:0,ty:0}
-      }
-    },5000)
   },[hoveredId])
 
   // Cleanup lock timer on unmount
@@ -840,6 +817,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
         tx:x-f*(x-cur.tx),
         ty:y-f*(y-cur.ty),
       }
+      lockedIdRef.current=null
       targetViewRef.current=null
     }
 
@@ -859,6 +837,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
         tx:dragStartView.tx+(x-dragStart2.x),
         ty:dragStartView.ty+(y-dragStart2.y),
       }
+      lockedIdRef.current=null
       targetViewRef.current=null
     }
 
