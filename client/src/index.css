@@ -639,7 +639,7 @@ html, body {
 }
 
 /* ── Responsive image & background positioning (desktop = dc743a7 / mobile override) ── */
-.career-img-windsurf     { object-position: center 5%; transform-origin: center 5%; }
+.career-img-windsurf     { object-position: center 30%; transform-origin: center 30%; }
 .career-img-podium-nat   { object-position: center 5%; }
 .career-img-3wt1         { transform-origin: center 28%; object-position: center 28%; }
 .career-pos-optimist     { object-position: center 50%; }
@@ -648,7 +648,7 @@ html, body {
 .career-pos-1st-title    { object-position: center 5%; }
 .career-pos-1st-podium   { object-position: center 35%; }
 .goat-podium-bg          { background-position: center 20%; opacity: 0.35; filter: saturate(0.6); }
-.about-hero-bg           { background-position: center; }
+.about-hero-bg           { background-position: 65% center; }
 .about-photo-wrap        { aspect-ratio: 4/5; }
 .about-photo-img         { object-position: center 20%; }
 @media (max-width: 1023px) {
