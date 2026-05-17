@@ -325,7 +325,7 @@ export function Navigation() {
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Retour en haut"
-        className="hidden lg:flex"
+        className="flex"
         style={{
           position:       "fixed",
           bottom:         28,

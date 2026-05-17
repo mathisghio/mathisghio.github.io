@@ -118,42 +118,12 @@ export function GoatSection() {
           </p>
         </motion.div>
 
-        {/* Stats desktop — plain (dc743a7) */}
+        {/* Stats — glassmorphism cards on all screen sizes */}
         <motion.div
           variants={statContainer}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="hidden lg:grid lg:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16"
-        >
-          {[
-            { num: '5',     suffix: '×', label: 'World Championships' },
-            { num: '4',     suffix: '×', label: 'European Championships' },
-            { num: '10',    suffix: '+', label: 'World Cup Victories' },
-            { num: '41.40', suffix: '',  label: 'Knots Speed Record' },
-          ].map((s, i) => (
-            <motion.div
-              key={i}
-              variants={statItem}
-              whileHover={{ scale: 1.06, y: -4 }}
-              transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.22 }}
-              className="text-center cursor-default"
-            >
-              <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 40px rgba(245,158,11,0.5)' : '0 0 40px rgba(14,165,233,0.5)', lineHeight: 1 }}>
-                {s.num}{s.suffix}
-              </div>
-              <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.6)', letterSpacing: '0.1em' }}>
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Stats mobile — fancy cards */}
-        <motion.div
-          variants={statContainer}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="lg:hidden mt-10 grid grid-cols-2 gap-4 max-w-4xl mx-auto"
+          className="mt-10 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-4xl mx-auto"
         >
           {STATS.map((s, i) => {
             const isGold = i === 0

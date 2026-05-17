@@ -220,7 +220,7 @@ export function GallerySection() {
         s.async = true
         document.body.appendChild(s)
       }
-    }, { rootMargin: '400px' })
+    }, { rootMargin: '100px' })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
@@ -355,6 +355,9 @@ export function GallerySection() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             data-lightbox
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photo gallery"
             className="fixed inset-0 flex items-center justify-center"
             style={{ zIndex: 300, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
             onClick={() => setLightboxIdx(null)}
