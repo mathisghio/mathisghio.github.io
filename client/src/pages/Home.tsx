@@ -13,7 +13,9 @@ import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 import { PartnersSection } from '@/components/PartnersSection'
 import { PressSection } from '@/components/PressSection'
 import { ContactSection } from '@/components/ContactSection'
+import { useEffect } from 'react'
 import { useMeta } from '@/lib/meta'
+import { trackScrollDepth } from '@/lib/analytics'
 
 const HOME_SCHEMA = {
   '@context': 'https://schema.org',
@@ -49,6 +51,18 @@ const HOME_SCHEMA = {
 }
 
 export default function Home() {
+  useEffect(() => {
+    const fired = new Set<number>()
+    const onScroll = () => {
+      const pct = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100)
+      for (const d of [25, 50, 75, 100] as const) {
+        if (pct >= d && !fired.has(d)) { fired.add(d); trackScrollDepth(d) }
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   useMeta({
     title: 'Mathis Ghio — 5× Wingfoil World Champion',
     description: 'Mathis Ghio — Professional Wingfoil Athlete based in Marseille. 5× World Champion, 4× European Champion, 41.40 kts Speed Record.',

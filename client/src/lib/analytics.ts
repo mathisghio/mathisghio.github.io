@@ -5,7 +5,16 @@ declare global {
   }
 }
 
-export function trackLead(label: 'partnership_form' | 'sponsorship_kit_download') {
+export function trackScrollDepth(depth: 25 | 50 | 75 | 100) {
+  window.gtag?.('event', 'scroll', {
+    event_category: 'engagement',
+    event_label: `${depth}%`,
+    value: depth,
+  })
+  window.fbq?.('trackCustom', 'ScrollDepth', { depth: `${depth}%` })
+}
+
+export function trackLead(label: 'partnership_form' | 'sponsorship_kit_download' | 'contact_form') {
   window.gtag?.('event', 'generate_lead', {
     event_category: 'partnership',
     event_label: label,

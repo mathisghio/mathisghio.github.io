@@ -165,6 +165,7 @@ export function GallerySection() {
   const [lightboxIdx,  setLightboxIdx]  = useState<number | null>(null)
   const igRef        = useRef<HTMLDivElement>(null)
   const touchStartX  = useRef<number | null>(null)
+  const closeRef     = useRef<HTMLButtonElement>(null)
 
   /* Keyboard navigation + Escape for lightbox */
   useEffect(() => {
@@ -181,6 +182,25 @@ export function GallerySection() {
   useEffect(() => {
     document.body.style.overflow = lightboxIdx !== null ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
+  }, [lightboxIdx])
+
+  /* Focus trap: move focus into lightbox when it opens, cycle Tab within it */
+  useEffect(() => {
+    if (lightboxIdx === null) return
+    closeRef.current?.focus()
+    const onTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const focusable = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-lightbox] button')
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last  = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
+    document.addEventListener('keydown', onTab)
+    return () => document.removeEventListener('keydown', onTab)
   }, [lightboxIdx])
 
   /* Load LightWidget script + iframe only when section is ~400px away */
@@ -314,6 +334,14 @@ export function GallerySection() {
 
       <div className="pb-2 lg:pb-6" />
 
+      {/* Preload adjacent lightbox images */}
+      {lightboxIdx !== null && lightboxIdx > 0 && (
+        <img src={galleryImages[lightboxIdx - 1].src} alt="" aria-hidden="true" style={{ display: 'none' }} />
+      )}
+      {lightboxIdx !== null && lightboxIdx < galleryImages.length - 1 && (
+        <img src={galleryImages[lightboxIdx + 1].src} alt="" aria-hidden="true" style={{ display: 'none' }} />
+      )}
+
       {/* ── Lightbox ── */}
       <AnimatePresence>
         {lightboxIdx !== null && (
@@ -323,6 +351,7 @@ export function GallerySection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
+            data-lightbox
             className="fixed inset-0 flex items-center justify-center"
             style={{ zIndex: 300, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}
             onClick={() => setLightboxIdx(null)}
@@ -351,6 +380,7 @@ export function GallerySection() {
 
             {/* Close */}
             <button
+              ref={closeRef}
               onClick={() => setLightboxIdx(null)}
               aria-label="Fermer"
               style={{ position: 'fixed', top: 20, right: 20, width: 40, height: 40, borderRadius: 20, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.8)', cursor: 'pointer' }}
