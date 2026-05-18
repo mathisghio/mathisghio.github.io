@@ -433,7 +433,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     loadGeoBundle().then(b=>{ bundle=b; setIsLoading(false) }).catch(()=>{ setLoadError(true); setIsLoading(false) })
 
-    const AUTO_SPEED=0.18, LERP_K=0.048
+    const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0
+    const AUTO_SPEED=isTouchDevice?0.13:0.18, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
       const lerpScale=fastReset3DRef.current?0.16:0.055
       const ds=targetScaleRef.current-scaleRef.current
@@ -515,16 +516,18 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     canvas.addEventListener('wheel',     onWheel,{passive:false})
     window.addEventListener('mouseup',   onMouseUp)
 
-    let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false
+    let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false, hadMultiTouch3D=false
     let pinchDist3D=0, pinchScale3D=1
 
     const onTouchStart3D=(e:TouchEvent)=>{
       if (e.touches.length===1) {
+        hadMultiTouch3D=false
         const t=e.touches[0]
         t1Start3D={x:t.clientX,y:t.clientY}
         t1DragRot=[...rotRef.current]
         tDragging3D=false
       } else if (e.touches.length===2) {
+        hadMultiTouch3D=true
         tDragging3D=true
         targetRotRef.current=null
         pinchDist3D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
@@ -559,6 +562,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
         }
         return
       }
+      if (hadMultiTouch3D) { hadMultiTouch3D=false; return }
       const t=e.changedTouches[0]
       if (Math.hypot(t.clientX-t1Start3D.x,t.clientY-t1Start3D.y)>14) return
       const rect=canvas.getBoundingClientRect()
@@ -891,18 +895,20 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     window.addEventListener('mouseup',   onMouseUp2)
 
     let t1Start2D={x:0,y:0}, tDragStart2D={x:0,y:0}, tDragStartView2D={k:1,tx:0,ty:0}
-    let tDragging2D=false
+    let tDragging2D=false, hadMultiTouch2D=false
     let pinchDist2D=0, pinchScale2D=1, pinchCX2D=0, pinchCY2D=0, pinchStartTx2D=0, pinchStartTy2D=0
 
     const onTouchStart2D=(e:TouchEvent)=>{
       if (e.touches.length===2) e.preventDefault()
       if (e.touches.length===1) {
+        hadMultiTouch2D=false
         const t=e.touches[0]
         t1Start2D={x:t.clientX,y:t.clientY}
         tDragStart2D={x:t.clientX,y:t.clientY}
         tDragStartView2D={...viewRef.current}
         tDragging2D=false
       } else if (e.touches.length===2) {
+        hadMultiTouch2D=true
         tDragging2D=true
         targetViewRef.current=null
         pinchDist2D=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)
@@ -944,6 +950,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
         }
         return
       }
+      if (hadMultiTouch2D) { hadMultiTouch2D=false; return }
       const t=e.changedTouches[0]
       if (Math.hypot(t.clientX-t1Start2D.x,t.clientY-t1Start2D.y)>14) return
       const rect=canvas.getBoundingClientRect()
@@ -1059,6 +1066,7 @@ export function GlobeSection() {
   const [mode,setMode]=useState<'2d'|'3d'>('3d')
   const [hoveredId,setHoveredId]=useState<number|null>(null)
   const [pinnedId,setPinnedId]=useState<number|null>(null)
+  const [persistedId,setPersistedId]=useState<number|null>(null)
   const [zoomResetSignal,setZoomResetSignal]=useState(0)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
@@ -1070,6 +1078,7 @@ export function GlobeSection() {
 
   const releasePin=useCallback(()=>{
     setPinnedId(null)
+    setPersistedId(null)
     setZoomResetSignal(s=>s+1)
     if (pinnedTimerRef.current) { clearTimeout(pinnedTimerRef.current); pinnedTimerRef.current=null }
   },[])
@@ -1096,10 +1105,12 @@ export function GlobeSection() {
   const handleGlobeTap=useCallback((comp:Comp|null)=>{
     if (!comp || pinnedIdRef.current===comp.id) { releasePin(); return }
     setPinnedId(comp.id)
+    setPersistedId(comp.id)
   },[releasePin])
 
   const handleCardClick=useCallback((id:number)=>{
     setPinnedId(id)
+    setPersistedId(id)
     if (window.innerWidth<1024) {
       const el = document.getElementById('season')
       if (el) {
@@ -1163,7 +1174,7 @@ export function GlobeSection() {
             <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap} zoomResetSignal={zoomResetSignal}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
-              <span className="hidden lg:inline">{mode==='3d'?'drag to rotate · hover markers':'drag to move · hover markers'}</span>
+              <span className="hidden lg:inline">{mode==='3d'?'drag to rotate · pinch to zoom · hover markers':'drag to move · pinch to zoom · hover markers'}</span>
               <span className="lg:hidden">{mode==='3d'?'pinch to zoom · drag to rotate · tap markers':'pinch to zoom · drag to move · tap markers'}</span>
             </div>
           </div>
@@ -1191,7 +1202,7 @@ export function GlobeSection() {
               <div className="gs-list flex flex-col gap-1.5">
                 {COMPS.map((comp,i)=>(
                   <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
-                    <CompCard comp={comp} isActive={effectiveId===comp.id}
+                    <CompCard comp={comp} isActive={effectiveId===comp.id || (effectiveId===null && persistedId===comp.id)}
                       onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
                       onClick={()=>handleCardClick(comp.id)}
                       domRef={el=>{cardRefs.current[comp.id]=el}}/>
