@@ -51,6 +51,20 @@ const HOME_SCHEMA = {
 }
 
 export default function Home() {
+  // Restore scroll position on refresh (desktop browsers reset to top, unlike mobile)
+  useEffect(() => {
+    const saved = sessionStorage.getItem('mg_scrollY')
+    if (saved) {
+      const y = parseInt(saved, 10)
+      sessionStorage.removeItem('mg_scrollY')
+      // Two rAF so React has painted before scrolling
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, y)))
+    }
+    const save = () => sessionStorage.setItem('mg_scrollY', String(window.scrollY))
+    window.addEventListener('beforeunload', save)
+    return () => window.removeEventListener('beforeunload', save)
+  }, [])
+
   useEffect(() => {
     const fired = new Set<number>()
     const onScroll = () => {

@@ -469,6 +469,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.style.cursor=onGlobe?'grab':'default'
       let closest:Comp|null=null, closestD=22
       for (const comp of COMPS) {
+        if (!isGlobePointVisible(comp.lng,comp.lat)) continue
         const pt=projection([comp.lng,comp.lat]); if (!pt) continue
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
@@ -479,18 +480,10 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
 
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
-    const onWheel=(e:WheelEvent)=>{
-      e.preventDefault()
-      const factor=e.deltaY>0?0.88:1.14
-      const newScale=Math.max(0.6,Math.min(4,targetScaleRef.current*factor))
-      scaleRef.current=newScale
-      targetScaleRef.current=newScale
-    }
 
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel, {passive:false})
     window.addEventListener('mouseup',   onMouseUp)
 
     let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false
@@ -558,7 +551,6 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
-      canvas.removeEventListener('wheel',     onWheel)
       window.removeEventListener('mouseup',   onMouseUp)
       canvas.removeEventListener('touchstart',onTouchStart3D)
       canvas.removeEventListener('touchmove', onTouchMove3D)
@@ -804,22 +796,6 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     }
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
-    const onWheel=(e:WheelEvent)=>{
-      e.preventDefault()
-      const {x,y}=getPos(e)
-      const factor=e.deltaY>0?0.85:1.18
-      const cur=viewRef.current
-      const newK=Math.max(0.8,Math.min(10,cur.k*factor))
-      const f=newK/cur.k
-      viewRef.current={
-        k:newK,
-        tx:x-f*(x-cur.tx),
-        ty:y-f*(y-cur.ty),
-      }
-      lockedIdRef.current=null
-      targetViewRef.current=null
-    }
-
     let dragging=false, dragStart2={x:0,y:0}, dragStartView={k:1,tx:0,ty:0}
     const onMouseDown=(e:MouseEvent)=>{
       dragging=true
@@ -842,7 +818,6 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
 
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
-    canvas.addEventListener('wheel',     onWheel,{passive:false})
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseDrag)
     window.addEventListener('mouseup',   onMouseUp2)
@@ -922,7 +897,6 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       cancelAnimationFrame(raf)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
-      canvas.removeEventListener('wheel',     onWheel)
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseDrag)
       window.removeEventListener('mouseup',   onMouseUp2)
@@ -1098,8 +1072,8 @@ export function GlobeSection() {
             <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
-              <span className="hidden lg:inline">{mode==='3d'?'scroll to zoom · drag to rotate · hover markers':'scroll to zoom · drag to pan · hover markers'}</span>
-              <span className="lg:hidden">{mode==='3d'?'pinch to zoom · drag to rotate · tap markers':'pinch to zoom · drag to pan · tap markers'}</span>
+              <span className="hidden lg:inline">{mode==='3d'?'drag to rotate · hover markers':'drag to move · hover markers'}</span>
+              <span className="lg:hidden">{mode==='3d'?'pinch to zoom · drag to rotate · tap markers':'pinch to zoom · drag to move · tap markers'}</span>
             </div>
           </div>
 
@@ -1122,15 +1096,24 @@ export function GlobeSection() {
               .gs-list::-webkit-scrollbar-thumb{background:rgba(14,165,233,0.25);border-radius:2px}
               @media(min-width:1024px){.gs-list{max-height:none;overflow:visible}}
             `}</style>
-            <div className="gs-list flex flex-col gap-1.5">
-              {COMPS.map((comp,i)=>(
-                <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
-                  <CompCard comp={comp} isActive={effectiveId===comp.id}
-                    onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
-                    onClick={()=>handleCardClick(comp.id)}
-                    domRef={el=>{cardRefs.current[comp.id]=el}}/>
-                </motion.div>
-              ))}
+            <div className="relative">
+              <div className="gs-list flex flex-col gap-1.5">
+                {COMPS.map((comp,i)=>(
+                  <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
+                    <CompCard comp={comp} isActive={effectiveId===comp.id}
+                      onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
+                      onClick={()=>handleCardClick(comp.id)}
+                      domRef={el=>{cardRefs.current[comp.id]=el}}/>
+                  </motion.div>
+                ))}
+              </div>
+              {/* Mobile scroll hint */}
+              <div className="absolute bottom-0 inset-x-0 pointer-events-none lg:hidden flex items-end justify-center pb-1.5"
+                style={{height:'44px',background:'linear-gradient(to bottom,transparent,rgba(8,9,14,0.92))'}}>
+                <span style={{fontSize:'8px',color:'rgba(14,165,233,0.45)',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.18em'}}>
+                  ↓ scroll for more
+                </span>
+              </div>
             </div>
 
             <motion.div initial={{opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:.4,delay:.75}}
