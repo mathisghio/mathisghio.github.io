@@ -321,7 +321,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
   useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
 
-  useEffect(()=>{ if (zoomResetSignal===0) return; targetScaleRef.current=1; targetRotRef.current=null },[zoomResetSignal])
+  const fastReset3DRef=useRef(false)
+  useEffect(()=>{ if (zoomResetSignal===0) return; targetScaleRef.current=1; targetRotRef.current=null; fastReset3DRef.current=true },[zoomResetSignal])
 
   useEffect(()=>{
     const container=containerRef.current, canvas=canvasRef.current
@@ -432,10 +433,12 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     loadGeoBundle().then(b=>{ bundle=b; setIsLoading(false) }).catch(()=>{ setLoadError(true); setIsLoading(false) })
 
-    const AUTO_SPEED=0.10, LERP_K=0.048
+    const AUTO_SPEED=0.18, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
+      const lerpScale=fastReset3DRef.current?0.16:0.055
       const ds=targetScaleRef.current-scaleRef.current
-      if (Math.abs(ds)>0.001) scaleRef.current+=ds*0.055
+      if (Math.abs(ds)>0.001) scaleRef.current+=ds*lerpScale
+      else fastReset3DRef.current=false
       if (targetRotRef.current!==null && !isDragging.current && !tDragging3D) {
         const [tLng,tLat]=targetRotRef.current
         let [cLng,cLat]=rotRef.current
@@ -449,10 +452,11 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       render(elapsed)
     })
 
-    let dragStart={x:0,y:0}, dragStartRot=[0,0]
+    let dragStart={x:0,y:0}, dragStartRot=[0,0], lastTouchTime=0
     const getPos=(e:MouseEvent)=>{ const rect=canvas.getBoundingClientRect(); return {x:e.clientX-rect.left,y:e.clientY-rect.top} }
 
     const onMouseDown=(e:MouseEvent)=>{
+      if (Date.now()-lastTouchTime<500) return
       const {x,y}=getPos(e)
       const r=BASE_R*scaleRef.current
       if ((x-cx)**2+(y-cy)**2>r*r) return
@@ -491,6 +495,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       scaleRef.current=newScale; targetScaleRef.current=newScale
     }
     const onCanvasMouseUp=(e:MouseEvent)=>{
+      if (Date.now()-lastTouchTime<500) return
       const {x,y}=getPos(e)
       if (Math.hypot(x-dragStart.x,y-dragStart.y)>8) return
       let closest:Comp|null=null, closestD=28
@@ -543,6 +548,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       }
     }
     const onTouchEnd3D=(e:TouchEvent)=>{
+      lastTouchTime=Date.now()
       if (tDragging3D) {
         if (e.touches.length===0) tDragging3D=false
         else if (e.touches.length===1) {
@@ -645,7 +651,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
   useEffect(()=>{ onTapRef2D.current=onTap },[onTap])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
-  useEffect(()=>{ if (zoomResetSignal===0) return; lockedIdRef.current=null; targetViewRef.current={k:1,tx:0,ty:0} },[zoomResetSignal])
+  const fastReset2DRef=useRef(false)
+  useEffect(()=>{ if (zoomResetSignal===0) return; lockedIdRef.current=null; targetViewRef.current={k:1,tx:0,ty:0}; fastReset2DRef.current=true },[zoomResetSignal])
 
   useEffect(()=>{
     const {w,h}=dimsRef.current
@@ -796,11 +803,13 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       const cur=viewRef.current
       const tgt=targetViewRef.current
       if (tgt) {
+        const lerpF=fastReset2DRef.current?0.18:LERP
         const dk=tgt.k-cur.k, dtx=tgt.tx-cur.tx, dty=tgt.ty-cur.ty
         if (Math.abs(dk)>0.001||Math.abs(dtx)>0.5||Math.abs(dty)>0.5) {
-          viewRef.current={k:cur.k+dk*LERP, tx:cur.tx+dtx*LERP, ty:cur.ty+dty*LERP}
+          viewRef.current={k:cur.k+dk*lerpF, tx:cur.tx+dtx*lerpF, ty:cur.ty+dty*lerpF}
         } else {
           viewRef.current=tgt
+          fastReset2DRef.current=false
         }
       }
       render()
@@ -826,8 +835,9 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     }
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
-    let dragging=false, dragStart2={x:0,y:0}, dragStartView={k:1,tx:0,ty:0}
+    let dragging=false, dragStart2={x:0,y:0}, dragStartView={k:1,tx:0,ty:0}, lastTouchTime2D=0
     const onMouseDown=(e:MouseEvent)=>{
+      if (Date.now()-lastTouchTime2D<500) return
       dragging=true
       dragStart2=getPos(e)
       dragStartView={...viewRef.current}
@@ -858,6 +868,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       targetViewRef.current=null
     }
     const onCanvasMouseUp2D=(e:MouseEvent)=>{
+      if (Date.now()-lastTouchTime2D<500) return
       const {x,y}=getPos(e)
       if (Math.hypot(x-dragStart2.x,y-dragStart2.y)>8) return
       const {k,tx,ty}=viewRef.current
@@ -922,6 +933,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       }
     }
     const onTouchEnd2D=(e:TouchEvent)=>{
+      lastTouchTime2D=Date.now()
       if (tDragging2D) {
         if (e.touches.length===0) tDragging2D=false
         else if (e.touches.length===1) {
@@ -1066,7 +1078,7 @@ export function GlobeSection() {
   useEffect(()=>{
     if (pinnedId===null) return
     if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current)
-    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); setZoomResetSignal(s=>s+1); pinnedTimerRef.current=null },5000)
+    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); setZoomResetSignal(s=>s+1); pinnedTimerRef.current=null },4000)
     return ()=>{ if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current) }
   },[pinnedId])
 
