@@ -480,10 +480,31 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
 
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
+    const onWheel=(e:WheelEvent)=>{
+      if (!e.ctrlKey) return
+      e.preventDefault()
+      const factor=e.deltaY>0?0.88:1.14
+      const newScale=Math.max(0.6,Math.min(4,targetScaleRef.current*factor))
+      scaleRef.current=newScale; targetScaleRef.current=newScale
+    }
+    const onCanvasMouseUp=(e:MouseEvent)=>{
+      const {x,y}=getPos(e)
+      if (Math.hypot(x-dragStart.x,y-dragStart.y)>8) return
+      let closest:Comp|null=null, closestD=28
+      for (const comp of COMPS) {
+        if (!isGlobePointVisible(comp.lng,comp.lat)) continue
+        const pt=projection([comp.lng,comp.lat]); if (!pt) continue
+        const dist=Math.hypot(pt[0]-x,pt[1]-y)
+        if (dist<closestD){closestD=dist;closest=comp}
+      }
+      if (closest) onTapRef.current?.(closest)
+    }
 
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
+    canvas.addEventListener('mouseup',   onCanvasMouseUp)
+    canvas.addEventListener('wheel',     onWheel,{passive:false})
     window.addEventListener('mouseup',   onMouseUp)
 
     let t1Start3D={x:0,y:0}, t1DragRot=[0,0], tDragging3D=false
@@ -551,6 +572,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
+      canvas.removeEventListener('mouseup',   onCanvasMouseUp)
+      canvas.removeEventListener('wheel',     onWheel)
       window.removeEventListener('mouseup',   onMouseUp)
       canvas.removeEventListener('touchstart',onTouchStart3D)
       canvas.removeEventListener('touchmove', onTouchMove3D)
@@ -815,11 +838,38 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       lockedIdRef.current=null
       targetViewRef.current=null
     }
+    const onWheel2D=(e:WheelEvent)=>{
+      if (!e.ctrlKey) return
+      e.preventDefault()
+      const {x,y}=getPos(e)
+      const cur=viewRef.current
+      const factor=e.deltaY>0?0.85:1.18
+      const newK=Math.max(0.8,Math.min(10,cur.k*factor))
+      const f=newK/cur.k
+      viewRef.current={k:newK,tx:x-f*(x-cur.tx),ty:y-f*(y-cur.ty)}
+      lockedIdRef.current=null
+      targetViewRef.current=null
+    }
+    const onCanvasMouseUp2D=(e:MouseEvent)=>{
+      const {x,y}=getPos(e)
+      if (Math.hypot(x-dragStart2.x,y-dragStart2.y)>8) return
+      const {k,tx,ty}=viewRef.current
+      const bx=(x-tx)/k, by=(y-ty)/k
+      let closest:Comp|null=null, closestD=18/k
+      for (const comp of COMPS) {
+        const pt=baseProj([comp.lng,comp.lat]); if (!pt) continue
+        const dist=Math.hypot(pt[0]-bx,pt[1]-by)
+        if (dist<closestD){closestD=dist;closest=comp}
+      }
+      if (closest) onTapRef2D.current?.(closest)
+    }
 
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mouseleave',onMouseLeave)
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseDrag)
+    canvas.addEventListener('mouseup',   onCanvasMouseUp2D)
+    canvas.addEventListener('wheel',     onWheel2D,{passive:false})
     window.addEventListener('mouseup',   onMouseUp2)
 
     let t1Start2D={x:0,y:0}, tDragStart2D={x:0,y:0}, tDragStartView2D={k:1,tx:0,ty:0}
@@ -899,6 +949,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
       canvas.removeEventListener('mouseleave',onMouseLeave)
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseDrag)
+      canvas.removeEventListener('mouseup',   onCanvasMouseUp2D)
+      canvas.removeEventListener('wheel',     onWheel2D)
       window.removeEventListener('mouseup',   onMouseUp2)
       canvas.removeEventListener('touchstart',onTouchStart2D)
       canvas.removeEventListener('touchmove', onTouchMove2D)
@@ -989,7 +1041,16 @@ export function GlobeSection() {
   const [pinnedId,setPinnedId]=useState<number|null>(null)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
+  const pinnedTimerRef=useRef<ReturnType<typeof setTimeout>|null>(null)
   const effectiveId=pinnedId??hoveredId
+
+  // Auto-resume globe rotation 5s after any pin (click/tap on marker or card)
+  useEffect(()=>{
+    if (pinnedId===null) return
+    if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current)
+    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); pinnedTimerRef.current=null },5000)
+    return ()=>{ if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current) }
+  },[pinnedId])
 
   const handleMapHover=useCallback((comp:Comp|null)=>{
     setHoveredId(comp?.id??null)
@@ -1003,18 +1064,17 @@ export function GlobeSection() {
   },[])
 
   const handleGlobeTap=useCallback((comp:Comp)=>{
-    if (window.innerWidth>=1024) return
     setPinnedId(prev => prev===comp.id ? null : comp.id)
-    // No scroll — stay on the map
   },[])
 
   const handleCardClick=useCallback((id:number)=>{
-    if (window.innerWidth>=1024) return
     setPinnedId(id)
-    const el = document.getElementById('season')
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 68
-      window.scrollTo({ top, behavior: 'smooth' })
+    if (window.innerWidth<1024) {
+      const el = document.getElementById('season')
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 68
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
     }
   },[])
 
