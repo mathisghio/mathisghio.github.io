@@ -1078,16 +1078,17 @@ export function GlobeSection() {
 
   const releasePin=useCallback(()=>{
     setPinnedId(null)
+    setHoveredId(null)
     setPersistedId(null)
     setZoomResetSignal(s=>s+1)
     if (pinnedTimerRef.current) { clearTimeout(pinnedTimerRef.current); pinnedTimerRef.current=null }
   },[])
 
-  // Auto-resume globe rotation 5s after any pin (click/tap on marker or card)
+  // Auto-resume globe rotation 4s after any pin (click/tap on marker or card)
   useEffect(()=>{
     if (pinnedId===null) return
     if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current)
-    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); setZoomResetSignal(s=>s+1); pinnedTimerRef.current=null },4000)
+    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); setHoveredId(null); setZoomResetSignal(s=>s+1); pinnedTimerRef.current=null },4000)
     return ()=>{ if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current) }
   },[pinnedId])
 
