@@ -23,7 +23,7 @@ const COMPS: Comp[] = [
   { id:3, name:'IWSA World Cup N°2',                        location:'Urla, Türkiye',           flag:'🇹🇷', date:'May 19–23',     month:'MAY', lat:38.32, lng:26.76,   type:'world_cup'   },
   { id:4, name:'IWSA World Cup N°3',                        location:'Silvaplana, Switzerland', flag:'🇨🇭', date:'Jun 16–20',     month:'JUN', lat:46.47, lng:9.80,   type:'world_cup'   },
   { id:5, name:'IWSA World Cup N°4',                        location:'Gizzeria, Italy',         flag:'🇮🇹', date:'Jul 8–12',      month:'JUL', lat:38.97, lng:16.18,  type:'world_cup'   },
-  { id:11, name:'Test event world championship',             location:'Gdynia, Poland',          flag:'🇵🇱', date:'Jul 15–18',     month:'JUL', lat:54.35, lng:18.53,  type:'world_champ' },
+  { id:11, name:'2027 World Sailing Championships - Test Event', location:'Gdynia, Poland',      flag:'🇵🇱', date:'Jul 15–18',     month:'JUL', lat:54.35, lng:18.53,  type:'world_champ' },
   { id:6, name:'IWSA Formula Wing World Championship',      location:'Istanbul, Türkiye',       flag:'🇹🇷', date:'Aug 11–15',     month:'AUG', lat:41.01, lng:28.98,  type:'world_champ' },
   { id:7, name:'IWSA World Cup N°5',                        location:'Cagliari, Sardinia',      flag:'🇮🇹', date:'Sep 30–Oct 4',  month:'OCT', lat:39.22, lng:9.12,   type:'world_cup'   },
   { id:8, name:'French Championship',                       location:'Granville, France',       flag:'🇫🇷', date:'Oct 23–25',     month:'OCT', lat:48.84, lng:-1.60,  type:'national'    },
