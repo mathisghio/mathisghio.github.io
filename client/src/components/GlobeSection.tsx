@@ -480,7 +480,6 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
     const onMouseUp=()=>{ isDragging.current=false; canvas.style.cursor='grab' }
     const onMouseLeave=()=>{ isDragging.current=false; onHoverRef.current(null,0,0) }
     const onWheel=(e:WheelEvent)=>{
-      if (!e.ctrlKey) return
       e.preventDefault()
       const factor=e.deltaY>0?0.88:1.14
       const newScale=Math.max(0.6,Math.min(4,targetScaleRef.current*factor))
@@ -806,7 +805,6 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
     const onMouseLeave=()=>{ onHoverRef.current(null,0,0); canvas.style.cursor='default' }
 
     const onWheel=(e:WheelEvent)=>{
-      if (!e.ctrlKey) return
       e.preventDefault()
       const {x,y}=getPos(e)
       const factor=e.deltaY>0?0.85:1.18
@@ -1100,8 +1098,8 @@ export function GlobeSection() {
             <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
-              <span className="hidden lg:inline">{mode==='3d'?'drag · hover markers':'drag to pan · hover markers'}</span>
-              <span className="lg:hidden">{mode==='3d'?'drag to rotate · tap markers':'drag to pan · tap markers'}</span>
+              <span className="hidden lg:inline">{mode==='3d'?'scroll to zoom · drag to rotate · hover markers':'scroll to zoom · drag to pan · hover markers'}</span>
+              <span className="lg:hidden">{mode==='3d'?'pinch to zoom · drag to rotate · tap markers':'pinch to zoom · drag to pan · tap markers'}</span>
             </div>
           </div>
 
@@ -1117,7 +1115,14 @@ export function GlobeSection() {
               </div>
             </motion.div>
 
-            <div className="flex flex-col gap-1.5">
+            <style>{`
+              .gs-list{max-height:clamp(260px,52vw,340px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(14,165,233,0.25) transparent}
+              .gs-list::-webkit-scrollbar{width:3px}
+              .gs-list::-webkit-scrollbar-track{background:transparent}
+              .gs-list::-webkit-scrollbar-thumb{background:rgba(14,165,233,0.25);border-radius:2px}
+              @media(min-width:1024px){.gs-list{max-height:none;overflow:visible}}
+            `}</style>
+            <div className="gs-list flex flex-col gap-1.5">
               {COMPS.map((comp,i)=>(
                 <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
                   <CompCard comp={comp} isActive={effectiveId===comp.id}

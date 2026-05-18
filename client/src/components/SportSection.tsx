@@ -35,7 +35,7 @@ const partnershipFormats = [
   {
     number: '04',
     title: 'Event & Activation',
-    description: 'Branded presence at 11 international competitions across 3 continents on the 2026 circuit. On-site visibility where the audience is live and engaged.',
+    description: 'Branded presence at 12 international competitions across 3 continents on the 2026 circuit. On-site visibility where the audience is live and engaged.',
   },
 ]
 
@@ -104,7 +104,7 @@ export function SportSection() {
               <p className="font-body text-base" style={{ color: 'rgba(241,245,249,0.85)', lineHeight: 1.85 }}>
                 The world circuit spans{' '}
                 <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(14,165,233,0.14)', border: '1px solid rgba(14,165,233,0.32)', borderRadius: 6, padding: '1px 8px', color: '#38BDF8', fontSize: '0.88em' }}>
-                  <Globe size={11} />5 continents
+                  <Globe size={11} />3 continents
                 </span>{' '}
                 to ensure a truly global presence. My track record includes{' '}
                 <span className="inline-flex items-center gap-1 align-middle font-semibold" style={{ background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.32)', borderRadius: 6, padding: '1px 8px', color: '#F59E0B', fontSize: '0.88em' }}>

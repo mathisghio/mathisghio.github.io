@@ -193,10 +193,7 @@ export function HeroSection() {
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record.<br />
-              A materials science engineering student.<br />
-              The sport's most credible athlete<br />
-              for brands that demand performance.
+              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
             </p>
           </div>
         </div>
