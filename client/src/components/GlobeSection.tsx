@@ -271,10 +271,11 @@ function drawInfoPanel(
 /* ═══════════════════════════════════════════════════════════════════════════
    GLOBE 3D
 ═══════════════════════════════════════════════════════════════════════════ */
-function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
+function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
   visible:boolean; hoveredId:number|null
   onHover:(comp:Comp|null,x:number,y:number)=>void
-  onTap?:(comp:Comp)=>void
+  onTap?:(comp:Comp|null)=>void
+  zoomResetSignal?:number
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef    = useRef<HTMLCanvasElement>(null)
@@ -319,6 +320,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
   },[hoveredId])
 
   useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
+
+  useEffect(()=>{ if (zoomResetSignal===0) return; targetScaleRef.current=1; targetRotRef.current=null },[zoomResetSignal])
 
   useEffect(()=>{
     const container=containerRef.current, canvas=canvasRef.current
@@ -497,7 +500,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
       }
-      if (closest) onTapRef.current?.(closest)
+      onTapRef.current?.(closest)
     }
 
     canvas.addEventListener('mousedown', onMouseDown)
@@ -561,7 +564,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
         const dist=Math.hypot(pt[0]-x,pt[1]-y)
         if (dist<closestD){closestD=dist;closest=comp}
       }
-      if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef.current?.(closest)}
+      if (closest) onHoverRef.current(closest,t.clientX,t.clientY)
+      onTapRef.current?.(closest)
     }
     canvas.addEventListener('touchstart',onTouchStart3D,{passive:true})
     canvas.addEventListener('touchmove', onTouchMove3D, {passive:false})
@@ -617,10 +621,11 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap }: {
 ═══════════════════════════════════════════════════════════════════════════ */
 interface ViewTransform { k:number; tx:number; ty:number }
 
-function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
+function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
   visible:boolean; hoveredId:number|null
   onHover:(comp:Comp|null,x:number,y:number)=>void
-  onTap?:(comp:Comp)=>void
+  onTap?:(comp:Comp|null)=>void
+  zoomResetSignal?:number
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef    = useRef<HTMLCanvasElement>(null)
@@ -639,6 +644,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
   useEffect(()=>{ onHoverRef.current=onHover },[onHover])
   useEffect(()=>{ onTapRef2D.current=onTap },[onTap])
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
+
+  useEffect(()=>{ if (zoomResetSignal===0) return; lockedIdRef.current=null; targetViewRef.current={k:1,tx:0,ty:0} },[zoomResetSignal])
 
   useEffect(()=>{
     const {w,h}=dimsRef.current
@@ -861,7 +868,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
         const dist=Math.hypot(pt[0]-bx,pt[1]-by)
         if (dist<closestD){closestD=dist;closest=comp}
       }
-      if (closest) onTapRef2D.current?.(closest)
+      onTapRef2D.current?.(closest)
     }
 
     canvas.addEventListener('mousemove', onMouseMove)
@@ -937,7 +944,8 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap }: {
         const dist=Math.hypot(pt[0]-bx,pt[1]-by)
         if (dist<closestD){closestD=dist;closest=comp}
       }
-      if (closest){onHoverRef.current(closest,t.clientX,t.clientY);onTapRef2D.current?.(closest)}
+      if (closest) onHoverRef.current(closest,t.clientX,t.clientY)
+      onTapRef2D.current?.(closest)
     }
     canvas.addEventListener('touchstart',onTouchStart2D,{passive:false})
     canvas.addEventListener('touchmove', onTouchMove2D, {passive:false})
@@ -1039,16 +1047,26 @@ export function GlobeSection() {
   const [mode,setMode]=useState<'2d'|'3d'>('3d')
   const [hoveredId,setHoveredId]=useState<number|null>(null)
   const [pinnedId,setPinnedId]=useState<number|null>(null)
+  const [zoomResetSignal,setZoomResetSignal]=useState(0)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
   const pinnedTimerRef=useRef<ReturnType<typeof setTimeout>|null>(null)
+  const pinnedIdRef=useRef<number|null>(null)
   const effectiveId=pinnedId??hoveredId
+
+  useEffect(()=>{ pinnedIdRef.current=pinnedId },[pinnedId])
+
+  const releasePin=useCallback(()=>{
+    setPinnedId(null)
+    setZoomResetSignal(s=>s+1)
+    if (pinnedTimerRef.current) { clearTimeout(pinnedTimerRef.current); pinnedTimerRef.current=null }
+  },[])
 
   // Auto-resume globe rotation 5s after any pin (click/tap on marker or card)
   useEffect(()=>{
     if (pinnedId===null) return
     if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current)
-    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); pinnedTimerRef.current=null },5000)
+    pinnedTimerRef.current=setTimeout(()=>{ setPinnedId(null); setZoomResetSignal(s=>s+1); pinnedTimerRef.current=null },5000)
     return ()=>{ if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current) }
   },[pinnedId])
 
@@ -1063,9 +1081,10 @@ export function GlobeSection() {
     setHoveredId(comp?.id??null)
   },[])
 
-  const handleGlobeTap=useCallback((comp:Comp)=>{
-    setPinnedId(prev => prev===comp.id ? null : comp.id)
-  },[])
+  const handleGlobeTap=useCallback((comp:Comp|null)=>{
+    if (!comp || pinnedIdRef.current===comp.id) { releasePin(); return }
+    setPinnedId(comp.id)
+  },[releasePin])
 
   const handleCardClick=useCallback((id:number)=>{
     setPinnedId(id)
@@ -1128,8 +1147,8 @@ export function GlobeSection() {
 
           {/* Globe / Map container */}
           <div ref={globeContainerRef} className="relative rounded-sm overflow-hidden h-[300px] sm:h-[420px] lg:h-[520px]" style={{border:'1px solid rgba(14,165,233,0.12)',background:'#020510',boxShadow:'0 0 80px rgba(14,165,233,0.05),inset 0 0 80px rgba(14,165,233,0.03)'}}>
-            <Map2DFlat  visible={mode==='2d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
-            <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap}/>
+            <Map2DFlat  visible={mode==='2d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap} zoomResetSignal={zoomResetSignal}/>
+            <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap} zoomResetSignal={zoomResetSignal}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
               <span className="hidden lg:inline">{mode==='3d'?'drag to rotate · hover markers':'drag to move · hover markers'}</span>
