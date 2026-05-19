@@ -55,6 +55,7 @@ export function Navigation() {
   const scrollSpyPaused = useRef(false);
 
   const compact = scrolled;
+  const prevCompactRef = useRef(compact);
 
   const mascotW      = 86;
   const mascotH      = 50;
@@ -116,6 +117,11 @@ export function Navigation() {
 
   /* ── Overdrive C : slider position ── */
   useEffect(() => {
+    // .mgTab transitions padding/font-size over 400ms when compact changes.
+    // Measuring at 80ms gives wrong button widths — wait 450ms when compact just changed.
+    const compactChanged = prevCompactRef.current !== compact;
+    prevCompactRef.current = compact;
+
     const updateSlider = () => {
       if (activeIndex === -1) {
         setSliderStyle(s => ({ ...s, opacity: 0 }));
@@ -131,7 +137,8 @@ export function Navigation() {
       setSliderStyle({ opacity: 1, transform: `translateX(${x}px) scaleX(${w})` });
     };
 
-    const t = setTimeout(updateSlider, 80);
+    const delay = compactChanged ? 450 : 80;
+    const t = setTimeout(updateSlider, delay);
     window.addEventListener("resize", updateSlider);
     return () => { clearTimeout(t); window.removeEventListener("resize", updateSlider); };
   }, [activeIndex, compact]);
