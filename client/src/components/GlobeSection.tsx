@@ -1209,13 +1209,6 @@ export function GlobeSection() {
                   </motion.div>
                 ))}
               </div>
-              {/* Mobile scroll hint */}
-              <div className="absolute bottom-0 inset-x-0 pointer-events-none lg:hidden flex items-end justify-center pb-1.5"
-                style={{height:'44px',background:'linear-gradient(to bottom,transparent,rgba(8,9,14,0.92))'}}>
-                <span style={{fontSize:'8px',color:'rgba(14,165,233,0.45)',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.18em'}}>
-                  ↓ scroll for more
-                </span>
-              </div>
             </div>
 
             <motion.div initial={{opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:.4,delay:.75}}
