@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
 const STORAGE_KEY = 'mg_newsletter_seen'
-const KIT_UID = 'f8b2bd3ed1'
+const KIT_UID = '78f39e6484'
 const KIT_SCRIPT_ID = 'kit-form-script'
-const KIT_SCRIPT_SRC = `https://mathis-ghio-wingfoil.kit.com/${KIT_UID}/index.js`
+const KIT_SCRIPT_SRC = `https://mathis-ghio-wingfoil.kit.com/78f39e6484/index.js`
 
 export function NewsletterPopup() {
   const [visible, setVisible] = useState(false)
