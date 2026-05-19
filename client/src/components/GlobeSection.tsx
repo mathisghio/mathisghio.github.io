@@ -436,7 +436,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0
     const AUTO_SPEED=isTouchDevice?0.13:0.18, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
-      const lerpScale=fastReset3DRef.current?0.16:0.055
+      const lerpScale=fastReset3DRef.current?0.16:0.028
       const ds=targetScaleRef.current-scaleRef.current
       if (Math.abs(ds)>0.001) scaleRef.current+=ds*lerpScale
       else fastReset3DRef.current=false
@@ -801,7 +801,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       }
     }
 
-    const LERP=0.08
+    const LERP=0.04
     let raf:number
     const loop=()=>{
       const cur=viewRef.current
@@ -1027,13 +1027,14 @@ function ViewToggle({mode,onToggle}:{mode:'2d'|'3d';onToggle:()=>void}) {
 ═══════════════════════════════════════════════════════════════════════════ */
 function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef}:{comp:Comp;isActive:boolean;onEnter:()=>void;onLeave:()=>void;onClick?:()=>void;domRef?:(el:HTMLDivElement|null)=>void}) {
   const color=TC[comp.type]
+  const isDesktop=typeof window!=='undefined'&&window.innerWidth>=1024
   return (
     <div ref={domRef} onMouseEnter={onEnter} onMouseLeave={onLeave} onClick={onClick} style={{
       display:'flex',alignItems:'stretch',borderRadius:'6px',overflow:'hidden',
       background:isActive?`${color}0e`:'rgba(255,255,255,0.02)',
       border:`1px solid ${isActive?color+'48':'rgba(255,255,255,0.05)'}`,
       boxShadow:isActive?`0 0 28px ${color}14,inset 0 0 16px ${color}06`:'none',
-      transform:isActive?'translateX(-5px)':'none',
+      transform:isActive&&isDesktop?'translateX(-5px)':'none',
       transition:'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',cursor:'pointer',flexShrink:0,
     }}>
       <div style={{width:'3px',background:isActive?`linear-gradient(to bottom,${color},${color}55)`:`${color}28`,flexShrink:0,transition:'background 0.25s'}}/>
@@ -1075,6 +1076,12 @@ export function GlobeSection() {
   const effectiveId=pinnedId??hoveredId
 
   useEffect(()=>{ pinnedIdRef.current=pinnedId },[pinnedId])
+
+  // Desktop: hovering a marker auto-pins it (4s timer starts, no need to keep mouse on it)
+  useEffect(()=>{
+    if (hoveredId===null||window.innerWidth<1024) return
+    setPinnedId(hoveredId)
+  },[hoveredId])
 
   // Scroll the event list internally to the selected card on mobile (no page scroll)
   useEffect(()=>{
