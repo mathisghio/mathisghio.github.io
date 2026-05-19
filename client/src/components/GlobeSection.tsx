@@ -1210,6 +1210,9 @@ export function GlobeSection() {
                 ))}
               </div>
             </div>
+            <div className="lg:hidden mt-2 flex justify-center">
+              <span style={{fontSize:'9px',color:'rgba(14,165,233,0.6)',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.2em'}}>↓ scroll for more</span>
+            </div>
 
             <motion.div initial={{opacity:0}} animate={inView?{opacity:1}:{}} transition={{duration:.4,delay:.75}}
               className="mt-5 pt-4 flex flex-wrap gap-x-4 gap-y-1.5" style={{borderTop:'1px solid rgba(255,255,255,0.04)'}}>
