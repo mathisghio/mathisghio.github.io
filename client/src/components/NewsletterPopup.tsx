@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 
 const STORAGE_KEY = 'mg_newsletter_seen'
 const KIT_UID = '78f39e6484'
-const KIT_SCRIPT_ID = 'kit-form-script'
-const KIT_SCRIPT_SRC = `https://mathis-ghio-wingfoil.kit.com/78f39e6484/index.js`
+const KIT_SCRIPT_SRC = `https://mathis-ghio-wingfoil.kit.com/${KIT_UID}/index.js`
 
 export function NewsletterPopup() {
   const [visible, setVisible] = useState(false)
+  const kitContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY)) return
@@ -16,16 +16,15 @@ export function NewsletterPopup() {
     return () => clearTimeout(t)
   }, [])
 
-  // Load Kit script only after the popup (and its data-uid div) are in the DOM
+  // Inject Kit script directly into the container so Kit renders inline at that position
   useEffect(() => {
-    if (!visible) return
-    if (document.getElementById(KIT_SCRIPT_ID)) return
+    if (!visible || !kitContainerRef.current) return
+    if (kitContainerRef.current.querySelector('script')) return
     const script = document.createElement('script')
-    script.id = KIT_SCRIPT_ID
     script.src = KIT_SCRIPT_SRC
     script.async = true
     script.setAttribute('data-uid', KIT_UID)
-    document.head.appendChild(script)
+    kitContainerRef.current.appendChild(script)
   }, [visible])
 
   const close = () => {
@@ -35,7 +34,6 @@ export function NewsletterPopup() {
 
   return (
     <>
-      {/* Kit form styling overrides — injected once regardless of popup visibility */}
       <style>{`
         .formkit-form { background: transparent !important; }
         .formkit-form * { font-family: 'DM Sans', sans-serif !important; }
@@ -166,8 +164,8 @@ export function NewsletterPopup() {
                   </p>
                 </div>
 
-                {/* Kit renders the form here */}
-                <div data-uid={KIT_UID} />
+                {/* Kit injects the form here */}
+                <div ref={kitContainerRef} />
               </div>
             </motion.div>
           </>
