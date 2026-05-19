@@ -1066,7 +1066,6 @@ export function GlobeSection() {
   const [mode,setMode]=useState<'2d'|'3d'>('3d')
   const [hoveredId,setHoveredId]=useState<number|null>(null)
   const [pinnedId,setPinnedId]=useState<number|null>(null)
-  const [persistedId,setPersistedId]=useState<number|null>(null)
   const [zoomResetSignal,setZoomResetSignal]=useState(0)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
@@ -1079,7 +1078,6 @@ export function GlobeSection() {
   const releasePin=useCallback(()=>{
     setPinnedId(null)
     setHoveredId(null)
-    setPersistedId(null)
     setZoomResetSignal(s=>s+1)
     if (pinnedTimerRef.current) { clearTimeout(pinnedTimerRef.current); pinnedTimerRef.current=null }
   },[])
@@ -1106,19 +1104,10 @@ export function GlobeSection() {
   const handleGlobeTap=useCallback((comp:Comp|null)=>{
     if (!comp || pinnedIdRef.current===comp.id) { releasePin(); return }
     setPinnedId(comp.id)
-    setPersistedId(comp.id)
   },[releasePin])
 
   const handleCardClick=useCallback((id:number)=>{
     setPinnedId(id)
-    setPersistedId(id)
-    if (window.innerWidth<1024) {
-      const el = document.getElementById('season')
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 68
-        window.scrollTo({ top, behavior: 'smooth' })
-      }
-    }
   },[])
 
   return (
@@ -1203,7 +1192,7 @@ export function GlobeSection() {
               <div className="gs-list flex flex-col gap-1.5">
                 {COMPS.map((comp,i)=>(
                   <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
-                    <CompCard comp={comp} isActive={effectiveId===comp.id || (effectiveId===null && persistedId===comp.id)}
+                    <CompCard comp={comp} isActive={effectiveId===comp.id}
                       onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
                       onClick={()=>handleCardClick(comp.id)}
                       domRef={el=>{cardRefs.current[comp.id]=el}}/>
