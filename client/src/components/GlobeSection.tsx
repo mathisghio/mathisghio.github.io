@@ -1082,8 +1082,7 @@ export function GlobeSection() {
     const card=cardRefs.current[pinnedId]
     const list=listRef.current
     if (!card||!list) return
-    const top=card.offsetTop-list.offsetHeight/2+card.offsetHeight/2
-    list.scrollTo({top:Math.max(0,top),behavior:'smooth'})
+    list.scrollTo({top:card.offsetTop,behavior:'smooth'})
   },[pinnedId])
 
   const releasePin=useCallback(()=>{
