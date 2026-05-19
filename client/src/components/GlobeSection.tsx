@@ -322,6 +322,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
   useEffect(()=>()=>{ if (lockTimerRef3D.current) clearTimeout(lockTimerRef3D.current) },[])
 
   const fastReset3DRef=useRef(false)
+  const isPausedRef3D=useRef(false)
   useEffect(()=>{ if (zoomResetSignal===0) return; targetScaleRef.current=1; targetRotRef.current=null; fastReset3DRef.current=true },[zoomResetSignal])
 
   useEffect(()=>{
@@ -433,9 +434,13 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     loadGeoBundle().then(b=>{ bundle=b; setIsLoading(false) }).catch(()=>{ setLoadError(true); setIsLoading(false) })
 
+    const visObs3D=new IntersectionObserver(([e])=>{ isPausedRef3D.current=!e.isIntersecting },{threshold:0.01})
+    if (container) visObs3D.observe(container)
+
     const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0
     const AUTO_SPEED=isTouchDevice?0.13:0.18, LERP_K=0.048
     const timer=d3.timer((elapsed:number)=>{
+      if (isPausedRef3D.current) return
       const lerpScale=fastReset3DRef.current?0.16:0.028
       const ds=targetScaleRef.current-scaleRef.current
       if (Math.abs(ds)>0.001) scaleRef.current+=ds*lerpScale
@@ -583,6 +588,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     return ()=>{
       timer.stop()
+      visObs3D.disconnect()
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
@@ -656,6 +662,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
   useEffect(()=>{ hoveredIdRef.current=hoveredId },[hoveredId])
 
   const fastReset2DRef=useRef(false)
+  const isPausedRef2D=useRef(false)
   useEffect(()=>{ if (zoomResetSignal===0) return; lockedIdRef.current=null; targetViewRef.current={k:1,tx:0,ty:0}; fastReset2DRef.current=true },[zoomResetSignal])
 
   useEffect(()=>{
@@ -801,9 +808,14 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       }
     }
 
+    const containerEl=containerRef.current
+    const visObs2D=new IntersectionObserver(([e])=>{ isPausedRef2D.current=!e.isIntersecting },{threshold:0.01})
+    if (containerEl) visObs2D.observe(containerEl)
+
     const LERP=0.04
     let raf:number
     const loop=()=>{
+      if (isPausedRef2D.current) { raf=requestAnimationFrame(loop); return }
       const cur=viewRef.current
       const tgt=targetViewRef.current
       if (tgt) {
@@ -972,6 +984,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     return ()=>{
       cancelAnimationFrame(raf)
+      visObs2D.disconnect()
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
       canvas.removeEventListener('mousedown', onMouseDown)
@@ -1025,16 +1038,15 @@ function ViewToggle({mode,onToggle}:{mode:'2d'|'3d';onToggle:()=>void}) {
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPETITION CARD
 ═══════════════════════════════════════════════════════════════════════════ */
-function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef}:{comp:Comp;isActive:boolean;onEnter:()=>void;onLeave:()=>void;onClick?:()=>void;domRef?:(el:HTMLDivElement|null)=>void}) {
+function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef,isDesktop}:{comp:Comp;isActive:boolean;onEnter:()=>void;onLeave:()=>void;onClick?:()=>void;domRef?:(el:HTMLDivElement|null)=>void;isDesktop?:boolean}) {
   const color=TC[comp.type]
-  const isDesktop=typeof window!=='undefined'&&window.innerWidth>=1024
   return (
     <div ref={domRef} onMouseEnter={onEnter} onMouseLeave={onLeave} onClick={onClick} style={{
       display:'flex',alignItems:'stretch',borderRadius:'6px',overflow:'hidden',
       background:isActive?`${color}0e`:'rgba(255,255,255,0.02)',
       border:`1px solid ${isActive?color+'48':'rgba(255,255,255,0.05)'}`,
       boxShadow:isActive?`0 0 28px ${color}14,inset 0 0 16px ${color}06`:'none',
-      transform:isActive&&isDesktop?'translateX(-5px)':'none',
+      transform:isActive&&(isDesktop??true)?'translateX(-5px)':'none',
       transition:'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',cursor:'pointer',flexShrink:0,
     }}>
       <div style={{width:'3px',background:isActive?`linear-gradient(to bottom,${color},${color}55)`:`${color}28`,flexShrink:0,transition:'background 0.25s'}}/>
@@ -1068,19 +1080,35 @@ export function GlobeSection() {
   const [hoveredId,setHoveredId]=useState<number|null>(null)
   const [pinnedId,setPinnedId]=useState<number|null>(null)
   const [zoomResetSignal,setZoomResetSignal]=useState(0)
+  const [isDesktop,setIsDesktop]=useState(()=>typeof window!=='undefined'&&window.innerWidth>=1024)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
   const listRef=useRef<HTMLDivElement>(null)
   const pinnedTimerRef=useRef<ReturnType<typeof setTimeout>|null>(null)
   const pinnedIdRef=useRef<number|null>(null)
+  const canvasHoverRef=useRef(false)
+  const hoverPinTimerRef=useRef<ReturnType<typeof setTimeout>|null>(null)
   const effectiveId=pinnedId??hoveredId
 
   useEffect(()=>{ pinnedIdRef.current=pinnedId },[pinnedId])
 
-  // Desktop: hovering a marker auto-pins it (4s timer starts, no need to keep mouse on it)
   useEffect(()=>{
-    if (hoveredId===null||window.innerWidth<1024) return
-    setPinnedId(hoveredId)
+    const check=()=>setIsDesktop(window.innerWidth>=1024)
+    window.addEventListener('resize',check,{passive:true})
+    return ()=>window.removeEventListener('resize',check)
+  },[])
+
+  // Desktop: hovering a canvas marker auto-pins it after 200ms debounce (canvas only, not list)
+  useEffect(()=>{
+    if (hoveredId===null||!canvasHoverRef.current) {
+      if (hoverPinTimerRef.current) { clearTimeout(hoverPinTimerRef.current); hoverPinTimerRef.current=null }
+      return
+    }
+    if (window.innerWidth<1024) return
+    if (hoverPinTimerRef.current) clearTimeout(hoverPinTimerRef.current)
+    const id=hoveredId
+    hoverPinTimerRef.current=setTimeout(()=>{ hoverPinTimerRef.current=null; setPinnedId(id) },200)
+    return ()=>{ if (hoverPinTimerRef.current) { clearTimeout(hoverPinTimerRef.current); hoverPinTimerRef.current=null } }
   },[hoveredId])
 
   // Scroll the event list internally to the selected card on mobile (no page scroll)
@@ -1107,14 +1135,11 @@ export function GlobeSection() {
     return ()=>{ if (pinnedTimerRef.current) clearTimeout(pinnedTimerRef.current) }
   },[pinnedId])
 
-  const handleMapHover=useCallback((comp:Comp|null)=>{
-    setHoveredId(comp?.id??null)
-  },[])
-
-  const handleListEnter=useCallback((id:number)=>{ setHoveredId(id) },[])
-  const handleListLeave=useCallback(()=>{ setHoveredId(null) },[])
+  const handleListEnter=useCallback((id:number)=>{ canvasHoverRef.current=false; setHoveredId(id) },[])
+  const handleListLeave=useCallback(()=>{ canvasHoverRef.current=false; setHoveredId(null) },[])
 
   const handleCanvasHover=useCallback((comp:Comp|null, _x:number, _y:number)=>{
+    canvasHoverRef.current=true
     setHoveredId(comp?.id??null)
   },[])
 
@@ -1212,7 +1237,8 @@ export function GlobeSection() {
                     <CompCard comp={comp} isActive={effectiveId===comp.id}
                       onEnter={()=>handleListEnter(comp.id)} onLeave={handleListLeave}
                       onClick={()=>handleCardClick(comp.id)}
-                      domRef={el=>{cardRefs.current[comp.id]=el}}/>
+                      domRef={el=>{cardRefs.current[comp.id]=el}}
+                      isDesktop={isDesktop}/>
                   </motion.div>
                 ))}
               </div>
