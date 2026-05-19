@@ -53,7 +53,6 @@ export function Navigation() {
   const pillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const scrollSpyPaused = useRef(false);
-  const prevCompactRef = useRef(compact);
 
   const compact = scrolled;
 
@@ -117,12 +116,6 @@ export function Navigation() {
 
   /* ── Overdrive C : slider position ── */
   useEffect(() => {
-    // When compact transitions (false→true on reload/first scroll past 80px), tab padding
-    // and font-size animate over 400ms — measuring at 80ms gives a wrong position.
-    // Wait 450ms when compact just changed so the CSS transition has fully settled.
-    const compactChanged = prevCompactRef.current !== compact;
-    prevCompactRef.current = compact;
-
     const updateSlider = () => {
       if (activeIndex === -1) {
         setSliderStyle(s => ({ ...s, opacity: 0 }));
@@ -138,8 +131,7 @@ export function Navigation() {
       setSliderStyle({ opacity: 1, transform: `translateX(${x}px) scaleX(${w})` });
     };
 
-    const delay = compactChanged ? 450 : 80;
-    const t = setTimeout(updateSlider, delay);
+    const t = setTimeout(updateSlider, 80);
     window.addEventListener("resize", updateSlider);
     return () => { clearTimeout(t); window.removeEventListener("resize", updateSlider); };
   }, [activeIndex, compact]);
