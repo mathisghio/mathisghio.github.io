@@ -53,9 +53,9 @@ export function Navigation() {
   const pillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const scrollSpyPaused = useRef(false);
+  const compactTrueAtRef = useRef(0);
 
   const compact = scrolled;
-  const prevCompactRef = useRef(compact);
 
   const mascotW      = 86;
   const mascotH      = 50;
@@ -115,13 +115,17 @@ export function Navigation() {
     return () => clearTimeout(t);
   }, [activeIndex, compact, visibleAbove]);
 
+  /* ── Track when compact first became true (one-shot per compact epoch) ── */
+  useEffect(() => {
+    if (compact) {
+      if (compactTrueAtRef.current === 0) compactTrueAtRef.current = Date.now();
+    } else {
+      compactTrueAtRef.current = 0;
+    }
+  }, [compact]);
+
   /* ── Overdrive C : slider position ── */
   useEffect(() => {
-    // .mgTab transitions padding/font-size over 400ms when compact changes.
-    // Measuring at 80ms gives wrong button widths — wait 450ms when compact just changed.
-    const compactChanged = prevCompactRef.current !== compact;
-    prevCompactRef.current = compact;
-
     const updateSlider = () => {
       if (activeIndex === -1) {
         setSliderStyle(s => ({ ...s, opacity: 0 }));
@@ -137,7 +141,15 @@ export function Navigation() {
       setSliderStyle({ opacity: 1, transform: `translateX(${x}px) scaleX(${w})` });
     };
 
-    const delay = compactChanged ? 450 : 80;
+    // .mgTab transitions padding/font-size over 400ms when compact becomes true.
+    // compact and activeIndex update in separate renders (compact via sync scroll handler,
+    // activeIndex via the next rAF), so the transition is already in progress when the
+    // slider effect fires for activeIndex. Compute remaining time dynamically.
+    const sinceCompact = compactTrueAtRef.current > 0
+      ? Date.now() - compactTrueAtRef.current
+      : Infinity;
+    const delay = sinceCompact < 420 ? 420 - sinceCompact : 80;
+
     const t = setTimeout(updateSlider, delay);
     window.addEventListener("resize", updateSlider);
     return () => { clearTimeout(t); window.removeEventListener("resize", updateSlider); };
