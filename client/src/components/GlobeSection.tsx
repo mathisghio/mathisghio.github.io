@@ -1069,11 +1069,22 @@ export function GlobeSection() {
   const [zoomResetSignal,setZoomResetSignal]=useState(0)
   const globeContainerRef=useRef<HTMLDivElement>(null)
   const cardRefs=useRef<Record<number,HTMLDivElement|null>>({})
+  const listRef=useRef<HTMLDivElement>(null)
   const pinnedTimerRef=useRef<ReturnType<typeof setTimeout>|null>(null)
   const pinnedIdRef=useRef<number|null>(null)
   const effectiveId=pinnedId??hoveredId
 
   useEffect(()=>{ pinnedIdRef.current=pinnedId },[pinnedId])
+
+  // Scroll the event list internally to the selected card on mobile (no page scroll)
+  useEffect(()=>{
+    if (pinnedId===null||window.innerWidth>=1024) return
+    const card=cardRefs.current[pinnedId]
+    const list=listRef.current
+    if (!card||!list) return
+    const top=card.offsetTop-list.offsetHeight/2+card.offsetHeight/2
+    list.scrollTo({top:Math.max(0,top),behavior:'smooth'})
+  },[pinnedId])
 
   const releasePin=useCallback(()=>{
     setPinnedId(null)
@@ -1189,7 +1200,7 @@ export function GlobeSection() {
               @media(min-width:1024px){.gs-list{max-height:none;overflow:visible}}
             `}</style>
             <div className="relative">
-              <div className="gs-list flex flex-col gap-1.5">
+              <div ref={listRef} className="gs-list flex flex-col gap-1.5">
                 {COMPS.map((comp,i)=>(
                   <motion.div key={comp.id} initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1+i*.05}}>
                     <CompCard comp={comp} isActive={effectiveId===comp.id}
