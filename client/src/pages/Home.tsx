@@ -13,6 +13,7 @@ import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 import { PartnersSection } from '@/components/PartnersSection'
 import { PressSection } from '@/components/PressSection'
 import { ContactSection } from '@/components/ContactSection'
+import { NewsletterPopup } from '@/components/NewsletterPopup'
 import { useEffect } from 'react'
 import { useMeta } from '@/lib/meta'
 import { trackScrollDepth } from '@/lib/analytics'
@@ -113,6 +114,7 @@ export default function Home() {
       <PartnersSection />
       <PressSection />
       <ContactSection />
+      <NewsletterPopup />
     </div>
   )
 }
