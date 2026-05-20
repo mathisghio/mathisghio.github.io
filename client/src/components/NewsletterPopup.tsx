@@ -5,9 +5,25 @@ import { X } from 'lucide-react'
 const STORAGE_KEY = 'mg_newsletter_seen'
 const KIT_ENDPOINT = 'https://app.kit.com/forms/9462922/subscriptions'
 
+const inputStyle: React.CSSProperties = {
+  background: 'rgba(14,165,233,0.06)',
+  border: '1px solid rgba(14,165,233,0.25)',
+  borderRadius: '6px',
+  color: '#F1F5F9',
+  fontFamily: "'DM Sans',sans-serif",
+  fontSize: '0.875rem',
+  padding: '10px 14px',
+  outline: 'none',
+  width: '100%',
+  boxSizing: 'border-box',
+  transition: 'border-color 0.2s',
+}
+
 export function NewsletterPopup() {
   const [visible, setVisible] = useState(false)
   const [email, setEmail] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   useEffect(() => {
@@ -23,17 +39,21 @@ export function NewsletterPopup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
     setStatus('loading')
     try {
-      const body = new URLSearchParams({ email_address: email })
+      const body = new URLSearchParams({
+        email_address: email,
+        'fields[first_name]': firstName,
+        'fields[last_name]': lastName,
+      })
       const res = await fetch(KIT_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: body.toString(),
       })
-      if (res.ok || res.status === 200) {
+      if (res.ok) {
         setStatus('success')
+        localStorage.setItem(STORAGE_KEY, '1')
         setTimeout(close, 2500)
       } else {
         setStatus('error')
@@ -43,11 +63,17 @@ export function NewsletterPopup() {
     }
   }
 
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.borderColor = 'rgba(14,165,233,0.6)'
+  }
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.style.borderColor = 'rgba(14,165,233,0.25)'
+  }
+
   return (
     <AnimatePresence>
       {visible && (
         <>
-          {/* Overlay */}
           <motion.div
             key="overlay"
             initial={{ opacity: 0 }}
@@ -63,7 +89,6 @@ export function NewsletterPopup() {
             }}
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
             initial={{ opacity: 0, y: 48, scale: 0.96 }}
@@ -89,7 +114,6 @@ export function NewsletterPopup() {
                 boxShadow: '0 0 80px rgba(14,165,233,0.08), 0 24px 64px rgba(0,0,0,0.6)',
               }}
             >
-              {/* Close */}
               <button
                 onClick={close}
                 aria-label="Fermer"
@@ -106,7 +130,6 @@ export function NewsletterPopup() {
                 <X size={18} />
               </button>
 
-              {/* Accent line */}
               <div style={{
                 position: 'absolute', top: 0, left: 28, right: 28,
                 height: '2px',
@@ -114,7 +137,6 @@ export function NewsletterPopup() {
                 borderRadius: '0 0 2px 2px',
               }} />
 
-              {/* Header */}
               <div style={{ marginBottom: 20 }}>
                 <p style={{
                   fontFamily: "'DM Sans',sans-serif",
@@ -140,38 +162,47 @@ export function NewsletterPopup() {
                 </p>
               </div>
 
-              {/* Form */}
               {status === 'success' ? (
                 <p style={{
                   fontFamily: "'DM Sans',sans-serif",
                   fontSize: '0.85rem', color: '#0EA5E9',
                   textAlign: 'center', padding: '12px 0',
                 }}>
-                  You're in! Check your inbox to confirm.
+                  Success, thank you! Now, check your email to confirm your subscription.
                 </p>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                    <input
+                      type="text"
+                      required
+                      placeholder="First Name"
+                      value={firstName}
+                      onChange={e => setFirstName(e.target.value)}
+                      style={inputStyle}
+                      onFocus={onFocus}
+                      onBlur={onBlur}
+                    />
+                    <input
+                      type="text"
+                      required
+                      placeholder="Last Name"
+                      value={lastName}
+                      onChange={e => setLastName(e.target.value)}
+                      style={inputStyle}
+                      onFocus={onFocus}
+                      onBlur={onBlur}
+                    />
+                  </div>
                   <input
                     type="email"
                     required
-                    placeholder="your@email.com"
+                    placeholder="Email Address"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    style={{
-                      background: 'rgba(14,165,233,0.06)',
-                      border: '1px solid rgba(14,165,233,0.25)',
-                      borderRadius: '6px',
-                      color: '#F1F5F9',
-                      fontFamily: "'DM Sans',sans-serif",
-                      fontSize: '0.875rem',
-                      padding: '10px 14px',
-                      outline: 'none',
-                      width: '100%',
-                      boxSizing: 'border-box',
-                      transition: 'border-color 0.2s',
-                    }}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'rgba(14,165,233,0.6)')}
-                    onBlur={e => (e.currentTarget.style.borderColor = 'rgba(14,165,233,0.25)')}
+                    style={inputStyle}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                   />
                   <button
                     type="submit"
@@ -190,6 +221,7 @@ export function NewsletterPopup() {
                       cursor: status === 'loading' ? 'not-allowed' : 'pointer',
                       opacity: status === 'loading' ? 0.6 : 1,
                       transition: 'opacity 0.2s',
+                      marginTop: 2,
                     }}
                   >
                     {status === 'loading' ? 'Sending…' : 'Send it to me'}
@@ -203,6 +235,13 @@ export function NewsletterPopup() {
                       Something went wrong — try again.
                     </p>
                   )}
+                  <p style={{
+                    fontFamily: "'DM Sans',sans-serif",
+                    fontSize: '0.7rem', color: 'rgba(148,163,184,0.4)',
+                    margin: 0, textAlign: 'center', fontStyle: 'italic',
+                  }}>
+                    One email a month. Unsubscribe in one click.
+                  </p>
                 </form>
               )}
             </div>
