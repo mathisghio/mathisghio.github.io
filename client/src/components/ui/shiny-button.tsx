@@ -1,29 +1,36 @@
 "use client"
+import { forwardRef } from "react"
 import type React from "react"
 
-interface ShinyButtonProps {
+interface ShinyButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
-  onClick?: () => void
-  className?: string
   href?: string
   target?: string
   rel?: string
-  type?: 'button' | 'submit' | 'reset'
-  disabled?: boolean
 }
 
-export function ShinyButton({ children, onClick, className = "", href, target, rel, type = 'button', disabled }: ShinyButtonProps) {
-  if (href) {
+export const ShinyButton = forwardRef<HTMLButtonElement, ShinyButtonProps>(
+  ({ children, className = "", href, target, rel, type = 'button', disabled, ...props }, ref) => {
+    if (href) {
+      return (
+        <a href={href} target={target} rel={rel} className={`shiny-cta ${className}`} {...props as React.AnchorHTMLAttributes<HTMLAnchorElement>}>
+          <span>{children}</span>
+        </a>
+      )
+    }
     return (
-      <a href={href} target={target} rel={rel} onClick={onClick} className={`shiny-cta ${className}`}>
+      <button
+        ref={ref}
+        className={`shiny-cta ${className}`}
+        type={type}
+        disabled={disabled}
+        style={disabled ? { opacity: 0.45, cursor: 'not-allowed', pointerEvents: 'none' } : undefined}
+        {...props}
+      >
         <span>{children}</span>
-      </a>
+      </button>
     )
   }
-  return (
-    <button className={`shiny-cta ${className}`} onClick={onClick} type={type} disabled={disabled}
-      style={disabled ? { opacity: 0.45, cursor: 'not-allowed', pointerEvents: 'none' } : undefined}>
-      <span>{children}</span>
-    </button>
-  )
-}
+)
+
+ShinyButton.displayName = 'ShinyButton'
