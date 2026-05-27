@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -8,7 +8,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import PartnersPage from "./pages/PartnersPage";
 
-function InstagramBrowserGuard({ children }: { children: React.ReactNode }) {
+function InstagramBrowserGuard({ children }: { children: ReactNode }) {
   const [dismissed, setDismissed] = useState(false)
   const isInstagram = /Instagram/.test(navigator.userAgent)
 

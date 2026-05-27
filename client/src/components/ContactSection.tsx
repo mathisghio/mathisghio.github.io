@@ -582,7 +582,7 @@ export function ContactSection() {
               Newsletter
             </span>
           </div>
-          <div className="max-w-xl mx-auto" style={{ textAlign: 'left' }}>
+          <div className="max-w-xl" style={{ textAlign: 'left' }}>
             <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75, textAlign: 'left' }}>
               Race results, speed records, behind-the-scenes. No spam, unsubscribe anytime.
             </p>
