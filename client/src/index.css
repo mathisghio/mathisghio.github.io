@@ -368,8 +368,8 @@ html, body {
     transform: scaleY(1) translateY(80px) !important;
   }
   .lamp-container > div:last-child {
-    translate: 0 180px !important;
-    transform: none !important;
+    translate: none !important;
+    transform: translateY(180px) !important;
   }
 }
 

@@ -574,8 +574,8 @@ export function ContactSection() {
       </section>
 
       {/* Newsletter */}
-      <div style={{ background: '#08090E', borderTop: '1px solid rgba(14,165,233,0.08)' }}>
-        <div className="container py-10 lg:py-14">
+      <div style={{ background: '#08090E' }}>
+        <div className="container pt-4 pb-10 lg:pt-6 lg:pb-14">
           <div className="flex items-center gap-3 mb-6">
             <div className="section-line" />
             <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
