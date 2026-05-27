@@ -94,6 +94,23 @@ function InfoRow({
   return <div style={{ margin: '0 -12px' }}>{inner}</div>
 }
 
+function KitNewsletterForm() {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || el.childNodes.length > 0) return
+    const uid = window.innerWidth < 1200 ? '7343a67e82' : 'f8b2bd3ed1'
+    const s = document.createElement('script')
+    s.async = true
+    s.dataset.uid = uid
+    s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
+    el.appendChild(s)
+  }, [])
+
+  return <div ref={ref} className="w-full" />
+}
+
 function SuccessState() {
   return (
     <motion.div
@@ -527,6 +544,24 @@ export function ContactSection() {
           </div>
         </div>
       </section>
+
+      {/* Newsletter */}
+      <div style={{ background: '#08090E', borderTop: '1px solid rgba(14,165,233,0.08)' }}>
+        <div className="container py-10 lg:py-14">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="section-line" />
+            <span className="font-body text-xs uppercase tracking-widest" style={{ color: '#0EA5E9', letterSpacing: '0.2em' }}>
+              Newsletter
+            </span>
+          </div>
+          <div className="max-w-xl">
+            <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
+              Race results, speed records, behind-the-scenes. No spam, unsubscribe anytime.
+            </p>
+            <KitNewsletterForm />
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="py-8 relative" style={{ background: '#050608', borderTop: '1px solid rgba(14,165,233,0.08)' }}>
