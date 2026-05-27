@@ -67,7 +67,7 @@ export function HeroSection() {
         className="absolute inset-x-0 z-40 hidden lg:flex flex-col overflow-hidden"
         style={{ top: '90px', bottom: '88px' }}
       >
-        <div className="container flex flex-col h-full">
+        <div className="container flex-1 flex flex-col min-h-0">
 
           {/* Bloc texte — remplit l'espace au-dessus des boutons, se clip en haut si la fenêtre est petite */}
           <div className="flex-1 flex flex-col justify-end overflow-hidden min-h-0">
