@@ -369,7 +369,7 @@ html, body {
   }
   .lamp-container > div:last-child {
     translate: none !important;
-    transform: translateY(180px) !important;
+    transform: translateY(120px) !important;
   }
 }
 
