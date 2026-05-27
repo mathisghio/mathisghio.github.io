@@ -95,22 +95,41 @@ function InfoRow({
 }
 
 function KitNewsletterForm() {
+  const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
-    if (document.querySelector('script[data-uid="a08a513a37"]')) return
-    const s = document.createElement('script')
-    s.async = true
-    s.dataset.uid = 'a08a513a37'
-    s.src = 'https://mathis-ghio-wingfoil.kit.com/a08a513a37/index.js'
-    document.body.appendChild(s)
+    const container = ref.current
+    if (!container) return
+
+    // Inject script once
+    if (!document.querySelector('script[data-uid="a08a513a37"]')) {
+      const s = document.createElement('script')
+      s.async = true
+      s.dataset.uid = 'a08a513a37'
+      s.src = 'https://mathis-ghio-wingfoil.kit.com/a08a513a37/index.js'
+      document.body.appendChild(s)
+    }
+
+    // Kit.com appends its rendered form to <body>. Watch and move it here.
+    const obs = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (
+            node instanceof HTMLElement &&
+            (node.dataset.uid === 'a08a513a37' || node.classList.contains('formkit-form'))
+          ) {
+            container.appendChild(node)
+            obs.disconnect()
+            return
+          }
+        }
+      }
+    })
+    obs.observe(document.body, { childList: true })
+    return () => obs.disconnect()
   }, [])
 
-  return (
-    <div
-      className="formkit-form"
-      data-uid="a08a513a37"
-      style={{ width: '100%' }}
-    />
-  )
+  return <div ref={ref} className="w-full" />
 }
 
 function SuccessState() {
