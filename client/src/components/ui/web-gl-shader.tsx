@@ -90,7 +90,7 @@ export function WebGLShader({
     const initScene = () => {
       refs.scene = new THREE.Scene()
       refs.renderer = new THREE.WebGLRenderer({ canvas, alpha: false })
-      refs.renderer.setPixelRatio(window.devicePixelRatio)
+      refs.renderer.setPixelRatio(1)
       refs.renderer.setClearColor(new THREE.Color(0x000000))
 
       refs.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1)

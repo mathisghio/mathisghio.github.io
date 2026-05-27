@@ -24,13 +24,15 @@ export function ShaderAnimation() {
     vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
     float t = time*0.12+random(uv.x)*0.4;
     float lineWidth = 0.003;
-    vec3 color = vec3(0.0);
-    for(int j = 0; j < 3; j++){
-      for(int i=0; i < 5; i++){
-        color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*0.4 - length(uv));
-      }
+    float r = 0.0; float g = 0.0; float b = 0.0;
+    for(int i=0; i < 5; i++){
+      float w = lineWidth*float(i*i);
+      float fi = float(i)*0.01;
+      r += w / abs(fract(t + fi)*0.4 - length(uv));
+      g += w / abs(fract(t - 0.01 + fi)*0.4 - length(uv));
+      b += w / abs(fract(t - 0.02 + fi)*0.4 - length(uv));
     }
-    gl_FragColor = vec4(color[0],color[1],color[2],1.0);
+    gl_FragColor = vec4(r, g, b, 1.0);
   }
 `
     const camera = new THREE.Camera()
@@ -47,7 +49,7 @@ export function ShaderAnimation() {
     } catch {
       return
     }
-    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setPixelRatio(1)
     container.appendChild(renderer.domElement)
     const onWindowResize = () => {
       renderer.setSize(container.clientWidth, container.clientHeight)

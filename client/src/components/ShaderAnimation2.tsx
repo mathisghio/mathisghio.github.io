@@ -22,13 +22,16 @@ export function ShaderAnimation2() {
         vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
         float t = time*0.05;
         float lineWidth = 0.002;
-        vec3 color = vec3(0.0);
-        for(int j = 0; j < 3; j++){
-          for(int i=0; i < 5; i++){
-            color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*3.0 - length(uv) + mod(uv.x+uv.y, 0.2));
-          }
+        float r = 0.0; float g = 0.0; float b = 0.0;
+        for(int i=0; i < 5; i++){
+          float w = lineWidth*float(i*i);
+          float fi = float(i)*0.01;
+          float m = mod(uv.x+uv.y, 0.2);
+          r += w / abs(fract(t + fi)*3.0 - length(uv) + m);
+          g += w / abs(fract(t - 0.01 + fi)*3.0 - length(uv) + m);
+          b += w / abs(fract(t - 0.02 + fi)*3.0 - length(uv) + m);
         }
-        gl_FragColor = vec4(color[0],color[1],color[2],1.0);
+        gl_FragColor = vec4(r, g, b, 1.0);
       }
     `
 
@@ -50,7 +53,7 @@ export function ShaderAnimation2() {
     } catch {
       return
     }
-    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setPixelRatio(1)
     container.appendChild(renderer.domElement)
 
     const onWindowResize = () => {
