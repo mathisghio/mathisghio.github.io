@@ -41,6 +41,8 @@ export function WebGLShader({
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return
+    const testCanvas = document.createElement('canvas')
+    if (!testCanvas.getContext('webgl2') && !testCanvas.getContext('webgl')) return
 
     const canvas = canvasRef.current
     const container = containerRef.current

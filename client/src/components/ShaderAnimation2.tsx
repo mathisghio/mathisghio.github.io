@@ -7,6 +7,8 @@ export function ShaderAnimation2() {
 
   useEffect(() => {
     if (!containerRef.current) return
+    const testCanvas = document.createElement('canvas')
+    if (!testCanvas.getContext('webgl2') && !testCanvas.getContext('webgl')) return
     const container = containerRef.current
 
     const vertexShader = `void main() { gl_Position = vec4( position, 1.0 ); }`
