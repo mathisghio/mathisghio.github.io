@@ -7,15 +7,6 @@ html, body {
   overflow-x: clip;
 }
 
-/* Kit.com modal — force above all fixed elements (mgProgressBar is 9998) */
-.formkit-overlay,
-.formkit-slide-in,
-.formkit-modal,
-.formkit-sticky-bar,
-[data-uid="f8b2bd3ed1"] {
-  z-index: 99999 !important;
-}
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
