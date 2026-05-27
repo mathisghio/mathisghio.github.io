@@ -64,57 +64,59 @@ export function HeroSection() {
           Les deux boutons sont côte à côte (flex-row) comme à l'origine.
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end overflow-hidden"
+        className="absolute inset-x-0 z-40 hidden lg:flex flex-col overflow-hidden"
         style={{ top: '90px', bottom: '88px' }}
       >
-        <div className="container pb-4">
+        <div className="container flex flex-col h-full">
 
-          {/* Titre */}
-          <div
-            className="transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
-          >
-            <h1 className="font-display text-white leading-none hero-dt-title" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
-              MATHIS
-            </h1>
-            <h1
-              className="font-display leading-none hero-dt-title"
-              style={{
-                fontSize: 'clamp(60px, 10vw, 145px)',
-                color: '#0EA5E9',
-              }}
+          {/* Bloc texte — remplit l'espace au-dessus des boutons, se clip en haut si la fenêtre est petite */}
+          <div className="flex-1 flex flex-col justify-end overflow-hidden min-h-0">
+
+            {/* Titre */}
+            <div
+              className="transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
             >
-              GHIO
-            </h1>
-          </div>
+              <h1 className="font-display text-white leading-none hero-dt-title" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
+                MATHIS
+              </h1>
+              <h1
+                className="font-display leading-none hero-dt-title"
+                style={{ fontSize: 'clamp(60px, 10vw, 145px)', color: '#0EA5E9' }}
+              >
+                GHIO
+              </h1>
+            </div>
 
-          {/* Badge */}
-          <div
-            className="mt-3 hero-dt-gap-sm transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
-          >
-            <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
+            {/* Badge */}
+            <div
+              className="mt-3 hero-dt-gap-sm transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
             >
-              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
-              5× World Champion · 41.40 kts Speed Record
-            </span>
+              <span
+                className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
+                style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
+                5× World Champion · 41.40 kts Speed Record
+              </span>
+            </div>
+
+            {/* Tagline */}
+            <div
+              className="mt-3 hero-dt-gap-sm max-w-xl transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
+            >
+              <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+                Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
+              </p>
+            </div>
+
           </div>
 
-          {/* Tagline */}
+          {/* Boutons — ancrés en bas, ne chevauchent jamais le texte */}
           <div
-            className="mt-3 hero-dt-gap-sm max-w-xl transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
-          >
-            <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
-            </p>
-          </div>
-
-          {/* Boutons côte à côte — desktop */}
-          <div
-            className="mt-5 hero-dt-gap-md flex items-center gap-4 transition-all duration-700"
+            className="flex-shrink-0 pt-4 pb-4 flex items-center gap-4 transition-all duration-700"
             style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '650ms' }}
           >
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
