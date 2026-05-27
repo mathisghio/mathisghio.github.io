@@ -331,19 +331,31 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     const ctx=canvas.getContext('2d')
     if (!ctx) return
 
-    const W=container.clientWidth, H=container.clientHeight
+    let W=container.clientWidth, H=container.clientHeight
     const dpr=window.devicePixelRatio||1
     canvas.width=W*dpr; canvas.height=H*dpr
     canvas.style.width=`${W}px`; canvas.style.height=`${H}px`
     ctx.scale(dpr,dpr)
 
-    const cx=W/2, cy=H/2
-    const BASE_R=Math.min(W,H)*0.43
+    let cx=W/2, cy=H/2
+    let BASE_R=Math.min(W,H)*0.43
 
     const projection=d3.geoOrthographic()
       .scale(BASE_R).translate([cx,cy]).clipAngle(90).rotate(rotRef.current)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const geoPath=d3.geoPath().projection(projection).context(ctx as any)
+
+    const handleResize=()=>{
+      W=container.clientWidth; H=container.clientHeight
+      canvas.width=W*dpr; canvas.height=H*dpr
+      canvas.style.width=`${W}px`; canvas.style.height=`${H}px`
+      ctx.scale(dpr,dpr)
+      cx=W/2; cy=H/2
+      BASE_R=Math.min(W,H)*0.43
+      projection.scale(BASE_R).translate([cx,cy])
+    }
+    const ro=new ResizeObserver(handleResize)
+    ro.observe(container)
 
     let bundle:GeoBundle|null=null
 
@@ -545,7 +557,8 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
         if (!tDragging3D && Math.hypot(dx,dy)>5) tDragging3D=true
         if (tDragging3D) {
           e.preventDefault()
-          rotRef.current=[t1DragRot[0]+dx*0.4, Math.max(-80,Math.min(80,t1DragRot[1]-dy*0.4))]
+          const rf=0.4/scaleRef.current
+          rotRef.current=[t1DragRot[0]+dx*rf, Math.max(-80,Math.min(80,t1DragRot[1]-dy*rf))]
           targetRotRef.current=null
         }
       } else if (e.touches.length===2) {
@@ -589,6 +602,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     return ()=>{
       timer.stop()
       visObs3D.disconnect()
+      ro.disconnect()
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseleave',onMouseLeave)
