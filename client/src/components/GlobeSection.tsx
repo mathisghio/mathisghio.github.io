@@ -1158,7 +1158,7 @@ export function GlobeSection() {
   },[])
 
   const handleGlobeTap=useCallback((comp:Comp|null)=>{
-    if (!comp || pinnedIdRef.current===comp.id) { releasePin(); return }
+    if (!comp) { releasePin(); return }
     setPinnedId(comp.id)
   },[releasePin])
 
