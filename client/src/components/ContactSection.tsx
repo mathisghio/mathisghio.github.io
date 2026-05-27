@@ -101,7 +101,7 @@ function KitNewsletterForm() {
     const container = ref.current
     if (!container) return
 
-    const uid = window.innerWidth < 1200 ? 'a80ba691b9' : 'a08a513a37'
+    const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
 
     if (!document.querySelector(`script[data-uid="${uid}"]`)) {
       const s = document.createElement('script')
@@ -576,11 +576,13 @@ export function ContactSection() {
               Newsletter
             </span>
           </div>
-          <div className="max-w-xl">
+          <div className="flex flex-col items-center text-center max-w-xl mx-auto">
             <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
               Race results, speed records, behind-the-scenes. No spam, unsubscribe anytime.
             </p>
-            <KitNewsletterForm />
+            <div className="w-full">
+              <KitNewsletterForm />
+            </div>
           </div>
         </div>
       </div>
