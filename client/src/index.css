@@ -362,6 +362,13 @@ html, body {
   }
 }
 
+/* ── Gallery: lamp plus courte sur desktop pleine fenêtre ── */
+@media (min-width: 1024px) {
+  .gallery-lamp {
+    min-height: 45vh !important;
+  }
+}
+
 /* ── Gallery: images légèrement plus basses en fenêtre desktop réduite ── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .gallery-images-container {
