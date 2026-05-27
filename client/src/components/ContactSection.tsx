@@ -582,13 +582,11 @@ export function ContactSection() {
               Newsletter
             </span>
           </div>
-          <div className="flex flex-col items-center text-center max-w-xl mx-auto">
+          <div className="max-w-xl mx-auto">
             <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
               Race results, speed records, behind-the-scenes. No spam, unsubscribe anytime.
             </p>
-            <div className="w-full">
-              <KitNewsletterForm />
-            </div>
+            <KitNewsletterForm />
           </div>
         </div>
       </div>

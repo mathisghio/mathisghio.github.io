@@ -361,6 +361,17 @@ html, body {
     transform: none !important;
   }
 }
+
+/* ── Lamp: fenêtre desktop réduite (768–1023px) ── */
+/* Les cônes (35rem chacun) débordent horizontalement et le masque supérieur
+   dépasse le haut du conteneur → overflow:hidden les coupe. On passe en visible
+   uniquement pour cette plage, sans toucher mobile (<768) ni desktop (≥1024). */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lamp-container {
+    overflow: visible !important;
+    min-height: 62vh !important;
+  }
+}
   
   @media (min-width: 1024px) {
     .container {
