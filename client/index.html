@@ -52,17 +52,7 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Kit.com modal popup — desktop: f8b2bd3ed1 / mobile: 7343a67e82 -->
-    <script>
-      (function() {
-        var uid = window.innerWidth < 768 ? '7343a67e82' : 'f8b2bd3ed1';
-        var s = document.createElement('script');
-        s.async = true;
-        s.dataset.uid = uid;
-        s.src = 'https://mathis-ghio-wingfoil.kit.com/' + uid + '/index.js';
-        document.body.appendChild(s);
-      })();
-    </script>
+    <!-- Kit.com form injected from main.tsx (avoids CSP inline restriction) -->
   </body>
 
 </html>
