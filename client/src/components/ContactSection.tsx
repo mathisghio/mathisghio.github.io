@@ -101,12 +101,13 @@ function KitNewsletterForm() {
     const container = ref.current
     if (!container) return
 
-    // Inject script once
-    if (!document.querySelector('script[data-uid="a08a513a37"]')) {
+    const uid = window.innerWidth < 1200 ? 'a80ba691b9' : 'a08a513a37'
+
+    if (!document.querySelector(`script[data-uid="${uid}"]`)) {
       const s = document.createElement('script')
       s.async = true
-      s.dataset.uid = 'a08a513a37'
-      s.src = 'https://mathis-ghio-wingfoil.kit.com/a08a513a37/index.js'
+      s.dataset.uid = uid
+      s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
       document.body.appendChild(s)
     }
 
@@ -116,7 +117,7 @@ function KitNewsletterForm() {
         for (const node of m.addedNodes) {
           if (
             node instanceof HTMLElement &&
-            (node.dataset.uid === 'a08a513a37' || node.classList.contains('formkit-form'))
+            (node.dataset.uid === uid || node.classList.contains('formkit-form'))
           ) {
             container.appendChild(node)
             obs.disconnect()
