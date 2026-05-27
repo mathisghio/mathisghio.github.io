@@ -100,11 +100,10 @@ function KitNewsletterForm() {
   useEffect(() => {
     const el = ref.current
     if (!el || el.childNodes.length > 0) return
-    const uid = window.innerWidth < 1200 ? '7343a67e82' : 'f8b2bd3ed1'
     const s = document.createElement('script')
     s.async = true
-    s.dataset.uid = uid
-    s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
+    s.dataset.uid = 'a08a513a37'
+    s.src = 'https://mathis-ghio-wingfoil.kit.com/a08a513a37/index.js'
     el.appendChild(s)
   }, [])
 
