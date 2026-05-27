@@ -6,7 +6,7 @@ import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
 import { trackEmailClick, trackLead, trackFormStart, trackSocialClick } from '@/lib/analytics'
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xqezkppz'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/contact@mathisghio.com'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const SOCIAL_CHANNELS = [
@@ -197,10 +197,19 @@ function ContactForm() {
       message:   data.get('message')   as string,
     }
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name:          `${payload.firstName} ${payload.lastName}`,
+          email:         payload.email,
+          _replyto:      payload.email,
+          message:       payload.message,
+          _subject:      `New message from ${payload.firstName} ${payload.lastName}`,
+          _captcha:      'false',
+          _template:     'table',
+          _autoresponse: `Hi ${payload.firstName},\n\nThank you for your message! I've received it and will get back to you within 48 hours.\n\nBest,\nMathis Ghio`,
+        }),
       })
       if (res.ok) {
         try {
@@ -215,12 +224,9 @@ function ContactForm() {
         setMsgLen(0)
         setTimeout(() => setStatus('idle'), 6000)
       } else {
-        const body = await res.json().catch(() => ({}))
-        console.error('[Formspree]', res.status, body)
         setStatus('error')
       }
-    } catch (err) {
-      console.error('[Formspree] network error', err)
+    } catch {
       setStatus('error')
     }
   }
