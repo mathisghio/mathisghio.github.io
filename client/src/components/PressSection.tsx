@@ -146,7 +146,7 @@ export function PressSection() {
   const { ref, inView } = useInView(0.05)
 
   return (
-    <section id="press" ref={ref} style={{ background: '#08090E' }}>
+    <section id="press" ref={ref} className="press-section" style={{ background: '#08090E' }}>
 
       {/* ── Lamp header ── */}
       

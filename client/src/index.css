@@ -362,10 +362,13 @@ html, body {
   }
 }
 
-/* ── Gallery: lamp plus courte sur desktop pleine fenêtre ── */
+/* ── Press & Contact: halo remonte sur desktop pour empiéter sur la section précédente ── */
 @media (min-width: 1024px) {
-  .gallery-lamp {
-    min-height: 45vh !important;
+  .press-section,
+  .contact-section {
+    margin-top: -150px;
+    position: relative;
+    z-index: 5;
   }
 }
 

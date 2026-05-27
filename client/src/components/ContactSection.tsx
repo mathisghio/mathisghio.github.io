@@ -470,7 +470,7 @@ export function ContactSection() {
 
   return (
     <>
-      <section id="contact" ref={ref} style={{ background: '#08090E' }}>
+      <section id="contact" ref={ref} className="contact-section" style={{ background: '#08090E' }}>
 
         <LampContainer className="min-h-[58vh] lg:min-h-[80vh] lamp-lower-desktop">
           <motion.div
