@@ -39,7 +39,12 @@ export function ShaderAnimation() {
     const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    let renderer: THREE.WebGLRenderer
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    } catch {
+      return
+    }
     renderer.setPixelRatio(window.devicePixelRatio)
     container.appendChild(renderer.domElement)
     const onWindowResize = () => {

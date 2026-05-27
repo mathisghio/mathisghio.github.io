@@ -148,7 +148,11 @@ export function WebGLShader({
       refs.uniforms.resolution.value = [width, height]
     }
 
-    initScene()
+    try {
+      initScene()
+    } catch {
+      return
+    }
 
     /* IntersectionObserver : démarre / stoppe le RAF selon la visibilité */
     const visObs = new IntersectionObserver(
