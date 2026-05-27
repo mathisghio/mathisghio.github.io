@@ -35,6 +35,10 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          VITE_EMAILJS_SERVICE_ID:  ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY:  ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
 
       - name: Copy CNAME to dist
         run: cp CNAME dist/public/CNAME

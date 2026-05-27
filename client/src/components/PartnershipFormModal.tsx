@@ -3,6 +3,7 @@ import type React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { trackLead, trackFormStart } from '@/lib/analytics'
+import { sendConfirmation } from '@/lib/emailjs'
 
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/contact@mathisghio.com'
 
@@ -57,6 +58,7 @@ export function PartnershipFormModal({ trigger }: Props) {
       if (res.ok) {
         setStatus('success')
         trackLead('partnership_form')
+        sendConfirmation(form.name.split(' ')[0], form.email)
         setForm(INITIAL)
       } else {
         setStatus('error')

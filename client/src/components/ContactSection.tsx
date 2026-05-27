@@ -5,6 +5,7 @@ import { LampContainer } from '@/components/ui/lamp'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { useInView } from '@/hooks/useInView'
 import { trackEmailClick, trackLead, trackFormStart, trackSocialClick } from '@/lib/analytics'
+import { sendConfirmation } from '@/lib/emailjs'
 
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/contact@mathisghio.com'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -220,6 +221,7 @@ function ContactForm() {
           }))
         } catch { /* noop */ }
         setStatus('success'); trackLead('contact_form')
+        sendConfirmation(payload.firstName, payload.email)
         formRef.current?.reset()
         setMsgLen(0)
         setTimeout(() => setStatus('idle'), 6000)
