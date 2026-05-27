@@ -362,16 +362,6 @@ html, body {
   }
 }
 
-/* ── Press & Contact: halo remonte sur desktop pour empiéter sur la section précédente ── */
-@media (min-width: 1024px) {
-  .press-section,
-  .contact-section {
-    margin-top: -50px;
-    position: relative;
-    z-index: 5;
-  }
-}
-
 /* ── Gallery: images légèrement plus basses en fenêtre desktop réduite ── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .gallery-images-container {

@@ -146,7 +146,7 @@ export function PressSection() {
   const { ref, inView } = useInView(0.05)
 
   return (
-    <section id="press" ref={ref} className="press-section" style={{ background: '#08090E' }}>
+    <section id="press" ref={ref} style={{ background: '#08090E' }}>
 
       {/* ── Lamp header ── */}
       
@@ -188,7 +188,7 @@ export function PressSection() {
       </LampContainer>
 
       {/* ── Content ── */}
-      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:mt-[28px]">
+      <div className="container relative z-10 pb-10 lg:pb-36 -mt-[140px] lg:-mt-[60px]">
 
         {/* Intro text */}
         <div
