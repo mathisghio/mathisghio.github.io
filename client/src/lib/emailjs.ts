@@ -1,9 +1,8 @@
-const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  || ''
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || ''
-const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  || ''
+const SERVICE_ID  = 'service_jfw6gre'
+const TEMPLATE_ID = 'template_v0dbiyb'
+const PUBLIC_KEY  = 'xenyIvBYLTYlcY-Mm'
 
 export async function sendConfirmation(firstName: string, toEmail: string) {
-  if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) return
   try {
     await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
