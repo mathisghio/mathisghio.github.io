@@ -4,8 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { trackLead, trackFormStart } from '@/lib/analytics'
 
-// TODO: crée un compte gratuit sur https://formspree.io et remplace par ton form ID
-const FORMSPREE_ID = 'xqezkppz'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/mathis.ghio@gmail.com'
 
 interface FormState {
   name: string
@@ -39,10 +38,20 @@ export function PartnershipFormModal({ trigger }: Props) {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, _subject: `Partnership inquiry: ${form.company}` }),
+        body: JSON.stringify({
+          name:      form.name,
+          email:     form.email,
+          _replyto:  form.email,
+          company:   form.company,
+          role:      form.role,
+          message:   form.message,
+          _subject:  `Partnership inquiry from ${form.company} — ${form.name}`,
+          _captcha:  'false',
+          _template: 'table',
+        }),
       })
       if (res.ok) {
         setStatus('success')
