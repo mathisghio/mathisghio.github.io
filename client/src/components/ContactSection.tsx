@@ -95,19 +95,22 @@ function InfoRow({
 }
 
 function KitNewsletterForm() {
-  const ref = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
-    const el = ref.current
-    if (!el || el.childNodes.length > 0) return
+    if (document.querySelector('script[data-uid="a08a513a37"]')) return
     const s = document.createElement('script')
     s.async = true
     s.dataset.uid = 'a08a513a37'
     s.src = 'https://mathis-ghio-wingfoil.kit.com/a08a513a37/index.js'
-    el.appendChild(s)
+    document.body.appendChild(s)
   }, [])
 
-  return <div ref={ref} className="w-full" />
+  return (
+    <div
+      className="formkit-form"
+      data-uid="a08a513a37"
+      style={{ width: '100%' }}
+    />
+  )
 }
 
 function SuccessState() {
