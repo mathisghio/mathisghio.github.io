@@ -363,11 +363,13 @@ html, body {
 }
 
 /* ── Lamp: fenêtre desktop réduite (768–1023px) ── */
-/* scale-y-125 fait déborder les éléments en haut du conteneur → overflow:hidden les coupe.
-   On supprime le scale vertical uniquement sur cette plage. */
 @media (min-width: 768px) and (max-width: 1023px) {
   .lamp-container > div:first-child {
-    transform: scaleY(1) !important;
+    transform: scaleY(1) translateY(80px) !important;
+  }
+  .lamp-container > div:last-child {
+    translate: 0 100px !important;
+    transform: none !important;
   }
 }
 
