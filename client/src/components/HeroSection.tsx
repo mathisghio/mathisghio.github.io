@@ -58,93 +58,97 @@ export function HeroSection() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          DESKTOP (lg+) — deux absolute séparés :
-          · haut : titre + badge + tagline (top:90px → bottom:200px)
-          · bas  : boutons + scroll indicator (bottom:88px, ancré sur stats bar)
-          → les boutons ne peuvent jamais chevaucher le texte
+          DESKTOP (lg+) — CSS Grid (1fr auto) :
+          · ligne 1 (1fr) : texte — prend tout l'espace disponible, clips en haut
+          · ligne 2 (auto) : boutons + scroll — hauteur naturelle, jamais fixe
+          → même si les boutons passent sur 2 lignes, la ligne texte réduit
+            et ne chevauche JAMAIS les boutons
           ═══════════════════════════════════════════════════════════════════ */}
-
-      {/* ── Haut : titre + badge + tagline ── */}
       <div
-        className="absolute inset-x-0 z-40 hidden lg:flex flex-col justify-end overflow-hidden"
-        style={{ top: '90px', bottom: '200px' }}
+        className="absolute inset-x-0 z-40 hidden lg:grid overflow-hidden"
+        style={{ top: '90px', bottom: '88px', gridTemplateRows: '1fr auto' }}
       >
-        <div className="container">
 
-          {/* Titre */}
-          <div
-            className="transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
-          >
-            <h1 className="font-display text-white leading-none hero-dt-title" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
-              MATHIS
-            </h1>
-            <h1
-              className="font-display leading-none hero-dt-title"
-              style={{ fontSize: 'clamp(60px, 10vw, 145px)', color: '#0EA5E9' }}
+        {/* ── Ligne 1 : titre + badge + tagline ── */}
+        <div className="overflow-hidden flex flex-col justify-end">
+          <div className="container">
+
+            {/* Titre */}
+            <div
+              className="transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
             >
-              GHIO
-            </h1>
-          </div>
+              <h1 className="font-display text-white leading-none hero-dt-title" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
+                MATHIS
+              </h1>
+              <h1
+                className="font-display leading-none hero-dt-title"
+                style={{ fontSize: 'clamp(60px, 10vw, 145px)', color: '#0EA5E9' }}
+              >
+                GHIO
+              </h1>
+            </div>
 
-          {/* Badge */}
-          <div
-            className="mt-3 hero-dt-gap-sm transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
-          >
-            <span
-              className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
-              style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
+            {/* Badge */}
+            <div
+              className="mt-3 hero-dt-gap-sm transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(16px)', transitionDelay: '450ms' }}
             >
-              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
-              5× World Champion · 41.40 kts Speed Record
-            </span>
+              <span
+                className="inline-flex items-center gap-3 font-body text-xs font-medium uppercase tracking-widest px-4 py-2 rounded-sm"
+                style={{ color: '#0EA5E9', background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.22)', letterSpacing: '0.2em', backdropFilter: 'blur(8px)' }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#0EA5E9', boxShadow: '0 0 6px #0EA5E9' }} />
+                5× World Champion · 41.40 kts Speed Record
+              </span>
+            </div>
+
+            {/* Tagline */}
+            <div
+              className="mt-3 hero-dt-gap-sm max-w-xl transition-all duration-700"
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
+            >
+              <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+                Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
+              </p>
+            </div>
+
           </div>
-
-          {/* Tagline */}
-          <div
-            className="mt-3 hero-dt-gap-sm max-w-xl transition-all duration-700"
-            style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
-          >
-            <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
-            </p>
-          </div>
-
         </div>
-      </div>
 
-      {/* ── Bas : boutons + scroll, ancrés au-dessus de la stats bar ── */}
-      <div
-        className="absolute inset-x-0 z-40 hidden lg:flex flex-col transition-all duration-700"
-        style={{ bottom: '88px', opacity: visible ? 1 : 0, transitionDelay: '650ms' }}
-      >
-        <div className="container pt-4 pb-2 flex items-center gap-4">
-          <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-            View My Achievements
-          </ShinyButton>
-          <ShinyButton
-            onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-            className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
-          >
-            My Journey
-          </ShinyButton>
-          <PartnershipFormModal
-            trigger={
-              <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
-                Partner with Me
-              </ShinyButton>
-            }
-          />
-        </div>
-        <button
-          onClick={scrollToAbout}
-          className="pb-2 flex flex-col items-center gap-2 w-full hover:opacity-70 transition-all duration-300"
-          style={{ color: 'rgba(241,245,249,0.5)' }}
+        {/* ── Ligne 2 : boutons + scroll (hauteur naturelle) ── */}
+        <div
+          className="flex flex-col transition-all duration-700"
+          style={{ opacity: visible ? 1 : 0, transitionDelay: '650ms' }}
         >
-          <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
-          <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
-        </button>
+          <div className="container pt-4 pb-2 flex items-center flex-wrap gap-4">
+            <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
+              View My Achievements
+            </ShinyButton>
+            <ShinyButton
+              onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
+              className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+            >
+              My Journey
+            </ShinyButton>
+            <PartnershipFormModal
+              trigger={
+                <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
+                  Partner with Me
+                </ShinyButton>
+              }
+            />
+          </div>
+          <button
+            onClick={scrollToAbout}
+            className="pb-2 flex flex-col items-center gap-2 w-full hover:opacity-70 transition-all duration-300"
+            style={{ color: 'rgba(241,245,249,0.5)' }}
+          >
+            <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+            <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
+          </button>
+        </div>
+
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════

@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-const kitUid = window.innerWidth < 768 ? '7343a67e82' : 'f8b2bd3ed1'
+const kitUid = window.innerWidth < 1200 ? '7343a67e82' : 'f8b2bd3ed1'
 const kitScript = document.createElement('script')
 kitScript.async = true
 kitScript.dataset.uid = kitUid
