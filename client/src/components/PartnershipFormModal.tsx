@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { trackLead, trackFormStart } from '@/lib/analytics'
 
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/mathis.ghio@gmail.com'
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/contact@mathisghio.com'
 
 interface FormState {
   name: string
@@ -48,9 +48,10 @@ export function PartnershipFormModal({ trigger }: Props) {
           company:   form.company,
           role:      form.role,
           message:   form.message,
-          _subject:  `Partnership inquiry from ${form.company} — ${form.name}`,
-          _captcha:  'false',
-          _template: 'table',
+          _subject:      `Partnership inquiry from ${form.company} — ${form.name}`,
+          _captcha:      'false',
+          _template:     'table',
+          _autoresponse: `Hi ${form.name},\n\nThank you for reaching out! Mathis has received your partnership inquiry and will get back to you within 48 hours.\n\nBest,\nMathis Ghio`,
         }),
       })
       if (res.ok) {
