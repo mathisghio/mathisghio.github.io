@@ -103,6 +103,13 @@ function KitNewsletterForm() {
 
     const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
 
+    // If the form was already rendered (e.g. script cached), move it immediately
+    const existing = document.querySelector<HTMLElement>(`[data-uid="${uid}"]`)
+    if (existing && existing.tagName !== 'SCRIPT') {
+      container.appendChild(existing)
+      return
+    }
+
     if (!document.querySelector(`script[data-uid="${uid}"]`)) {
       const s = document.createElement('script')
       s.async = true
@@ -111,14 +118,13 @@ function KitNewsletterForm() {
       document.body.appendChild(s)
     }
 
-    // Kit.com appends its rendered form to <body>. Watch and move it here.
+    // Match strictly by uid — do NOT use the formkit-form class check,
+    // as other Kit.com scripts on the page (main.tsx) also inject formkit-form
+    // elements and would trigger a premature disconnect.
     const obs = new MutationObserver((mutations) => {
       for (const m of mutations) {
         for (const node of m.addedNodes) {
-          if (
-            node instanceof HTMLElement &&
-            (node.dataset.uid === uid || node.classList.contains('formkit-form'))
-          ) {
+          if (node instanceof HTMLElement && node.dataset.uid === uid) {
             container.appendChild(node)
             obs.disconnect()
             return
