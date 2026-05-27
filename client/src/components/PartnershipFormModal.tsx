@@ -163,7 +163,7 @@ export function PartnershipFormModal({ trigger }: Props) {
               )}
 
               <div style={{ marginTop: '4px' }}>
-                <ShinyButton>
+                <ShinyButton type="submit" disabled={status === 'sending'}>
                   {status === 'sending' ? 'Sending…' : 'Send Partnership Request'}
                 </ShinyButton>
               </div>
