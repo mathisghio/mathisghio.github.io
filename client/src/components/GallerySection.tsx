@@ -240,7 +240,7 @@ export function GallerySection() {
         </LampContainer>
       </div>
 
-      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[200px] lg:-mt-[200px]">
+      <div className="container relative z-10 pb-0 lg:pb-16 -mt-[200px] lg:-mt-[200px] gallery-images-container">
         <div
           className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 auto-rows-[160px] lg:auto-rows-[200px] transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '200ms' }}

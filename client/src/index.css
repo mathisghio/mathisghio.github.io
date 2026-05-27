@@ -362,6 +362,13 @@ html, body {
   }
 }
 
+/* ── Gallery: images légèrement plus basses en fenêtre desktop réduite ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gallery-images-container {
+    margin-top: -100px !important;
+  }
+}
+
 /* ── Lamp: fenêtre desktop réduite (768–1023px) ── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .lamp-container > div:first-child {
