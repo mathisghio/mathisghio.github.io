@@ -96,8 +96,10 @@ function InfoRow({
 
 function KitNewsletterForm() {
   const ref = useRef<HTMLDivElement>(null)
+  const isInstagram = /Instagram/.test(navigator.userAgent)
 
   useEffect(() => {
+    if (isInstagram) return
     const container = ref.current
     if (!container) return
 
@@ -136,6 +138,7 @@ function KitNewsletterForm() {
     return () => obs.disconnect()
   }, [])
 
+  if (isInstagram) return null
   return <div ref={ref} className="w-full" />
 }
 
