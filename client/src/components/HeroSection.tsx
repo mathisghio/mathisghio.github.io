@@ -29,7 +29,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative w-full overflow-hidden max-h-[600px] min-[500px]:max-h-[680px] lg:max-h-none"
+      className="relative w-full overflow-hidden max-h-[650px] min-[500px]:max-h-[680px] lg:max-h-none"
       style={{ height: '100svh', minHeight: '600px' }}
     >
       <VideoBackground videoSrc={HERO_VIDEO} videoSrcWebm={HERO_VIDEO_WEBM} videoSrcMobile={HERO_VIDEO_MOBILE} videoSrcMobileWebm={HERO_VIDEO_MOBILE_WEBM} fallbackImageSrc={HERO_GENERATED} />
@@ -188,7 +188,7 @@ export function HeroSection() {
           </div>
 
           <div
-            className="mt-8 transition-all duration-700"
+            className="mt-10 transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
