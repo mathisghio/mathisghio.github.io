@@ -29,7 +29,7 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative w-full overflow-hidden max-h-[680px] lg:max-h-none"
+      className="relative w-full overflow-hidden max-h-[600px] min-[500px]:max-h-[680px] lg:max-h-none"
       style={{ height: '100svh', minHeight: '600px' }}
     >
       <VideoBackground videoSrc={HERO_VIDEO} videoSrcWebm={HERO_VIDEO_WEBM} videoSrcMobile={HERO_VIDEO_MOBILE} videoSrcMobileWebm={HERO_VIDEO_MOBILE_WEBM} fallbackImageSrc={HERO_GENERATED} />
@@ -105,7 +105,7 @@ export function HeroSection() {
               style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
             >
               <p className="font-body text-lg font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-                Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
+                Five world titles. A speed record. An engineering student who understands the physics of going fast. And applies it.
               </p>
             </div>
 
@@ -188,11 +188,11 @@ export function HeroSection() {
           </div>
 
           <div
-            className="mt-6 transition-all duration-700"
+            className="mt-8 transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
-              Five world titles. A speed record. A materials science engineering student. The sport's most credible athlete for brands that demand performance.
+              Five world titles. A speed record. An engineering student who understands the physics of going fast. And applies it.
             </p>
           </div>
         </div>
