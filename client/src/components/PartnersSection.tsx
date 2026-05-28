@@ -39,7 +39,7 @@ export function PartnersSection() {
            xScale=1.0 / yScale=0.45 ≈ demo defaults → same S-curve feel. */}
       <div
         className="hidden lg:block"
-        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '420px' }}
+        style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: 0, right: 0, height: '280px' }}
       >
         <WebGLShader
           xScale={1.0}
