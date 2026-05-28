@@ -36,7 +36,7 @@ export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoS
     <div className={`absolute inset-0 z-0 overflow-hidden ${className}`}>
       {/* Image de fond — visible immédiatement, disparaît une fois la vidéo prête */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 vbg-fallback"
         style={{
           backgroundImage: `url(${fallbackImageSrc})`,
           backgroundSize: 'cover',
