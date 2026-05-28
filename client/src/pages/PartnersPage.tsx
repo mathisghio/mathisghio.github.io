@@ -89,6 +89,7 @@ const PARTNERS_SCHEMA = {
 }
 
 const titlePartners = [
+  { name: 'Foilingtwins',       description: 'My favorite wingfoiler',   url: 'https://instagram.com/foilingtwins' },
   { name: 'Ozone',       description: 'Wing & kite manufacturer and R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
   { name: 'Levitaz',     description: 'Hydrofoil manufacturer and R&D partner',     url: 'https://levitaz.com/team-rider/mathis-ghio/' },
   { name: 'Forward WIP', description: 'Protection & accessories partner',         url: 'https://www.forward-wip.com/fr/team/mathis-ghio/' },
