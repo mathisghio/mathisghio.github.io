@@ -39,7 +39,7 @@ const HOME_SCHEMA = {
     'https://ozonekites.com/team/mathis-ghio/',
     'https://levitaz.com/team-rider/mathis-ghio/',
   ],
-  description: '5× Wingfoil Racing World Champion, 4× European Champion. Speed record holder at 41.40 knots. Based in Marseille, France.',
+  description: '5× Wingfoil Racing World Champion, 4× European Champion. Speed record holder at 41.39 knots. Based in Marseille, France.',
   award: ['5× Wingfoil Racing World Champion', '4× Formula Wing European Champion', '41.40 kts Speed Record'],
   knowsAbout: ['Wingfoil Racing', 'Hydrofoil', 'Watersports', 'Brand Partnerships'],
   affiliation: [
