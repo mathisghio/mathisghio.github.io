@@ -71,7 +71,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex gap-3 md:gap-10 pt-8 md:pt-16"
+            className={`flex gap-3 md:gap-10 pt-8 ${index === 0 ? 'md:pt-16' : 'md:pt-3'}`}
           >
             {/* LEFT: sticky — date on mobile, dot + year on desktop */}
             <div
