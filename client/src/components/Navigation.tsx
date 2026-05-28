@@ -112,7 +112,8 @@ export function Navigation() {
     };
     measure();
     const t = setTimeout(measure, 420);
-    return () => clearTimeout(t);
+    window.addEventListener("resize", measure);
+    return () => { clearTimeout(t); window.removeEventListener("resize", measure); };
   }, [activeIndex, compact, visibleAbove]);
 
   /* ── Track when compact first became true (one-shot per compact epoch) ── */
