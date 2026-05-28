@@ -51,7 +51,7 @@ export function HeroSection() {
       />
 
       {/* Lignes accent gauche — desktop */}
-      <div className="absolute left-0 top-0 bottom-0 hidden lg:flex flex-col justify-center gap-2 pl-6 pointer-events-none" style={{ zIndex: 35 }}>
+      <div className="absolute left-0 top-0 bottom-0 hidden md:flex flex-col justify-center gap-2 pl-6 pointer-events-none" style={{ zIndex: 35 }}>
         {[...Array(5)].map((_, i) => (
           <div key={i} className="h-px" style={{ width: `${20 + i * 8}px`, background: `rgba(14, 165, 233, ${0.2 + i * 0.08})` }} />
         ))}
@@ -65,7 +65,7 @@ export function HeroSection() {
             et ne chevauche JAMAIS les boutons
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 hidden lg:grid overflow-hidden"
+        className="absolute inset-x-0 z-40 hidden md:grid overflow-hidden"
         style={{ top: '90px', bottom: '88px', gridTemplateRows: '1fr auto' }}
       >
 
@@ -160,7 +160,7 @@ export function HeroSection() {
 
       {/* ── Haut : titre + badge + tagline ── */}
       <div
-        className="absolute inset-x-0 z-40 flex lg:hidden flex-col"
+        className="absolute inset-x-0 z-40 flex md:hidden flex-col"
         style={{ top: '90px', opacity: visible ? 1 : 0, transition: 'opacity 700ms' }}
       >
         <div className="container pt-3">
@@ -204,7 +204,7 @@ export function HeroSection() {
 
       {/* ── Bas : boutons + scroll + stats bar — ancré bottom:0 ── */}
       <div
-        className="absolute inset-x-0 bottom-0 z-40 flex lg:hidden flex-col"
+        className="absolute inset-x-0 bottom-0 z-40 flex md:hidden flex-col"
         style={{ opacity: visible ? 1 : 0, transition: 'opacity 700ms 650ms' }}
       >
         {/* Boutons */}
@@ -264,7 +264,7 @@ export function HeroSection() {
 
       {/* ── Stats bar — DESKTOP uniquement ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-40 hidden lg:block transition-all duration-700"
+        className="absolute bottom-0 left-0 right-0 z-40 hidden md:block transition-all duration-700"
         style={{
           opacity:         visible ? 1 : 0,
           transitionDelay: '800ms',
