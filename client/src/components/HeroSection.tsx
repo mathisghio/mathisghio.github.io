@@ -148,18 +148,21 @@ export function HeroSection() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          MOBILE (< lg) — deux absolute séparés :
-          · haut : titre + badge + tagline ancrés en top:90px
-          · bas  : boutons + scroll + stats bar ancrés en bottom:0
-          → la stats bar ne peut jamais sortir du overflow:hidden
+          MOBILE (< 500px) — un seul absolute top:90px→bottom:0 en flex-col :
+          · titre + badge ancrés en haut
+          · flex-1 spacer comble l'espace du milieu
+          · tagline + boutons + scroll + stats collés en bas
+          → la tagline est toujours directement au-dessus des boutons
           ═══════════════════════════════════════════════════════════════════ */}
-
-      {/* ── Haut : titre + badge + tagline ── */}
       <div
         className="absolute inset-x-0 z-40 flex min-[500px]:hidden flex-col"
-        style={{ top: '90px', opacity: visible ? 1 : 0, transition: 'opacity 700ms' }}
+        style={{ top: '90px', bottom: 0 }}
       >
-        <div className="container pt-3">
+        {/* ── Titre + Badge — ancrés en haut ── */}
+        <div
+          className="container pt-3"
+          style={{ opacity: visible ? 1 : 0, transition: 'opacity 700ms' }}
+        >
           <div
             className="transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
@@ -186,73 +189,74 @@ export function HeroSection() {
               </span>
             </div>
           </div>
+        </div>
 
+        {/* Spacer — remplace le mt-10 fixe, s'étire selon la hauteur de l'écran */}
+        <div className="flex-1" />
+
+        {/* ── Tagline + Boutons + Scroll + Stats — collés en bas ── */}
+        <div style={{ opacity: visible ? 1 : 0, transition: 'opacity 700ms 550ms' }}>
+          {/* Tagline */}
           <div
-            className="mt-10 transition-all duration-700"
+            className="container transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
-            <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
+            <p className="font-body text-sm font-light mb-3" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>
               Five world titles. A speed record. An engineering student who understands the physics of going fast. And applies it.
             </p>
           </div>
-        </div>
-      </div>
 
-      {/* ── Bas : boutons + scroll + stats bar — ancré bottom:0 ── */}
-      <div
-        className="absolute inset-x-0 bottom-0 z-40 flex min-[500px]:hidden flex-col"
-        style={{ opacity: visible ? 1 : 0, transition: 'opacity 700ms 650ms' }}
-      >
-        {/* Boutons */}
-        <div className="container pb-3 flex flex-col items-center gap-3">
-          <div className="flex gap-3 w-full justify-center">
-            <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
-              Achievements
-            </ShinyButton>
-            <ShinyButton
-              onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
-              className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
-            >
-              My Journey
-            </ShinyButton>
-          </div>
-          <PartnershipFormModal
-            trigger={
-              <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
-                Partner with Me
+          {/* Boutons */}
+          <div className="container pb-3 flex flex-col items-center gap-3">
+            <div className="flex gap-3 w-full justify-center">
+              <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
+                Achievements
               </ShinyButton>
-            }
-          />
-        </div>
+              <ShinyButton
+                onClick={() => document.querySelector('#career')?.scrollIntoView({ behavior: 'smooth' })}
+                className="[--shiny-cta-highlight:#38BDF8] [--shiny-cta-bg:rgba(255,255,255,0.04)]"
+              >
+                My Journey
+              </ShinyButton>
+            </div>
+            <PartnershipFormModal
+              trigger={
+                <ShinyButton className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]">
+                  Partner with Me
+                </ShinyButton>
+              }
+            />
+          </div>
 
-        {/* Scroll indicator */}
-        <button
-          onClick={scrollToAbout}
-          className="mb-1.5 flex flex-col items-center gap-1.5 w-full hover:opacity-70 transition-all duration-1000"
-          style={{ color: 'rgba(241,245,249,0.5)' }}
-        >
-          <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
-          <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
-        </button>
+          {/* Scroll indicator */}
+          <button
+            onClick={scrollToAbout}
+            className="mb-1.5 flex flex-col items-center gap-1.5 w-full hover:opacity-70 transition-all duration-1000"
+            style={{ color: 'rgba(241,245,249,0.5)' }}
+          >
+            <span className="font-body text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+            <ChevronDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
+          </button>
 
-        {/* Stats bar */}
-        <div style={{ borderTop: '1px solid rgba(14,165,233,0.15)', background: 'rgba(8,9,14,0.25)', backdropFilter: 'blur(16px)' }}>
-          <div className="container">
-            <div className="grid grid-cols-3">
-              {[
-                { value: '5×',       label: 'World Champion'    },
-                { value: '4×',       label: 'European Champion' },
-                { value: '41.4 kts', label: 'Speed Record'      },
-              ].map((stat, i) => (
-                <div key={i} className="py-2 px-1 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}>
-                  <span className="font-display text-xl whitespace-nowrap" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
-                    {stat.value}
-                  </span>
-                  <span className="font-body text-[0.6rem] uppercase tracking-widest mt-0.5 text-center leading-tight" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}>
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
+          {/* Stats bar */}
+          <div style={{ borderTop: '1px solid rgba(14,165,233,0.15)', background: 'rgba(8,9,14,0.25)', backdropFilter: 'blur(16px)' }}>
+            <div className="container">
+              <div className="grid grid-cols-3">
+                {[
+                  { value: '5×',       label: 'World Champion'    },
+                  { value: '4×',       label: 'European Champion' },
+                  { value: '41.4 kts', label: 'Speed Record'      },
+                ].map((stat, i) => (
+                  <div key={i} className="py-2 px-1 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid rgba(14,165,233,0.1)' : 'none' }}>
+                    <span className="font-display text-xl whitespace-nowrap" style={{ color: i === 0 ? '#F59E0B' : '#0EA5E9', textShadow: i === 0 ? '0 0 20px rgba(245,158,11,0.5)' : '0 0 20px rgba(14,165,233,0.5)' }}>
+                      {stat.value}
+                    </span>
+                    <span className="font-body text-[0.6rem] uppercase tracking-widest mt-0.5 text-center leading-tight" style={{ color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}>
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
