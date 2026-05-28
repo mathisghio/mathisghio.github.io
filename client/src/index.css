@@ -357,7 +357,7 @@ html, body {
 /* L'inline style (translateY -256px) est écrasé uniquement sur mobile */
 @media (max-width: 1023px) {
   .lamp-container > div:last-child {
-    translate: 0 20px !important;
+    translate: 0 -20px !important;
     transform: none !important;
   }
 }
