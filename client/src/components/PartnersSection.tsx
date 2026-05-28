@@ -4,6 +4,18 @@ import { PartnershipFormModal } from './PartnershipFormModal'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { ExternalLink } from 'lucide-react'
 
+const PARTNER_TICKER = [
+  'TITLE PARTNER',
+  'OFFICIAL PARTNER',
+  'MEDIA PARTNER',
+  'R&D COLLABORATION',
+  'GLOBAL CIRCUIT · 5 CONTINENTS',
+  '12+ EVENTS PER YEAR',
+  'ENGINEERING × PERFORMANCE',
+  'TAILORED TO YOUR BRAND',
+  'RESPONSE WITHIN 48H',
+]
+
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer and R&D partner',   logoText: 'OZONE'       },
   { name: 'Levitaz',     url: 'https://levitaz.com/team-rider/mathis-ghio/',       description: 'Hydrofoil manufacturer and R&D partner',     logoText: 'LEVITAZ'     },
@@ -164,7 +176,7 @@ export function PartnersSection() {
 
         {/* Partnership CTA */}
         <div
-          className="mt-10 lg:mt-16 p-5 lg:p-8 rounded-sm transition-all duration-700"
+          className="mt-10 lg:mt-16 rounded-sm overflow-hidden transition-all duration-700"
           style={{
             background: 'rgba(8,9,14,0.75)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(14,165,233,0.15)',
@@ -172,29 +184,45 @@ export function PartnersSection() {
             transitionDelay: '600ms',
           }}
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="lg:max-w-[620px]">
-              <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
-                Interested in a Partnership?
-              </h3>
-              <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Sponsorships, R&D collaborations, and long-term strategic partnerships:<br className="hidden lg:block" />
-                global circuit across 5 continents, 5 world titles, Materials Science Engineering at INSA Lyon.
-              </p>
+          <div className="p-5 lg:p-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+              <div className="lg:max-w-[620px]">
+                <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
+                  Ready to build something lasting?
+                </h3>
+                <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
+                  Title partnerships, R&D collaborations, product co-development, brand activations —<br className="hidden lg:block" />
+                  5 continents, 5 world titles, an engineering mind behind every result.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 items-center">
+                <ShinyButton
+                  href="https://canva.link/s85g1kf1ihu4mgu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
+                >
+                  <span className="flex items-center gap-2">
+                    <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                    View Partnership Deck
+                  </span>
+                </ShinyButton>
+                <PartnershipFormModal trigger={<ShinyButton>Start a Conversation</ShinyButton>} />
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-center">
-              <ShinyButton
-                href="https://canva.link/s85g1kf1ihu4mgu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
-              >
-                <span className="flex items-center gap-2">
-                  <ExternalLink size={13} style={{ flexShrink: 0 }} />
-                  Open Partnership File
-                </span>
-              </ShinyButton>
-              <PartnershipFormModal />
+          </div>
+
+          {/* Scrolling partnership ticker */}
+          <div className="relative overflow-hidden py-3" style={{ borderTop: '1px solid rgba(245,158,11,0.12)', background: 'rgba(245,158,11,0.03)' }}>
+            <div style={{ display: 'flex', width: 'max-content', animation: 'marquee 32s linear infinite', willChange: 'transform' }}>
+              {[...PARTNER_TICKER, ...PARTNER_TICKER].map((item, i) => (
+                <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
+                  <span className="font-display text-sm whitespace-nowrap" style={{ color: 'rgba(245,158,11,0.65)', letterSpacing: '0.15em' }}>
+                    {item}
+                  </span>
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(245,158,11,0.3)' }} />
+                </div>
+              ))}
             </div>
           </div>
         </div>

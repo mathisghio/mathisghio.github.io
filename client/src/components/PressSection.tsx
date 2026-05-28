@@ -4,6 +4,18 @@ import { LampContainer } from '@/components/ui/lamp'
 import { useInView } from '@/hooks/useInView'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
+const PRESS_TICKER = [
+  "L'ÉQUIPE",
+  'LE TÉLÉGRAMME',
+  'LA PROVENCE',
+  'VOILES ET VOILIERS',
+  'TONIC MAG',
+  'WINGSURF MAG',
+  'FOILING MAGAZINE',
+  'WORLD SAILING',
+  'FÉDÉRATION FRANÇAISE DE VOILE',
+]
+
 const DOCS = [
   {
     id: 'pressbook',
@@ -252,6 +264,32 @@ export function PressSection() {
               >
                 {outlet}
               </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Media ticker ── */}
+        <div
+          className="mb-12 relative overflow-hidden py-3 rounded-sm transition-all duration-700"
+          style={{
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '300ms',
+          }}
+        >
+          <div style={{ display: 'flex', width: 'max-content', animation: 'marquee 40s linear infinite', willChange: 'transform' }}>
+            {[...PRESS_TICKER, ...PRESS_TICKER].map((outlet, i) => (
+              <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
+                <span
+                  className="font-display text-sm whitespace-nowrap"
+                  style={{ color: 'rgba(241,245,249,0.45)', letterSpacing: '0.15em' }}
+                >
+                  {outlet}
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(241,245,249,0.15)' }} />
+              </div>
             ))}
           </div>
         </div>
