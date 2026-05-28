@@ -178,7 +178,7 @@ export function PartnersSection() {
                 Ready to build something lasting?
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Title partnerships, R&D collaborations, product co-development, brand activations —<br className="hidden lg:block" />
+                Title partnerships, R&D collaborations, product co-development, brand activations.<br className="hidden lg:block" />
                 5 continents, 5 world titles, an engineering mind behind every result.
               </p>
             </div>

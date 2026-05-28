@@ -176,8 +176,8 @@ export function SportSection() {
                 Make your brand part of the story.
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Four activation formats, 12 events across 5 continents —<br className="hidden lg:block" />
-                an engineering-driven athlete who knows what performance brands need.
+                Four activation formats, 12 events across 5 continents.<br className="hidden lg:block" />
+                An engineering-driven athlete who knows what performance brands need.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 items-center">

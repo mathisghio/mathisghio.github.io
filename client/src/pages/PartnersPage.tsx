@@ -287,7 +287,7 @@ export default function PartnersPage() {
             LET'S BUILD SOMETHING TOGETHER
           </h2>
           <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '15px', color: 'rgba(148,163,184,0.7)', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.7 }}>
-            Browse the full sponsorship deck or send a direct inquiry — every message is read personally and answered within 48 hours.
+            Browse the full sponsorship deck or send a direct inquiry. Every message is read personally and answered within 48 hours.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
             <ShinyButton
