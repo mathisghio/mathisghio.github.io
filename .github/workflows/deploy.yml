@@ -39,9 +39,6 @@ jobs:
       - name: Copy CNAME to dist
         run: cp CNAME dist/public/CNAME
 
-      - name: Copy 404 fallback for SPA routing
-        run: cp dist/public/index.html dist/public/404.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

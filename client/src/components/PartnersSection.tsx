@@ -32,15 +32,17 @@ export function PartnersSection() {
        * speed 0.006 = slower than default.
        * opacity 0.18 = atmospheric, not overpowering.
        */}
-      {/* Desktop wave — chromatic neon sine wave matching demo */}
+      {/* Desktop wave — single diagonal chromatic line, bottom-left → top-right.
+           xScale=0.5 keeps the sine monotone across the wide container (±~2 in p.x),
+           yScale=1.1 makes the wave exit the frame so only the crossing diagonal is visible. */}
       <div className="hidden lg:block">
         <WebGLShader
-          xScale={1.0}
-          yScale={0.5}
-          distortion={0.05}
-          speed={0.012}
+          xScale={0.5}
+          yScale={1.1}
+          distortion={0.06}
+          speed={0.008}
           opacity={0.85}
-          yOffset={0.2}
+          yOffset={0.0}
         />
       </div>
 
