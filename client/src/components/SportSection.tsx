@@ -51,10 +51,10 @@ export function SportSection() {
       className="section-edge-fade relative py-10 lg:py-20 overflow-hidden"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
-      <div className="absolute inset-0 z-0" style={{ opacity: 0.65 }}>
+      <div className="absolute inset-0 z-0 pointer-events-none" style={{ opacity: 0.65 }}>
         <ShaderAnimation2 />
       </div>
-      <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.60) 0%, rgba(8,9,14,0.48) 50%, rgba(8,9,14,0.60) 100%)' }} />
+      <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.60) 0%, rgba(8,9,14,0.48) 50%, rgba(8,9,14,0.60) 100%)' }} />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
 
