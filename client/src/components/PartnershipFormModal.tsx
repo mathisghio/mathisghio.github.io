@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { ShinyButton } from '@/components/ui/shiny-button'
@@ -26,6 +26,19 @@ export function PartnershipFormModal({ trigger }: Props) {
   const [form, setForm] = useState<FormState>(INITIAL)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [touched, setTouched] = useState(false)
+  const successRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (status !== 'success') return
+    successRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const t = setTimeout(() => setOpen(false), 10000)
+    return () => clearTimeout(t)
+  }, [status])
+
+  const handleOpenChange = (v: boolean) => {
+    setOpen(v)
+    if (!v) setTimeout(() => setStatus('idle'), 300)
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     if (!touched) {
@@ -90,7 +103,7 @@ export function PartnershipFormModal({ trigger }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {trigger ?? <ShinyButton>Become a Partner</ShinyButton>}
       </DialogTrigger>
@@ -119,7 +132,7 @@ export function PartnershipFormModal({ trigger }: Props) {
           </DialogHeader>
 
           {status === 'success' ? (
-            <div style={{ marginTop: '32px', textAlign: 'center', padding: '24px 0' }}>
+            <div ref={successRef} style={{ marginTop: '32px', textAlign: 'center', padding: '24px 0' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(14,165,233,0.1)', border: '1px solid rgba(14,165,233,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M4 10l4 4 8-8" stroke="#0EA5E9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

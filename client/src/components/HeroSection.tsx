@@ -117,7 +117,7 @@ export function HeroSection() {
           className="flex flex-col transition-all duration-700"
           style={{ opacity: visible ? 1 : 0, transitionDelay: '650ms' }}
         >
-          <div className="container pt-4 pb-2 flex items-center flex-wrap gap-4">
+          <div className="container pt-4 pb-2 flex items-center flex-wrap gap-4 justify-center">
             <ShinyButton onClick={() => document.querySelector('#achievements')?.scrollIntoView({ behavior: 'smooth' })}>
               View My Achievements
             </ShinyButton>
