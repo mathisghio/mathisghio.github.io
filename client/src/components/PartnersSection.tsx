@@ -171,7 +171,7 @@ export function PartnersSection() {
           }}
         >
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="lg:max-w-[500px]">
+            <div className="lg:max-w-[620px]">
               <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 Interested in a Partnership?
               </h3>
