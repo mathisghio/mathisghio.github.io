@@ -65,7 +65,7 @@ export function HeroSection() {
             et ne chevauche JAMAIS les boutons
           ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="absolute inset-x-0 z-40 grid overflow-hidden"
+        className="absolute inset-x-0 z-40 hidden min-[500px]:grid overflow-hidden"
         style={{ top: '90px', bottom: '88px', gridTemplateRows: '1fr auto' }}
       >
 
@@ -160,7 +160,7 @@ export function HeroSection() {
 
       {/* ── Haut : titre + badge + tagline ── */}
       <div
-        className="absolute inset-x-0 z-40 hidden flex-col"
+        className="absolute inset-x-0 z-40 flex min-[500px]:hidden flex-col"
         style={{ top: '90px', opacity: visible ? 1 : 0, transition: 'opacity 700ms' }}
       >
         <div className="container pt-3">
@@ -204,7 +204,7 @@ export function HeroSection() {
 
       {/* ── Bas : boutons + scroll + stats bar — ancré bottom:0 ── */}
       <div
-        className="absolute inset-x-0 bottom-0 z-40 hidden flex-col"
+        className="absolute inset-x-0 bottom-0 z-40 flex min-[500px]:hidden flex-col"
         style={{ opacity: visible ? 1 : 0, transition: 'opacity 700ms 650ms' }}
       >
         {/* Boutons */}
@@ -264,7 +264,7 @@ export function HeroSection() {
 
       {/* ── Stats bar — DESKTOP uniquement ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-40 block transition-all duration-700"
+        className="absolute bottom-0 left-0 right-0 z-40 hidden min-[500px]:block transition-all duration-700"
         style={{
           opacity:         visible ? 1 : 0,
           transitionDelay: '800ms',
