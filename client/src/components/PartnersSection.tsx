@@ -37,14 +37,17 @@ export function PartnersSection() {
            displayed with y=0 at the CSS top → yOffset POSITIVE = wave moves DOWN.
            yOffset=+0.55 centres the wave at ~77% from the top (lower third).
            xScale=1.0 / yScale=0.45 ≈ demo defaults → same S-curve feel. */}
-      <div className="hidden lg:block">
+      <div
+        className="hidden lg:block"
+        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '420px' }}
+      >
         <WebGLShader
           xScale={1.0}
-          yScale={0.45}
-          distortion={0.07}
+          yScale={0.40}
+          distortion={0.08}
           speed={0.010}
           opacity={0.92}
-          yOffset={0.55}
+          yOffset={0}
         />
       </div>
 
