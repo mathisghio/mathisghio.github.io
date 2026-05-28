@@ -164,12 +164,13 @@ export function PartnersSection() {
           }}
         >
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div>
+            <div className="lg:max-w-[500px]">
               <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 Interested in a Partnership?
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Sponsorships, R&D collaborations, and long-term strategic partnerships — backed by a global circuit across 5 continents, 5 world titles, and ongoing Materials Science Engineering studies at INSA Lyon.
+                Sponsorships, R&D collaborations, and long-term strategic partnerships —<br className="hidden lg:block" />
+                backed by a global circuit across 5 continents, 5 world titles, and ongoing Materials Science Engineering studies at INSA Lyon.
               </p>
             </div>
             <PartnershipFormModal />
