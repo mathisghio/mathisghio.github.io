@@ -32,17 +32,18 @@ export function PartnersSection() {
        * speed 0.006 = slower than default.
        * opacity 0.18 = atmospheric, not overpowering.
        */}
-      {/* Desktop wave — single diagonal chromatic line, bottom-left → top-right.
-           xScale=0.5 keeps the sine monotone across the wide container (±~2 in p.x),
-           yScale=1.1 makes the wave exit the frame so only the crossing diagonal is visible. */}
+      {/* Desktop wave — S-curve chromatic sinusoid in the lower third.
+           xScale=1.0 creates ~0.7 visible cycle across 1920px → clear S-curve.
+           yOffset=-0.30 keeps the wave center in the lower third.
+           distortion=0.07 separates R/G/B into distinct colored lines. */}
       <div className="hidden lg:block">
         <WebGLShader
-          xScale={0.5}
-          yScale={1.1}
-          distortion={0.06}
-          speed={0.008}
-          opacity={0.85}
-          yOffset={0.0}
+          xScale={1.0}
+          yScale={0.35}
+          distortion={0.07}
+          speed={0.010}
+          opacity={0.90}
+          yOffset={-0.30}
         />
       </div>
 
@@ -73,7 +74,7 @@ export function PartnersSection() {
       {/* Dark overlay so text stays legible over the shader */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
-        style={{ background: 'rgba(8,9,14,0.24)' }}
+        style={{ background: 'rgba(8,9,14,0.15)' }}
       />
 
       {/* Edge fades */}
