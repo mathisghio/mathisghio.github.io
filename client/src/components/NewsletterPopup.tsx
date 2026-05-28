@@ -158,7 +158,7 @@ export function NewsletterPopup() {
                   fontSize: '0.82rem', color: 'rgba(148,163,184,0.65)',
                   margin: '10px 0 0', lineHeight: 1.55,
                 }}>
-                  Race results, behind-the-scenes and performance insights — straight to your inbox.
+                  Race results, behind-the-scenes and performance insights, straight to your inbox.
                 </p>
               </div>
 

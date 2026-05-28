@@ -26,7 +26,7 @@ export function AboutSection() {
             </div>
             {[
               { text: "French professional wingfoil athlete. Five World Championships, four European titles, 41.40 knots speed record. International competition since age seven.", delay: '300ms' },
-              { text: "Member of the French Elite Athlete list since 2017. Currently studying Materials Science Engineering at INSA Lyon (Sport-Study) — a rare combination of elite athletics and engineering studies that makes every R&D partnership credible.", delay: '400ms' },
+              { text: "Member of the French Elite Athlete list since 2017. Currently studying Materials Science Engineering at INSA Lyon's Sport-Study programme, combining elite athletics and engineering at the highest level.", delay: '400ms' },
               { text: "R&D partnerships with Ozone, Levitaz Hydrofoils, and Forward Wip. Four on-water sessions weekly, three indoor. Every detail optimized.", delay: '500ms' },
             ].map((p, i) => (
               <p key={i} className="font-body mb-5 transition-all duration-700" style={{ color: 'rgba(148, 163, 184, 0.9)', lineHeight: 1.8, fontSize: '1rem', opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(30px)', transitionDelay: p.delay, transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>{p.text}</p>

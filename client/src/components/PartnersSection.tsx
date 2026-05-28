@@ -169,8 +169,8 @@ export function PartnersSection() {
                 Interested in a Partnership?
               </h3>
               <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
-                Sponsorships, R&D collaborations, and long-term strategic partnerships —<br className="hidden lg:block" />
-                backed by a global circuit across 5 continents, 5 world titles, and ongoing Materials Science Engineering studies at INSA Lyon.
+                Sponsorships, R&D collaborations, and long-term strategic partnerships:<br className="hidden lg:block" />
+                global circuit across 5 continents, 5 world titles, Materials Science Engineering at INSA Lyon.
               </p>
             </div>
             <PartnershipFormModal />

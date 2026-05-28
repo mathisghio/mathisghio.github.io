@@ -188,7 +188,7 @@ export function HeroSection() {
           </div>
 
           <div
-            className="mt-3 transition-all duration-700"
+            className="mt-6 transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '550ms' }}
           >
             <p className="font-body text-sm font-light" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.6 }}>

@@ -23,7 +23,7 @@ html, body {
 /* Hero fallback image — shift left on mobile to frame subject better */
 @media (max-width: 499px) {
   .vbg-fallback {
-    background-position: 30% 30% !important;
+    background-position: 38% 30% !important;
   }
 }
 
