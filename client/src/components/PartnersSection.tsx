@@ -81,7 +81,7 @@ export function PartnersSection() {
         style={{ background: 'linear-gradient(90deg, #08090E 0%, transparent 6%, transparent 94%, #08090E 100%)' }} />
 
       {/* ── Content ── */}
-      <div className="container relative z-10">
+      <div className="container relative z-20">
 
         {/* Header */}
         <div
