@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
-import { Globe, Trophy, Zap, Target } from 'lucide-react'
+import { Globe, Trophy, Zap, Target, ExternalLink } from 'lucide-react'
 import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
+import { ShinyButton } from '@/components/ui/shiny-button'
+import { PartnershipFormModal } from './PartnershipFormModal'
 
 const formatContainer = {
   hidden: {},
@@ -152,6 +154,49 @@ export function SportSection() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* ── Partnership CTA ── */}
+        <div
+          className="mt-10 lg:mt-16 p-5 lg:p-8 rounded-sm transition-all duration-700"
+          style={{
+            background: 'rgba(8,9,14,0.75)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(14,165,233,0.15)',
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '700ms',
+          }}
+        >
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="lg:max-w-[620px]">
+              <h3
+                className="font-heading font-bold text-2xl text-white mb-2"
+                style={{ fontFamily: 'Barlow Condensed, sans-serif' }}
+              >
+                Make your brand part of the story.
+              </h3>
+              <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
+                Four activation formats, 12 events across 5 continents —<br className="hidden lg:block" />
+                an engineering-driven athlete who knows what performance brands need.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 items-center">
+              <ShinyButton
+                href="https://canva.link/s85g1kf1ihu4mgu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
+              >
+                <span className="flex items-center gap-2">
+                  <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                  Explore the Partnership Deck
+                </span>
+              </ShinyButton>
+              <PartnershipFormModal trigger={<ShinyButton>Send a Direct Message</ShinyButton>} />
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   )
