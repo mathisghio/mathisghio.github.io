@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { PartnershipFormModal } from '@/components/PartnershipFormModal'
+import { ShinyButton } from '@/components/ui/shiny-button'
+import { ExternalLink } from 'lucide-react'
 import { trackSponsorsPageView } from '@/lib/analytics'
 import { useMeta } from '@/lib/meta'
 
@@ -166,13 +168,26 @@ export default function PartnersPage() {
           <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '17px', color: 'rgba(241,245,249,0.7)', maxWidth: '560px', lineHeight: 1.7, marginBottom: '36px' }}>
             Mathis Ghio is the most decorated wingfoil racing athlete in history: 5× World Champion, speed record holder, and a growing media presence across Europe and beyond. Partner with him to reach an engaged, performance-driven audience.
           </p>
-          <PartnershipFormModal
-            trigger={
-              <button className="shiny-cta" style={{ fontSize: '15px' }}>
-                <span>Request Partnership Info</span>
-              </button>
-            }
-          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+            <ShinyButton
+              href="https://canva.link/s85g1kf1ihu4mgu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
+            >
+              <span className="flex items-center gap-2">
+                <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                View Partnership Deck
+              </span>
+            </ShinyButton>
+            <PartnershipFormModal
+              trigger={
+                <button className="shiny-cta" style={{ fontSize: '15px' }}>
+                  <span>Request Partnership Info</span>
+                </button>
+              }
+            />
+          </div>
         </div>
 
         {/* Stats */}
@@ -271,16 +286,29 @@ export default function PartnersPage() {
           <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(36px, 6vw, 72px)', marginBottom: '16px' }}>
             LET'S BUILD SOMETHING TOGETHER
           </h2>
-          <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '15px', color: 'rgba(148,163,184,0.7)', marginBottom: '36px', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.7 }}>
-            Fill in the form and Mathis will personally get back to you within 48 hours.
+          <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '15px', color: 'rgba(148,163,184,0.7)', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.7 }}>
+            Browse the full sponsorship deck or send a direct inquiry — every message is read personally and answered within 48 hours.
           </p>
-          <PartnershipFormModal
-            trigger={
-              <button className="shiny-cta" style={{ fontSize: '16px' }}>
-                <span>Start a Partnership Conversation</span>
-              </button>
-            }
-          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', alignItems: 'center' }}>
+            <ShinyButton
+              href="https://canva.link/s85g1kf1ihu4mgu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
+            >
+              <span className="flex items-center gap-2">
+                <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                View Partnership Deck
+              </span>
+            </ShinyButton>
+            <PartnershipFormModal
+              trigger={
+                <button className="shiny-cta" style={{ fontSize: '16px' }}>
+                  <span>Start a Partnership Conversation</span>
+                </button>
+              }
+            />
+          </div>
           <div style={{ marginTop: '20px' }}>
             <a href="mailto:contact@mathisghio.com" style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '13px', color: 'rgba(148,163,184,0.5)', textDecoration: 'none' }}>
               Or email directly: contact@mathisghio.com

@@ -214,6 +214,48 @@ export function PressSection() {
           ))}
         </div>
 
+        {/* ── As featured in ── */}
+        <div
+          className="mb-12 transition-all duration-700"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '240ms',
+          }}
+        >
+          <p
+            className="font-body text-xs uppercase tracking-widest mb-5"
+            style={{ color: 'rgba(148,163,184,0.35)', letterSpacing: '0.2em' }}
+          >
+            As featured in
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "L'Équipe", 'Le Télégramme', 'La Provence', 'Voiles et Voiliers',
+              'Tonic Mag', 'Wingsurf Mag', 'Foiling Magazine',
+              'World Sailing', 'Fédération Française de Voile',
+            ].map((outlet) => (
+              <span
+                key={outlet}
+                style={{
+                  fontFamily: 'Barlow Condensed, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  color: 'rgba(241,245,249,0.45)',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: '4px',
+                  padding: '5px 11px',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {outlet}
+              </span>
+            ))}
+          </div>
+        </div>
+
         {/* ── Media inquiry CTA ── */}
         <div
           className="p-8 rounded-sm transition-all duration-700"
