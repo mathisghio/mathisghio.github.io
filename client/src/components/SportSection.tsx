@@ -48,7 +48,7 @@ export function SportSection() {
     <section
       id="sport"
       ref={ref}
-      className="section-edge-fade relative py-10 lg:py-20 overflow-hidden"
+      className="section-edge-fade relative py-10 lg:py-20"
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ opacity: 0.65 }}>
@@ -58,7 +58,7 @@ export function SportSection() {
       <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%)', filter: 'blur(40px)', zIndex: 1 }} />
 
-      <div className="container relative z-10">
+      <div className="container relative z-20">
         <div className="mb-10 lg:mb-16 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}>
           <SectionHeader label="For Brands" line1="WHY" line2="PARTNER?" />
         </div>
@@ -157,19 +157,17 @@ export function SportSection() {
 
         {/* ── Partnership CTA ── */}
         <div
-          className="mt-10 lg:mt-16 rounded-sm transition-[opacity,transform] duration-700"
+          className="mt-10 lg:mt-16 p-5 lg:p-8 rounded-sm transition-all duration-700"
           style={{
-            position: 'relative',
-            zIndex: 20,
-            background: 'rgba(8,9,14,0.92)',
+            background: 'rgba(8,9,14,0.75)',
+            backdropFilter: 'blur(16px)',
             border: '1px solid rgba(14,165,233,0.15)',
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '700ms',
-            pointerEvents: inView ? 'auto' : 'none',
           }}
         >
-          <div className="p-5 lg:p-8 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="lg:max-w-[620px]">
               <h3
                 className="font-heading font-bold text-2xl text-white mb-2"
@@ -182,7 +180,7 @@ export function SportSection() {
                 an engineering-driven athlete who knows what performance brands need.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-center" style={{ pointerEvents: 'auto' }}>
+            <div className="flex flex-col sm:flex-row gap-3 items-center">
               <ShinyButton
                 href="https://canva.link/s85g1kf1ihu4mgu"
                 target="_blank"
