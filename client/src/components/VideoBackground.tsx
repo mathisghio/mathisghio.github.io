@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 interface VideoBackgroundProps {
   videoSrc: string
   videoSrcWebm?: string
+  videoSrcMobile?: string
+  videoSrcMobileWebm?: string
   fallbackImageSrc: string
   className?: string
 }
 
-export function VideoBackground({ videoSrc, videoSrcWebm, fallbackImageSrc, className = '' }: VideoBackgroundProps) {
+export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoSrcMobileWebm, fallbackImageSrc, className = '' }: VideoBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [videoError, setVideoError] = useState(false)
@@ -59,7 +61,9 @@ export function VideoBackground({ videoSrc, videoSrcWebm, fallbackImageSrc, clas
             transition: 'opacity 0.8s ease',
           }}
         >
-          {videoSrcWebm && <source src={videoSrcWebm} type="video/webm" />}
+          {videoSrcMobileWebm && <source src={videoSrcMobileWebm} type="video/webm" media="(max-width: 640px)" />}
+          {videoSrcMobile    && <source src={videoSrcMobile}    type="video/mp4"  media="(max-width: 640px)" />}
+          {videoSrcWebm      && <source src={videoSrcWebm}      type="video/webm" />}
           <source src={videoSrc} type="video/mp4" />
         </video>
       )}

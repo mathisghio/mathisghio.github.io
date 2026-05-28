@@ -32,15 +32,15 @@ export function PartnersSection() {
        * speed 0.006 = slower than default.
        * opacity 0.18 = atmospheric, not overpowering.
        */}
-      {/* Desktop wave — general atmosphere */}
+      {/* Desktop wave — multiple chromatic waves */}
       <div className="hidden lg:block">
         <WebGLShader
-          xScale={1.2}
+          xScale={4.5}
           yScale={0.35}
-          distortion={0.06}
-          speed={0.022}
-          opacity={0.58}
-          yOffset={0.90}
+          distortion={0.20}
+          speed={0.018}
+          opacity={0.55}
+          yOffset={0.85}
         />
       </div>
 
