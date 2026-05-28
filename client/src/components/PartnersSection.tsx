@@ -33,17 +33,18 @@ export function PartnersSection() {
        * opacity 0.18 = atmospheric, not overpowering.
        */}
       {/* Desktop wave — S-curve chromatic sinusoid in the lower third.
-           xScale=1.0 creates ~0.7 visible cycle across 1920px → clear S-curve.
-           yOffset=-0.30 keeps the wave center in the lower third.
-           distortion=0.07 separates R/G/B into distinct colored lines. */}
+           NOTE: gl_FragCoord.y is 0 at the GL bottom but the canvas is
+           displayed with y=0 at the CSS top → yOffset POSITIVE = wave moves DOWN.
+           yOffset=+0.55 centres the wave at ~77% from the top (lower third).
+           xScale=1.0 / yScale=0.45 ≈ demo defaults → same S-curve feel. */}
       <div className="hidden lg:block">
         <WebGLShader
           xScale={1.0}
-          yScale={0.35}
+          yScale={0.45}
           distortion={0.07}
           speed={0.010}
-          opacity={0.90}
-          yOffset={-0.30}
+          opacity={0.92}
+          yOffset={0.55}
         />
       </div>
 
