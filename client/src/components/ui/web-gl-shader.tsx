@@ -41,6 +41,7 @@ export function WebGLShader({
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const testCanvas = document.createElement('canvas')
     if (!testCanvas.getContext('webgl2') && !testCanvas.getContext('webgl')) return
 

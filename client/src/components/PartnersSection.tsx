@@ -1,6 +1,8 @@
 import { useInView } from '@/hooks/useInView'
 import { WebGLShader } from '@/components/ui/web-gl-shader'
 import { PartnershipFormModal } from './PartnershipFormModal'
+import { ShinyButton } from '@/components/ui/shiny-button'
+import { ExternalLink } from 'lucide-react'
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer and R&D partner',   logoText: 'OZONE'       },
@@ -180,7 +182,20 @@ export function PartnersSection() {
                 global circuit across 5 continents, 5 world titles, Materials Science Engineering at INSA Lyon.
               </p>
             </div>
-            <PartnershipFormModal />
+            <div className="flex flex-col sm:flex-row gap-3 items-center">
+              <ShinyButton
+                href="https://canva.link/s85g1kf1ihu4mgu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="[--shiny-cta-highlight:#F59E0B] [--shiny-cta-bg:rgba(245,158,11,0.06)]"
+              >
+                <span className="flex items-center gap-2">
+                  <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                  Open Partnership File
+                </span>
+              </ShinyButton>
+              <PartnershipFormModal />
+            </div>
           </div>
         </div>
 
