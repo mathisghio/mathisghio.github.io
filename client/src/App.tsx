@@ -15,7 +15,7 @@ function InstagramBrowserGuard({ children }: { children: ReactNode }) {
 
   if (!isInstagram || dismissed) return <>{children}</>
 
-  const url = window.location.href
+  const url = 'https://mathisghio.com'
 
   const handleCopy = () => {
     navigator.clipboard?.writeText(url)
