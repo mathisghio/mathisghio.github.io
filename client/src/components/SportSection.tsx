@@ -157,17 +157,19 @@ export function SportSection() {
 
         {/* ── Partnership CTA ── */}
         <div
-          className="mt-10 lg:mt-16 p-5 lg:p-8 rounded-sm transition-all duration-700"
+          className="mt-10 lg:mt-16 rounded-sm transition-[opacity,transform] duration-700"
           style={{
-            background: 'rgba(8,9,14,0.75)',
-            backdropFilter: 'blur(16px)',
+            position: 'relative',
+            zIndex: 20,
+            background: 'rgba(8,9,14,0.92)',
             border: '1px solid rgba(14,165,233,0.15)',
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '700ms',
+            pointerEvents: inView ? 'auto' : 'none',
           }}
         >
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="p-5 lg:p-8 flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="lg:max-w-[620px]">
               <h3
                 className="font-heading font-bold text-2xl text-white mb-2"
@@ -180,7 +182,7 @@ export function SportSection() {
                 an engineering-driven athlete who knows what performance brands need.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-center">
+            <div className="flex flex-col sm:flex-row gap-3 items-center" style={{ pointerEvents: 'auto' }}>
               <ShinyButton
                 href="https://canva.link/s85g1kf1ihu4mgu"
                 target="_blank"
