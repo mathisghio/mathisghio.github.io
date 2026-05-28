@@ -228,7 +228,7 @@ export function PressSection() {
 
         {/* ── As featured in ── */}
         <div
-          className="mb-12 transition-all duration-700"
+          className="mb-4 transition-all duration-700"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
@@ -241,39 +241,14 @@ export function PressSection() {
           >
             As featured in
           </p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              "L'Équipe", 'Le Télégramme', 'La Provence', 'Voiles et Voiliers',
-              'Tonic Mag', 'Wingsurf Mag', 'Foiling Magazine',
-              'World Sailing', 'Fédération Française de Voile',
-            ].map((outlet) => (
-              <span
-                key={outlet}
-                style={{
-                  fontFamily: 'Barlow Condensed, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '12px',
-                  color: 'rgba(241,245,249,0.45)',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderRadius: '4px',
-                  padding: '5px 11px',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {outlet}
-              </span>
-            ))}
-          </div>
         </div>
 
         {/* ── Media ticker ── */}
         <div
           className="mb-12 relative overflow-hidden py-3 rounded-sm transition-all duration-700"
           style={{
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(245,158,11,0.03)',
+            border: '1px solid rgba(245,158,11,0.12)',
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
             transitionDelay: '300ms',
@@ -284,11 +259,11 @@ export function PressSection() {
               <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
                 <span
                   className="font-display text-sm whitespace-nowrap"
-                  style={{ color: 'rgba(241,245,249,0.45)', letterSpacing: '0.15em' }}
+                  style={{ color: 'rgba(245,158,11,0.65)', letterSpacing: '0.15em' }}
                 >
                   {outlet}
                 </span>
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(241,245,249,0.15)' }} />
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(245,158,11,0.3)' }} />
               </div>
             ))}
           </div>
