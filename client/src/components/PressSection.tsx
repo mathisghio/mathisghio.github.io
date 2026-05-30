@@ -259,7 +259,7 @@ export function PressSection() {
               <div key={i} className="flex items-center gap-6 flex-shrink-0 px-6">
                 <span
                   className="font-display text-sm whitespace-nowrap"
-                  style={{ color: 'rgba(245,158,11,0.65)', letterSpacing: '0.15em' }}
+                  style={{ color: 'rgba(245,158,11,0.85)', letterSpacing: '0.15em' }}
                 >
                   {outlet}
                 </span>

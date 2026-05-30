@@ -634,14 +634,14 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
             className="absolute inset-0 flex items-center justify-center">
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'14px'}}>
               <div style={{width:'32px',height:'32px',borderRadius:'50%',border:'2px solid rgba(14,165,233,0.15)',borderTop:'2px solid #0EA5E9',animation:'gsSpin 0.9s linear infinite'}}/>
-              <span style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.4)',letterSpacing:'0.15em',textTransform:'uppercase'}}>Loading globe</span>
+              <span style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.75)',letterSpacing:'0.15em',textTransform:'uppercase'}}>Loading globe</span>
             </div>
           </motion.div>
         )}
         {loadError&&(
           <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
             className="absolute inset-0 flex items-center justify-center">
-            <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.72rem',color:'rgba(148,163,184,0.4)'}}>Unable to load globe data</p>
+            <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.72rem',color:'rgba(148,163,184,0.75)'}}>Unable to load globe data</p>
           </motion.div>
         )}
       </AnimatePresence>

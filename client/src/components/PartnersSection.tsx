@@ -113,7 +113,7 @@ export function PartnersSection() {
                 {/* Hover glow */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(245,158,11,0.10) 0%, transparent 65%)' }} />
-                <span className="mb-3 font-body text-[0.6rem] uppercase tracking-widest" style={{ color: 'rgba(245,158,11,0.55)', letterSpacing: '0.22em' }}>
+                <span className="mb-3 font-body text-[0.6rem] uppercase tracking-widest" style={{ color: 'rgba(245,158,11,0.85)', letterSpacing: '0.22em' }}>
                   Title Partner
                 </span>
                 <div className="font-display text-3xl lg:text-4xl mb-2 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.95)' }}>

@@ -283,7 +283,7 @@ html, body {
   box-shadow: inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);
   opacity: 0;
   transition: opacity var(--transition);
-  animation: calc(var(--duration) * 1.5) breathe linear infinite;
+  animation: calc(var(--duration) * 1.5) breathe linear infinite paused;
 }
 
 .shiny-cta,
@@ -306,7 +306,10 @@ html, body {
   animation-play-state: running, running;
 }
 
-.shiny-cta:is(:hover, :focus-visible) span::before { opacity: 1; }
+.shiny-cta:is(:hover, :focus-visible) span::before {
+  opacity: 1;
+  animation-play-state: running;
+}
 
 @keyframes gradient-angle { to { --gradient-angle: 360deg; } }
 @keyframes shimmer { to { rotate: 360deg; } }

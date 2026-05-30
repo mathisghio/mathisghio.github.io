@@ -401,7 +401,7 @@ export function GallerySection() {
               <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, fontFamily: 'DM Sans, sans-serif', textAlign: 'center', maxWidth: '80vw', margin: 0 }}>
                 {galleryImages[lightboxIdx].alt}
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.22)', fontSize: 11, fontFamily: 'DM Sans, sans-serif', letterSpacing: '0.1em', margin: 0 }}>
+              <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 11, fontFamily: 'DM Sans, sans-serif', letterSpacing: '0.1em', margin: 0 }}>
                 {lightboxIdx + 1} / {galleryImages.length}
               </p>
             </div>

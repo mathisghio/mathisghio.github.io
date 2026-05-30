@@ -689,7 +689,7 @@ export function VideoPlayerPro({
               <div
                 style={{
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.4)",
+                  color: "rgba(255,255,255,0.65)",
                   maxWidth: 280,
                   textAlign: "center",
                 }}
@@ -735,6 +735,10 @@ export function VideoPlayerPro({
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={toggle}
+              role="button"
+              tabIndex={0}
+              aria-label={ended ? "Replay" : "Play"}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
               style={{
                 position: "absolute",
                 inset: 0,
@@ -1101,7 +1105,7 @@ export function VideoPlayerPro({
                     style={{
                       fontSize: 11,
                       fontWeight: 450,
-                      color: "rgba(255,255,255,0.4)",
+                      color: "rgba(255,255,255,0.65)",
                       fontVariantNumeric: "tabular-nums",
                       letterSpacing: "0.01em",
                       whiteSpace: "nowrap",
@@ -1149,7 +1153,7 @@ export function VideoPlayerPro({
                           color:
                             speed === s
                               ? "rgba(255,255,255,0.9)"
-                              : "rgba(255,255,255,0.3)",
+                              : "rgba(255,255,255,0.65)",
                           cursor: "pointer",
                           zIndex: 1,
                           transition: "color 0.15s",
@@ -1186,11 +1190,11 @@ export function VideoPlayerPro({
                     aria-label={looping ? "Disable loop" : "Enable loop"}
                     style={{
                       ...BTN,
-                      color: looping ? "#38BDF8" : "rgba(255,255,255,0.45)",
+                      color: looping ? "#38BDF8" : "rgba(255,255,255,0.65)",
                       background: looping ? "rgba(56,189,248,0.12)" : "transparent",
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.9)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.45)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.65)"; }}
                   >
                     <IcoLoop />
                   </button>
@@ -1201,9 +1205,9 @@ export function VideoPlayerPro({
                     <button
                       onClick={pictureInPicture}
                       aria-label="Picture in picture"
-                      style={{ ...BTN, color: "rgba(255,255,255,0.45)" }}
+                      style={{ ...BTN, color: "rgba(255,255,255,0.65)" }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}
                     >
                       <IcoPiP />
                     </button>
@@ -1215,13 +1219,13 @@ export function VideoPlayerPro({
                     aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                     style={{
                       ...BTN,
-                      color: "rgba(255,255,255,0.45)",
+                      color: "rgba(255,255,255,0.65)",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "rgba(255,255,255,0.9)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "rgba(255,255,255,0.45)";
+                      e.currentTarget.style.color = "rgba(255,255,255,0.65)";
                     }}
                   >
                     {isFullscreen ? <IcoExitFull /> : <IcoFull />}
