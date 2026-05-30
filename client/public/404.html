@@ -8,6 +8,10 @@
     // then redirect to root so index.html is served (not a 404).
     (function () {
       var l = window.location;
+      var link = document.createElement('link');
+      link.rel = 'canonical';
+      link.href = l.protocol + '//' + l.hostname + l.pathname;
+      document.head.appendChild(link);
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         '/?/' +
