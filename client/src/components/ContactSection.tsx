@@ -94,97 +94,41 @@ function InfoRow({
   return <div style={{ margin: '0 -12px' }}>{inner}</div>
 }
 
-function KitNewsletterForm() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-  const [focused, setFocused] = useState(false)
-  const [emailError, setEmailError] = useState<string | null>(null)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!EMAIL_RE.test(email)) {
-      setEmailError('Adresse e-mail invalide')
-      return
+function KitEmbedForm() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInstagram = /Instagram/.test(navigator.userAgent)
+  useEffect(() => {
+    if (isInstagram) return
+    const container = ref.current
+    if (!container) return
+    const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
+    const existing = document.querySelector<HTMLElement>(`[data-uid="${uid}"]`)
+    if (existing && existing.tagName !== 'SCRIPT') {
+      container.appendChild(existing)
     }
-    setEmailError(null)
-    setStatus('sending')
-    const formId = window.innerWidth < 768 ? 9491809 : 9462343
-    try {
-      const res = await fetch(`https://app.convertkit.com/forms/${formId}/subscriptions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email_address: email }),
-      })
-      if (res.ok) {
-        setStatus('success')
-        setEmail('')
-      } else {
-        setStatus('error')
+    if (!document.querySelector(`script[data-uid="${uid}"]`)) {
+      const s = document.createElement('script')
+      s.async = true
+      s.dataset.uid = uid
+      s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
+      document.body.appendChild(s)
+    }
+    const obs = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (node instanceof HTMLElement && node.dataset.uid === uid) {
+            container.appendChild(node)
+            obs.disconnect()
+            return
+          }
+        }
       }
-    } catch {
-      setStatus('error')
-    }
-  }
-
-  if (status === 'success') {
-    return (
-      <motion.p
-        initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-        className="font-body text-sm"
-        style={{ color: '#0EA5E9', lineHeight: 1.65 }}
-      >
-        You're in! Race updates coming your way.
-      </motion.p>
-    )
-  }
-
-  return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <input
-          type="email"
-          value={email}
-          onChange={e => { setEmail(e.target.value); if (emailError && EMAIL_RE.test(e.target.value)) setEmailError(null) }}
-          onFocus={() => setFocused(true)}
-          onBlur={() => { setFocused(false); if (email && !EMAIL_RE.test(email)) setEmailError('Adresse e-mail invalide') }}
-          placeholder="your@email.com"
-          autoComplete="email"
-          required
-          style={{
-            flex: 1, minWidth: 200,
-            background: focused ? 'rgba(14,165,233,0.04)' : 'rgba(255,255,255,0.03)',
-            border: `1px solid ${emailError ? 'rgba(248,113,113,0.55)' : focused ? 'rgba(14,165,233,0.55)' : 'rgba(255,255,255,0.08)'}`,
-            borderRadius: 4, padding: '10px 14px',
-            color: '#F1F5F9', fontSize: 14, fontFamily: 'DM Sans, sans-serif',
-            outline: 'none', transition: 'border-color 0.2s ease, background 0.2s ease',
-          }}
-        />
-        <ShinyButton type="submit" disabled={status === 'sending'}>
-          <span className="flex items-center gap-2">
-            {status === 'sending' ? (
-              <motion.svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-                animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.85, ease: 'linear' }}>
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.25" />
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-              </motion.svg>
-            ) : (
-              <Send size={13} style={{ flexShrink: 0 }} />
-            )}
-            Subscribe
-          </span>
-        </ShinyButton>
-      </div>
-      {emailError && (
-        <p className="font-body text-xs" style={{ color: 'rgba(248,113,113,0.85)' }}>{emailError}</p>
-      )}
-      {status === 'error' && (
-        <p className="font-body text-xs" style={{ color: '#F87171' }}>
-          Something went wrong. Try again or email{' '}
-          <a href="mailto:contact@mathisghio.com" style={{ color: '#0EA5E9' }}>contact@mathisghio.com</a>
-        </p>
-      )}
-    </form>
-  )
+    })
+    obs.observe(document.body, { childList: true })
+    return () => obs.disconnect()
+  }, [])
+  if (isInstagram) return null
+  return <div ref={ref} className="w-full" />
 }
 
 function SuccessState() {
@@ -636,7 +580,7 @@ export function ContactSection() {
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ width: '100%', maxWidth: 520 }}>
-                <KitNewsletterForm />
+                <KitEmbedForm />
               </div>
             </div>
           </div>

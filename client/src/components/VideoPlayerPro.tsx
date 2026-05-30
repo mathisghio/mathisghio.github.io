@@ -736,9 +736,7 @@ export function VideoPlayerPro({
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={toggle}
               role="button"
-              tabIndex={0}
               aria-label={ended ? "Replay" : "Play"}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
               style={{
                 position: "absolute",
                 inset: 0,
