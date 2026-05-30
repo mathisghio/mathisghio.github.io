@@ -653,6 +653,7 @@ export function VideoPlayerPro({
           }}
         >
           <source src={src} type="video/mp4" />
+          <track kind="captions" src="/empty.vtt" srcLang="en" label="English" default />
         </video>
 
         {/* Error overlay */}
