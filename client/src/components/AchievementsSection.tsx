@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Trophy, Star, Zap, Award } from 'lucide-react'
-import { ShaderAnimation } from './ShaderAnimation'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
+
+const ShaderAnimation = lazy(() => import('./ShaderAnimation').then(m => ({ default: m.ShaderAnimation })))
 
 
 function AnimatedCounter({ target, suffix = '', duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
@@ -81,7 +82,7 @@ export function AchievementsSection() {
   return (
     <section id="achievements" ref={ref} className="section-edge-fade relative py-10 lg:py-20 overflow-hidden" style={{ background: '#08090E' }}>
      <div className="absolute inset-0 z-0" style={{ opacity: 0.4 }}>
-        <ShaderAnimation />
+        <Suspense fallback={null}><ShaderAnimation /></Suspense>
       </div>
       <div className="absolute inset-0 z-0" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.85) 0%, rgba(8,9,14,0.7) 50%, rgba(8,9,14,0.85) 100%)' }} />
       <div className="absolute right-0 top-1/2 -translate-y-1/2 font-display select-none pointer-events-none z-0" style={{ fontSize: 'clamp(200px, 30vw, 400px)', color: 'rgba(14, 165, 233, 0.03)', lineHeight: 1, right: '-2%' }}>5×</div>

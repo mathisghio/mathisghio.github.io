@@ -1,10 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Globe, Trophy, Zap, Target, ExternalLink } from 'lucide-react'
-import { ShaderAnimation2 } from './ShaderAnimation2'
 import { useInView } from '@/hooks/useInView'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { PartnershipFormModal } from './PartnershipFormModal'
+
+const ShaderAnimation2 = lazy(() => import('./ShaderAnimation2').then(m => ({ default: m.ShaderAnimation2 })))
 
 const formatContainer = {
   hidden: {},
@@ -52,7 +54,7 @@ export function SportSection() {
       style={{ background: 'linear-gradient(180deg, #08090E 0%, #060A14 50%, #08090E 100%)' }}
     >
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ opacity: 0.65 }}>
-        <ShaderAnimation2 />
+        <Suspense fallback={null}><ShaderAnimation2 /></Suspense>
       </div>
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(8,9,14,0.60) 0%, rgba(8,9,14,0.48) 50%, rgba(8,9,14,0.60) 100%)' }} />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 pointer-events-none"
