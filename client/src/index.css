@@ -289,7 +289,7 @@ html, body {
 .shiny-cta,
 .shiny-cta::before,
 .shiny-cta::after {
-  animation: var(--animation) var(--duration),
+  animation: var(--animation) var(--duration) paused,
     var(--animation) calc(var(--duration) / 0.4) reverse paused;
   animation-composition: add;
 }
@@ -303,7 +303,7 @@ html, body {
 .shiny-cta:is(:hover, :focus-visible),
 .shiny-cta:is(:hover, :focus-visible)::before,
 .shiny-cta:is(:hover, :focus-visible)::after {
-  animation-play-state: running;
+  animation-play-state: running, running;
 }
 
 .shiny-cta:is(:hover, :focus-visible) span::before { opacity: 1; }

@@ -46,11 +46,11 @@ export function AboutSection() {
                   </div>
                   {i === 2 ? (
                     <>
-                      <div className="font-body text-xs uppercase tracking-wider mt-1 hidden lg:block" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>
-                      <div className="font-body uppercase tracking-wider mt-1 lg:hidden" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.05em', fontSize: '0.6rem' }}>KTS SPEED RECORD</div>
+                      <div className="font-body text-xs uppercase tracking-wider mt-1 hidden lg:block" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.1em' }}>{stat.label}</div>
+                      <div className="font-body uppercase tracking-wider mt-1 lg:hidden" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.05em', fontSize: '0.6rem' }}>KTS SPEED RECORD</div>
                     </>
                   ) : (
-                    <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>
+                    <div className="font-body text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.1em' }}>{stat.label}</div>
                   )}
                 </div>
               ))}
@@ -66,7 +66,7 @@ export function AboutSection() {
             </div>
             <div className="absolute -top-4 -right-4 px-4 py-3 rounded-sm" style={{ background: 'rgba(8, 9, 14, 0.9)', border: '1px solid rgba(245, 158, 11, 0.4)', boxShadow: '0 0 25px rgba(245, 158, 11, 0.15)' }}>
               <div className="font-display text-2xl" style={{ color: '#F59E0B' }}>FRA</div>
-              <div className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>France</div>
+              <div className="font-body text-xs uppercase tracking-widest" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.1em' }}>France</div>
             </div>
           </div>
         </div>

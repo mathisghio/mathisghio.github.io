@@ -104,13 +104,13 @@ export function AchievementsSection() {
               <div className="font-display text-4xl lg:text-5xl" style={{ color: stat.gold ? '#F59E0B' : '#0EA5E9', textShadow: stat.gold ? '0 0 30px rgba(245, 158, 11, 0.4)' : '0 0 30px rgba(14, 165, 233, 0.4)' }}>
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
               </div>
-              <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148, 163, 184, 0.7)', letterSpacing: '0.1em' }}>{stat.label}</div>
+              <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.1em' }}>{stat.label}</div>
             </motion.div>
           ))}
         </div>
         <div className="grid lg:grid-cols-5 gap-5 lg:gap-8">
           <div className="lg:col-span-2 transition-all duration-700" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(-20px)', transitionDelay: '400ms' }}>
-            <h3 className="font-body text-xs uppercase tracking-widest mb-3 lg:mb-6" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.2em' }}>Season</h3>
+            <h3 className="font-body text-xs uppercase tracking-widest mb-3 lg:mb-6" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.2em' }}>Season</h3>
             <div className="flex flex-col gap-2">
               {yearData.map((y) => {
                 const isActive = activeYear === y.year

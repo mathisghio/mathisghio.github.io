@@ -143,7 +143,7 @@ export function PartnersSection() {
                   style={{ color: 'rgba(241,245,249,0.8)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
-                <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.70)' }}>{partner.description}</span>
+                <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.75)' }}>{partner.description}</span>
               </a>
             ))}
           </div>
@@ -164,7 +164,7 @@ export function PartnersSection() {
               <h3 className="font-heading font-bold text-2xl text-white mb-2" style={{ fontFamily: 'Barlow Condensed, sans-serif' }}>
                 Ready to build something lasting?
               </h3>
-              <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.7)' }}>
+              <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.75)' }}>
                 Title partnerships, R&D collaborations, product co-development, brand activations.<br className="hidden lg:block" />
                 5 continents, 5 world titles, an engineering mind behind every result.
               </p>

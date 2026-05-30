@@ -113,7 +113,7 @@ export function GoatSection() {
           transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 lg:mt-12 max-w-2xl mx-auto"
         >
-          <p className="font-body text-lg" style={{ color: 'rgba(148, 163, 184, 0.7)', lineHeight: 1.7, letterSpacing: '0.01em' }}>
+          <p className="font-body text-lg" style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.7, letterSpacing: '0.01em' }}>
             Five consecutive world titles.<br className="lg:hidden" /> No one has come close.
           </p>
         </motion.div>

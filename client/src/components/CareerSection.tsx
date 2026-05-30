@@ -257,7 +257,7 @@ const timelineData = [
         <p className="font-body text-xs md:text-sm font-normal mb-3" style={{ color: 'rgba(241,245,249,0.75)' }}>
           My strongest season to date: a 4th consecutive Wingfoil Racing World title, a first-ever Formula Wing World Championship, and a 4th consecutive European title.
         </p>
-        <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(148,163,184,0.7)' }}>
+        <p className="font-body text-xs md:text-sm font-normal mb-4" style={{ color: 'rgba(148,163,184,0.75)' }}>
           I'm incredibly grateful for what I've been able to achieve. Multiple years of dedication, hard work,
           and support from my team and sponsors made this possible.
         </p>
@@ -338,7 +338,7 @@ export function CareerSection() {
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)' }}
         >
           <SectionHeader label="MY CAREER HISTORY" line1="MY JOURNEY" line2="TO THE TOP" className="mb-6" />
-          <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.7 }}>
+          <p className="font-body text-sm md:text-base max-w-sm" style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.7 }}>
             From a young sailor on the French Riviera to 5× World Champion, my journey is defined by passion,
             dedication, and an insatiable drive to push wingfoil to its limits.
           </p>

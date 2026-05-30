@@ -129,7 +129,7 @@ function DocCard({
           {/* Description */}
           <p
             className="font-body text-sm mb-8"
-            style={{ color: 'rgba(148,163,184,0.7)', lineHeight: 1.75, maxWidth: '560px' }}
+            style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.75, maxWidth: '560px' }}
           >
             {doc.description}
           </p>
@@ -237,7 +237,7 @@ export function PressSection() {
         >
           <p
             className="font-body text-xs uppercase tracking-widest mb-5"
-            style={{ color: 'rgba(148,163,184,0.70)', letterSpacing: '0.2em' }}
+            style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.2em' }}
           >
             As featured in
           </p>
@@ -288,7 +288,7 @@ export function PressSection() {
               >
                 Media Inquiries & Press Requests
               </h3>
-              <p className="font-body text-sm" style={{ color: 'rgba(148, 163, 184, 0.7)' }}>
+              <p className="font-body text-sm" style={{ color: 'rgba(148,163,184,0.75)' }}>
                 For interviews, press releases, photo requests, or media partnerships, please contact our press office.
               </p>
             </div>

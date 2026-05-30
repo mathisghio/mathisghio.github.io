@@ -237,7 +237,7 @@ export function NewsletterPopup() {
                   )}
                   <p style={{
                     fontFamily: "'DM Sans',sans-serif",
-                    fontSize: '0.7rem', color: 'rgba(148,163,184,0.70)',
+                    fontSize: '0.7rem', color: 'rgba(148,163,184,0.75)',
                     margin: 0, textAlign: 'center', fontStyle: 'italic',
                   }}>
                     One email a month. Unsubscribe in one click.

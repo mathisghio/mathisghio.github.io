@@ -71,7 +71,7 @@ function InfoRow({
         <Icon size={15} style={{ color: '#0EA5E9' }} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ color: 'rgba(148,163,184,0.70)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontFamily: 'DM Sans, sans-serif', marginBottom: 2 }}>
+        <p style={{ color: 'rgba(148,163,184,0.75)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontFamily: 'DM Sans, sans-serif', marginBottom: 2 }}>
           {sublabel}
         </p>
         <span style={{ color: hov ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.8)', fontSize: 14, fontFamily: 'DM Sans, sans-serif', transition: 'color 0.22s ease' }}>
@@ -81,7 +81,7 @@ function InfoRow({
       {href && (
         <ArrowUpRight
           size={14}
-          style={{ color: hov ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.70)', transition: 'color 0.22s ease', flexShrink: 0 }}
+          style={{ color: hov ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.75)', transition: 'color 0.22s ease', flexShrink: 0 }}
         />
       )}
     </div>
@@ -452,7 +452,7 @@ function ContactForm() {
             {msgLen > 0 && (
               <motion.span
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 10, color: 'rgba(148,163,184,0.60)' }}
+                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 10, color: 'rgba(148,163,184,0.75)' }}
               >
                 {msgLen} car.
               </motion.span>
@@ -584,7 +584,7 @@ export function ContactSection() {
 
               {/* Social links */}
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
-                <p className="font-body text-xs uppercase tracking-widest mb-4" style={{ color: 'rgba(148,163,184,0.60)', letterSpacing: '0.18em' }}>Follow</p>
+                <p className="font-body text-xs uppercase tracking-widest mb-4" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.18em' }}>Follow</p>
                 <div className="flex flex-wrap gap-2">
                   {SOCIAL_CHANNELS.map(({ href, Icon, label, platform }) => (
                     <SocialPill key={href} href={href} Icon={Icon} label={label} onClick={() => trackSocialClick(platform)} />
@@ -657,14 +657,14 @@ export function ContactSection() {
               </span>
             </div>
             <div className="text-center">
-              <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.70)' }}>
+              <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.75)' }}>
                 © 2026 Mathis Ghio · Wingfoil Racing<br className="sm:hidden" /><span className="hidden sm:inline"> · </span>Photos&nbsp;: Robert Hajduk · Jean Souville · JM. Cornu · Iset Segura · Salomé Vermesch
               </p>
-              <p className="font-body mt-1" style={{ fontSize: '10px', color: 'rgba(148,163,184,0.55)' }}>
+              <p className="font-body mt-1" style={{ fontSize: '10px', color: 'rgba(148,163,184,0.75)' }}>
                 Protected by reCAPTCHA —{' '}
-                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.55)', textDecoration: 'underline' }}>Privacy</a>
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.75)', textDecoration: 'underline' }}>Privacy</a>
                 {' '}&amp;{' '}
-                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.55)', textDecoration: 'underline' }}>Terms</a>
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.75)', textDecoration: 'underline' }}>Terms</a>
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -676,7 +676,7 @@ export function ContactSection() {
                 <a key={i} href={social.href} target="_blank" rel="noopener noreferrer"
                   onClick={() => trackSocialClick(social.platform)}
                   aria-label={social.platform} className="transition-all duration-200 hover:text-cyan-400"
-                  style={{ color: 'rgba(148,163,184,0.70)' }}>
+                  style={{ color: 'rgba(148,163,184,0.75)' }}>
                   <social.icon size={16} />
                 </a>
               ))}

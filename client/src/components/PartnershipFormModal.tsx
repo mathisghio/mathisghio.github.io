@@ -97,7 +97,7 @@ export function PartnershipFormModal({ trigger }: Props) {
     fontSize: '11px',
     textTransform: 'uppercase',
     letterSpacing: '0.15em',
-    color: 'rgba(148,163,184,0.7)',
+    color: 'rgba(148,163,184,0.75)',
     marginBottom: '6px',
     fontFamily: 'DM Sans, sans-serif',
   }
@@ -126,7 +126,7 @@ export function PartnershipFormModal({ trigger }: Props) {
             >
               WORK WITH MATHIS
             </DialogTitle>
-            <p style={{ fontSize: '13px', color: 'rgba(148,163,184,0.7)', marginTop: '6px', fontFamily: 'DM Sans, sans-serif', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '13px', color: 'rgba(148,163,184,0.75)', marginTop: '6px', fontFamily: 'DM Sans, sans-serif', lineHeight: 1.6 }}>
               Sponsorships, product development, brand activations, and long-term partnerships.
             </p>
           </DialogHeader>
@@ -139,7 +139,7 @@ export function PartnershipFormModal({ trigger }: Props) {
                 </svg>
               </div>
               <p style={{ color: '#F1F5F9', fontSize: '16px', fontFamily: 'Barlow Condensed, sans-serif', fontWeight: 600, marginBottom: '8px' }}>Message sent!</p>
-              <p style={{ color: 'rgba(148,163,184,0.7)', fontSize: '13px', fontFamily: 'DM Sans, sans-serif' }}>
+              <p style={{ color: 'rgba(148,163,184,0.75)', fontSize: '13px', fontFamily: 'DM Sans, sans-serif' }}>
                 Mathis will get back to you within 48h.
               </p>
             </div>
