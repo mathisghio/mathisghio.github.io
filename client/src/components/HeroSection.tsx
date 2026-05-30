@@ -8,7 +8,7 @@ const HERO_VIDEO             = 'https://res.cloudinary.com/duacto4ay/video/uploa
 const HERO_VIDEO_WEBM        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_1920/v1774426080/bg_pru1bh.webm'
 const HERO_VIDEO_MOBILE      = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_640/v1774426080/bg_pru1bh.mp4'
 const HERO_VIDEO_MOBILE_WEBM = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_640/v1774426080/bg_pru1bh.webm'
-const HERO_GENERATED         = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg'
+const HERO_GENERATED         = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426876/podium-1_whf6pe.jpg'
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)
