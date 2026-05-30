@@ -2,9 +2,9 @@ import { useInView } from '@/hooks/useInView'
 
 /* q_auto,f_auto : Cloudinary choisit le meilleur format (WebP/AVIF)
    et compresse automatiquement → -40 à -60 % de poids par image */
-const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774375894/portrait_terre_debgqe.jpg'
-const ABOUT_LAND  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774428254/portrait_eau_ggldfg.jpg'
-const HERO_IMG    = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426100/hero-main_zissjo.jpg'
+const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774375894/portrait_terre_debgqe.jpg'
+const ABOUT_LAND  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774428254/portrait_eau_ggldfg.jpg'
+const HERO_IMG    = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774426100/hero-main_zissjo.jpg'
 
 export function AboutSection() {
   const { ref, inView } = useInView(0.15)
@@ -58,7 +58,7 @@ export function AboutSection() {
           </div>
           <div className="relative z-10 transition-all" style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateX(0)' : 'translateX(64px)', transitionDelay: '150ms', transitionDuration: '1000ms', transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}>
             <div className="about-photo-wrap relative rounded-sm overflow-hidden" style={{ border: '1px solid rgba(14, 165, 233, 0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}>
-              <img src={ABOUT_WATER} alt="Mathis Ghio wingfoiling on water" className="about-photo-img w-full h-full object-cover" style={{ filter: 'saturate(1.1) contrast(1.05)' }} />
+              <img src={ABOUT_WATER} alt="Mathis Ghio wingfoiling on water" loading="lazy" className="about-photo-img w-full h-full object-cover" style={{ filter: 'saturate(1.1) contrast(1.05)' }} />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(8,9,14,0.6) 100%)' }} />
             </div>
             <div className="absolute -bottom-8 -left-8 w-2/5 rounded-sm overflow-hidden hidden lg:block" style={{ border: '2px solid rgba(14, 165, 233, 0.3)', boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(14, 165, 233, 0.15)', aspectRatio: '3/4' }}>
