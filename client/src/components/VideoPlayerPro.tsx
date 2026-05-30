@@ -225,8 +225,8 @@ const BTN: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: 40,
-  height: 40,
+  width: 28,
+  height: 28,
   borderRadius: 7,
   border: "none",
   background: "transparent",
@@ -653,7 +653,6 @@ export function VideoPlayerPro({
           }}
         >
           <source src={src} type="video/mp4" />
-          <track kind="captions" src="/empty.vtt" srcLang="en" label="English" default />
         </video>
 
         {/* Error overlay */}
@@ -689,7 +688,7 @@ export function VideoPlayerPro({
               <div
                 style={{
                   fontSize: 11,
-                  color: "rgba(255,255,255,0.65)",
+                  color: "rgba(255,255,255,0.4)",
                   maxWidth: 280,
                   textAlign: "center",
                 }}
@@ -726,16 +725,15 @@ export function VideoPlayerPro({
           )}
         </AnimatePresence>
 
-        {/* Center play button — always visible when paused */}
+        {/* Center play button — when paused & controls hidden */}
         <AnimatePresence>
-          {!playing && !err && (
+          {!playing && !err && !show && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={toggle}
-              aria-label={ended ? "Replay" : "Play"}
               style={{
                 position: "absolute",
                 inset: 0,
@@ -1019,7 +1017,6 @@ export function VideoPlayerPro({
                   {/* Play / Pause */}
                   <button
                     onClick={toggle}
-                    aria-label={ended ? "Replay" : playing ? "Pause" : "Play"}
                     style={{
                       ...BTN,
                       background: "rgba(255,255,255,0.08)",
@@ -1049,7 +1046,6 @@ export function VideoPlayerPro({
                   >
                     <button
                       onClick={toggleMute}
-                      aria-label={muted || vol === 0 ? "Unmute" : "Mute"}
                       style={{
                         ...BTN,
                         color: "rgba(255,255,255,0.55)",
@@ -1102,7 +1098,7 @@ export function VideoPlayerPro({
                     style={{
                       fontSize: 11,
                       fontWeight: 450,
-                      color: "rgba(255,255,255,0.65)",
+                      color: "rgba(255,255,255,0.4)",
                       fontVariantNumeric: "tabular-nums",
                       letterSpacing: "0.01em",
                       whiteSpace: "nowrap",
@@ -1150,7 +1146,7 @@ export function VideoPlayerPro({
                           color:
                             speed === s
                               ? "rgba(255,255,255,0.9)"
-                              : "rgba(255,255,255,0.65)",
+                              : "rgba(255,255,255,0.3)",
                           cursor: "pointer",
                           zIndex: 1,
                           transition: "color 0.15s",
@@ -1184,14 +1180,14 @@ export function VideoPlayerPro({
                   {!isMobile && (
                   <button
                     onClick={toggleLoop}
-                    aria-label={looping ? "Disable loop" : "Enable loop"}
+                    title="Loop"
                     style={{
                       ...BTN,
-                      color: looping ? "#38BDF8" : "rgba(255,255,255,0.65)",
+                      color: looping ? "#38BDF8" : "rgba(255,255,255,0.45)",
                       background: looping ? "rgba(56,189,248,0.12)" : "transparent",
                     }}
                     onMouseEnter={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.9)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.65)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = looping ? "#38BDF8" : "rgba(255,255,255,0.45)"; }}
                   >
                     <IcoLoop />
                   </button>
@@ -1201,10 +1197,10 @@ export function VideoPlayerPro({
                   {!isMobile && "pictureInPictureEnabled" in document && (
                     <button
                       onClick={pictureInPicture}
-                      aria-label="Picture in picture"
-                      style={{ ...BTN, color: "rgba(255,255,255,0.65)" }}
+                      title="Picture in Picture"
+                      style={{ ...BTN, color: "rgba(255,255,255,0.45)" }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
                     >
                       <IcoPiP />
                     </button>
@@ -1213,16 +1209,15 @@ export function VideoPlayerPro({
                   {/* Fullscreen */}
                   <button
                     onClick={fullscreen}
-                    aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                     style={{
                       ...BTN,
-                      color: "rgba(255,255,255,0.65)",
+                      color: "rgba(255,255,255,0.45)",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "rgba(255,255,255,0.9)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "rgba(255,255,255,0.65)";
+                      e.currentTarget.style.color = "rgba(255,255,255,0.45)";
                     }}
                   >
                     {isFullscreen ? <IcoExitFull /> : <IcoFull />}
