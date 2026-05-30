@@ -159,11 +159,9 @@ export default function PartnersPage() {
               Partnership Opportunities
             </span>
           </div>
-          <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(52px, 8vw, 96px)', lineHeight: 1, marginBottom: '8px' }}>
-            PARTNER WITH
-          </h1>
-          <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(52px, 8vw, 96px)', lineHeight: 1, background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', marginBottom: '28px' }}>
-            MATHIS GHIO
+          <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(52px, 8vw, 96px)', lineHeight: 1, marginBottom: '28px' }}>
+            <span style={{ display: 'block' }}>PARTNER WITH</span>
+            <span style={{ display: 'block', background: 'linear-gradient(135deg, #0EA5E9, #38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>MATHIS GHIO</span>
           </h1>
           <p style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '17px', color: 'rgba(241,245,249,0.7)', maxWidth: '560px', lineHeight: 1.7, marginBottom: '36px' }}>
             Mathis Ghio is the most decorated wingfoil racing athlete in history: 5× World Champion, speed record holder, and a growing media presence across Europe and beyond. Partner with him to reach an engaged, performance-driven audience.

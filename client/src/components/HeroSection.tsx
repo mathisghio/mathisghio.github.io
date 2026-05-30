@@ -74,14 +74,9 @@ export function HeroSection() {
               className="transition-all duration-700"
               style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
             >
-              <h1 className="font-display text-white leading-none hero-dt-title" style={{ fontSize: 'clamp(60px, 10vw, 145px)' }}>
-                MATHIS
-              </h1>
-              <h1
-                className="font-display leading-none hero-dt-title"
-                style={{ fontSize: 'clamp(60px, 10vw, 145px)', color: '#0EA5E9' }}
-              >
-                GHIO
+              <h1 className="font-display leading-none">
+                <span className="text-white hero-dt-title" style={{ display: 'block', fontSize: 'clamp(60px, 10vw, 145px)' }}>MATHIS</span>
+                <span className="hero-dt-title" style={{ display: 'block', fontSize: 'clamp(60px, 10vw, 145px)', color: '#0EA5E9' }}>GHIO</span>
               </h1>
             </div>
 
@@ -167,11 +162,9 @@ export function HeroSection() {
             className="transition-all duration-700"
             style={{ transform: visible ? 'translateY(0)' : 'translateY(30px)', transitionDelay: '350ms' }}
           >
-            <h1 className="font-display text-white leading-none" style={{ fontSize: 'clamp(72px, 18vw, 120px)' }}>
-              MATHIS
-            </h1>
-            <h1 className="font-display leading-none" style={{ fontSize: 'clamp(72px, 18vw, 120px)', color: '#0EA5E9' }}>
-              GHIO
+            <h1 className="font-display leading-none">
+              <span className="text-white" style={{ display: 'block', fontSize: 'clamp(72px, 18vw, 120px)' }}>MATHIS</span>
+              <span style={{ display: 'block', fontSize: 'clamp(72px, 18vw, 120px)', color: '#0EA5E9' }}>GHIO</span>
             </h1>
           </div>
 

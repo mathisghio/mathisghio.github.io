@@ -630,7 +630,7 @@ export function ContactSection() {
               ].map((social, i) => (
                 <a key={i} href={social.href} target="_blank" rel="noopener noreferrer"
                   onClick={() => trackSocialClick(social.platform)}
-                  className="transition-all duration-200 hover:text-cyan-400"
+                  aria-label={social.platform} className="transition-all duration-200 hover:text-cyan-400"
                   style={{ color: 'rgba(148,163,184,0.4)' }}>
                   <social.icon size={16} />
                 </a>
