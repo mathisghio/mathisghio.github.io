@@ -249,7 +249,7 @@ export function GallerySection() {
             <div
               key={i}
               className={`relative overflow-hidden rounded-sm cursor-pointer ${img.span}`}
-              style={{ border: '1px solid rgba(14,165,233,0.08)', transition: 'all 0.4s ease', transform: hoveredIdx === i ? 'scale(1.02)' : 'scale(1)', zIndex: hoveredIdx === i ? 10 : 1 }}
+              style={{ border: '1px solid rgba(14,165,233,0.08)', transition: 'transform 0.4s ease', transform: hoveredIdx === i ? 'scale(1.02)' : 'scale(1)', zIndex: hoveredIdx === i ? 10 : 1 }}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
               onClick={() => { setLightboxIdx(i); trackGalleryClick(img.alt) }}

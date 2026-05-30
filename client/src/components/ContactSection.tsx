@@ -31,7 +31,7 @@ function SocialPill({ href, Icon, label, onClick }: { href: string; Icon: React.
         border: `1px solid ${hov ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'}`,
         color: hov ? 'rgba(241,245,249,0.9)' : 'rgba(148,163,184,0.75)',
         textDecoration: 'none',
-        transition: 'all 0.2s ease',
+        transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease',
         transform: hov ? 'translateY(-1px)' : 'translateY(0)',
       }}
     >
@@ -56,7 +56,7 @@ function InfoRow({
         background: hov ? 'rgba(14,165,233,0.055)' : 'transparent',
         border: `1px solid ${hov ? 'rgba(14,165,233,0.18)' : 'transparent'}`,
         transform: hov ? 'translateX(4px)' : 'translateX(0)',
-        transition: 'all 0.22s ease',
+        transition: 'background 0.22s ease, border-color 0.22s ease, transform 0.22s ease',
         cursor: href ? 'pointer' : 'default',
       }}
     >
@@ -65,7 +65,7 @@ function InfoRow({
         background: hov ? 'rgba(14,165,233,0.14)' : 'rgba(14,165,233,0.08)',
         border: `1px solid ${hov ? 'rgba(14,165,233,0.35)' : 'rgba(14,165,233,0.15)'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transition: 'all 0.22s ease',
+        transition: 'background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease',
         boxShadow: hov ? '0 0 12px rgba(14,165,233,0.15)' : 'none',
       }}>
         <Icon size={15} style={{ color: '#0EA5E9' }} />
@@ -81,7 +81,7 @@ function InfoRow({
       {href && (
         <ArrowUpRight
           size={14}
-          style={{ color: hov ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.2)', transition: 'color 0.22s ease', flexShrink: 0 }}
+          style={{ color: hov ? 'rgba(14,165,233,0.7)' : 'rgba(148,163,184,0.70)', transition: 'color 0.22s ease', flexShrink: 0 }}
         />
       )}
     </div>
@@ -568,7 +568,7 @@ export function ContactSection() {
                   </span>
                 </div>
 
-                <p className="font-body text-sm mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75 }}>
+                <p className="font-body text-sm mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.75 }}>
                   Looking for a partnership, a media request, or just want to connect? I read every message personally.
                 </p>
 

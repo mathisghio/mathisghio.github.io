@@ -137,13 +137,13 @@ export function AchievementsSection() {
                       background: isActive ? 'rgba(14, 165, 233, 0.08)' : isHovered ? 'rgba(14, 165, 233, 0.04)' : 'rgba(255,255,255,0.02)',
                       border: `1px solid ${isActive ? y.color + '40' : isHovered ? y.color + '28' : 'rgba(255,255,255,0.05)'}`,
                       transform: !isActive && isHovered ? 'translateX(5px)' : 'translateX(0)',
-                      transition: 'all 0.25s ease',
+                      transition: 'background 0.25s ease, border-color 0.25s ease, transform 0.25s ease',
                     }}
                   >
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{
                       background: isActive ? y.color : isHovered ? y.color + 'aa' : 'rgba(148, 163, 184, 0.3)',
                       boxShadow: isActive ? `0 0 8px ${y.color}` : isHovered ? `0 0 5px ${y.color}60` : 'none',
-                      transition: 'all 0.25s ease',
+                      transition: 'background 0.25s ease, box-shadow 0.25s ease',
                     }} />
                     <div>
                       <div className="font-display text-2xl" style={{
@@ -162,7 +162,7 @@ export function AchievementsSection() {
               <div className="flex items-start justify-between mb-5 lg:mb-8">
                 <div>
                   <div className="font-display text-4xl lg:text-6xl" style={{ color: activeData.color, textShadow: `0 0 30px ${activeData.color}60` }}>{activeData.year}</div>
-                  <div className="font-body text-sm uppercase tracking-widest mt-1" style={{ color: 'rgba(148, 163, 184, 0.6)', letterSpacing: '0.15em' }}>{activeData.label}</div>
+                  <div className="font-body text-sm uppercase tracking-widest mt-1" style={{ color: 'rgba(148, 163, 184, 0.75)', letterSpacing: '0.15em' }}>{activeData.label}</div>
                 </div>
                 <Trophy size={32} style={{ color: activeData.color, opacity: 0.5 }} />
               </div>
@@ -179,7 +179,7 @@ export function AchievementsSection() {
                         background: isHov ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
                         border: `1px solid ${isHov ? activeData.color + '35' : 'rgba(255,255,255,0.04)'}`,
                         transform: isHov ? 'translateX(4px)' : 'translateX(0)',
-                        transition: 'all 0.2s ease',
+                        transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
                       }}
                     >
                       <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{

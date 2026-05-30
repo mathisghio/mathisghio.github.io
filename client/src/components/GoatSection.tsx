@@ -150,7 +150,7 @@ export function GoatSection() {
                   <div className="font-display" style={{ fontSize: 'clamp(48px, 6vw, 80px)', color: hex, textShadow: `0 0 40px rgba(${rgb},0.55)`, lineHeight: 1 }}>
                     {s.num}{s.suffix}
                   </div>
-                  <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.65)', letterSpacing: '0.1em' }}>
+                  <div className="font-body text-xs uppercase tracking-wider mt-2" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.1em' }}>
                     {s.label}
                   </div>
                 </div>

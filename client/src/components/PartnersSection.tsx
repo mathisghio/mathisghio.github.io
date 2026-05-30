@@ -1,8 +1,10 @@
+import { lazy, Suspense } from 'react'
 import { useInView } from '@/hooks/useInView'
-import { WebGLShader } from '@/components/ui/web-gl-shader'
 import { PartnershipFormModal } from './PartnershipFormModal'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { ExternalLink } from 'lucide-react'
+
+const WebGLShader = lazy(() => import('@/components/ui/web-gl-shader').then(m => ({ default: m.WebGLShader })))
 
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer and R&D partner',   logoText: 'OZONE'       },
@@ -43,38 +45,23 @@ export function PartnersSection() {
         className="hidden lg:block"
         style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: 0, right: 0, height: '280px' }}
       >
-        <WebGLShader
-          xScale={1.0}
-          yScale={0.40}
-          distortion={0.08}
-          speed={0.010}
-          opacity={0.92}
-          yOffset={0}
-        />
+        <Suspense fallback={null}>
+          <WebGLShader xScale={1.0} yScale={0.40} distortion={0.08} speed={0.010} opacity={0.92} yOffset={0} />
+        </Suspense>
       </div>
 
       {/* Mobile wave 1 — Title Partners level */}
       <div className="lg:hidden">
-        <WebGLShader
-          xScale={1.2}
-          yScale={0.35}
-          distortion={0.06}
-          speed={0.022}
-          opacity={0.58}
-          yOffset={-3.0}
-        />
+        <Suspense fallback={null}>
+          <WebGLShader xScale={1.2} yScale={0.35} distortion={0.06} speed={0.022} opacity={0.58} yOffset={-3.0} />
+        </Suspense>
       </div>
 
       {/* Mobile wave 2 — Official Partners level */}
       <div className="lg:hidden">
-        <WebGLShader
-          xScale={1.2}
-          yScale={0.35}
-          distortion={0.06}
-          speed={0.022}
-          opacity={0.38}
-          yOffset={0.60}
-        />
+        <Suspense fallback={null}>
+          <WebGLShader xScale={1.2} yScale={0.35} distortion={0.06} speed={0.022} opacity={0.38} yOffset={0.60} />
+        </Suspense>
       </div>
 
       {/* Dark overlay so text stays legible over the shader */}
@@ -132,7 +119,7 @@ export function PartnersSection() {
                 <div className="font-display text-3xl lg:text-4xl mb-2 transition-all duration-300 group-hover:text-cyan-400" style={{ color: 'rgba(241,245,249,0.95)' }}>
                   {partner.logoText}
                 </div>
-                <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>{partner.description}</p>
+                <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.75)' }}>{partner.description}</p>
                 <div className="mt-4 w-8 h-px origin-left transition-transform duration-300 group-hover:scale-x-[2]" style={{ background: '#F59E0B' }} />
               </a>
             ))}
@@ -156,7 +143,7 @@ export function PartnersSection() {
                   style={{ color: 'rgba(241,245,249,0.8)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
-                <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.45)' }}>{partner.description}</span>
+                <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.70)' }}>{partner.description}</span>
               </a>
             ))}
           </div>

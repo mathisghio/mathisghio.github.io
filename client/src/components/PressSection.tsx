@@ -212,7 +212,7 @@ export function PressSection() {
         >
           <p
             className="font-body text-base max-w-xl"
-            style={{ color: 'rgba(148,163,184,0.6)', lineHeight: 1.75 }}
+            style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.75 }}
           >
             Access the complete press kit and partnership documents. Both files open directly on Canva
             where you can view, download or share them.
@@ -237,7 +237,7 @@ export function PressSection() {
         >
           <p
             className="font-body text-xs uppercase tracking-widest mb-5"
-            style={{ color: 'rgba(148,163,184,0.35)', letterSpacing: '0.2em' }}
+            style={{ color: 'rgba(148,163,184,0.70)', letterSpacing: '0.2em' }}
           >
             As featured in
           </p>

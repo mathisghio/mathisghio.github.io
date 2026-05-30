@@ -120,12 +120,12 @@ export function NewsletterPopup() {
                 style={{
                   position: 'absolute', top: 14, right: 14,
                   background: 'none', border: 'none',
-                  color: 'rgba(148,163,184,0.5)', cursor: 'pointer',
+                  color: 'rgba(148,163,184,0.75)', cursor: 'pointer',
                   padding: 4, lineHeight: 0,
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'rgba(241,245,249,0.8)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(148,163,184,0.5)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(148,163,184,0.75)')}
               >
                 <X size={18} />
               </button>
@@ -155,7 +155,7 @@ export function NewsletterPopup() {
                 </h2>
                 <p style={{
                   fontFamily: "'DM Sans',sans-serif",
-                  fontSize: '0.82rem', color: 'rgba(148,163,184,0.65)',
+                  fontSize: '0.82rem', color: 'rgba(148,163,184,0.75)',
                   margin: '10px 0 0', lineHeight: 1.55,
                 }}>
                   Race results, behind-the-scenes and performance insights, straight to your inbox.
@@ -237,7 +237,7 @@ export function NewsletterPopup() {
                   )}
                   <p style={{
                     fontFamily: "'DM Sans',sans-serif",
-                    fontSize: '0.7rem', color: 'rgba(148,163,184,0.4)',
+                    fontSize: '0.7rem', color: 'rgba(148,163,184,0.70)',
                     margin: 0, textAlign: 'center', fontStyle: 'italic',
                   }}>
                     One email a month. Unsubscribe in one click.
