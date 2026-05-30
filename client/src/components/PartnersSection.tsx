@@ -133,7 +133,7 @@ export function PartnersSection() {
                   {partner.logoText}
                 </div>
                 <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.6)' }}>{partner.description}</p>
-                <div className="mt-4 w-8 h-px transition-all duration-300 group-hover:w-16" style={{ background: '#F59E0B' }} />
+                <div className="mt-4 w-8 h-px origin-left transition-transform duration-300 group-hover:scale-x-[2]" style={{ background: '#F59E0B' }} />
               </a>
             ))}
           </div>

@@ -6,16 +6,17 @@ import { AboutSection } from '@/components/AboutSection'
 import { AchievementsSection } from '@/components/AchievementsSection'
 import { CareerSection } from '@/components/CareerSection'
 import { GoatSection } from '@/components/GoatSection'
-import { GlobeSection } from '@/components/GlobeSection'
 import { SportSection } from '@/components/SportSection'
 import { GallerySection } from '@/components/GallerySection'
 import { GalleryRainBackground } from '@/components/GalleryRainBackground'
 import { PartnersSection } from '@/components/PartnersSection'
 import { PressSection } from '@/components/PressSection'
 import { ContactSection } from '@/components/ContactSection'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { useMeta } from '@/lib/meta'
 import { trackScrollDepth } from '@/lib/analytics'
+
+const GlobeSection = lazy(() => import('@/components/GlobeSection').then(m => ({ default: m.GlobeSection })))
 
 const HOME_SCHEMA = {
   '@context': 'https://schema.org',
@@ -97,7 +98,9 @@ export default function Home() {
       <AchievementsSection />
       <CareerSection />
       <GoatSection />
-      <GlobeSection />
+      <Suspense fallback={null}>
+        <GlobeSection />
+      </Suspense>
       <SportSection />
       {/* Gallery + Audience share one continuous rain — no seam */}
       <div className="relative" style={{ background: '#08090E' }}>

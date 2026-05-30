@@ -142,9 +142,9 @@ export function SportSection() {
                     {format.number}
                   </span>
                   <div>
-                    <h4 className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.1rem', letterSpacing: '0.04em' }}>
+                    <p className="font-heading font-bold text-white mb-1" style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: '1.1rem', letterSpacing: '0.04em' }}>
                       {format.title}
-                    </h4>
+                    </p>
                     <p className="font-body text-sm" style={{ color: 'rgba(241,245,249,0.75)', lineHeight: 1.65 }}>
                       {format.description}
                     </p>
