@@ -1,6 +1,10 @@
 'use client'
 import { useEffect, useRef, useState, useCallback } from 'react'
-import * as d3 from 'd3'
+import {
+  geoBounds, geoOrthographic, geoPath as createGeoPath,
+  geoGraticule, geoEquirectangular, timer as d3Timer,
+} from 'd3'
+import type { ExtendedFeatureCollection } from 'd3'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, Map } from 'lucide-react'
 import { useInView } from '@/hooks/useInView'
@@ -43,7 +47,7 @@ const TL: Record<CompType, string> = {
 /* ═══════════════════════════════════════════════════════════════════════════
    GEO CACHE
 ═══════════════════════════════════════════════════════════════════════════ */
-interface GeoBundle { features: d3.ExtendedFeatureCollection; dots: [number,number][] }
+interface GeoBundle { features: ExtendedFeatureCollection; dots: [number,number][] }
 let _bundle: GeoBundle | null = null
 let _bundlePromise: Promise<GeoBundle> | null = null
 
@@ -85,7 +89,7 @@ function loadGeoBundle(): Promise<GeoBundle> {
     const STEP=1.35
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     for (const feature of (features as any).features) {
-      const [[minLng,minLat],[maxLng,maxLat]]=d3.geoBounds(feature)
+      const [[minLng,minLat],[maxLng,maxLat]]=geoBounds(feature)
       for (let lng=minLng;lng<=maxLng;lng+=STEP)
         for (let lat=minLat;lat<=maxLat;lat+=STEP)
           if (_inFeature([lng,lat],feature)) dots.push([lng,lat])
@@ -340,10 +344,10 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     let cx=W/2, cy=H/2
     let BASE_R=Math.min(W,H)*0.43
 
-    const projection=d3.geoOrthographic()
+    const projection=geoOrthographic()
       .scale(BASE_R).translate([cx,cy]).clipAngle(90).rotate(rotRef.current)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const geoPath=d3.geoPath().projection(projection).context(ctx as any)
+    const geoPath=createGeoPath().projection(projection).context(ctx as any)
 
     const handleResize=()=>{
       W=container.clientWidth; H=container.clientHeight
@@ -387,7 +391,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
       if (bundle) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ctx.beginPath(); geoPath(d3.geoGraticule()() as any)
+        ctx.beginPath(); geoPath(geoGraticule()() as any)
         ctx.strokeStyle='rgba(56,189,248,0.07)'; ctx.lineWidth=0.7; ctx.stroke()
 
         ctx.fillStyle='rgba(14,165,233,0.44)'
@@ -451,7 +455,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
 
     const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0
     const AUTO_SPEED=isTouchDevice?0.13:0.18, LERP_K=0.048
-    const timer=d3.timer((elapsed:number)=>{
+    const animTimer=d3Timer((elapsed:number)=>{
       if (isPausedRef3D.current) return
       const lerpScale=fastReset3DRef.current?0.16:0.028
       const ds=targetScaleRef.current-scaleRef.current
@@ -600,7 +604,7 @@ function Globe3DD3({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     canvas.addEventListener('touchend',  onTouchEnd3D,  {passive:true})
 
     return ()=>{
-      timer.stop()
+      animTimer.stop()
       visObs3D.disconnect()
       ro.disconnect()
       canvas.removeEventListener('mousedown', onMouseDown)
@@ -694,7 +698,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     const comp=COMPS.find(c=>c.id===hoveredId)
     if (!comp) return
     const baseScale=w/(2*Math.PI)
-    const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
+    const baseProj=geoEquirectangular().scale(baseScale).translate([w/2,h/2])
     const pt=baseProj([comp.lng,comp.lat])
     if (!pt) return
     lockedIdRef.current=hoveredId
@@ -729,7 +733,7 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
     ctx.scale(dpr,dpr)
 
     const baseScale=w/(2*Math.PI)
-    const baseProj=d3.geoEquirectangular().scale(baseScale).translate([w/2,h/2])
+    const baseProj=geoEquirectangular().scale(baseScale).translate([w/2,h/2])
 
     const render=()=>{
       const {k,tx,ty}=viewRef.current
@@ -743,9 +747,9 @@ function Map2DFlat({ visible, hoveredId, onHover, onTap, zoomResetSignal=0 }: {
       ctx.setTransform(k*dpr, 0, 0, k*dpr, tx*dpr, ty*dpr)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const gp=d3.geoPath().projection(baseProj).context(ctx as any)
+      const gp=createGeoPath().projection(baseProj).context(ctx as any)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ctx.beginPath(); gp(d3.geoGraticule()() as any)
+      ctx.beginPath(); gp(geoGraticule()() as any)
       ctx.strokeStyle='rgba(56,189,248,0.07)'; ctx.lineWidth=0.7/k; ctx.stroke()
 
       const eq0=baseProj([-180,0]), eq1=baseProj([180,0])

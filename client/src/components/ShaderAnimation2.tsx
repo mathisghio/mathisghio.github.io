@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import * as THREE from 'three'
+import { Camera, Scene, PlaneGeometry, Vector2, ShaderMaterial, Mesh, WebGLRenderer } from 'three'
 
 export function ShaderAnimation2() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,21 +35,21 @@ export function ShaderAnimation2() {
       }
     `
 
-    const camera = new THREE.Camera()
+    const camera = new Camera()
     camera.position.z = 1
-    const scene = new THREE.Scene()
-    const geometry = new THREE.PlaneGeometry(2, 2)
+    const scene = new Scene()
+    const geometry = new PlaneGeometry(2, 2)
     const uniforms = {
       time: { value: 1.0 },
-      resolution: { value: new THREE.Vector2() },
+      resolution: { value: new Vector2() },
     }
-    const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
-    const mesh = new THREE.Mesh(geometry, material)
+    const material = new ShaderMaterial({ uniforms, vertexShader, fragmentShader })
+    const mesh = new Mesh(geometry, material)
     scene.add(mesh)
 
-    let renderer: THREE.WebGLRenderer
+    let renderer: WebGLRenderer
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+      renderer = new WebGLRenderer({ antialias: true, alpha: true })
     } catch {
       return
     }
