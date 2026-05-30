@@ -225,8 +225,8 @@ const BTN: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: 28,
-  height: 28,
+  width: 40,
+  height: 40,
   borderRadius: 7,
   border: "none",
   background: "transparent",
@@ -1018,6 +1018,7 @@ export function VideoPlayerPro({
                   {/* Play / Pause */}
                   <button
                     onClick={toggle}
+                    aria-label={ended ? "Replay" : playing ? "Pause" : "Play"}
                     style={{
                       ...BTN,
                       background: "rgba(255,255,255,0.08)",
@@ -1047,6 +1048,7 @@ export function VideoPlayerPro({
                   >
                     <button
                       onClick={toggleMute}
+                      aria-label={muted || vol === 0 ? "Unmute" : "Mute"}
                       style={{
                         ...BTN,
                         color: "rgba(255,255,255,0.55)",
@@ -1181,7 +1183,7 @@ export function VideoPlayerPro({
                   {!isMobile && (
                   <button
                     onClick={toggleLoop}
-                    title="Loop"
+                    aria-label={looping ? "Disable loop" : "Enable loop"}
                     style={{
                       ...BTN,
                       color: looping ? "#38BDF8" : "rgba(255,255,255,0.45)",
@@ -1198,7 +1200,7 @@ export function VideoPlayerPro({
                   {!isMobile && "pictureInPictureEnabled" in document && (
                     <button
                       onClick={pictureInPicture}
-                      title="Picture in Picture"
+                      aria-label="Picture in picture"
                       style={{ ...BTN, color: "rgba(255,255,255,0.45)" }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
@@ -1210,6 +1212,7 @@ export function VideoPlayerPro({
                   {/* Fullscreen */}
                   <button
                     onClick={fullscreen}
+                    aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
                     style={{
                       ...BTN,
                       color: "rgba(255,255,255,0.45)",

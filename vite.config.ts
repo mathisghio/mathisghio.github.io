@@ -18,7 +18,6 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2020",
     sourcemap: true,
-    modulePreload: false,
     rollupOptions: {
       input: {
         main: path.resolve(import.meta.dirname, "client", "index.html"),

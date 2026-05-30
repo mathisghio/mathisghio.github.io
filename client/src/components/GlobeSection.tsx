@@ -1038,8 +1038,8 @@ function ViewToggle({mode,onToggle}:{mode:'2d'|'3d';onToggle:()=>void}) {
           <button key={m} onClick={()=>{if(!active)onToggle()}}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300"
             style={{background:active?'rgba(14,165,233,0.22)':'transparent',border:`1px solid ${active?'rgba(14,165,233,0.52)':'transparent'}`,boxShadow:active?'0 0 12px rgba(14,165,233,0.22)':'none',cursor:active?'default':'pointer'}}>
-            {m==='2d'?<Map size={13} style={{color:active?'#38bdf8':'rgba(148,163,184,0.4)'}}/>:<Globe size={13} style={{color:active?'#38bdf8':'rgba(148,163,184,0.4)'}}/>}
-            <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',color:active?'rgba(241,245,249,0.95)':'rgba(148,163,184,0.4)',transition:'color 0.2s'}}>
+            {m==='2d'?<Map size={13} style={{color:active?'#38bdf8':'rgba(148,163,184,0.70)'}}/>:<Globe size={13} style={{color:active?'#38bdf8':'rgba(148,163,184,0.70)'}}/>}
+            <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',color:active?'rgba(241,245,249,0.95)':'rgba(148,163,184,0.70)',transition:'color 0.2s'}}>
               {m==='2d'?'Flat':'3D'}
             </span>
           </button>
@@ -1065,8 +1065,8 @@ function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef,isDesktop}:{comp
     }}>
       <div style={{width:'3px',background:isActive?`linear-gradient(to bottom,${color},${color}55)`:`${color}28`,flexShrink:0,transition:'background 0.25s'}}/>
       <div style={{padding:'9px 11px',borderRight:'1px solid rgba(255,255,255,0.04)',minWidth:'52px',flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.05rem',color:isActive?color:'rgba(148,163,184,0.42)',letterSpacing:'0.06em',lineHeight:1.1,transition:'color 0.25s'}}>{comp.month}</div>
-        <div style={{fontSize:'0.52rem',color:'rgba(148,163,184,0.22)',marginTop:'2px',letterSpacing:'0.1em',fontFamily:"'DM Sans',sans-serif"}}>2026</div>
+        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:'1.05rem',color:isActive?color:'rgba(148,163,184,0.70)',letterSpacing:'0.06em',lineHeight:1.1,transition:'color 0.25s'}}>{comp.month}</div>
+        <div style={{fontSize:'0.52rem',color:'rgba(148,163,184,0.70)',marginTop:'2px',letterSpacing:'0.1em',fontFamily:"'DM Sans',sans-serif"}}>2026</div>
       </div>
       <div style={{flex:1,padding:'9px 11px',minWidth:0}}>
         <div style={{display:'flex',alignItems:'center',gap:'5px',marginBottom:'4px'}}>
@@ -1074,8 +1074,8 @@ function CompCard({comp,isActive,onEnter,onLeave,onClick,domRef,isDesktop}:{comp
           <span style={{fontFamily:"'Barlow Condensed',sans-serif",fontWeight:700,fontSize:'0.84rem',color:isActive?'rgba(241,245,249,1)':'rgba(241,245,249,0.7)',letterSpacing:'0.04em',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',transition:'color 0.25s'}}>{comp.name}</span>
         </div>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'6px'}}>
-          <span style={{color:'rgba(148,163,184,0.38)',fontSize:'0.6rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:"'DM Sans',sans-serif"}}>{comp.location}</span>
-          <span style={{color:isActive?color:'rgba(148,163,184,0.32)',fontSize:'0.58rem',flexShrink:0,fontFamily:"'DM Sans',sans-serif",fontWeight:500,transition:'color 0.25s'}}>{comp.date}</span>
+          <span style={{color:'rgba(148,163,184,0.70)',fontSize:'0.6rem',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',fontFamily:"'DM Sans',sans-serif"}}>{comp.location}</span>
+          <span style={{color:isActive?color:'rgba(148,163,184,0.70)',fontSize:'0.58rem',flexShrink:0,fontFamily:"'DM Sans',sans-serif",fontWeight:500,transition:'color 0.25s'}}>{comp.date}</span>
         </div>
       </div>
       <div style={{padding:'9px 10px',display:'flex',alignItems:'center'}}>
@@ -1219,7 +1219,7 @@ export function GlobeSection() {
             <Map2DFlat  visible={mode==='2d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap} zoomResetSignal={zoomResetSignal}/>
             <Globe3DD3  visible={mode==='3d'} hoveredId={effectiveId} onHover={handleCanvasHover} onTap={handleGlobeTap} zoomResetSignal={zoomResetSignal}/>
             <ViewToggle mode={mode} onToggle={()=>setMode(m=>m==='2d'?'3d':'2d')}/>
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.22)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none" style={{color:'rgba(148,163,184,0.70)',fontSize:'10px',fontFamily:"'DM Sans',sans-serif",textTransform:'uppercase',letterSpacing:'0.15em',whiteSpace:'nowrap'}}>
               <span className="hidden lg:inline">{mode==='3d'?'drag to rotate · pinch to zoom · hover markers':'drag to move · pinch to zoom · hover markers'}</span>
               <span className="lg:hidden">{mode==='3d'?'pinch to zoom · drag to rotate · tap markers':'pinch to zoom · drag to move · tap markers'}</span>
             </div>
@@ -1229,7 +1229,7 @@ export function GlobeSection() {
           <div className="flex flex-col">
             <motion.div initial={{opacity:0,x:20}} animate={inView?{opacity:1,x:0}:{}} transition={{duration:.4,delay:.1}}
               className="flex items-center justify-between mb-4">
-              <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.32)',letterSpacing:'0.2em',textTransform:'uppercase'}}>12 events · 7 countries</p>
+              <p style={{fontFamily:"'DM Sans',sans-serif",fontSize:'0.65rem',color:'rgba(148,163,184,0.70)',letterSpacing:'0.2em',textTransform:'uppercase'}}>12 events · 7 countries</p>
               <div className="flex items-center gap-2.5">
                 {(Object.entries(TC) as [CompType,string][]).map(([type,color])=>(
                   <div key={type} style={{width:'6px',height:'6px',borderRadius:'50%',background:color}}/>
@@ -1266,7 +1266,7 @@ export function GlobeSection() {
               {(Object.entries(TL) as [CompType,string][]).map(([type,label])=>(
                 <div key={type} className="flex items-center gap-1.5">
                   <div style={{width:'7px',height:'7px',borderRadius:'50%',background:TC[type],flexShrink:0}}/>
-                  <span style={{color:'rgba(148,163,184,0.36)',fontSize:'0.62rem',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.06em'}}>{label}</span>
+                  <span style={{color:'rgba(148,163,184,0.70)',fontSize:'0.62rem',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.06em'}}>{label}</span>
                 </div>
               ))}
             </motion.div>
