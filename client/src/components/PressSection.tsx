@@ -191,7 +191,7 @@ export function PressSection() {
             className="font-display leading-none"
             style={{
               fontSize: 'clamp(48px, 8vw, 110px)',
-              color: '#0EA5E9',
+              color: '#0891b2',
             }}
           >
             & RESOURCES

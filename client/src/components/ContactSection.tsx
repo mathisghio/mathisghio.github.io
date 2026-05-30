@@ -478,7 +478,7 @@ export function ContactSection() {
               </span>
             </div>
             <h2 className="font-display text-white leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)' }}>GET IN</h2>
-            <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', color: '#0EA5E9' }}>TOUCH</h2>
+            <h2 className="font-display leading-none" style={{ fontSize: 'clamp(48px, 8vw, 110px)', color: '#0891b2' }}>TOUCH</h2>
           </motion.div>
         </LampContainer>
 

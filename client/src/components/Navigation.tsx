@@ -278,7 +278,7 @@ export function Navigation() {
                 transition:  "box-shadow 0.3s ease",
               }}
             >
-              <span className="font-display text-white leading-none" style={{ fontSize: "0.9rem" }}>MG</span>
+              <span className="font-display leading-none" style={{ fontSize: "0.9rem", color: "#08090E" }}>MG</span>
             </div>
 
             {/* Nom lettre par lettre */}
