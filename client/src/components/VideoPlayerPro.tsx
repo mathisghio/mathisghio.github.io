@@ -726,16 +726,15 @@ export function VideoPlayerPro({
           )}
         </AnimatePresence>
 
-        {/* Center play button — when paused & controls hidden */}
+        {/* Center play button — always visible when paused */}
         <AnimatePresence>
-          {!playing && !err && !show && (
+          {!playing && !err && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={toggle}
-              role="button"
               aria-label={ended ? "Replay" : "Play"}
               style={{
                 position: "absolute",
