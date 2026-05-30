@@ -15,14 +15,6 @@ html, body {
   z-index: 99999 !important;
 }
 
-/* Kit.com form contrast (WCAG AA) */
-.formkit-input {
-  color: #0c4a6e !important;
-}
-.formkit-submit {
-  background-color: #0369a1 !important;
-}
-
 /* Hide reCAPTCHA badge — disclosure text in footer per Google ToS */
 .grecaptcha-badge {
   visibility: hidden !important;
