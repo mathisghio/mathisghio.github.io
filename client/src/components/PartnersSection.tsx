@@ -144,7 +144,7 @@ export function PartnersSection() {
           className="transition-all duration-700"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)', transitionDelay: '400ms' }}
         >
-          <h3 className="font-body text-xs uppercase tracking-widest mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.2em' }}>
+          <h3 className="font-body text-xs uppercase tracking-widest mb-5 lg:mb-8" style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.2em' }}>
             Official Partners
           </h3>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">

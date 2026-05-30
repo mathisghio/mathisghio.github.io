@@ -29,7 +29,7 @@ function SocialPill({ href, Icon, label, onClick }: { href: string; Icon: React.
         padding: '5px 11px', borderRadius: 100,
         background: hov ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.03)',
         border: `1px solid ${hov ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'}`,
-        color: hov ? 'rgba(241,245,249,0.9)' : 'rgba(148,163,184,0.5)',
+        color: hov ? 'rgba(241,245,249,0.9)' : 'rgba(148,163,184,0.75)',
         textDecoration: 'none',
         transition: 'all 0.2s ease',
         transform: hov ? 'translateY(-1px)' : 'translateY(0)',
@@ -71,7 +71,7 @@ function InfoRow({
         <Icon size={15} style={{ color: '#0EA5E9' }} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ color: 'rgba(148,163,184,0.4)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontFamily: 'DM Sans, sans-serif', marginBottom: 2 }}>
+        <p style={{ color: 'rgba(148,163,184,0.70)', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontFamily: 'DM Sans, sans-serif', marginBottom: 2 }}>
           {sublabel}
         </p>
         <span style={{ color: hov ? 'rgba(241,245,249,1)' : 'rgba(241,245,249,0.8)', fontSize: 14, fontFamily: 'DM Sans, sans-serif', transition: 'color 0.22s ease' }}>
@@ -95,51 +95,96 @@ function InfoRow({
 }
 
 function KitNewsletterForm() {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInstagram = /Instagram/.test(navigator.userAgent)
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [focused, setFocused] = useState(false)
+  const [emailError, setEmailError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (isInstagram) return
-    const container = ref.current
-    if (!container) return
-
-    const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
-
-    // If the form was already rendered (e.g. script cached), move it immediately
-    const existing = document.querySelector<HTMLElement>(`[data-uid="${uid}"]`)
-    if (existing && existing.tagName !== 'SCRIPT') {
-      container.appendChild(existing)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!EMAIL_RE.test(email)) {
+      setEmailError('Adresse e-mail invalide')
       return
     }
-
-    if (!document.querySelector(`script[data-uid="${uid}"]`)) {
-      const s = document.createElement('script')
-      s.async = true
-      s.dataset.uid = uid
-      s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
-      document.body.appendChild(s)
-    }
-
-    // Match strictly by uid — do NOT use the formkit-form class check,
-    // as other Kit.com scripts on the page (main.tsx) also inject formkit-form
-    // elements and would trigger a premature disconnect.
-    const obs = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        for (const node of m.addedNodes) {
-          if (node instanceof HTMLElement && node.dataset.uid === uid) {
-            container.appendChild(node)
-            obs.disconnect()
-            return
-          }
-        }
+    setEmailError(null)
+    setStatus('sending')
+    const formId = window.innerWidth < 768 ? 9491809 : 9462343
+    try {
+      const res = await fetch(`https://app.convertkit.com/forms/${formId}/subscriptions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email_address: email }),
+      })
+      if (res.ok) {
+        setStatus('success')
+        setEmail('')
+      } else {
+        setStatus('error')
       }
-    })
-    obs.observe(document.body, { childList: true })
-    return () => obs.disconnect()
-  }, [])
+    } catch {
+      setStatus('error')
+    }
+  }
 
-  if (isInstagram) return null
-  return <div ref={ref} className="w-full" />
+  if (status === 'success') {
+    return (
+      <motion.p
+        initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+        className="font-body text-sm"
+        style={{ color: '#0EA5E9', lineHeight: 1.65 }}
+      >
+        You're in! Race updates coming your way.
+      </motion.p>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <input
+          type="email"
+          value={email}
+          onChange={e => { setEmail(e.target.value); if (emailError && EMAIL_RE.test(e.target.value)) setEmailError(null) }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => { setFocused(false); if (email && !EMAIL_RE.test(email)) setEmailError('Adresse e-mail invalide') }}
+          placeholder="your@email.com"
+          autoComplete="email"
+          required
+          style={{
+            flex: 1, minWidth: 200,
+            background: focused ? 'rgba(14,165,233,0.04)' : 'rgba(255,255,255,0.03)',
+            border: `1px solid ${emailError ? 'rgba(248,113,113,0.55)' : focused ? 'rgba(14,165,233,0.55)' : 'rgba(255,255,255,0.08)'}`,
+            borderRadius: 4, padding: '10px 14px',
+            color: '#F1F5F9', fontSize: 14, fontFamily: 'DM Sans, sans-serif',
+            outline: 'none', transition: 'border-color 0.2s ease, background 0.2s ease',
+          }}
+        />
+        <ShinyButton type="submit" disabled={status === 'sending'}>
+          <span className="flex items-center gap-2">
+            {status === 'sending' ? (
+              <motion.svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.85, ease: 'linear' }}>
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.25" />
+                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              </motion.svg>
+            ) : (
+              <Send size={13} style={{ flexShrink: 0 }} />
+            )}
+            Subscribe
+          </span>
+        </ShinyButton>
+      </div>
+      {emailError && (
+        <p className="font-body text-xs" style={{ color: 'rgba(248,113,113,0.85)' }}>{emailError}</p>
+      )}
+      {status === 'error' && (
+        <p className="font-body text-xs" style={{ color: '#F87171' }}>
+          Something went wrong. Try again or email{' '}
+          <a href="mailto:contact@mathisghio.com" style={{ color: '#0EA5E9' }}>contact@mathisghio.com</a>
+        </p>
+      )}
+    </form>
+  )
 }
 
 function SuccessState() {
@@ -193,7 +238,7 @@ function SuccessState() {
         initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.4 }}
         className="font-body text-sm"
-        style={{ color: 'rgba(148,163,184,0.6)', lineHeight: 1.65, maxWidth: 280 }}
+        style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.65, maxWidth: 280 }}
       >
         I'll get back to you within 48 hours. Looking forward to connecting.
       </motion.p>
@@ -320,7 +365,7 @@ function ContactForm() {
     letterSpacing: '0.18em',
     color: error
       ? 'rgba(248,113,113,0.8)'
-      : focused === name ? 'rgba(14,165,233,0.85)' : 'rgba(148,163,184,0.5)',
+      : focused === name ? 'rgba(14,165,233,0.85)' : 'rgba(148,163,184,0.75)',
     marginBottom: 7,
     fontFamily: 'DM Sans, sans-serif',
     transition: 'color 0.2s ease',
@@ -407,7 +452,7 @@ function ContactForm() {
             {msgLen > 0 && (
               <motion.span
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 10, color: 'rgba(148,163,184,0.3)' }}
+                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 10, color: 'rgba(148,163,184,0.60)' }}
               >
                 {msgLen} car.
               </motion.span>
@@ -539,7 +584,7 @@ export function ContactSection() {
 
               {/* Social links */}
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.5rem' }}>
-                <p className="font-body text-xs uppercase tracking-widest mb-4" style={{ color: 'rgba(148,163,184,0.35)', letterSpacing: '0.18em' }}>Follow</p>
+                <p className="font-body text-xs uppercase tracking-widest mb-4" style={{ color: 'rgba(148,163,184,0.60)', letterSpacing: '0.18em' }}>Follow</p>
                 <div className="flex flex-wrap gap-2">
                   {SOCIAL_CHANNELS.map(({ href, Icon, label, platform }) => (
                     <SocialPill key={href} href={href} Icon={Icon} label={label} onClick={() => trackSocialClick(platform)} />
@@ -586,7 +631,7 @@ export function ContactSection() {
             </span>
           </div>
           <div>
-            <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.65)', lineHeight: 1.75, textAlign: 'left' }}>
+            <p className="font-body text-sm mb-6" style={{ color: 'rgba(148,163,184,0.75)', lineHeight: 1.75, textAlign: 'left' }}>
               Race results, speed records, behind-the-scenes. No spam, unsubscribe anytime.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -612,14 +657,14 @@ export function ContactSection() {
               </span>
             </div>
             <div className="text-center">
-              <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.4)' }}>
+              <p className="font-body text-xs" style={{ color: 'rgba(148,163,184,0.70)' }}>
                 © 2026 Mathis Ghio · Wingfoil Racing<br className="sm:hidden" /><span className="hidden sm:inline"> · </span>Photos&nbsp;: Robert Hajduk · Jean Souville · JM. Cornu · Iset Segura · Salomé Vermesch
               </p>
-              <p className="font-body mt-1" style={{ fontSize: '10px', color: 'rgba(148,163,184,0.2)' }}>
+              <p className="font-body mt-1" style={{ fontSize: '10px', color: 'rgba(148,163,184,0.55)' }}>
                 Protected by reCAPTCHA —{' '}
-                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.2)', textDecoration: 'underline' }}>Privacy</a>
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.55)', textDecoration: 'underline' }}>Privacy</a>
                 {' '}&amp;{' '}
-                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.2)', textDecoration: 'underline' }}>Terms</a>
+                <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(148,163,184,0.55)', textDecoration: 'underline' }}>Terms</a>
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -631,7 +676,7 @@ export function ContactSection() {
                 <a key={i} href={social.href} target="_blank" rel="noopener noreferrer"
                   onClick={() => trackSocialClick(social.platform)}
                   aria-label={social.platform} className="transition-all duration-200 hover:text-cyan-400"
-                  style={{ color: 'rgba(148,163,184,0.4)' }}>
+                  style={{ color: 'rgba(148,163,184,0.70)' }}>
                   <social.icon size={16} />
                 </a>
               ))}

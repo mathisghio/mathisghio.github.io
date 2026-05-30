@@ -127,7 +127,7 @@ export function AudienceSection() {
                         </span>
                         <span
                           className="font-body uppercase tracking-wider"
-                          style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.8)' : 'rgba(148,163,184,0.65)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}
+                          style={{ fontSize: '0.6rem', color: row.hero ? 'rgba(14,165,233,0.8)' : 'rgba(148,163,184,0.75)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}
                         >
                           {row.unit}
                         </span>
@@ -145,7 +145,7 @@ export function AudienceSection() {
                   <div className="hidden lg:grid lg:grid-cols-[180px_1fr_2fr] lg:gap-x-10 lg:items-baseline lg:py-6 px-6">
                     <span
                       className="font-body text-xs uppercase tracking-widest"
-                      style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.15em' }}
+                      style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.15em' }}
                     >
                       {row.label}
                     </span>
@@ -166,14 +166,14 @@ export function AudienceSection() {
                       </span>
                       <span
                         className="font-body text-xs uppercase tracking-wider"
-                        style={{ color: row.hero ? 'rgba(14,165,233,0.6)' : 'rgba(148,163,184,0.4)', letterSpacing: '0.1em' }}
+                        style={{ color: row.hero ? 'rgba(14,165,233,0.9)' : 'rgba(148,163,184,0.70)', letterSpacing: '0.1em' }}
                       >
                         {row.unit}
                       </span>
                     </div>
                     <p
                       className="font-body text-sm"
-                      style={{ color: isHovered ? 'rgba(148,163,184,0.85)' : 'rgba(148,163,184,0.6)', lineHeight: 1.65, transition: 'color 0.25s ease' }}
+                      style={{ color: isHovered ? 'rgba(148,163,184,0.85)' : 'rgba(148,163,184,0.75)', lineHeight: 1.65, transition: 'color 0.25s ease' }}
                     >
                       {row.detail}
                     </p>

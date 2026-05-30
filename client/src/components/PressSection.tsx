@@ -102,7 +102,7 @@ function DocCard({
                 </h3>
                 <p
                   className="font-body text-xs uppercase tracking-widest mt-1"
-                  style={{ color: 'rgba(148,163,184,0.5)', letterSpacing: '0.18em' }}
+                  style={{ color: 'rgba(148,163,184,0.75)', letterSpacing: '0.18em' }}
                 >
                   {doc.sublabel}
                 </p>

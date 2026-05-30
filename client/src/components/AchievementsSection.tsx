@@ -150,7 +150,7 @@ export function AchievementsSection() {
                         color: isActive ? y.color : isHovered ? 'rgba(241, 245, 249, 0.85)' : 'rgba(241, 245, 249, 0.6)',
                         transition: 'color 0.25s ease',
                       }}>{y.year}</div>
-                      <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148, 163, 184, 0.5)', letterSpacing: '0.1em' }}>{y.label}</div>
+                      <div className="font-body text-xs uppercase tracking-wider" style={{ color: 'rgba(148, 163, 184, 0.75)', letterSpacing: '0.1em' }}>{y.label}</div>
                     </div>
                   </button>
                 )
