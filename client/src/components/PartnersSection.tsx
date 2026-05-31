@@ -137,13 +137,20 @@ export function PartnersSection() {
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {officialPartners.map((partner, i) => (
               <a key={i} href={partner.url} target="_blank" rel="noopener noreferrer"
-                className="group flex flex-col gap-1 px-4 py-3 rounded-sm transition-all duration-300"
+                className="group relative flex flex-col gap-1 px-4 py-3 rounded-sm transition-all duration-300 overflow-hidden"
                 style={{ background: 'rgba(8,9,14,0.6)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none' }}>
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(14,165,233,0.5), transparent)' }} />
+                {/* Hover glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(14,165,233,0.08) 0%, transparent 65%)' }} />
                 <span className="font-heading font-semibold text-sm transition-all duration-300 group-hover:text-cyan-400"
                   style={{ color: 'rgba(241,245,249,0.8)', fontFamily: 'Barlow Condensed, sans-serif' }}>
                   {partner.name}
                 </span>
                 <span className="font-body text-xs leading-tight" style={{ color: 'rgba(148,163,184,0.75)' }}>{partner.description}</span>
+                <div className="mt-2 w-6 h-px origin-left transition-transform duration-300 group-hover:scale-x-[2]" style={{ background: '#0EA5E9' }} />
               </a>
             ))}
           </div>
