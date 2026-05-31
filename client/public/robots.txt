@@ -3,6 +3,7 @@ Allow: /
 
 User-agent: Googlebot
 Allow: /
+Disallow: /*.md
 
 User-agent: GPTBot
 Allow: /
