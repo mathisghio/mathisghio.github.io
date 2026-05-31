@@ -96,6 +96,22 @@ function ScrollRevealVideo() {
     })
   }, [scrollYProgress])
 
+  /* Freeze wheel scroll for 2s when the video fully reveals on desktop.
+     Gives the video time to visibly start playing before the user scrolls past.
+     Mobile excluded — touchmove preventDefault caused issues on iOS Safari. */
+  useEffect(() => {
+    if (!revealed) return
+    if (window.innerWidth < 1024) return
+    const preventWheel = (e: WheelEvent) => { e.preventDefault() }
+    document.addEventListener('wheel', preventWheel, { passive: false })
+    const t = setTimeout(() => {
+      document.removeEventListener('wheel', preventWheel)
+    }, 2000)
+    return () => {
+      clearTimeout(t)
+      document.removeEventListener('wheel', preventWheel)
+    }
+  }, [revealed])
 
   /* Scroll-driven reveal animation */
   return (
