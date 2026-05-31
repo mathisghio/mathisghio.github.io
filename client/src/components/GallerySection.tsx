@@ -125,11 +125,15 @@ function ScrollRevealVideo() {
         </motion.div>
         {/* Wrapper — gives the scroll hint a reference box matching the video */}
         <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 900px)', margin: '0 auto' }}>
-          <motion.div style={{ clipPath }} className="overflow-hidden">
-            {revealed ? (
-              <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay onPlayCallback={trackVideoPlay} onEndedCallback={trackVideoEnd} />
-            ) : (
-              <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
+          <motion.div style={{ clipPath, position: 'relative' }} className="overflow-hidden">
+            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay={revealed} onPlayCallback={trackVideoPlay} onEndedCallback={trackVideoEnd} />
+            {!revealed && (
+              <img
+                src={MEDIA_VIDEO_POSTER}
+                alt=""
+                aria-hidden="true"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 10 }}
+              />
             )}
           </motion.div>
 
