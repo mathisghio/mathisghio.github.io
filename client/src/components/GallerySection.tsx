@@ -100,13 +100,21 @@ function ScrollRevealVideo() {
     const isMobile = window.innerWidth < 1024
 
     if (isMobile) {
-      const handler = (e: TouchEvent) => { e.preventDefault() }
-      document.addEventListener('touchmove', handler, { passive: false })
-      const timer = setTimeout(() => {
-        document.removeEventListener('touchmove', handler)
+      /* iOS Safari ignores touchmove preventDefault once a scroll gesture has started.
+         The only reliable cross-platform freeze is body position:fixed. */
+      const savedY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top      = `-${savedY}px`
+      document.body.style.width    = '100%'
+      const restore = () => {
+        document.body.style.position = ''
+        document.body.style.top      = ''
+        document.body.style.width    = ''
+        window.scrollTo(0, savedY)
         freezeCleanup.current = null
-      }, 2000)
-      freezeCleanup.current = () => { clearTimeout(timer); document.removeEventListener('touchmove', handler) }
+      }
+      const timer = setTimeout(restore, 2000)
+      freezeCleanup.current = () => { clearTimeout(timer); restore() }
     } else {
       const handler = (e: WheelEvent) => { e.preventDefault() }
       document.addEventListener('wheel', handler, { passive: false })
