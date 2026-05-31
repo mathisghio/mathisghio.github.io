@@ -424,8 +424,6 @@ export function VideoPlayerPro({
       doPlay();
     } else {
       v.addEventListener("canplay", doPlay, { once: true });
-      // Browser may be idle after loading only metadata — restart full load so canplay fires
-      if (v.networkState !== 2 /* NETWORK_LOADING */) v.load();
     }
     return () => v.removeEventListener("canplay", doPlay);
   }, [autoplay]);
@@ -611,7 +609,7 @@ export function VideoPlayerPro({
         <video
           ref={videoRef}
           poster={poster}
-          preload={autoplay ? "auto" : "metadata"}
+          preload="auto"
           playsInline
           crossOrigin="anonymous"
           onClick={toggle}
