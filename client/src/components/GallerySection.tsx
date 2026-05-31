@@ -45,7 +45,6 @@ function ScrollRevealVideo() {
   const revealedRef   = useRef(false)   // stable ref avoids stale closure in scroll listener
   const freezeFired   = useRef(false)
   const freezeCleanup = useRef<(() => void) | null>(null)
-  const freezing      = useRef(false)   // true while body:fixed is active; guards IntersectionObserver reset
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -66,7 +65,7 @@ function ScrollRevealVideo() {
     const el = scrollRef.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting && !freezing.current) {
+      if (!entry.isIntersecting) {
         revealedRef.current = false
         setRevealed(false)
         freezeFired.current = false
@@ -98,38 +97,28 @@ function ScrollRevealVideo() {
     if (freezeFired.current) return
     freezeFired.current = true
 
-    /* Touch-capability detection (not viewport width) so a narrow desktop
-       window doesn't accidentally trigger body:fixed and cause a scroll loop. */
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-
-    if (isTouchDevice) {
-      /* iOS Safari ignores touchmove preventDefault once a gesture has started.
-         body position:fixed is the only reliable iOS scroll lock.
-         freezing=true guards the IntersectionObserver against resetting state
-         while the body is artificially positioned at the top of the viewport. */
-      const savedY = window.scrollY
-      freezing.current = true
-      document.body.style.position = 'fixed'
-      document.body.style.top      = `-${savedY}px`
-      document.body.style.width    = '100%'
-      const restore = () => {
-        document.body.style.position = ''
-        document.body.style.top      = ''
-        document.body.style.width    = ''
-        window.scrollTo(0, savedY)
-        freezing.current = false
-        freezeCleanup.current = null
-      }
-      const timer = setTimeout(restore, 2000)
-      freezeCleanup.current = () => { clearTimeout(timer); restore() }
-    } else {
-      const handler = (e: WheelEvent) => { e.preventDefault() }
-      document.addEventListener('wheel', handler, { passive: false })
-      const timer = setTimeout(() => {
-        document.removeEventListener('wheel', handler)
-        freezeCleanup.current = null
-      }, 2000)
-      freezeCleanup.current = () => { clearTimeout(timer); document.removeEventListener('wheel', handler) }
+    /* CSS-free scroll lock — works on all platforms without touching body layout.
+       - wheel: preventDefault blocks desktop scroll before it reaches the document
+       - touchmove: preventDefault blocks iOS/Android touch scroll at gesture level
+       - scroll: snap back immediately if any scroll slips through (belt-and-suspenders) */
+    const savedY = window.scrollY
+    const wheelHandler = (e: WheelEvent)  => { e.preventDefault() }
+    const touchHandler = (e: TouchEvent)  => { e.preventDefault() }
+    const scrollHandler = ()              => { window.scrollTo(0, savedY) }
+    document.addEventListener('wheel',    wheelHandler, { passive: false })
+    document.addEventListener('touchmove', touchHandler, { passive: false })
+    window.addEventListener('scroll',     scrollHandler, { passive: true })
+    const timer = setTimeout(() => {
+      document.removeEventListener('wheel',     wheelHandler)
+      document.removeEventListener('touchmove', touchHandler)
+      window.removeEventListener('scroll',      scrollHandler)
+      freezeCleanup.current = null
+    }, 2000)
+    freezeCleanup.current = () => {
+      clearTimeout(timer)
+      document.removeEventListener('wheel',     wheelHandler)
+      document.removeEventListener('touchmove', touchHandler)
+      window.removeEventListener('scroll',      scrollHandler)
     }
   }, [])
 
