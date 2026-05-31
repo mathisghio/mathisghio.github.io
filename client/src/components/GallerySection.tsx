@@ -91,7 +91,7 @@ function ScrollRevealVideo() {
       if (!inView) { prevVRef.current = v; return }
       const goingDown = v > prevVRef.current
       prevVRef.current = v
-      if (goingDown && v >= 0.85) setRevealed(true)
+      if (goingDown && v >= 0.95) setRevealed(true)
       else if (!goingDown && v <= 0.95) setRevealed(true)
     })
   }, [scrollYProgress])
@@ -162,7 +162,7 @@ function ScrollRevealVideo() {
 }
 
 export function GallerySection() {
-  const { ref, inView } = useInView(0.05)
+  const { ref, inView } = useInView(0.05, '0px 0px 120px 0px')
   const [hoveredIdx,   setHoveredIdx]   = useState<number | null>(null)
   const [igVisible,    setIgVisible]    = useState(false)
   const [lightboxIdx,  setLightboxIdx]  = useState<number | null>(null)
