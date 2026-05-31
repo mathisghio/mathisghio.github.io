@@ -37,7 +37,13 @@ window.addEventListener('resize', () => {
   if (_resizeTimer !== null) clearTimeout(_resizeTimer)
   _resizeTimer = setTimeout(() => {
     const max = document.documentElement.scrollHeight - window.innerHeight
-    if (max > 0) window.scrollTo(0, Math.round(_stableFrac * max))
+    if (max > 0) {
+      // Disable smooth scroll during instant restore so CSS scroll-behavior: smooth
+      // doesn't animate the jump to the correct position
+      document.documentElement.style.scrollBehavior = 'auto'
+      window.scrollTo(0, Math.round(_stableFrac * max))
+      document.documentElement.style.scrollBehavior = ''
+    }
     _resizeTimer = null
   }, 200)
 })
