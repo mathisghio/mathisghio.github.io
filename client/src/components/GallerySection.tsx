@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
@@ -40,13 +40,11 @@ const stackedImages: GlassCardImage[] = [
 ]
 
 function ScrollRevealVideo() {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef   = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const prevVRef     = useRef(0)
-  const rectRef      = useRef<{ top: number; bottom: number } | null>(null)
-  const wheelHandler = useRef<((e: WheelEvent) => void) | null>(null)
-  const wheelTimer   = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const hasFreezed   = useRef(false)
+  const revealedRef   = useRef(false)   // stable ref avoids stale closure in scroll listener
+  const freezeFired   = useRef(false)
+  const freezeCleanup = useRef<(() => void) | null>(null)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -62,81 +60,61 @@ function ScrollRevealVideo() {
   const labelY            = useTransform(scrollYProgress, [0, 0.15], [24, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
-  /* Cache bounding rect — updated on mount and resize to avoid forced reflow on every scroll tick */
-  useEffect(() => {
-    const update = () => {
-      const r = scrollRef.current?.getBoundingClientRect()
-      if (r) rectRef.current = { top: r.top + window.scrollY, bottom: r.bottom + window.scrollY }
-    }
-    update()
-    window.addEventListener('resize', update, { passive: true })
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  /* Reset when section leaves viewport entirely */
+  /* Reset everything when the section scrolls completely out of view */
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) {
+        revealedRef.current = false
         setRevealed(false)
-        hasFreezed.current = false
-        if (wheelHandler.current) {
-          document.removeEventListener('wheel', wheelHandler.current)
-          wheelHandler.current = null
-        }
-        if (wheelTimer.current) {
-          clearTimeout(wheelTimer.current)
-          wheelTimer.current = null
-        }
+        freezeFired.current = false
+        if (freezeCleanup.current) { freezeCleanup.current(); freezeCleanup.current = null }
       }
     }, { threshold: 0 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
 
-  /* Direction-aware reveal — uses cached rect to avoid forced reflow on every scroll tick */
+  /* Reveal once scroll animation completes (v ≥ 0.85) */
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      const rect = rectRef.current
-      if (!rect) return
-      const scrollY = window.scrollY
-      const inView = scrollY + window.innerHeight > rect.top && scrollY < rect.bottom
-      if (!inView) { prevVRef.current = v; return }
-      const goingDown = v > prevVRef.current
-      prevVRef.current = v
-      if (goingDown && v >= 0.85) {
-        setRevealed(true)
-        /* Freeze applied synchronously here (not via useEffect) so the very next
-           wheel event is already blocked — React's async render cycle would be too late. */
-        if (window.innerWidth >= 1024 && !hasFreezed.current) {
-          hasFreezed.current = true
-          const handler = (e: WheelEvent) => { e.preventDefault() }
-          wheelHandler.current = handler
-          document.addEventListener('wheel', handler, { passive: false })
-          wheelTimer.current = setTimeout(() => {
-            document.removeEventListener('wheel', handler)
-            wheelHandler.current = null
-            wheelTimer.current = null
-          }, 3000)
-        }
-      } else if (!goingDown && v <= 0.95) {
+      if (!revealedRef.current && v >= 0.85) {
+        revealedRef.current = true
         setRevealed(true)
       }
     })
   }, [scrollYProgress])
 
-  /* Unmount: clean up any active wheel-freeze listener */
+  /* Unmount cleanup */
   useEffect(() => {
-    return () => {
-      if (wheelHandler.current) {
-        document.removeEventListener('wheel', wheelHandler.current)
-        wheelHandler.current = null
-      }
-      if (wheelTimer.current) {
-        clearTimeout(wheelTimer.current)
-        wheelTimer.current = null
-      }
+    return () => { if (freezeCleanup.current) { freezeCleanup.current(); freezeCleanup.current = null } }
+  }, [])
+
+  /* Called when the video actually starts playing — freeze scroll for 2 s */
+  const handleVideoPlay = useCallback(() => {
+    trackVideoPlay()
+    if (freezeFired.current) return
+    freezeFired.current = true
+
+    const isMobile = window.innerWidth < 1024
+
+    if (isMobile) {
+      const handler = (e: TouchEvent) => { e.preventDefault() }
+      document.addEventListener('touchmove', handler, { passive: false })
+      const timer = setTimeout(() => {
+        document.removeEventListener('touchmove', handler)
+        freezeCleanup.current = null
+      }, 2000)
+      freezeCleanup.current = () => { clearTimeout(timer); document.removeEventListener('touchmove', handler) }
+    } else {
+      const handler = (e: WheelEvent) => { e.preventDefault() }
+      document.addEventListener('wheel', handler, { passive: false })
+      const timer = setTimeout(() => {
+        document.removeEventListener('wheel', handler)
+        freezeCleanup.current = null
+      }, 2000)
+      freezeCleanup.current = () => { clearTimeout(timer); document.removeEventListener('wheel', handler) }
     }
   }, [])
 
@@ -153,7 +131,7 @@ function ScrollRevealVideo() {
         {/* Wrapper — gives the scroll hint a reference box matching the video */}
         <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 900px)', margin: '0 auto' }}>
           <motion.div style={{ clipPath, position: 'relative' }} className="overflow-hidden">
-            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay={revealed} onPlayCallback={trackVideoPlay} onEndedCallback={trackVideoEnd} />
+            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay={revealed} onPlayCallback={handleVideoPlay} onEndedCallback={trackVideoEnd} />
             {!revealed && (
               <img
                 src={MEDIA_VIDEO_POSTER}
