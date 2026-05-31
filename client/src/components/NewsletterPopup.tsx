@@ -208,7 +208,7 @@ export function NewsletterPopup() {
                     type="submit"
                     disabled={status === 'loading'}
                     style={{
-                      background: '#0EA5E9',
+                      background: '#0369A1',
                       border: 'none',
                       borderRadius: '6px',
                       color: '#fff',

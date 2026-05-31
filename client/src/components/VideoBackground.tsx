@@ -49,6 +49,7 @@ export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoS
       {!videoError && (
         <video
           ref={videoRef}
+          aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           muted
