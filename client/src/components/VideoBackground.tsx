@@ -65,7 +65,6 @@ export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoS
           {videoSrcMobile    && <source src={videoSrcMobile}    type="video/mp4"  media="(max-width: 640px)" />}
           {videoSrcWebm      && <source src={videoSrcWebm}      type="video/webm" />}
           <source src={videoSrc} type="video/mp4" />
-          <track kind="captions" src="/empty.vtt" srcLang="en" label="English" default />
         </video>
       )}
     </div>
