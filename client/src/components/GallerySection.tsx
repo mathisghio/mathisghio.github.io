@@ -42,8 +42,11 @@ const stackedImages: GlassCardImage[] = [
 function ScrollRevealVideo() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const prevVRef = useRef(0)
-  const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
+  const prevVRef     = useRef(0)
+  const rectRef      = useRef<{ top: number; bottom: number } | null>(null)
+  const wheelHandler = useRef<((e: WheelEvent) => void) | null>(null)
+  const wheelTimer   = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const hasFreezed   = useRef(false)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -75,7 +78,18 @@ function ScrollRevealVideo() {
     const el = scrollRef.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) setRevealed(false)
+      if (!entry.isIntersecting) {
+        setRevealed(false)
+        hasFreezed.current = false
+        if (wheelHandler.current) {
+          document.removeEventListener('wheel', wheelHandler.current)
+          wheelHandler.current = null
+        }
+        if (wheelTimer.current) {
+          clearTimeout(wheelTimer.current)
+          wheelTimer.current = null
+        }
+      }
     }, { threshold: 0 })
     obs.observe(el)
     return () => obs.disconnect()
@@ -91,27 +105,40 @@ function ScrollRevealVideo() {
       if (!inView) { prevVRef.current = v; return }
       const goingDown = v > prevVRef.current
       prevVRef.current = v
-      if (goingDown && v >= 0.95) setRevealed(true)
-      else if (!goingDown && v <= 0.95) setRevealed(true)
+      if (goingDown && v >= 0.95) {
+        setRevealed(true)
+        /* Freeze applied synchronously here (not via useEffect) so the very next
+           wheel event is already blocked — React's async render cycle would be too late. */
+        if (window.innerWidth >= 1024 && !hasFreezed.current) {
+          hasFreezed.current = true
+          const handler = (e: WheelEvent) => { e.preventDefault() }
+          wheelHandler.current = handler
+          document.addEventListener('wheel', handler, { passive: false })
+          wheelTimer.current = setTimeout(() => {
+            document.removeEventListener('wheel', handler)
+            wheelHandler.current = null
+            wheelTimer.current = null
+          }, 3000)
+        }
+      } else if (!goingDown && v <= 0.95) {
+        setRevealed(true)
+      }
     })
   }, [scrollYProgress])
 
-  /* Freeze wheel scroll for 2s when the video fully reveals on desktop.
-     Gives the video time to visibly start playing before the user scrolls past.
-     Mobile excluded — touchmove preventDefault caused issues on iOS Safari. */
+  /* Unmount: clean up any active wheel-freeze listener */
   useEffect(() => {
-    if (!revealed) return
-    if (window.innerWidth < 1024) return
-    const preventWheel = (e: WheelEvent) => { e.preventDefault() }
-    document.addEventListener('wheel', preventWheel, { passive: false })
-    const t = setTimeout(() => {
-      document.removeEventListener('wheel', preventWheel)
-    }, 2000)
     return () => {
-      clearTimeout(t)
-      document.removeEventListener('wheel', preventWheel)
+      if (wheelHandler.current) {
+        document.removeEventListener('wheel', wheelHandler.current)
+        wheelHandler.current = null
+      }
+      if (wheelTimer.current) {
+        clearTimeout(wheelTimer.current)
+        wheelTimer.current = null
+      }
     }
-  }, [revealed])
+  }, [])
 
   /* Scroll-driven reveal animation */
   return (

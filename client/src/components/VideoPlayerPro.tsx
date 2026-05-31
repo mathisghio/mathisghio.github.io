@@ -420,8 +420,13 @@ export function VideoPlayerPro({
       setVol(0);
       v.play().then(() => setShowNudge(true)).catch(() => {});
     };
-    if (v.readyState >= 3) doPlay();
-    else v.addEventListener("canplay", doPlay, { once: true });
+    if (v.readyState >= 3) {
+      doPlay();
+    } else {
+      v.addEventListener("canplay", doPlay, { once: true });
+      // Browser may be idle after loading only metadata — restart full load so canplay fires
+      if (v.networkState !== 2 /* NETWORK_LOADING */) v.load();
+    }
     return () => v.removeEventListener("canplay", doPlay);
   }, [autoplay]);
 
