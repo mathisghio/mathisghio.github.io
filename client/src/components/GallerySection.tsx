@@ -45,6 +45,7 @@ function ScrollRevealVideo() {
   const revealedRef   = useRef(false)   // stable ref avoids stale closure in scroll listener
   const freezeFired   = useRef(false)
   const freezeCleanup = useRef<(() => void) | null>(null)
+  const freezing      = useRef(false)   // true while body:fixed is active; guards IntersectionObserver reset
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -65,7 +66,7 @@ function ScrollRevealVideo() {
     const el = scrollRef.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) {
+      if (!entry.isIntersecting && !freezing.current) {
         revealedRef.current = false
         setRevealed(false)
         freezeFired.current = false
@@ -97,12 +98,17 @@ function ScrollRevealVideo() {
     if (freezeFired.current) return
     freezeFired.current = true
 
-    const isMobile = window.innerWidth < 1024
+    /* Touch-capability detection (not viewport width) so a narrow desktop
+       window doesn't accidentally trigger body:fixed and cause a scroll loop. */
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
 
-    if (isMobile) {
-      /* iOS Safari ignores touchmove preventDefault once a scroll gesture has started.
-         The only reliable cross-platform freeze is body position:fixed. */
+    if (isTouchDevice) {
+      /* iOS Safari ignores touchmove preventDefault once a gesture has started.
+         body position:fixed is the only reliable iOS scroll lock.
+         freezing=true guards the IntersectionObserver against resetting state
+         while the body is artificially positioned at the top of the viewport. */
       const savedY = window.scrollY
+      freezing.current = true
       document.body.style.position = 'fixed'
       document.body.style.top      = `-${savedY}px`
       document.body.style.width    = '100%'
@@ -111,6 +117,7 @@ function ScrollRevealVideo() {
         document.body.style.top      = ''
         document.body.style.width    = ''
         window.scrollTo(0, savedY)
+        freezing.current = false
         freezeCleanup.current = null
       }
       const timer = setTimeout(restore, 2000)
