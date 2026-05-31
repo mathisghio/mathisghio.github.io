@@ -5,16 +5,28 @@ import "./index.css";
 // Prevent browser from restoring scroll position on reload (avoids downward drift)
 history.scrollRestoration = 'manual'
 
-// On reload: restore position after all resources have loaded (images affect layout height)
+// On reload: restore fractional position after load + 400 ms delay.
+// Delay is needed because async content (Kit form, lazy images) loads after window.load
+// and adds height to the page — restoring too early lands at the wrong section.
 window.addEventListener('load', () => {
-  const saved = sessionStorage.getItem('mg-scroll-y')
+  const saved = sessionStorage.getItem('mg-scroll-frac')
   if (saved) {
-    window.scrollTo(0, parseInt(saved, 10))
-    sessionStorage.removeItem('mg-scroll-y')
+    const frac = parseFloat(saved)
+    sessionStorage.removeItem('mg-scroll-frac')
+    setTimeout(() => {
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      if (max > 0 && frac > 0) {
+        document.documentElement.style.scrollBehavior = 'auto'
+        window.scrollTo(0, Math.round(frac * max))
+        document.documentElement.style.scrollBehavior = ''
+      }
+    }, 400)
   }
 }, { once: true })
 window.addEventListener('beforeunload', () => {
-  sessionStorage.setItem('mg-scroll-y', String(window.scrollY))
+  // Save fraction (not absolute pixels) so page-height changes on reload don't drift position
+  const max = document.documentElement.scrollHeight - window.innerHeight
+  if (max > 0) sessionStorage.setItem('mg-scroll-frac', String(window.scrollY / max))
 })
 
 // On resize: preserve fractional scroll position (section heights change when window width changes).
