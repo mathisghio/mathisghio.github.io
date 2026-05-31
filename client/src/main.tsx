@@ -5,36 +5,42 @@ import "./index.css";
 // Prevent browser from restoring scroll position on reload (avoids downward drift)
 history.scrollRestoration = 'manual'
 
-// On reload: restore exact scroll position saved before unload
-;(function restoreScroll() {
+// On reload: restore position after all resources have loaded (images affect layout height)
+window.addEventListener('load', () => {
   const saved = sessionStorage.getItem('mg-scroll-y')
   if (saved) {
-    const y = parseInt(saved, 10)
-    // Double rAF: wait for React paint + lazy images to settle
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      window.scrollTo(0, y)
-      sessionStorage.removeItem('mg-scroll-y')
-    }))
+    window.scrollTo(0, parseInt(saved, 10))
+    sessionStorage.removeItem('mg-scroll-y')
   }
-})()
+}, { once: true })
 window.addEventListener('beforeunload', () => {
   sessionStorage.setItem('mg-scroll-y', String(window.scrollY))
 })
 
-// On resize: preserve fractional scroll position (vh-based section heights change with window width)
+// On resize: preserve fractional scroll position (vh-based section heights change with window width).
+// _isResizing flag prevents the scroll event triggered by window.scrollTo from updating _scrollFrac
+// mid-restore, which caused an oscillation loop on repeated resize events.
 let _scrollFrac = 0
-let _resizeRafId: number | null = null
+let _isResizing = false
+let _resizeDebounce: ReturnType<typeof setTimeout> | null = null
 window.addEventListener('scroll', () => {
+  if (_isResizing) return
   const max = document.documentElement.scrollHeight - window.innerHeight
   if (max > 0) _scrollFrac = window.scrollY / max
 }, { passive: true })
 window.addEventListener('resize', () => {
-  if (_resizeRafId !== null) cancelAnimationFrame(_resizeRafId)
-  _resizeRafId = requestAnimationFrame(() => {
+  if (!_isResizing) _isResizing = true
+  if (_resizeDebounce !== null) clearTimeout(_resizeDebounce)
+  _resizeDebounce = setTimeout(() => {
     const max = document.documentElement.scrollHeight - window.innerHeight
     if (max > 0) window.scrollTo(0, Math.round(_scrollFrac * max))
-    _resizeRafId = null
-  })
+    _resizeDebounce = null
+    requestAnimationFrame(() => {
+      _isResizing = false
+      const max2 = document.documentElement.scrollHeight - window.innerHeight
+      if (max2 > 0) _scrollFrac = window.scrollY / max2
+    })
+  }, 150)
 })
 
 // Global a11y + touch-target patch for every Kit form on the page.
