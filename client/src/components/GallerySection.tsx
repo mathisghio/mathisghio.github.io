@@ -97,28 +97,21 @@ function ScrollRevealVideo() {
     if (freezeFired.current) return
     freezeFired.current = true
 
-    /* CSS-free scroll lock — works on all platforms without touching body layout.
-       - wheel: preventDefault blocks desktop scroll before it reaches the document
-       - touchmove: preventDefault blocks iOS/Android touch scroll at gesture level
-       - scroll: snap back immediately if any scroll slips through (belt-and-suspenders) */
-    const savedY = window.scrollY
-    const wheelHandler = (e: WheelEvent)  => { e.preventDefault() }
-    const touchHandler = (e: TouchEvent)  => { e.preventDefault() }
-    const scrollHandler = ()              => { window.scrollTo(0, savedY) }
-    document.addEventListener('wheel',    wheelHandler, { passive: false })
+    /* CSS-free scroll lock — wheel + touchmove only.
+       No scroll snap-back listener: that would fight programmatic nav smooth-scroll. */
+    const wheelHandler = (e: WheelEvent) => { e.preventDefault() }
+    const touchHandler = (e: TouchEvent) => { e.preventDefault() }
+    document.addEventListener('wheel',     wheelHandler, { passive: false })
     document.addEventListener('touchmove', touchHandler, { passive: false })
-    window.addEventListener('scroll',     scrollHandler, { passive: true })
     const timer = setTimeout(() => {
       document.removeEventListener('wheel',     wheelHandler)
       document.removeEventListener('touchmove', touchHandler)
-      window.removeEventListener('scroll',      scrollHandler)
       freezeCleanup.current = null
     }, 2000)
     freezeCleanup.current = () => {
       clearTimeout(timer)
       document.removeEventListener('wheel',     wheelHandler)
       document.removeEventListener('touchmove', touchHandler)
-      window.removeEventListener('scroll',      scrollHandler)
     }
   }, [])
 
