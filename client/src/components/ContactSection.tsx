@@ -99,6 +99,18 @@ function KitEmbedForm() {
   const isInstagram = /Instagram/.test(navigator.userAgent)
   useEffect(() => {
     if (isInstagram) return
+
+    // Touch-target CSS injected once — applies as soon as Kit renders elements,
+    // no JS timing race against Lighthouse or real users.
+    if (!document.getElementById('kit-a11y-style')) {
+      const style = document.createElement('style')
+      style.id = 'kit-a11y-style'
+      style.textContent =
+        '.formkit-input{min-height:44px!important}' +
+        '.formkit-submit{min-height:44px!important}'
+      document.head.appendChild(style)
+    }
+
     const container = ref.current
     if (!container) return
     const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
@@ -129,10 +141,10 @@ function KitEmbedForm() {
           if (node instanceof HTMLElement && node.dataset.uid === uid) {
             container.appendChild(node)
             outerObs.disconnect()
-            // Kit renders the form content asynchronously — watch inside the container
+            // Kit renders form content asynchronously — watch inside container
             const innerObs = new MutationObserver(() => {
+              patchA11y()
               if (container.querySelector('div[role="button"]')) {
-                patchA11y()
                 innerObs.disconnect()
               }
             })
@@ -143,7 +155,8 @@ function KitEmbedForm() {
         }
       }
     })
-    outerObs.observe(document.body, { childList: true })
+    // subtree:true catches Kit forms inserted anywhere under body (not just direct children)
+    outerObs.observe(document.body, { childList: true, subtree: true })
     return () => outerObs.disconnect()
   }, [])
   if (isInstagram) return null
