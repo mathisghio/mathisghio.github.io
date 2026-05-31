@@ -105,7 +105,7 @@ function ScrollRevealVideo() {
       if (!inView) { prevVRef.current = v; return }
       const goingDown = v > prevVRef.current
       prevVRef.current = v
-      if (goingDown && v >= 0.95) {
+      if (goingDown && v >= 0.85) {
         setRevealed(true)
         /* Freeze applied synchronously here (not via useEffect) so the very next
            wheel event is already blocked — React's async render cycle would be too late. */
@@ -159,7 +159,7 @@ function ScrollRevealVideo() {
                 src={MEDIA_VIDEO_POSTER}
                 alt=""
                 aria-hidden="true"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 10 }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 40 }}
               />
             )}
           </motion.div>
