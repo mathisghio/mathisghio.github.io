@@ -79,7 +79,7 @@ export default function Home() {
   }, [])
 
   useMeta({
-    title: 'Mathis Ghio — 5× Wingfoil World Champion',
+    title: 'Mathis Ghio — Wingfoiler Professionnel · Marseille',
     description: 'Mathis Ghio — Professional Wingfoil Athlete based in Marseille. 5× World Champion, 4× European Champion, 41.40 kts Speed Record.',
     url: 'https://mathisghio.com',
     schema: HOME_SCHEMA,
