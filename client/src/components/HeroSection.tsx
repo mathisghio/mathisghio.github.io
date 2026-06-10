@@ -4,11 +4,11 @@ import { ChevronDown } from 'lucide-react'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { PartnershipFormModal } from './PartnershipFormModal'
 
-const HERO_VIDEO             = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_1920/v1774426080/bg_pru1bh.mp4'
-const HERO_VIDEO_WEBM        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_1920/v1774426080/bg_pru1bh.webm'
-const HERO_VIDEO_MOBILE      = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_640/v1774426080/bg_pru1bh.mp4'
-const HERO_VIDEO_MOBILE_WEBM = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto,w_640/v1774426080/bg_pru1bh.webm'
-const HERO_GENERATED         = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426876/podium-1_whf6pe.jpg'
+const HERO_VIDEO             = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/bg_pru1bh_desktop.mp4'
+const HERO_VIDEO_WEBM        = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/bg_pru1bh_desktop.webm'
+const HERO_VIDEO_MOBILE      = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/bg_pru1bh_mobile.mp4'
+const HERO_VIDEO_MOBILE_WEBM = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/bg_pru1bh_mobile.webm'
+const HERO_GENERATED         = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_whf6pe.jpg'
 
 export function HeroSection() {
   const [visible, setVisible] = useState(false)

@@ -8,35 +8,35 @@ import { GlassCards, GlassCardImage } from '@/components/ui/glass-cards'
 import { VideoPlayerPro } from '@/components/VideoPlayerPro'
 import { trackGalleryClick, trackSocialClick, trackVideoPlay, trackVideoEnd } from '@/lib/analytics'
 
-/* q_auto pour la vidéo → Cloudinary choisit le bitrate optimal */
-const MEDIA_VIDEO        = 'https://res.cloudinary.com/duacto4ay/video/upload/q_auto/v1774425298/media_1_mknwkz.mp4'
-const MEDIA_VIDEO_POSTER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1777807705/Cover-video_njzjgn.jpg'
+const R2 = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev'
 
-/* q_auto,f_auto pour les images → WebP/AVIF selon le navigateur */
+const MEDIA_VIDEO        = `${R2}/media_1_mknwkz.mp4`
+const MEDIA_VIDEO_POSTER = `${R2}/Cover-video_njzjgn.jpg`
+
 const galleryImages = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426735/index-gallery-1_wwaee1.jpg', alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2', pos: 'center 30%' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426727/index-gallery-2_kvqi4k.jpg', alt: '4th World Title', span: 'col-span-1 row-span-1', pos: 'center 20%' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426715/index-gallery-3_f9zuop.jpg', alt: 'Silvaplana World Cup win', span: 'col-span-1 row-span-1', pos: 'center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426741/index-gallery-4_lgsrmb.jpg', alt: 'Wingfoil land portrait', span: 'col-span-1 row-span-2', pos: 'center top' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426881/podium-5_lurawr.jpg', alt: 'Wingfoil frontflip', span: 'col-span-1 row-span-1', pos: 'center 25%' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774375894/IMG_7060_cdolxq.png', alt: 'Istanbul start', span: 'col-span-1 row-span-1', pos: 'center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774426858/IMG_7389_2_kzk1do.jpg', alt: 'Shadow start', span: 'col-span-1 row-span-1', pos: 'center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1774482083/IMG_8195_wortbf.jpg', alt: '5th World title', span: 'col-span-1 row-span-1', pos: 'center 15%' },
+  { src: `${R2}/index-gallery-1_wwaee1.jpg`, alt: 'Mathis Ghio wingfoil racing action', span: 'col-span-2 row-span-2', pos: 'center 30%' },
+  { src: `${R2}/index-gallery-2_kvqi4k.jpg`, alt: '4th World Title', span: 'col-span-1 row-span-1', pos: 'center 20%' },
+  { src: `${R2}/index-gallery-3_f9zuop.jpg`, alt: 'Silvaplana World Cup win', span: 'col-span-1 row-span-1', pos: 'center' },
+  { src: `${R2}/index-gallery-4_lgsrmb.jpg`, alt: 'Wingfoil land portrait', span: 'col-span-1 row-span-2', pos: 'center top' },
+  { src: `${R2}/podium-5_lurawr.jpg`, alt: 'Wingfoil frontflip', span: 'col-span-1 row-span-1', pos: 'center 25%' },
+  { src: `${R2}/IMG_7060_cdolxq.png`, alt: 'Istanbul start', span: 'col-span-1 row-span-1', pos: 'center' },
+  { src: `${R2}/IMG_7389_2_kzk1do.jpg`, alt: 'Shadow start', span: 'col-span-1 row-span-1', pos: 'center' },
+  { src: `${R2}/IMG_8195_wortbf.jpg`, alt: '5th World title', span: 'col-span-1 row-span-1', pos: 'center 15%' },
 ]
 
 const stackedImages: GlassCardImage[] = [
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016055/More_photos_1_ks3r0q.jpg',  alt: '2025 Défi Wing winner', objectPosition: 'center 20%' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_2_pfp3ie.jpg',  alt: '2025 Formula Wing World Champion', objectPositionMobile: '25% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016055/More_photos_3_d9klwi.jpg',  alt: "Railey above Marseille's calanques", objectPosition: 'center top', objectPositionMobile: '40% top' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016055/More_photos_4_bcbi2t.jpg',  alt: '2025 Formula Wing European Champion', objectPositionMobile: '60% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_5_gipmuv.jpg',  alt: '2025 Formula Wing European Champion', objectPositionMobile: '55% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016055/More_photos_6_v0jnzc.jpg',  alt: 'Downwind mark rounding at 2025 World Cup in Morocco', objectPositionMobile: '65% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_7_ufk3ma.jpg',  alt: 'Focused before taking first place at 2025 World Cup in Silvaplana', objectPositionMobile: '0% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016055/More_photos_8_tzqwts.jpg',  alt: '2025 Morocco World Cup winner', objectPositionMobile: '65% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_9_ejotal.jpg',  alt: '2025 Brazil World Cup', objectPositionMobile: '25% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_10_xd4mim.jpg', alt: 'Foil slide at 2025 China World Cup', objectPositionMobile: '20% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016054/More_photos_11_ofnfl1.jpg', alt: 'Freestyle foil slide in Marseille', objectPositionMobile: '65% center' },
-  { src: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200/v1778016161/More_photos_12_qqr8zh.jpg', alt: 'Focused approaching next mark at 2025 Formula Wing World Championship', objectPositionMobile: '33% center' },
+  { src: `${R2}/More_photos_1_ks3r0q.jpg`,  alt: '2025 Défi Wing winner', objectPosition: 'center 20%' },
+  { src: `${R2}/More_photos_2_pfp3ie.jpg`,  alt: '2025 Formula Wing World Champion', objectPositionMobile: '25% center' },
+  { src: `${R2}/More_photos_3_d9klwi.jpg`,  alt: "Railey above Marseille's calanques", objectPosition: 'center top', objectPositionMobile: '40% top' },
+  { src: `${R2}/More_photos_4_bcbi2t.jpg`,  alt: '2025 Formula Wing European Champion', objectPositionMobile: '60% center' },
+  { src: `${R2}/More_photos_5_gipmuv.jpg`,  alt: '2025 Formula Wing European Champion', objectPositionMobile: '55% center' },
+  { src: `${R2}/More_photos_6_v0jnzc.jpg`,  alt: 'Downwind mark rounding at 2025 World Cup in Morocco', objectPositionMobile: '65% center' },
+  { src: `${R2}/More_photos_7_ufk3ma.jpg`,  alt: 'Focused before taking first place at 2025 World Cup in Silvaplana', objectPositionMobile: '0% center' },
+  { src: `${R2}/More_photos_8_tzqwts.jpg`,  alt: '2025 Morocco World Cup winner', objectPositionMobile: '65% center' },
+  { src: `${R2}/More_photos_9_ejotal.jpg`,  alt: '2025 Brazil World Cup', objectPositionMobile: '25% center' },
+  { src: `${R2}/More_photos_10_xd4mim.jpg`, alt: 'Foil slide at 2025 China World Cup', objectPositionMobile: '20% center' },
+  { src: `${R2}/More_photos_11_ofnfl1.jpg`, alt: 'Freestyle foil slide in Marseille', objectPositionMobile: '65% center' },
+  { src: `${R2}/More_photos_12_qqr8zh.jpg`, alt: 'Focused approaching next mark at 2025 Formula Wing World Championship', objectPositionMobile: '33% center' },
 ]
 
 function ScrollRevealVideo() {
