@@ -26,7 +26,7 @@ const HOME_SCHEMA = {
   jobTitle: 'Professional Wingfoil Racing Athlete',
   url: 'https://mathisghio.com',
   email: 'contact@mathisghio.com',
-  image: 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg',
+  image: 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_whf6pe.jpg',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Marseille',

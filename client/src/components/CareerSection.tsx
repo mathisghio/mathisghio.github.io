@@ -35,7 +35,7 @@ const timelineData = [
 
           {/* Cadrage tiers supérieur — montre le haut de la voile / skipper */}
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849109/optimist_sailing_oxryfl.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/optimist_sailing_oxryfl.jpg"
             alt="Optimist picture"
             className={`${imgShadow} career-pos-optimist`}
             loading="lazy"
@@ -44,7 +44,7 @@ const timelineData = [
           {/* Zoom 1.3× — centré vers le haut pour montrer le visage */}
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849109/windsurfing_start_ahixiw.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/windsurfing_start_ahixiw.jpg"
               alt="Beginning windsurfing"
               className={`${imgZoomInner} career-img-windsurf career-dsk-zoom-2`}
               loading="lazy"
@@ -54,14 +54,14 @@ const timelineData = [
 
           {/* Pas de style particulier */}
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427172/IMG_3214_Original_q7rood.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/IMG_3214_Original_q7rood.jpg"
             alt="Funboard frontloop"
             className={imgShadow}
             loading="lazy"
           />
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774849232/Junior_World_Champion_vl4ald.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/Junior_World_Champion_vl4ald.jpg"
             alt="1st World Title windsurfing"
             className={imgShadow}
             loading="lazy"
@@ -96,7 +96,7 @@ const timelineData = [
 
   <div className={imgZoomWrap}>
   <img
-    src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774427164/DSC06512_Original_zwialh.jpg"
+    src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/DSC06512_Original_zwialh.jpg"
     alt="RS:X windsurfing jump"
     className={`${imgZoomInner} career-dsk-zoom-1 career-pos-rsx`}
     loading="lazy"
@@ -108,7 +108,7 @@ const timelineData = [
 </div>
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774425947/IMG_3046_2030_n9a5eq.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/IMG_3046_2030_n9a5eq.jpg"
             alt="IQFoil jibe"
             className={imgShadow}
             loading="lazy"
@@ -116,14 +116,14 @@ const timelineData = [
 
           {/* Cadrage haut — montre le visage */}
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/Wing_beginnings_gxn5xh.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/Wing_beginnings_gxn5xh.jpg"
             alt="Wingfoil beginnings"
             className={`${imgShadow} career-pos-wing-begin`}
             loading="lazy"
           />
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774481055/podium_national_jexlqb.avif"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium_national_jexlqb.avif"
             alt="Wingfoil first national win"
             className={`${imgShadow} career-img-podium-nat`}
             loading="lazy"
@@ -152,14 +152,14 @@ const timelineData = [
 
           {/* Tiers supérieur — évite de couper la tête */}
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/1st_World_Title_hsk2f2.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/1st_World_Title_hsk2f2.jpg"
             alt="Racing 2022"
             className={`${imgShadow} career-pos-1st-title`}
             loading="lazy"
           />
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471308/1st_World_Title_podium_rokru0.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/1st_World_Title_podium_rokru0.jpg"
             alt="Podium 2022"
             className={`${imgShadow} career-pos-1st-podium`}
             loading="lazy"
@@ -187,7 +187,7 @@ const timelineData = [
 
           {/* Tiers inférieur — montre le bas de l'image */}
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471314/2nd_World_Title_a7dlok.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/2nd_World_Title_a7dlok.jpg"
             alt="Racing 2023"
             className={imgShadow}
             loading="lazy"
@@ -197,7 +197,7 @@ const timelineData = [
           {/* Zoom 1.3× vers le haut */}
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471313/2nd_World_Title_Podium_vyonqq.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/2nd_World_Title_Podium_vyonqq.jpg"
               alt="Podium 2023"
               className={`${imgZoomInner} career-dsk-zoom-2`}
               loading="lazy"
@@ -228,7 +228,7 @@ const timelineData = [
           {/* Zoom léger 1.1× */}
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471313/3rd_World_Title_iqcsfh.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/3rd_World_Title_iqcsfh.jpg"
               alt="Podium 2024"
               className={`${imgZoomInner} career-dsk-zoom-0`}
               loading="lazy"
@@ -238,7 +238,7 @@ const timelineData = [
 
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471498/3rd_World_Title_1_a8drpa.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/3rd_World_Title_1_a8drpa.jpg"
               alt="Trophy 2024"
               className={`${imgZoomInner} career-img-3wt1 career-dsk-zoom-0`}
               loading="lazy"
@@ -273,7 +273,7 @@ const timelineData = [
           {/* Zoom 1.2× */}
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426748/achievements-bg_ncunhu.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/achievements-bg_ncunhu.jpg"
               alt="Champion 2025"
               className={`${imgZoomInner} career-dsk-zoom-1`}
               loading="lazy"
@@ -283,7 +283,7 @@ const timelineData = [
 
           <div className={imgZoomWrap}>
             <img
-              src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426876/podium-1_whf6pe.jpg"
+              src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_whf6pe.jpg"
               alt="Beach champion 2025"
               className={`${imgZoomInner} career-dsk-zoom-1`}
               loading="lazy"
@@ -292,14 +292,14 @@ const timelineData = [
           </div>
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774471309/4th_World_Title_podium_p8fzac.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/4th_World_Title_podium_p8fzac.jpg"
             alt="Podium Jeri 2025"
             className={imgShadow}
             loading="lazy"
           />
 
           <img
-            src="https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774426727/index-gallery-2_kvqi4k.jpg"
+            src="https://pub-38428999559d41479eff9ecf488793a4.r2.dev/index-gallery-2_kvqi4k.jpg"
             alt="Podium Cagliari 2025"
             className={imgShadow}
             loading="lazy"

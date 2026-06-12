@@ -611,7 +611,6 @@ export function VideoPlayerPro({
           poster={poster}
           preload="auto"
           playsInline
-          crossOrigin="anonymous"
           onClick={toggle}
           onTimeUpdate={syncTime}
           onLoadedMetadata={syncTime}

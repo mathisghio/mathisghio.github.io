@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
 
-const PODIUM_IMG = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto/v1774482083/IMG_8195_wortbf.jpg'
+const PODIUM_IMG = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/IMG_8195_wortbf.jpg'
 
 const STATS = [
   { num: '5',     suffix: '×', label: 'World Titles' },

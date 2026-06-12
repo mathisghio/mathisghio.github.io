@@ -1,10 +1,9 @@
 import { useInView } from '@/hooks/useInView'
 
-/* q_auto,f_auto : Cloudinary choisit le meilleur format (WebP/AVIF)
-   et compresse automatiquement → -40 à -60 % de poids par image */
-const ABOUT_WATER = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774375894/portrait_terre_debgqe.jpg'
-const ABOUT_LAND  = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774428254/portrait_eau_ggldfg.jpg'
-const HERO_IMG    = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_900/v1774426100/hero-main_zissjo.jpg'
+
+const ABOUT_WATER = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/portrait_terre_debgqe.jpg'
+const ABOUT_LAND  = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/portrait_eau_ggldfg.jpg'
+const HERO_IMG    = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/hero-main_zissjo.jpg'
 
 export function AboutSection() {
   const { ref, inView } = useInView(0.15)

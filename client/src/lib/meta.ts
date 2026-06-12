@@ -7,7 +7,7 @@ interface MetaConfig {
   schema?: object
 }
 
-const OG_IMAGE = 'https://res.cloudinary.com/duacto4ay/image/upload/q_auto,f_auto,w_1200,h_630,c_fill/v1774426876/podium-1_whf6pe.jpg'
+const OG_IMAGE = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_og.jpg'
 const DEFAULT_TITLE = 'Mathis Ghio — Wingfoiler Professionnel · Marseille'
 const DEFAULT_DESC = 'Mathis Ghio — Professional Wingfoil Athlete. 5× World Champion, 4× European Champion, 41.40 kts Speed Record.'
 
