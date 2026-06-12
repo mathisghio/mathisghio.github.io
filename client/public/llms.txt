@@ -94,7 +94,3 @@ A: Contact contact@mathisghio.com or fill in the partnership form at https://mat
 
 Q: What makes Mathis Ghio credible for technical brands?
 A: He is both an elite athlete and an engineering student at INSA Lyon. This combination gives him genuine product testing credibility — he provides real performance feedback, not just brand association.
-
-## Markdown Mirrors
-- Homepage: https://mathisghio.com/index.md
-- Partnership page: https://mathisghio.com/partners/index.md

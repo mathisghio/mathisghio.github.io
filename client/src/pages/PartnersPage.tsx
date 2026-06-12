@@ -13,7 +13,7 @@ const PARTNERS_SCHEMA = {
       '@id': 'https://mathisghio.com/#person',
       name: 'Mathis Ghio',
       jobTitle: 'Professional Wingfoil Racing Athlete',
-      url: 'https://mathisghio.com',
+      url: 'https://mathisghio.com/',
       email: 'contact@mathisghio.com',
       image: 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_whf6pe.jpg',
       address: {
@@ -40,7 +40,7 @@ const PARTNERS_SCHEMA = {
     },
     {
       '@type': 'WebPage',
-      url: 'https://mathisghio.com/partners',
+      url: 'https://mathisghio.com/partners/',
       name: 'Partner with Mathis Ghio — Wingfoil World Champion Sponsorship',
       description: 'Sponsorship opportunities with Mathis Ghio, 5× Wingfoil Racing World Champion. Title, Official and Media partner formats from €500 to €20,000/year.',
       about: { '@id': 'https://mathisghio.com/#person' },
@@ -57,7 +57,7 @@ const PARTNERS_SCHEMA = {
         priceCurrency: 'EUR',
         description: 'per year',
       },
-      url: 'https://mathisghio.com/partners',
+      url: 'https://mathisghio.com/partners/',
     },
     {
       '@type': 'Offer',
@@ -71,7 +71,7 @@ const PARTNERS_SCHEMA = {
         priceCurrency: 'EUR',
         description: 'per year',
       },
-      url: 'https://mathisghio.com/partners',
+      url: 'https://mathisghio.com/partners/',
     },
     {
       '@type': 'Offer',
@@ -85,7 +85,7 @@ const PARTNERS_SCHEMA = {
         priceCurrency: 'EUR',
         description: 'per collaboration',
       },
-      url: 'https://mathisghio.com/partners',
+      url: 'https://mathisghio.com/partners/',
     },
   ],
 }
@@ -127,7 +127,7 @@ export default function PartnersPage() {
   useMeta({
     title: 'Partenariat Wingfoil Marseille | Mathis Ghio — Sportif de Haut Niveau',
     description: 'Sponsorship opportunities with Mathis Ghio, 5× Wingfoil Racing World Champion based in Marseille. Title Partner from €5,000/year, Official Partner from €1,000/year.',
-    url: 'https://mathisghio.com/partners',
+    url: 'https://mathisghio.com/partners/',
     schema: PARTNERS_SCHEMA,
   })
 
