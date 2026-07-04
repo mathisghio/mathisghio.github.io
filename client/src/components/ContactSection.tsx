@@ -99,12 +99,34 @@ function KitEmbedForm() {
   const isInstagram = /Instagram/.test(navigator.userAgent)
   useEffect(() => {
     if (isInstagram) return
+
+    // Touch-target CSS injected once — applies as soon as Kit renders elements,
+    // no JS timing race against Lighthouse or real users.
+    if (!document.getElementById('kit-a11y-style')) {
+      const style = document.createElement('style')
+      style.id = 'kit-a11y-style'
+      style.textContent =
+        '.formkit-input{min-height:44px!important}' +
+        '.formkit-submit{min-height:44px!important}'
+      document.head.appendChild(style)
+    }
+
     const container = ref.current
     if (!container) return
     const uid = window.innerWidth < 768 ? 'a80ba691b9' : 'a08a513a37'
+
+    const patchA11y = () => {
+      container.querySelectorAll<HTMLElement>('div[role="button"]').forEach(btn => {
+        if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', 'Subscribe to newsletter')
+        btn.style.minHeight = '44px'
+        btn.style.minWidth = '44px'
+      })
+    }
+
     const existing = document.querySelector<HTMLElement>(`[data-uid="${uid}"]`)
     if (existing && existing.tagName !== 'SCRIPT') {
       container.appendChild(existing)
+      patchA11y()
     }
     if (!document.querySelector(`script[data-uid="${uid}"]`)) {
       const s = document.createElement('script')
@@ -113,19 +135,29 @@ function KitEmbedForm() {
       s.src = `https://mathis-ghio-wingfoil.kit.com/${uid}/index.js`
       document.body.appendChild(s)
     }
-    const obs = new MutationObserver((mutations) => {
+    const outerObs = new MutationObserver((mutations) => {
       for (const m of mutations) {
         for (const node of m.addedNodes) {
           if (node instanceof HTMLElement && node.dataset.uid === uid) {
             container.appendChild(node)
-            obs.disconnect()
+            outerObs.disconnect()
+            // Kit renders form content asynchronously — watch inside container
+            const innerObs = new MutationObserver(() => {
+              patchA11y()
+              if (container.querySelector('div[role="button"]')) {
+                innerObs.disconnect()
+              }
+            })
+            innerObs.observe(container, { childList: true, subtree: true })
+            patchA11y()
             return
           }
         }
       }
     })
-    obs.observe(document.body, { childList: true })
-    return () => obs.disconnect()
+    // subtree:true catches Kit forms inserted anywhere under body (not just direct children)
+    outerObs.observe(document.body, { childList: true, subtree: true })
+    return () => outerObs.disconnect()
   }, [])
   if (isInstagram) return null
   return <div ref={ref} className="w-full" />

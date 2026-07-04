@@ -24,7 +24,7 @@ const HOME_SCHEMA = {
   '@id': 'https://mathisghio.com/#person',
   name: 'Mathis Ghio',
   jobTitle: 'Professional Wingfoil Racing Athlete',
-  url: 'https://mathisghio.com',
+  url: 'https://mathisghio.com/',
   email: 'contact@mathisghio.com',
   image: 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_whf6pe.jpg',
   address: {
@@ -79,9 +79,9 @@ export default function Home() {
   }, [])
 
   useMeta({
-    title: 'Mathis Ghio — 5× Wingfoil World Champion',
+    title: 'Mathis Ghio — Wingfoiler Professionnel · Marseille',
     description: 'Mathis Ghio — Professional Wingfoil Athlete based in Marseille. 5× World Champion, 4× European Champion, 41.40 kts Speed Record.',
-    url: 'https://mathisghio.com',
+    url: 'https://mathisghio.com/',
     schema: HOME_SCHEMA,
   })
 

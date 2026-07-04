@@ -420,8 +420,11 @@ export function VideoPlayerPro({
       setVol(0);
       v.play().then(() => setShowNudge(true)).catch(() => {});
     };
-    if (v.readyState >= 3) doPlay();
-    else v.addEventListener("canplay", doPlay, { once: true });
+    if (v.readyState >= 3) {
+      doPlay();
+    } else {
+      v.addEventListener("canplay", doPlay, { once: true });
+    }
     return () => v.removeEventListener("canplay", doPlay);
   }, [autoplay]);
 
@@ -606,9 +609,8 @@ export function VideoPlayerPro({
         <video
           ref={videoRef}
           poster={poster}
-          preload={autoplay ? "auto" : "metadata"}
+          preload="auto"
           playsInline
-          crossOrigin="anonymous"
           onClick={toggle}
           onTimeUpdate={syncTime}
           onLoadedMetadata={syncTime}

@@ -8,7 +8,7 @@ interface MetaConfig {
 }
 
 const OG_IMAGE = 'https://pub-38428999559d41479eff9ecf488793a4.r2.dev/podium-1_og.jpg'
-const DEFAULT_TITLE = 'Mathis Ghio — 5× Wingfoil World Champion'
+const DEFAULT_TITLE = 'Mathis Ghio — Wingfoiler Professionnel · Marseille'
 const DEFAULT_DESC = 'Mathis Ghio — Professional Wingfoil Athlete. 5× World Champion, 4× European Champion, 41.40 kts Speed Record.'
 
 function upsertMeta(attr: string, value: string, content: string) {

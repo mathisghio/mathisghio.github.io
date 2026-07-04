@@ -49,6 +49,7 @@ export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoS
       {!videoError && (
         <video
           ref={videoRef}
+          aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           muted
@@ -65,7 +66,6 @@ export function VideoBackground({ videoSrc, videoSrcWebm, videoSrcMobile, videoS
           {videoSrcMobile    && <source src={videoSrcMobile}    type="video/mp4"  media="(max-width: 640px)" />}
           {videoSrcWebm      && <source src={videoSrcWebm}      type="video/webm" />}
           <source src={videoSrc} type="video/mp4" />
-          <track kind="captions" src="/empty.vtt" srcLang="en" label="English" default />
         </video>
       )}
     </div>

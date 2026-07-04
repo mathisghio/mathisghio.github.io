@@ -53,7 +53,7 @@ International. Primary markets: France, Italy, Spain, Germany, Switzerland, Unit
 ## Contact
 Email: contact@mathisghio.com
 Website: https://mathisghio.com
-Partnership page: https://mathisghio.com/partners
+Partnership page: https://mathisghio.com/partners/
 Instagram: https://instagram.com/mathisghio
 Facebook: https://www.facebook.com/MathisGhioWing
 LinkedIn: https://fr.linkedin.com/in/mathis-ghio-93075515a
@@ -90,11 +90,7 @@ Q: Where does Mathis Ghio compete?
 A: Mathis competes in 15+ international events per year, primarily across France, Italy, Spain, Germany, and Switzerland. He is based in Marseille, France.
 
 Q: How can a brand partner with Mathis Ghio?
-A: Contact contact@mathisghio.com or fill in the partnership form at https://mathisghio.com/partners. Mathis responds personally within 48 hours.
+A: Contact contact@mathisghio.com or fill in the partnership form at https://mathisghio.com/partners/. Mathis responds personally within 48 hours.
 
 Q: What makes Mathis Ghio credible for technical brands?
 A: He is both an elite athlete and an engineering student at INSA Lyon. This combination gives him genuine product testing credibility — he provides real performance feedback, not just brand association.
-
-## Markdown Mirrors
-- Homepage: https://mathisghio.com/index.md
-- Partnership page: https://mathisghio.com/partners/index.md

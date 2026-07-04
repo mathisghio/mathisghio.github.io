@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { LampContainer } from '@/components/ui/lamp'
@@ -40,10 +40,11 @@ const stackedImages: GlassCardImage[] = [
 ]
 
 function ScrollRevealVideo() {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef   = useRef<HTMLDivElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const prevVRef = useRef(0)
-  const rectRef  = useRef<{ top: number; bottom: number } | null>(null)
+  const revealedRef   = useRef(false)   // stable ref avoids stale closure in scroll listener
+  const freezeFired   = useRef(false)
+  const freezeCleanup = useRef<(() => void) | null>(null)
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -59,43 +60,60 @@ function ScrollRevealVideo() {
   const labelY            = useTransform(scrollYProgress, [0, 0.15], [24, 0])
   const scrollHintOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.68, 0.82], [0, 1, 1, 0])
 
-  /* Cache bounding rect — updated on mount and resize to avoid forced reflow on every scroll tick */
-  useEffect(() => {
-    const update = () => {
-      const r = scrollRef.current?.getBoundingClientRect()
-      if (r) rectRef.current = { top: r.top + window.scrollY, bottom: r.bottom + window.scrollY }
-    }
-    update()
-    window.addEventListener('resize', update, { passive: true })
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  /* Reset when section leaves viewport entirely */
+  /* Reset everything when the section scrolls completely out of view */
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
     const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) setRevealed(false)
+      if (!entry.isIntersecting) {
+        revealedRef.current = false
+        setRevealed(false)
+        freezeFired.current = false
+        if (freezeCleanup.current) { freezeCleanup.current(); freezeCleanup.current = null }
+      }
     }, { threshold: 0 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
 
-  /* Direction-aware reveal — uses cached rect to avoid forced reflow on every scroll tick */
+  /* Reveal once scroll animation completes (v ≥ 0.85) */
   useEffect(() => {
     return scrollYProgress.on('change', v => {
-      const rect = rectRef.current
-      if (!rect) return
-      const scrollY = window.scrollY
-      const inView = scrollY + window.innerHeight > rect.top && scrollY < rect.bottom
-      if (!inView) { prevVRef.current = v; return }
-      const goingDown = v > prevVRef.current
-      prevVRef.current = v
-      if (goingDown && v >= 0.85) setRevealed(true)
-      else if (!goingDown && v <= 0.95) setRevealed(true)
+      if (!revealedRef.current && v >= 0.85) {
+        revealedRef.current = true
+        setRevealed(true)
+      }
     })
   }, [scrollYProgress])
 
+  /* Unmount cleanup */
+  useEffect(() => {
+    return () => { if (freezeCleanup.current) { freezeCleanup.current(); freezeCleanup.current = null } }
+  }, [])
+
+  /* Called when the video actually starts playing — freeze scroll for 2 s */
+  const handleVideoPlay = useCallback(() => {
+    trackVideoPlay()
+    if (freezeFired.current) return
+    freezeFired.current = true
+
+    /* CSS-free scroll lock — wheel + touchmove only.
+       No scroll snap-back listener: that would fight programmatic nav smooth-scroll. */
+    const wheelHandler = (e: WheelEvent) => { e.preventDefault() }
+    const touchHandler = (e: TouchEvent) => { e.preventDefault() }
+    document.addEventListener('wheel',     wheelHandler, { passive: false })
+    document.addEventListener('touchmove', touchHandler, { passive: false })
+    const timer = setTimeout(() => {
+      document.removeEventListener('wheel',     wheelHandler)
+      document.removeEventListener('touchmove', touchHandler)
+      freezeCleanup.current = null
+    }, 2000)
+    freezeCleanup.current = () => {
+      clearTimeout(timer)
+      document.removeEventListener('wheel',     wheelHandler)
+      document.removeEventListener('touchmove', touchHandler)
+    }
+  }, [])
 
   /* Scroll-driven reveal animation */
   return (
@@ -109,11 +127,15 @@ function ScrollRevealVideo() {
         </motion.div>
         {/* Wrapper — gives the scroll hint a reference box matching the video */}
         <div style={{ position: 'relative', width: '100%', maxWidth: 'min(96vw, 900px)', margin: '0 auto' }}>
-          <motion.div style={{ clipPath }} className="overflow-hidden">
-            {revealed ? (
-              <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay onPlayCallback={trackVideoPlay} onEndedCallback={trackVideoEnd} />
-            ) : (
-              <img src={MEDIA_VIDEO_POSTER} alt="Race highlights" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
+          <motion.div style={{ clipPath, position: 'relative' }} className="overflow-hidden">
+            <VideoPlayerPro src={MEDIA_VIDEO} poster={MEDIA_VIDEO_POSTER} sound={false} autoplay={revealed} onPlayCallback={handleVideoPlay} onEndedCallback={trackVideoEnd} />
+            {!revealed && (
+              <img
+                src={MEDIA_VIDEO_POSTER}
+                alt=""
+                aria-hidden="true"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 40 }}
+              />
             )}
           </motion.div>
 
@@ -142,7 +164,7 @@ function ScrollRevealVideo() {
 }
 
 export function GallerySection() {
-  const { ref, inView } = useInView(0.05)
+  const { ref, inView } = useInView(0.05, '0px 0px 120px 0px')
   const [hoveredIdx,   setHoveredIdx]   = useState<number | null>(null)
   const [igVisible,    setIgVisible]    = useState(false)
   const [lightboxIdx,  setLightboxIdx]  = useState<number | null>(null)
