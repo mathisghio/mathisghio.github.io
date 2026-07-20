@@ -30,8 +30,7 @@ const COMPS: Comp[] = [
   { id:11, name:'2027 World Sailing Test Event',             location:'Gdynia, Poland',          flag:'🇵🇱', date:'Jul 15–18',     month:'JUL', lat:54.35, lng:18.53,  type:'world_champ' },
   { id:6, name:'IWSA Formula Wing World Championship',      location:'Istanbul, Türkiye',       flag:'🇹🇷', date:'Aug 11–15',     month:'AUG', lat:41.01, lng:28.98,  type:'world_champ' },
   { id:7, name:'IWSA World Cup N°5',                        location:'Cagliari, Sardinia',      flag:'🇮🇹', date:'Sep 30–Oct 4',  month:'OCT', lat:39.22, lng:9.12,   type:'world_cup'   },
-  { id:8, name:'French Championship',                       location:'Granville, France',       flag:'🇫🇷', date:'Oct 23–25',     month:'OCT', lat:48.84, lng:-1.60,  type:'national'    },
-  { id:9, name:'IWSA World Cup N°6',                        location:'Daishan, China',         flag:'🇨🇳', date:'Nov 14–18',     month:'NOV', lat:30.21, lng:122.20,   type:'world_cup'   },
+  { id:9, name:'IWSA World Cup N°6',                        location:'Shanwei, China',         flag:'🇨🇳', date:'Oct 29–Nov 3',  month:'NOV', lat:22.78, lng:115.37,   type:'world_cup'   },
   { id:10, name:'IWSA World Cup N°7',                        location:'Jericoacoara, Brazil',   flag:'🇧🇷', date:'Dec 1–5',       month:'DEC', lat:-2.80, lng:-40.50, type:'world_cup'   },
 ]
 const TC: Record<CompType, string> = {
