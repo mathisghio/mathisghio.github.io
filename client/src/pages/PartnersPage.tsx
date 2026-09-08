@@ -27,13 +27,13 @@ const PARTNERS_SCHEMA = {
         'https://www.facebook.com/MathisGhioWing',
         'https://fr.linkedin.com/in/mathis-ghio-93075515a',
         'https://ozonekites.com/team/mathis-ghio/',
-        'https://levitaz.com/team-rider/mathis-ghio/',
       ],
       description: '5× Wingfoil Racing World Champion, 4× European Champion. Speed record holder at 41.40 knots. Based in Marseille, France.',
       award: ['5× Wingfoil Racing World Champion', '4× Formula Wing European Champion', '41.40 kts Speed Record'],
       affiliation: [
         { '@type': 'Organization', name: 'Ozone', url: 'https://ozonekites.com' },
-        { '@type': 'Organization', name: 'Levitaz', url: 'https://levitaz.com' },
+        { '@type': 'Organization', name: 'Chubanga' },
+        { '@type': 'Organization', name: 'Tarifa Foil Boards' },
         { '@type': 'Organization', name: 'Forward WIP' },
         { '@type': 'Organization', name: 'FFVoile' },
       ],
@@ -92,11 +92,10 @@ const PARTNERS_SCHEMA = {
 
 const titlePartners = [
   { name: 'Ozone',       description: 'Wing & kite manufacturer and R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
-  { name: 'Levitaz',     description: 'Hydrofoil manufacturer and R&D partner',     url: 'https://levitaz.com/team-rider/mathis-ghio/' },
   { name: 'Forward WIP', description: 'Protection & accessories partner',         url: 'https://www.forward-wip.com/fr/team/mathis-ghio/' },
 ]
 
-const officialPartners = ['Overstims', 'FFVoile', 'INSA Lyon', 'Département 13', 'Métropole AMP']
+const officialPartners = ['Chubanga', 'Tarifa Foil Boards', 'Overstims', 'FFVoile', 'INSA Lyon', 'Département 13', 'Métropole AMP']
 
 const stats = [
   { value: '5×',    label: 'World Champion' },
