@@ -9,12 +9,12 @@ const WebGLShader = lazy(() => import('@/components/ui/web-gl-shader').then(m =>
 const titlePartners = [
   { name: 'Ozone',       url: 'https://ozonekites.com/team/mathis-ghio/',          description: 'Wing & kite manufacturer and R&D partner',   logoText: 'OZONE'       },
   { name: 'Forward WIP', url: 'https://www.forward-wip.com/fr/team/mathis-ghio/',  description: 'Protection & accessories partner',         logoText: 'FORWARD WIP' },
+  { name: 'The SeaCleaners', url: 'https://www.theseacleaners.org/',             description: 'Ocean protection NGO · Official Ambassador', logoText: 'THE SEACLEANERS' },
 ]
 
 const officialPartners = [
   { name: 'Chubanga',        url: 'https://www.chubanga.com/',           description: 'Foil equipment'            },
   { name: 'Tarifa Foil Boards', url: 'https://www.tarifafoilboards.com/', description: 'Board R&D partner'        },
-  { name: 'Overstims',      url: 'https://www.overstims.com/',          description: 'Nutrition partner'         },
   { name: 'FFVoile',        url: 'https://hn.ffvoile.fr/',              description: 'French Sailing Federation'  },
   { name: 'INSA Lyon',      url: 'https://www.insa-lyon.fr/',           description: 'Engineering school'        },
   { name: 'Département 13', url: 'https://www.departement13.fr/',       description: 'Bouches-du-Rhône'          },

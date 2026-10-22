@@ -47,6 +47,7 @@ const HOME_SCHEMA = {
     { '@type': 'Organization', name: 'Chubanga' },
     { '@type': 'Organization', name: 'Tarifa Foil Boards' },
     { '@type': 'Organization', name: 'Forward WIP' },
+    { '@type': 'NGO', name: 'The SeaCleaners', url: 'https://www.theseacleaners.org' },
     { '@type': 'Organization', name: 'FFVoile' },
   ],
 }

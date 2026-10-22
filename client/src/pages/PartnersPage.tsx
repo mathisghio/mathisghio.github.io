@@ -93,9 +93,10 @@ const PARTNERS_SCHEMA = {
 const titlePartners = [
   { name: 'Ozone',       description: 'Wing & kite manufacturer and R&D partner',   url: 'https://ozonekites.com/team/mathis-ghio/' },
   { name: 'Forward WIP', description: 'Protection & accessories partner',         url: 'https://www.forward-wip.com/fr/team/mathis-ghio/' },
+  { name: 'The SeaCleaners', description: 'Ocean protection NGO · Official Ambassador', url: 'https://www.theseacleaners.org/' },
 ]
 
-const officialPartners = ['Chubanga', 'Tarifa Foil Boards', 'Overstims', 'FFVoile', 'INSA Lyon', 'Département 13', 'Métropole AMP']
+const officialPartners = ['Chubanga', 'Tarifa Foil Boards', 'FFVoile', 'INSA Lyon', 'Département 13', 'Métropole AMP']
 
 const stats = [
   { value: '5×',    label: 'World Champion' },
